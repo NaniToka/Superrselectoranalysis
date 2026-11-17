@@ -4679,7 +4679,7 @@ function show3DPlayerCard(p) {
   const scoreEl = document.getElementById('p3d-card-score');
 
   const roleText = p.role === 'bat' ? 'BATTER' : 'BOWLER';
-  if (rankEl) rankEl.innerText = `ADJUSTED RANK #${p.adjusted_rank} ${roleText}`;
+  if (rankEl) rankEl.innerText = `RANK #${p.adjusted_rank || p.rank || '—'} ${roleText}`;
   if (nameEl) nameEl.innerText = p.name;
   if (teamEl) teamEl.innerText = `${p.ipl2026 || 'IPL'} • ${p.nationality || ''}`;
   if (ballsEl) ballsEl.innerText = p.n_hp || 0;
