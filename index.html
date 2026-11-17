@@ -12,44 +12,43 @@
   <meta name="format-detection" content="telephone=no">
   <title>Rajasthan Royals • SupeRR Selector Season 2 • Dugout Intelligence Board</title>
 
-  <!-- LUXURY EDITORIAL TYPOGRAPHY (Matching Toka Portfolio 2026) -->
+  <!-- RAJASTHAN ROYALS DUGOUT INTELLIGENCE DESIGN SYSTEM -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
 
 :root {
-  /* Dark Luxury Editorial Palette (Matching Toka Portfolio 2026) */
-  --rr-bg: #0A120E;                 /* Deep Obsidian Dark Slate */
-  --rr-surface: #101B16;            /* Deep Forest Slate Card Surface */
-  --rr-surface-subtle: #14241E;     /* Elevated Card Surface */
-  --rr-surface-hover: #182C23;      /* Surface Hover */
-  --rr-border: rgba(255, 255, 255, 0.08); /* Minimalist Hairline Border */
+  /* Rajasthan Royals Official Brand Colors & High-Contrast Dugout System */
+  --rr-navy-900: #020713;
+  --rr-navy: #041126;
+  --rr-navy-light: #0B2144;
+  --rr-navy-surface: #0E2750;
+  --rr-pink: #E5007D;
+  --rr-pink-dark: #C4006A;
+  --rr-pink-light: rgba(229, 0, 125, 0.16);
+  --rr-pink-subtle: rgba(229, 0, 125, 0.08);
+  --rr-gold: #F59E0B;
+  --rr-bg: #040D1A;
+  --rr-surface: #091A33;
+  --rr-surface-subtle: #0D2242;
+  --rr-surface-hover: #132E58;
+  --rr-border: rgba(255, 255, 255, 0.09);
   --rr-border-dark: rgba(255, 255, 255, 0.16);
   --rr-border-light: rgba(255, 255, 255, 0.05);
-  --rr-text: #EDE8DE;               /* Warm Cream / Bone Editorial Text */
-  --rr-text-muted: #9BA8A0;         /* Muted Sage Grey */
-  --rr-text-dim: #64736B;           /* Dim Trackers */
-  --rr-pink: #E5007D;               /* Rajasthan Royals Hot Pink Jewel */
-  --rr-pink-dark: #B80064;
-  --rr-pink-light: rgba(229, 0, 125, 0.14);
-  --rr-pink-subtle: rgba(229, 0, 125, 0.08);
-  --rr-emerald: #34D399;            /* Toka Portfolio Emerald Green */
-  --rr-emerald-bg: rgba(52, 211, 153, 0.1);
-  --rr-emerald-border: rgba(52, 211, 153, 0.3);
-  --rr-gold: #F59E0B;
-  --rr-navy: #101B16;
-  --rr-navy-900: #070D0A;
-  --rr-navy-light: #162820;
-  --rr-navy-surface: #111F18;
-  --rr-green: #34D399;
-  --rr-green-bg: rgba(52, 211, 153, 0.1);
-  --rr-green-border: rgba(52, 211, 153, 0.25);
+  --rr-text: #F8FAFC;
+  --rr-text-muted: #94A3B8;
+  --rr-text-dim: #64748B;
+  --rr-emerald: #10B981;
+  --rr-emerald-bg: rgba(16, 185, 129, 0.12);
+  --rr-emerald-border: rgba(16, 185, 129, 0.3);
+  --rr-green: #10B981;
+  --rr-green-bg: rgba(16, 185, 129, 0.12);
+  --rr-green-border: rgba(16, 185, 129, 0.3);
   --rr-amber: #F59E0B;
-  --rr-amber-bg: rgba(245, 158, 11, 0.1);
-  --rr-amber-border: rgba(245, 158, 11, 0.25);
-  --font-serif: 'Newsreader', 'Playfair Display', Georgia, serif;
+  --rr-amber-bg: rgba(245, 158, 11, 0.12);
+  --rr-amber-border: rgba(245, 158, 11, 0.3);
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
@@ -60,10 +59,10 @@ body {
   font-family: var(--font-sans);
   background-color: var(--rr-bg);
   background-image: 
-    radial-gradient(circle at 10% 15%, rgba(52, 211, 153, 0.04) 0%, transparent 45%),
-    radial-gradient(circle at 90% 85%, rgba(229, 0, 125, 0.04) 0%, transparent 45%);
+    radial-gradient(circle at 10% 12%, rgba(229, 0, 125, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 90% 88%, rgba(56, 189, 248, 0.04) 0%, transparent 40%);
   color: var(--rr-text);
-  line-height: 1.6;
+  line-height: 1.5;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -73,47 +72,23 @@ body {
 .tabular { font-variant-numeric: tabular-nums; }
 .font-mono { font-family: var(--font-mono); }
 
-/* EDITORIAL TYPOGRAPHY RULES */
-h1, h2, h3, h4, .serif-heading {
-  font-family: var(--font-serif);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  color: #EDE8DE;
-}
-
-h1 em, h1 i, h2 em, h2 i, h3 em, h3 i, .card-title em, .card-title i, .serif-italic {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  color: #F5E6CC;
-}
-
-.section-label, .card-title-prefix, .meta-tracker {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--rr-emerald);
-}
-
-/* TOP BROADCAST HEADER (Luxury Dark Minimalist) */
+/* TOP BROADCAST HEADER (Rajasthan Royals Dugout Identity) */
 .broadcast-header {
-  background: rgba(10, 18, 14, 0.95);
+  background: rgba(4, 17, 38, 0.96);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  color: #EDE8DE;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  border-bottom: 2px solid var(--rr-pink);
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
 }
 
 .header-inner {
   max-width: 1680px;
   margin: 0 auto;
-  padding: 12px 24px;
+  padding: 10px 20px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -128,28 +103,26 @@ h1 em, h1 i, h2 em, h2 i, h3 em, h3 i, .card-title em, .card-title i, .serif-ita
 }
 
 .rr-logo-box {
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, var(--rr-pink) 0%, #C4006A 100%);
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: 19px;
-  color: #EDE8DE;
-  letter-spacing: 0.5px;
+  font-weight: 900;
+  font-size: 20px;
+  color: #FFFFFF;
+  letter-spacing: -0.5px;
+  box-shadow: 0 4px 16px rgba(229, 0, 125, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   flex-shrink: 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .brand-text h1 {
-  font-family: var(--font-serif);
-  font-size: 18px;
-  font-weight: 600;
-  color: #EDE8DE;
+  font-size: 17px;
+  font-weight: 800;
+  color: #FFFFFF;
   letter-spacing: -0.01em;
   display: flex;
   align-items: center;
@@ -166,12 +139,12 @@ h1 em, h1 i, h2 em, h2 i, h3 em, h3 i, .card-title em, .card-title i, .serif-ita
 .pill-competition {
   font-family: var(--font-mono);
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: rgba(52, 211, 153, 0.1);
-  color: #34D399;
-  border: 1px solid rgba(52, 211, 153, 0.28);
+  background: rgba(229, 0, 125, 0.25);
+  color: #FFB3D9;
+  border: 1px solid rgba(229, 0, 125, 0.45);
   padding: 2px 8px;
   border-radius: 4px;
 }
@@ -179,9 +152,9 @@ h1 em, h1 i, h2 em, h2 i, h3 em, h3 i, .card-title em, .card-title i, .serif-ita
 .pill-round {
   font-family: var(--font-mono);
   font-size: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  color: #9BA8A0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  color: #CBD5E1;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   padding: 2px 8px;
   border-radius: 4px;
   font-weight: 600;
@@ -195,16 +168,16 @@ h1 em, h1 i, h2 em, h2 i, h3 em, h3 i, .card-title em, .card-title i, .serif-ita
 
 .toggle-group {
   display: flex;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(0, 0, 0, 0.4);
   padding: 3px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .toggle-btn {
   background: transparent;
   border: none;
-  color: #9BA8A0;
+  color: #94A3B8;
   padding: 6px 14px;
   font-size: 11.5px;
   font-weight: 700;
@@ -216,20 +189,20 @@ h1 em, h1 i, h2 em, h2 i, h3 em, h3 i, .card-title em, .card-title i, .serif-ita
 }
 
 .toggle-btn.active {
-  background: #163628;
-  color: #34D399;
-  border: 1px solid #235843;
+  background: var(--rr-pink);
+  color: #FFFFFF;
+  box-shadow: 0 2px 10px rgba(229, 0, 125, 0.45);
 }
 
 .btn-header-action {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  color: #EDE8DE;
-  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #F8FAFC;
+  padding: 7px 13px;
   border-radius: 6px;
   font-family: var(--font-sans);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -238,27 +211,26 @@ h1 em, h1 i, h2 em, h2 i, h3 em, h3 i, .card-title em, .card-title i, .serif-ita
 }
 
 .btn-header-action:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
   color: #FFFFFF;
 }
 
 .btn-shortlist-counter {
-  background: rgba(229, 0, 125, 0.18);
+  background: rgba(229, 0, 125, 0.2);
   border-color: rgba(229, 0, 125, 0.45);
   color: #FFB3D9;
 }
 
 .btn-shortlist-counter:hover {
-  background: rgba(229, 0, 125, 0.28);
+  background: rgba(229, 0, 125, 0.3);
 }
 
-/* TOP BROADCAST SCOREBOARD TICKER */
+/* TOP BROADCAST SCOREBOARD TICKER (4-Column Balanced Grid) */
 .scoreboard-ticker {
-  background: #0C1511;
+  background: #06152B;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 12px 24px;
-}
+  padding: 10px 20px;
 }
 
 .ticker-grid {
@@ -270,26 +242,38 @@ h1 em, h1 i, h2 em, h2 i, h3 em, h3 i, .card-title em, .card-title i, .serif-ita
 }
 
 .ticker-card {
-  background: rgba(255, 255, 255, 0.04);
+  background: #091A33;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
-  padding: 8px 12px;
+  padding: 10px 14px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.ticker-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.16);
 }
 
 .ticker-card::before {
   content: "";
   position: absolute;
   top: 0; left: 0; bottom: 0;
-  width: 3px;
-  background: var(--rr-pink);
+  width: 4px;
 }
 
+.ticker-card:nth-child(1)::before { background: #38BDF8; }
+.ticker-card:nth-child(2)::before { background: var(--rr-pink); }
+.ticker-card:nth-child(3)::before { background: #10B981; }
+.ticker-card:nth-child(4)::before { background: #F59E0B; }
+
 .ticker-title {
+  font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 800;
   text-transform: uppercase;
@@ -297,23 +281,26 @@ h1 em, h1 i, h2 em, h2 i, h3 em, h3 i, .card-title em, .card-title i, .serif-ita
   color: #94A3B8;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
 .ticker-val {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 800;
   color: #FFFFFF;
-  margin-top: 2px;
+  margin-top: 3px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .ticker-sub {
-  font-size: 10px;
+  font-size: 10.5px;
   color: #64748B;
-  margin-top: 1px;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* MAIN APP WRAPPER */
@@ -492,89 +479,84 @@ h1 em, h1 i, h2 em, h2 i, h3 em, h3 i, .card-title em, .card-title i, .serif-ita
   border-spacing: 0;
   font-size: 12.5px;
   text-align: left;
-  background: var(--rr-surface);
+  background: #08162B;
 }
 
 .scorecard-table th {
-  background: var(--rr-surface-subtle);
-  color: #EDE8DE;
+  background: #0B1E38;
+  color: #F8FAFC;
   font-family: var(--font-mono);
-  font-weight: 600;
+  font-weight: 700;
   padding: 10px 12px;
   border-bottom: 1px solid var(--rr-border);
   white-space: nowrap;
-  font-size: 10.5px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 
 .scorecard-table td {
-  padding: 9px 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   color: var(--rr-text);
-}
-
-.scorecard-table tbody tr {
-  transition: background 0.15s ease;
-}
-
-.scorecard-table tbody tr:hover {
-  background: var(--rr-surface-hover) !important;
-}
-
-.scorecard-table tbody tr:nth-child(even) {
-  background: rgba(255, 255, 255, 0.015);
-}
-  color: #1E293B;
+  font-size: 12.5px;
   vertical-align: middle;
 }
 
-.scorecard-table tr:nth-child(even) {
-  background: #FAFCFE;
+.scorecard-table tbody tr {
+  background: #08162B;
+  transition: background 0.15s ease;
 }
 
-.scorecard-table tr:hover {
-  background: #FFF5F9;
+.scorecard-table tbody tr:nth-child(even) {
+  background: #0B1D36;
 }
 
-/* STICKY COLUMNS */
+.scorecard-table tbody tr:hover {
+  background: #132E58 !important;
+}
+
+/* STICKY COLUMNS (Seamless High-Contrast Dark Navy) */
 .sticky-col-rank {
   position: sticky;
   left: 0;
   z-index: 10;
-  background-color: #FFFFFF;
-  width: 44px;
+  background-color: #08162B;
+  width: 48px;
   text-align: center;
+  color: #CBD5E1;
 }
 
-.scorecard-table tr:nth-child(even) .sticky-col-rank {
-  background-color: #FAFCFE;
+.scorecard-table tbody tr:nth-child(even) .sticky-col-rank {
+  background-color: #0B1D36;
 }
-.scorecard-table tr:hover .sticky-col-rank {
-  background-color: #FFF5F9;
+.scorecard-table tbody tr:hover .sticky-col-rank {
+  background-color: #132E58 !important;
 }
 
 .sticky-col-player {
   position: sticky;
-  left: 44px;
+  left: 48px;
   z-index: 10;
-  background-color: #FFFFFF;
+  background-color: #08162B;
   font-weight: 700;
-  min-width: 170px;
-  box-shadow: 3px 0 6px -2px rgba(11, 31, 75, 0.07);
+  min-width: 175px;
+  color: #FFFFFF;
+  box-shadow: 3px 0 10px rgba(0, 0, 0, 0.45);
 }
 
-.scorecard-table tr:nth-child(even) .sticky-col-player {
-  background-color: #FAFCFE;
+.scorecard-table tbody tr:nth-child(even) .sticky-col-player {
+  background-color: #0B1D36;
 }
-.scorecard-table tr:hover .sticky-col-player {
-  background-color: #FFF5F9;
+.scorecard-table tbody tr:hover .sticky-col-player {
+  background-color: #132E58 !important;
 }
 
 .scorecard-table th.sticky-col-rank,
 .scorecard-table th.sticky-col-player {
-  background-color: #F8FAFC;
+  background-color: #0B1E38;
   z-index: 11;
+  color: #F8FAFC;
 }
 
 /* CHIPS AND BADGES */
@@ -651,9 +633,11 @@ h1 em, h1 i, h2 em, h2 i, h3 em, h3 i, .card-title em, .card-title i, .serif-ita
 .drawer-panel {
   position: fixed;
   top: 0; right: 0; bottom: 0;
-  width: 460px;
+  width: 480px;
   max-width: 92vw;
-  background: #FFFFFF;
+  background: #08162B;
+  color: #F8FAFC;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: -6px 0 30px rgba(6, 17, 41, 0.25);
   z-index: 1001;
   transform: translateX(100%);
@@ -721,7 +705,9 @@ h1 em, h1 i, h2 em, h2 i, h3 em, h3 i, .card-title em, .card-title i, .serif-ita
 }
 
 .modal-content {
-  background: #FFFFFF;
+  background: #08162B;
+  color: #F8FAFC;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 14px;
   max-width: 900px;
   width: 100%;
@@ -843,16 +829,74 @@ h1 em, h1 i, h2 em, h2 i, h3 em, h3 i, .card-title em, .card-title i, .serif-ita
 /* =========================================================================
    MASTER DARK LUXURY EDITORIAL OVERRIDES (MATCHING TOKA PORTFOLIO 2026)
    ========================================================================= */
+/* Universal High-End Dark Theme Normalization */
 div[style*="background: #FFFFFF"],
 div[style*="background: #ffffff"],
 div[style*="background:#FFFFFF"],
 div[style*="background:#ffffff"],
 div[style*="background: #F8FAFC"],
 div[style*="background: #f8fafc"],
-div[style*="background: #F4F6FA"] {
-  background: var(--rr-surface) !important;
-  color: var(--rr-text) !important;
-  border-color: var(--rr-border) !important;
+div[style*="background: #FAF5FF"],
+div[style*="background: #faf5ff"],
+div[style*="background: #F4F6FA"],
+div[style*="background: #F1F5F9"],
+section[style*="background: #FFFFFF"],
+section[style*="background: #F8FAFC"] {
+  background: #0A1B33 !important;
+  color: #F8FAFC !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+div[style*="background: #FEF2F2"] {
+  background: rgba(239, 68, 68, 0.12) !important;
+  color: #FECACA !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+
+div[style*="background: #EFF6FF"] {
+  background: rgba(59, 130, 246, 0.12) !important;
+  color: #BFDBFE !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+div[style*="background: #F0FDF4"] {
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #A7F3D0 !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+div[style*="color: #0F172A"],
+div[style*="color: #0f172a"],
+div[style*="color: #1E293B"],
+div[style*="color: #1e293b"],
+div[style*="color: #334155"],
+span[style*="color: #0F172A"],
+span[style*="color: #1E293B"],
+span[style*="color: #334155"],
+p[style*="color: #0F172A"],
+p[style*="color: #1E293B"],
+p[style*="color: #334155"],
+h2[style*="color: #0F172A"],
+h3[style*="color: #0F172A"],
+h4[style*="color: #0F172A"] {
+  color: #F8FAFC !important;
+}
+
+div[style*="color: #64748B"],
+span[style*="color: #64748B"],
+div[style*="color: #475569"],
+span[style*="color: #475569"],
+p[style*="color: #64748B"],
+p[style*="color: #475569"] {
+  color: #94A3B8 !important;
+}
+
+div[style*="border: 1px solid #E2E8F0"],
+div[style*="border: 1px solid #CBD5E1"],
+div[style*="border-bottom: 1px solid #E2E8F0"],
+div[style*="border-bottom: 1px solid #CBD5E1"],
+div[style*="border-top: 1px solid #E2E8F0"] {
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 div[style*="color: #0F172A"],
@@ -879,141 +923,148 @@ div[style*="border: 1px solid #CBD5E1"] {
   border-color: var(--rr-border) !important;
 }
 
-/* Luxury Editorial Hero Section Styling */
-.editorial-hero {
-  background: linear-gradient(135deg, #101B16 0%, #0C1511 100%);
-  border: 1px solid var(--rr-border);
-  border-radius: 16px;
-  padding: 32px 36px;
+/* RAJASTHAN ROYALS DUGOUT HERO STYLING */
+.dugout-hero-card {
+  background: linear-gradient(135deg, #07152B 0%, #0A1E3D 100%);
+  border: 1px solid rgba(229, 0, 125, 0.35);
+  border-radius: 14px;
+  padding: 26px 30px;
   margin-bottom: 24px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
 }
 
-.editorial-hero::after {
-  content: '';
+.dugout-hero-card::after {
+  content: "";
   position: absolute;
-  top: -60px;
-  right: -60px;
-  width: 280px;
-  height: 280px;
-  background: radial-gradient(circle, rgba(52, 211, 153, 0.08) 0%, transparent 70%);
+  top: -80px;
+  right: -80px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(229, 0, 125, 0.12) 0%, transparent 70%);
   pointer-events: none;
 }
 
-.editorial-hero-badge {
-  display: inline-flex;
+.dugout-hero-top {
+  display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(52, 211, 153, 0.1);
-  border: 1px solid rgba(52, 211, 153, 0.28);
-  color: var(--rr-emerald);
-  padding: 4px 12px;
-  border-radius: 9999px;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-bottom: 14px;
 }
 
-.status-dot-pulse {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--rr-emerald);
-  box-shadow: 0 0 10px var(--rr-emerald);
-  animation: pulse-dot 2s infinite ease-in-out;
+.dugout-pill-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
+.dugout-pill-pink {
+  background: var(--rr-pink);
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-.editorial-hero-meta {
+.dugout-pill-verified {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34D399;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.dugout-meta-stat {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--rr-text-muted);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  color: #94A3B8;
+}
+
+.dugout-hero-heading {
+  font-size: 26px;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
   margin-bottom: 8px;
 }
 
-.editorial-hero-title {
-  font-family: var(--font-serif);
-  font-size: clamp(28px, 4vw, 44px);
-  font-weight: 400;
-  line-height: 1.15;
-  color: #EDE8DE;
-  letter-spacing: -0.02em;
-  margin-bottom: 14px;
+.dugout-hero-sub {
+  font-size: 13.5px;
+  color: #94A3B8;
+  max-width: 860px;
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
-.editorial-hero-title em {
-  font-style: italic;
-  font-weight: 400;
-  color: #F5E6CC;
-}
-
-.editorial-hero-description {
-  font-size: 14.5px;
-  color: var(--rr-text-muted);
-  max-width: 820px;
-  line-height: 1.65;
-  margin-bottom: 22px;
-}
-
-.editorial-hero-actions {
+.dugout-hero-btns {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
-.editorial-btn-primary {
-  background: #163628;
-  border: 1px solid #235843;
+.btn-hero-primary {
+  background: var(--rr-pink);
+  border: none;
   color: #FFFFFF;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-family: var(--font-sans);
+  padding: 9px 18px;
+  border-radius: 6px;
+  font-weight: 800;
   font-size: 12.5px;
-  font-weight: 700;
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 14px rgba(229, 0, 125, 0.4);
+  transition: all 0.15s ease;
 }
 
-.editorial-btn-primary:hover {
-  background: #1C4634;
-  border-color: #34D399;
+.btn-hero-primary:hover {
+  background: var(--rr-pink-dark);
   transform: translateY(-1px);
 }
 
-.editorial-btn-secondary {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  color: #EDE8DE;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-family: var(--font-sans);
+.btn-hero-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #F8FAFC;
+  padding: 9px 16px;
+  border-radius: 6px;
+  font-weight: 700;
   font-size: 12.5px;
-  font-weight: 600;
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 
-.editorial-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.25);
+.btn-hero-secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+}
+
+.btn-hero-outline {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #CBD5E1;
+  padding: 9px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12.5px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-hero-outline:hover {
+  border-color: #FFFFFF;
   color: #FFFFFF;
 }
 
@@ -1499,26 +1550,149 @@ div[style*="border: 1px solid #CBD5E1"] {
       <!-- TAB 1: EXECUTIVE SUMMARY -->
       <section id="tab-summary" class="tab-pane active">
 
-        <!-- EDITORIAL LUXURY HERO (Matching Toka Portfolio 2026) -->
-        <div class="editorial-hero">
-          <div class="editorial-hero-badge">
-            <span class="status-dot-pulse"></span>
-            <span>OPEN TO EVALUATION • ROUND 1 OFFICIAL SUBMISSION</span>
+        <!-- RAJASTHAN ROYALS DUGOUT INTELLIGENCE HERO -->
+        <div class="dugout-hero-card">
+          <div class="dugout-hero-top">
+            <div class="dugout-pill-group">
+              <span class="dugout-pill-pink">RAJASTHAN ROYALS SUPERR SELECTOR</span>
+              <span class="dugout-pill-verified">● 136 CHECKS PASSING (EXIT 0)</span>
+            </div>
+            <div class="dugout-meta-stat">
+              851 Matches &bull; 197,100 Deliveries &bull; 958 Total Players
+            </div>
           </div>
-          <div class="editorial-hero-meta">
-            —— 01 / RAJASTHAN ROYALS SUPERR SELECTOR
-          </div>
-          <h1 class="editorial-hero-title">
-            Intelligent systems.<br>
-            <em>Pressure-tested impact.</em>
-          </h1>
-          <p class="editorial-hero-description">
-            A state-space quantitative intelligence model evaluating 197,100 deliveries across 851 matches (2022–2026). Continuous Leverage Index (LI &ge; 1.32), Empirical Bayes 4-Pillar shrinkage, and leave-one-match-out opponent adjustments to isolate genuine clutch performance.
+          <h2 class="dugout-hero-heading">
+            Rajasthan Royals High-Pressure Intelligence Platform
+          </h2>
+          <p class="dugout-hero-sub">
+            Continuous Leverage Index (&ge;1.32, 49,276 deliveries), Empirical Bayes 4-Pillar shrinkage, and leave-one-match-out opponent adjustments to isolate genuine clutch performance for Round 1 qualification.
           </p>
-          <div class="editorial-hero-actions">
-            <button class="editorial-btn-primary" onclick="switchTab('tab-leaderboards')">Explore Top 10 Rankings &darr;</button>
-            <button class="editorial-btn-secondary" onclick="switchTab('tab-tactics')">Tactical Splits &rarr;</button>
-            <button class="editorial-btn-secondary" onclick="switchTab('tab-auction')">RR Squad Pressure Audit &rarr;</button>
+          <div class="dugout-hero-btns">
+            <button class="btn-hero-primary" onclick="switchTab('tab-leaderboards')">
+              🏆 View Verified Top 10 Leaderboards
+            </button>
+            <button class="btn-hero-secondary" onclick="switchTab('tab-tactics')">
+              🎯 Dugout Tactical Splits
+            </button>
+            <button class="btn-hero-secondary" onclick="switchTab('tab-auction')">
+              🏰 RR Squad Pressure Audit
+            </button>
+            <a href="outputs/SupeRR_Selector_Methodology_Report_v4_Top1.pdf" target="_blank" class="btn-hero-outline">
+              📄 Official 5-Page PDF Report
+            </a>
+          </div>
+        </div>
+
+        <!-- EXECUTIVE PODIUM SPOTLIGHT (TOP 3 BATTERS & TOP 3 BOWLERS) -->
+        <div class="dugout-podium-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px; margin-bottom: 22px;">
+          <!-- BATTERS PODIUM -->
+          <div style="background: linear-gradient(135deg, #091A33 0%, #0D2447 100%); border: 1px solid rgba(229, 0, 125, 0.3); border-radius: 12px; padding: 18px 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 18px;">🏏</span>
+                <span style="font-weight: 800; font-size: 14px; color: #FFFFFF; letter-spacing: -0.01em;">Top Pressure Batters</span>
+                <span style="background: rgba(229,0,125,0.25); color: #FFB3D9; font-size: 10px; font-family: var(--font-mono); padding: 2px 6px; border-radius: 4px; font-weight: 700;">OFFICIAL TOP 3</span>
+              </div>
+              <button onclick="setRole('batters'); switchTab('tab-leaderboards')" style="background: transparent; border: none; color: #38BDF8; font-size: 11px; font-weight: 700; cursor: pointer;">View All 10 &rarr;</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div onclick="openPlayerProfile('Suryakumar Yadav')" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 8px; cursor: pointer; transition: transform 0.15s ease;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="background: #F59E0B; color: #041126; font-weight: 900; font-size: 11px; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">1</span>
+                  <div>
+                    <div style="font-weight: 800; font-size: 13px; color: #FFFFFF;">Suryakumar Yadav <span style="font-size: 11px; color: #94A3B8; font-weight: 500;">(MI &bull; 🇮🇳)</span></div>
+                    <div style="font-size: 10.5px; color: #94A3B8; font-family: var(--font-mono);">442 HP Balls &bull; SR 180.3 &bull; &Delta; +13.5</div>
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 900; font-size: 13px; color: #34D399; font-family: var(--font-mono);">+17.2 <span style="font-size: 9px; color: #94A3B8;">Net/100</span></div>
+                  <div style="font-size: 10px; color: #FFB3D9; font-weight: 700;">Score: 0.672</div>
+                </div>
+              </div>
+
+              <div onclick="openPlayerProfile('Phil Salt')" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; cursor: pointer;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="background: rgba(255,255,255,0.15); color: #FFFFFF; font-weight: 800; font-size: 11px; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">2</span>
+                  <div>
+                    <div style="font-weight: 800; font-size: 13px; color: #FFFFFF;">Phil Salt <span style="font-size: 11px; color: #94A3B8; font-weight: 500;">(KKR &bull; 🏴󠁧󠁢󠁥󠁮󠁧󠁿)</span></div>
+                    <div style="font-size: 10.5px; color: #94A3B8; font-family: var(--font-mono);">254 HP Balls &bull; SR 177.6 &bull; &Delta; +6.2</div>
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 900; font-size: 13px; color: #34D399; font-family: var(--font-mono);">+13.9 <span style="font-size: 9px; color: #94A3B8;">Net/100</span></div>
+                  <div style="font-size: 10px; color: #FFB3D9; font-weight: 700;">Score: 0.441</div>
+                </div>
+              </div>
+
+              <div onclick="openPlayerProfile('Tim David')" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; cursor: pointer;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="background: rgba(255,255,255,0.15); color: #FFFFFF; font-weight: 800; font-size: 11px; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">3</span>
+                  <div>
+                    <div style="font-weight: 800; font-size: 13px; color: #FFFFFF;">Tim David <span style="font-size: 11px; color: #94A3B8; font-weight: 500;">(MI &bull; 🇦🇺)</span></div>
+                    <div style="font-size: 10.5px; color: #94A3B8; font-family: var(--font-mono);">279 HP Balls &bull; SR 171.3 &bull; &Delta; +5.4</div>
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 900; font-size: 13px; color: #34D399; font-family: var(--font-mono);">+12.8 <span style="font-size: 9px; color: #94A3B8;">Net/100</span></div>
+                  <div style="font-size: 10px; color: #FFB3D9; font-weight: 700;">Score: 0.428</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOWLERS PODIUM -->
+          <div style="background: linear-gradient(135deg, #091A33 0%, #0D2447 100%); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 18px 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 18px;">🎯</span>
+                <span style="font-weight: 800; font-size: 14px; color: #FFFFFF; letter-spacing: -0.01em;">Top Pressure Bowlers</span>
+                <span style="background: rgba(56, 189, 248, 0.2); color: #7DD3FC; font-size: 10px; font-family: var(--font-mono); padding: 2px 6px; border-radius: 4px; font-weight: 700;">OFFICIAL TOP 3</span>
+              </div>
+              <button onclick="setRole('bowlers'); switchTab('tab-leaderboards')" style="background: transparent; border: none; color: #38BDF8; font-size: 11px; font-weight: 700; cursor: pointer;">View All 10 &rarr;</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div onclick="openPlayerProfile('Sunil Narine')" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 8px; cursor: pointer; transition: transform 0.15s ease;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="background: #F59E0B; color: #041126; font-weight: 900; font-size: 11px; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">1</span>
+                  <div>
+                    <div style="font-weight: 800; font-size: 13px; color: #FFFFFF;">Sunil Narine <span style="font-size: 11px; color: #94A3B8; font-weight: 500;">(KKR &bull; 🏝️)</span></div>
+                    <div style="font-size: 10.5px; color: #94A3B8; font-family: var(--font-mono);">545 HP Balls &bull; Econ 6.12 &bull; Dots 46.8%</div>
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 900; font-size: 13px; color: #34D399; font-family: var(--font-mono);">+19.4 <span style="font-size: 9px; color: #94A3B8;">Saved/100</span></div>
+                  <div style="font-size: 10px; color: #7DD3FC; font-weight: 700;">Score: 0.680</div>
+                </div>
+              </div>
+
+              <div onclick="openPlayerProfile('Mitchell Santner')" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; cursor: pointer;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="background: rgba(255,255,255,0.15); color: #FFFFFF; font-weight: 800; font-size: 11px; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">2</span>
+                  <div>
+                    <div style="font-weight: 800; font-size: 13px; color: #FFFFFF;">Mitchell Santner <span style="font-size: 11px; color: #94A3B8; font-weight: 500;">(CSK/MI &bull; 🇳🇿)</span></div>
+                    <div style="font-size: 10.5px; color: #94A3B8; font-family: var(--font-mono);">274 HP Balls &bull; Econ 6.38 &bull; Dots 42.7%</div>
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 900; font-size: 13px; color: #34D399; font-family: var(--font-mono);">+14.8 <span style="font-size: 9px; color: #94A3B8;">Saved/100</span></div>
+                  <div style="font-size: 10px; color: #7DD3FC; font-weight: 700;">Score: 0.493</div>
+                </div>
+              </div>
+
+              <div onclick="openPlayerProfile('Jacob Duffy')" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; cursor: pointer;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="background: rgba(255,255,255,0.15); color: #FFFFFF; font-weight: 800; font-size: 11px; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">3</span>
+                  <div>
+                    <div style="font-weight: 800; font-size: 13px; color: #FFFFFF;">Jacob Duffy <span style="font-size: 11px; color: #94A3B8; font-weight: 500;">(RCB &bull; 🇳🇿)</span></div>
+                    <div style="font-size: 10.5px; color: #94A3B8; font-family: var(--font-mono);">205 HP Balls &bull; Econ 6.82 &bull; Dots 41.5%</div>
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-weight: 900; font-size: 13px; color: #34D399; font-family: var(--font-mono);">+14.1 <span style="font-size: 9px; color: #94A3B8;">Saved/100</span></div>
+                  <div style="font-size: 10px; color: #7DD3FC; font-weight: 700;">Score: 0.482</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
