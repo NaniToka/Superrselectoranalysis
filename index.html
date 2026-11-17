@@ -296,7 +296,7 @@ body {
 
 .ticker-sub {
   font-size: 10.5px;
-  color: #64748B;
+  color: #94A3B8;
   margin-top: 2px;
   white-space: nowrap;
   overflow: hidden;
@@ -329,7 +329,7 @@ body {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #64748B;
+  color: #94A3B8;
   padding: 10px 10px 4px;
 }
 
@@ -569,14 +569,14 @@ body {
   border-radius: 6px;
   font-weight: 800;
   font-size: 11px;
-  background: #F1F5F9;
-  color: #334155;
+  background: rgba(255, 255, 255, 0.05);
+  color: #CBD5E1;
 }
 
 .rank-chip.top1 {
-  background: #FEF3C7;
+  background: rgba(245, 158, 11, 0.15);
   color: #B45309;
-  border: 1px solid #FDE68A;
+  border: 1px solid rgba(245, 158, 11, 0.35);
 }
 .rank-chip.top3 {
   background: var(--rr-pink-light);
@@ -586,8 +586,8 @@ body {
 
 .score-chip {
   font-weight: 800;
-  color: var(--rr-navy);
-  background: #F1F5F9;
+  color: #F8FAFC;
+  background: rgba(255, 255, 255, 0.05);
   padding: 3px 6px;
   border-radius: 4px;
   font-family: var(--font-mono);
@@ -1435,6 +1435,113 @@ div[style*="border: 1px solid #CBD5E1"] {
   border-color: #FFFFFF;
 }
 
+
+/* =========================================================================
+   CLEAN LUXURY DUGOUT DESIGN SYSTEM OVERRIDES
+   ========================================================================= */
+[style*="color: var(--rr-navy)"],
+[style*="color:var(--rr-navy)"],
+[style*="color: #1E293B"],
+[style*="color: #1e293b"],
+[style*="color: #0F172A"],
+[style*="color: #0f172a"] {
+  color: #F8FAFC !important;
+}
+
+[style*="color: #334155"],
+[style*="color: #475569"] {
+  color: #CBD5E1 !important;
+}
+
+/* Ensure all modal and drawer content is crisp and clean */
+.drawer-panel, .modal-content {
+  background: #08162B !important;
+  color: #F8FAFC !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.drawer-header {
+  background: #041126 !important;
+  border-bottom: 2px solid var(--rr-pink) !important;
+  color: #FFFFFF !important;
+}
+
+.drawer-body, .modal-body {
+  background: #08162B !important;
+  color: #F8FAFC !important;
+}
+
+/* High-contrast form controls and filters */
+select, input[type="text"], input[type="number"] {
+  background: #091A33 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #F8FAFC !important;
+  border-radius: 6px !important;
+  padding: 6px 10px !important;
+}
+
+select:focus, input:focus {
+  border-color: #38BDF8 !important;
+  outline: none !important;
+}
+
+/* Clean up table search input containers */
+div[style*="background: rgba(255, 255, 255, 0.05)"] {
+  background: #091A33 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Clean scorecards */
+.scorecard-table th {
+  background: #0B1E38 !important;
+  color: #94A3B8 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.scorecard-table tbody tr {
+  background: #08162B;
+}
+
+.scorecard-table tbody tr:nth-child(even) {
+  background: #0B1D36 !important;
+}
+
+.scorecard-table tbody tr:hover {
+  background: #132E58 !important;
+}
+
+.scorecard-table th.sticky-col-rank,
+.scorecard-table th.sticky-col-player {
+  background: #0B1E38 !important;
+  color: #F8FAFC !important;
+}
+
+.sticky-col-rank {
+  background-color: #08162B !important;
+  color: #CBD5E1 !important;
+}
+
+.scorecard-table tbody tr:nth-child(even) .sticky-col-rank {
+  background-color: #0B1D36 !important;
+}
+
+.scorecard-table tbody tr:hover .sticky-col-rank {
+  background-color: #132E58 !important;
+}
+
+.sticky-col-player {
+  background-color: #08162B !important;
+  color: #FFFFFF !important;
+}
+
+.scorecard-table tbody tr:nth-child(even) .sticky-col-player {
+  background-color: #0B1D36 !important;
+}
+
+.scorecard-table tbody tr:hover .sticky-col-player {
+  background-color: #132E58 !important;
+}
+
 </style>
   <!-- THREE.JS & ORBITCONTROLS 3D DATA PLAYGROUND ENGINE -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1458,12 +1565,24 @@ div[style*="border: 1px solid #CBD5E1"] {
 
       <div class="header-controls">
         <div class="toggle-group" id="toggle-container">
-          <button id="btn-toggle-adj" class="toggle-btn active" onclick="setView('adjusted')">Opposition-Adjusted</button>
-          <button id="btn-toggle-orig" class="toggle-btn" onclick="setView('original')">Original Model</button>
+          <button id="btn-toggle-adj" class="toggle-btn active" onclick="setView('adjusted')">⚡ Opposition-Adjusted</button>
+          <button id="btn-toggle-orig" class="toggle-btn" onclick="setView('original')">📊 Original Model</button>
         </div>
 
-        <button onclick="switchTab('tab-3d-playground')" class="btn-header-action" title="Open 3D Data Universe Playground" style="background: linear-gradient(135deg, rgba(229,0,125,0.3) 0%, rgba(56,189,248,0.3) 100%); border-color: #38BDF8; box-shadow: 0 0 12px rgba(56,189,248,0.25);">
-          <span>🌐 3D Playground</span>
+        <button onclick="switchTab('tab-3d-playground')" class="btn-header-action" title="Open 3D Data Universe Playground" style="background: rgba(56, 189, 248, 0.12); border-color: rgba(56, 189, 248, 0.35); color: #7DD3FC;">
+          <span>🌐 3D Universe</span>
+        </button>
+
+        <button onclick="switchTab('tab-duel')" class="btn-header-action" title="Open Matchup Duel Simulator (Illustrative toy, not a model output)">
+          <span>⚔️ Duel Sim</span>
+        </button>
+
+        <button onclick="switchTab('tab-submission')" class="btn-header-action" title="Open Unstop Submission Hub">
+          <span>📋 Unstop Hub</span>
+        </button>
+
+        <button onclick="openSelectorsSheet()" class="btn-header-action" title="View Executive Selector's Sheet">
+          <span>📄 Sheet</span>
         </button>
 
         <button onclick="openShortlistDrawer()" class="btn-header-action btn-shortlist-counter" title="Open RR Shortlist Drawer">
@@ -1471,20 +1590,8 @@ div[style*="border: 1px solid #CBD5E1"] {
           <span id="shortlist-badge-count" class="font-mono bg-white text-rrPink px-1.5 py-0.5 rounded text-[10px] font-black">0</span>
         </button>
 
-        <button onclick="switchTab('tab-duel')" class="btn-header-action" title="Open Matchup Duel Simulator (Illustrative toy, not a model output)" style="background: rgba(229,0,125,0.25); border-color: var(--rr-pink);">
-          <span>⚔️ Duel Sim (Illustrative)</span>
-        </button>
-
-        <button onclick="switchTab('tab-submission')" class="btn-header-action" title="Open Unstop Submission Hub" style="background: rgba(139,92,246,0.25); border-color: #8B5CF6;">
-          <span>📋 Unstop Text</span>
-        </button>
-
-        <button onclick="openSelectorsSheet()" class="btn-header-action" title="View Executive Selector's Sheet">
-          <span>📄 Selector's Sheet</span>
-        </button>
-
-        <button onclick="window.print()" class="btn-header-action" title="Export PDF / Print View">
-          <span>🖨️ Export PDF</span>
+        <button onclick="window.print()" class="btn-header-action" title="Export PDF / Print View" style="padding: 7px 10px;">
+          <span>🖨️</span>
         </button>
       </div>
     </div>
@@ -1541,16 +1648,7 @@ div[style*="border: 1px solid #CBD5E1"] {
 
     <!-- LEFT NAVIGATION RAIL -->
     <aside class="nav-rail no-print">
-      <div class="nav-section-label" style="color: #38BDF8;">3D Data Playground</div>
-      <button onclick="switchTab('tab-3d-playground')" id="nav-tab-3d-playground" class="nav-btn" style="border: 1px solid rgba(56, 189, 248, 0.3); background: rgba(56, 189, 248, 0.08); margin-bottom: 6px;">
-        <span class="nav-icon">🌐</span>
-        <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-          <span>3D Data Universe</span>
-          <span style="background: linear-gradient(135deg, var(--rr-pink) 0%, #38BDF8 100%); color: #FFFFFF; font-size: 8px; font-weight: 900; padding: 1px 5px; border-radius: 4px;">3D LIVE</span>
-        </span>
-      </button>
-
-      <div class="nav-section-label">Core Evaluation</div>
+      <div class="nav-section-label">Evaluation</div>
       <button onclick="switchTab('tab-summary')" id="nav-tab-summary" class="nav-btn active">
         <span class="nav-icon">📊</span>
         <span>Executive Summary</span>
@@ -1558,6 +1656,19 @@ div[style*="border: 1px solid #CBD5E1"] {
       <button onclick="switchTab('tab-leaderboards')" id="nav-tab-leaderboards" class="nav-btn">
         <span class="nav-icon">🏆</span>
         <span>Top 10 Leaderboards</span>
+      </button>
+      <button onclick="switchTab('tab-3d-playground')" id="nav-tab-3d-playground" class="nav-btn">
+        <span class="nav-icon">🌐</span>
+        <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+          <span>3D Data Universe</span>
+          <span style="background: rgba(56, 189, 248, 0.2); color: #7DD3FC; font-size: 8px; font-weight: 800; padding: 1px 4px; border-radius: 3px; font-family: var(--font-mono);">3D</span>
+        </span>
+      </button>
+
+      <div class="nav-section-label">Tactical Splits</div>
+      <button onclick="switchTab('tab-tactics')" id="nav-tab-tactics" class="nav-btn">
+        <span class="nav-icon">🎯</span>
+        <span>Pace/Spin &amp; Phases</span>
       </button>
       <button onclick="switchTab('tab-scatter')" id="nav-tab-scatter" class="nav-btn">
         <span class="nav-icon">⚡</span>
@@ -1568,64 +1679,36 @@ div[style*="border: 1px solid #CBD5E1"] {
         <span>Rank Movement</span>
       </button>
 
-      <div class="nav-section-label">Model Mechanics</div>
-      <button onclick="switchTab('tab-stability')" id="nav-tab-stability" class="nav-btn">
-        <span class="nav-icon">🎲</span>
-        <span>Stability &amp; Robustness</span>
+      <div class="nav-section-label">Dugout War Room</div>
+      <button onclick="switchTab('tab-auction'); setTimeout(() => { document.getElementById('rr-squad-audit-table-body')?.scrollIntoView({behavior: 'smooth', block: 'center'}); }, 100);" id="nav-tab-rrsquad" class="nav-btn">
+        <span class="nav-icon">🏰</span>
+        <span>RR Squad Pressure</span>
       </button>
-      <button onclick="switchTab('tab-leverage')" id="nav-tab-leverage" class="nav-btn">
-        <span class="nav-icon">⚖️</span>
-        <span>Leverage &amp; Calibration</span>
-      </button>
-      <button onclick="switchTab('tab-weights')" id="nav-tab-weights" class="nav-btn">
-        <span class="nav-icon">🎛️</span>
-        <span>Weight Lab</span>
+      <button onclick="switchTab('tab-duel')" id="nav-tab-duel" class="nav-btn">
+        <span class="nav-icon">⚔️</span>
+        <span>Matchup Duel Sim</span>
       </button>
       <button onclick="switchTab('tab-compare')" id="nav-tab-compare" class="nav-btn">
         <span class="nav-icon">👥</span>
         <span>Player Comparison</span>
       </button>
 
-            <div class="nav-section-label" style="color: var(--rr-pink);">Tactical Dugout Suite</div>
-      <button onclick="switchTab('tab-duel')" id="nav-tab-duel" class="nav-btn">
-        <span class="nav-icon">⚔️</span>
-        <span>Matchup Duel Simulator (Illustrative)</span>
+      <div class="nav-section-label">Model &amp; Audit</div>
+      <button onclick="switchTab('tab-stability')" id="nav-tab-stability" class="nav-btn">
+        <span class="nav-icon">🎲</span>
+        <span>Stability (Bootstraps)</span>
       </button>
-      <button onclick="switchTab('tab-tactics')" id="nav-tab-tactics" class="nav-btn">
-        <span class="nav-icon">🎯</span>
-        <span>Pace/Spin &amp; Phase Splits</span>
+      <button onclick="switchTab('tab-leverage')" id="nav-tab-leverage" class="nav-btn">
+        <span class="nav-icon">⚖️</span>
+        <span>Leverage &amp; Calibration</span>
       </button>
       <button onclick="switchTab('tab-submission')" id="nav-tab-submission" class="nav-btn">
         <span class="nav-icon">📋</span>
         <span>Unstop Submission Hub</span>
       </button>
-
-<div class="nav-section-label">Auction Strategy</div>
-      <button onclick="switchTab('tab-auction')" id="nav-tab-auction" class="nav-btn">
-        <span class="nav-icon">🏷️</span>
-        <span>Auction &amp; Retention</span>
-      </button>
-      <button onclick="switchTab('tab-auction'); setTimeout(() => { document.getElementById('rr-squad-audit-table-body')?.scrollIntoView({behavior: 'smooth', block: 'center'}); }, 100);" id="nav-tab-rrsquad" class="nav-btn">
-        <span class="nav-icon">🏰</span>
-        <span>RR Squad Pressure Audit</span>
-      </button>
-      <button onclick="switchTab('tab-top1')" id="nav-tab-top1" class="nav-btn">
-        <span class="nav-icon">🎯</span>
-        <span>Top-1 Recommendation</span>
-      </button>
-      <button onclick="switchTab('tab-notable')" id="nav-tab-notable" class="nav-btn">
-        <span class="nav-icon">⭐</span>
-        <span>Notable Names</span>
-      </button>
-
-      <div class="nav-section-label">Integrity &amp; Auditing</div>
-      <button onclick="switchTab('tab-limitations')" id="nav-tab-limitations" class="nav-btn">
-        <span class="nav-icon">⚠️</span>
-        <span>Limitations &amp; Nuance</span>
-      </button>
       <button onclick="switchTab('tab-audit')" id="nav-tab-audit" class="nav-btn">
         <span class="nav-icon">🔍</span>
-        <span>Source Audit</span>
+        <span>Source Audit Console</span>
       </button>
     </aside>
 
@@ -1795,8 +1878,8 @@ div[style*="border: 1px solid #CBD5E1"] {
             <span class="pill-competition">Continuous Leverage Engine</span>
           </div>
 
-          <div style="background: #F8FAFC; border-left: 4px solid var(--rr-navy); padding: 14px 18px; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #1E293B;">
-            <strong>Method Summary:</strong> We define pressure as how much the next delivery can move the match (a leverage index built from a win-probability model), rather than a hand-picked list of over and run-rate rules. The source data covers IPL and T20I matches from 2022 to 2026 (958 players total; extras1_runs is a type code; byes and leg-bye runs are unrecorded). Deliveries in the top quartile (LI &ge; 1.32; 49,276 deliveries) are classified as high pressure, where win-probability swing averages 3.73 percentage points per ball compared to 0.62 percentage points in ordinary situations. Eligibility requires at least 150 high-pressure deliveries, 8 high-pressure matches (6+ balls each), and 100 ordinary deliveries: 100 batters and 102 bowlers qualify. Each qualified player is scored on Pressure Value (35%), Win Probability Added (30%), Delta vs own baseline (20%), and Consistency (15%), with Empirical Bayes shrinkage applied. In the adjusted model, opposition quality is normalized via leave-one-match-out ratings. Rankings are evaluated across 200 match-level bootstrap resamples for the adjusted model (300 for the original model), in preparation for Round 2 in Mumbai and Round 3 in Goa for the Round 2 winner.
+          <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-left: 4px solid var(--rr-pink); padding: 16px 20px; border-radius: 8px; font-size: 13px; line-height: 1.65; color: #E2E8F0;">
+            <strong style="color: #FFFFFF; font-size: 13.5px;">Method Summary:</strong> We define pressure as how much the next delivery can move the match (a leverage index built from a win-probability model), rather than a hand-picked list of over and run-rate rules. The source data covers IPL and T20I matches from 2022 to 2026 (958 players total; extras1_runs is a type code; byes and leg-bye runs are unrecorded). Deliveries in the top quartile (LI &ge; 1.32; 49,276 deliveries) are classified as high pressure, where win-probability swing averages 3.73 percentage points per ball compared to 0.62 percentage points in ordinary situations. Eligibility requires at least 150 high-pressure deliveries, 8 high-pressure matches (6+ balls each), and 100 ordinary deliveries: 100 batters and 102 bowlers qualify. Each qualified player is scored on Pressure Value (35%), Win Probability Added (30%), Delta vs own baseline (20%), and Consistency (15%), with Empirical Bayes shrinkage applied. In the adjusted model, opposition quality is normalized via leave-one-match-out ratings. Rankings are evaluated across 200 match-level bootstrap resamples for the adjusted model (300 for the original model), in preparation for Round 2 in Mumbai and Round 3 in Goa for the Round 2 winner.
           </div>
 
           <!-- DUGOUT 6-STAGE FLOWCHART -->
@@ -1836,23 +1919,23 @@ div[style*="border: 1px solid #CBD5E1"] {
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 18px;">
             <div style="background: var(--rr-pink-light); border: 1px solid var(--rr-pink-subtle); padding: 14px; border-radius: 10px;">
               <div style="font-size: 10px; font-weight: 800; color: var(--rr-pink); text-transform: uppercase;">1. Pressure Value (35%)</div>
-              <div style="font-size: 14px; font-weight: 800; color: var(--rr-navy); margin-top: 2px;">Runs Above Expected</div>
+              <div style="font-size: 14px; font-weight: 800; color: #F8FAFC; margin-top: 2px;">Runs Above Expected</div>
               <p style="font-size: 11px; color: var(--rr-text-muted); margin-top: 4px;">
                 Bat runs minus expected runs, with wickets valued contextually: &lambda; &approx; 8.3 (PP), 6.0 (Mid), 2.8 (Death).
               </p>
             </div>
 
-            <div style="background: #EFF6FF; border: 1px solid #BFDBFE; padding: 14px; border-radius: 10px;">
+            <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); padding: 14px; border-radius: 10px;">
               <div style="font-size: 10px; font-weight: 800; color: #1D4ED8; text-transform: uppercase;">2. Win Prob Added (30%)</div>
-              <div style="font-size: 14px; font-weight: 800; color: var(--rr-navy); margin-top: 2px;">Win Probability Added (WPA)</div>
+              <div style="font-size: 14px; font-weight: 800; color: #F8FAFC; margin-top: 2px;">Win Probability Added (WPA)</div>
               <p style="font-size: 11px; color: var(--rr-text-muted); margin-top: 4px;">
                 Direct change in calibrated win probability (&Delta;WP) produced by execution on high-pressure balls.
               </p>
             </div>
 
-            <div style="background: #FAF5FF; border: 1px solid #E9D5FF; padding: 14px; border-radius: 10px;">
+            <div style="background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.25); padding: 14px; border-radius: 10px;">
               <div style="font-size: 10px; font-weight: 800; color: #7E22CE; text-transform: uppercase;">3. Elevation Gap (20%)</div>
-              <div style="font-size: 14px; font-weight: 800; color: var(--rr-navy); margin-top: 2px;">Delta vs Baseline</div>
+              <div style="font-size: 14px; font-weight: 800; color: #F8FAFC; margin-top: 2px;">Delta vs Baseline</div>
               <p style="font-size: 11px; color: var(--rr-text-muted); margin-top: 4px;">
                 Separates situational elevation from general baseline skill: net_HP minus net_ordinary on the same player.
               </p>
@@ -1860,7 +1943,7 @@ div[style*="border: 1px solid #CBD5E1"] {
 
             <div style="background: var(--rr-green-bg); border: 1px solid var(--rr-green-border); padding: 14px; border-radius: 10px;">
               <div style="font-size: 10px; font-weight: 800; color: var(--rr-green); text-transform: uppercase;">4. Consistency (15%)</div>
-              <div style="font-size: 14px; font-weight: 800; color: var(--rr-navy); margin-top: 2px;">Bayesian Hit-Rate</div>
+              <div style="font-size: 14px; font-weight: 800; color: #F8FAFC; margin-top: 2px;">Bayesian Hit-Rate</div>
               <p style="font-size: 11px; color: var(--rr-text-muted); margin-top: 4px;">
                 (Hits + 4) / (Matches + 8), where a hit requires &ge;6 HP balls and positive net value. Shrunk with 8 pseudo-matches at 50%.
               </p>
@@ -1869,7 +1952,7 @@ div[style*="border: 1px solid #CBD5E1"] {
 
           <!-- DATASET ARCHITECTURE METRICS -->
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 18px;">
-            <div style="background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
               <div style="font-size: 11px; font-weight: 800; color: var(--rr-text-muted); text-transform: uppercase; margin-bottom: 8px;">
                 High Pressure vs Ordinary Split
               </div>
@@ -1897,7 +1980,7 @@ div[style*="border: 1px solid #CBD5E1"] {
               </div>
             </div>
 
-            <div style="background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
               <div style="font-size: 11px; font-weight: 800; color: var(--rr-text-muted); text-transform: uppercase; margin-bottom: 8px;">
                 Model Calibration &amp; Discrimination
               </div>
@@ -1932,7 +2015,7 @@ div[style*="border: 1px solid #CBD5E1"] {
               <p style="font-size: 12px; color: var(--rr-text); line-height: 1.5; margin-bottom: 8px;">
                 Raw batting strike rate barely differs between high pressure and ordinary situations (<strong>141.84 vs 138.72</strong>). Batters score at almost the same nominal rate; what actually shifts the match outcome is <strong>when dismissals and boundaries occur</strong> relative to par.
               </p>
-              <p style="font-size: 12px; font-weight: 700; color: var(--rr-navy);">
+              <p style="font-size: 12px; font-weight: 700; color: #F8FAFC;">
                 Raw strike rate barely differs, so it is a weak pressure measure. Value over expected, which includes wickets, is more informative.
               </p>
             </div>
@@ -1955,13 +2038,13 @@ div[style*="border: 1px solid #CBD5E1"] {
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #F8FAFC; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
                 <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Role</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
                 <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
@@ -1969,7 +2052,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Nationality / Overseas</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
                 <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
@@ -1977,7 +2060,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Auction Availability</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
                 <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
@@ -1986,7 +2069,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--rr-navy); margin-bottom: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
                   <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
@@ -2193,9 +2276,9 @@ div[style*="border: 1px solid #CBD5E1"] {
 
           <!-- BATTERS TABLE CONTAINER -->
           <div id="batters-table-container" class="table-container">
-            <div style="padding: 12px 16px; background: #F8FAFC; border-bottom: 1px solid var(--rr-border); display: flex; justify-content: space-between; align-items: center;">
+            <div style="padding: 12px 16px; background: #091A33; border-bottom: 1px solid var(--rr-border); display: flex; justify-content: space-between; align-items: center;">
               <div>
-                <span style="font-weight: 800; font-size: 13px; color: var(--rr-navy);">Top 10 Batters</span>
+                <span style="font-weight: 800; font-size: 13px; color: #F8FAFC;">Top 10 Batters</span>
                 <span id="batters-view-tag" class="pill-competition" style="margin-left: 8px;">Opposition-Adjusted</span>
                 <span style="font-size: 11px; color: var(--rr-text-muted); margin-left: 8px;">Eligibility: &ge;150 HP deliveries, &ge;8 HP matches, &ge;100 ordinary balls</span>
               </div>
@@ -2231,9 +2314,9 @@ div[style*="border: 1px solid #CBD5E1"] {
 
           <!-- BOWLERS TABLE CONTAINER -->
           <div id="bowlers-table-container" class="table-container" style="display: none;">
-            <div style="padding: 12px 16px; background: #F8FAFC; border-bottom: 1px solid var(--rr-border); display: flex; justify-content: space-between; align-items: center;">
+            <div style="padding: 12px 16px; background: #091A33; border-bottom: 1px solid var(--rr-border); display: flex; justify-content: space-between; align-items: center;">
               <div>
-                <span style="font-weight: 800; font-size: 13px; color: var(--rr-navy);">Top 10 Bowlers</span>
+                <span style="font-weight: 800; font-size: 13px; color: #F8FAFC;">Top 10 Bowlers</span>
                 <span id="bowlers-view-tag" class="pill-competition" style="margin-left: 8px;">Opposition-Adjusted</span>
                 <span style="font-size: 11px; color: var(--rr-text-muted); margin-left: 8px;">Eligibility: &ge;150 HP deliveries, &ge;8 HP matches, &ge;100 ordinary balls</span>
               </div>
@@ -2285,13 +2368,13 @@ div[style*="border: 1px solid #CBD5E1"] {
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #F8FAFC; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
                 <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Role</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
                 <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
@@ -2299,7 +2382,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Nationality / Overseas</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
                 <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
@@ -2307,7 +2390,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Auction Availability</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
                 <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
@@ -2316,7 +2399,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--rr-navy); margin-bottom: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
                   <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
@@ -2375,7 +2458,7 @@ div[style*="border: 1px solid #CBD5E1"] {
           </div>
 
           <!-- INLINE SVG SCATTER CONTAINER -->
-          <div style="background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px; position: relative;">
+          <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px; position: relative;">
             <div id="scatter-chart-svg" style="width: 100%; height: 500px; display: flex; align-items: center; justify-content: center;">
               <!-- Dynamically generated SVG -->
             </div>
@@ -2384,15 +2467,15 @@ div[style*="border: 1px solid #CBD5E1"] {
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; font-size: 11px;">
-            <div style="background: #F8FAFC; border: 1px solid var(--rr-border); padding: 10px 14px; border-radius: 8px;">
+            <div style="background: #091A33; border: 1px solid var(--rr-border); padding: 10px 14px; border-radius: 8px;">
               <strong style="color: var(--rr-pink);">Quadrant II (Top-Left): Clutch Elevators</strong><br>
               Sub-par or average in ordinary situations, but dramatically elevate under high pressure (y &gt; x).
             </div>
-            <div style="background: #F8FAFC; border: 1px solid var(--rr-border); padding: 10px 14px; border-radius: 8px;">
-              <strong style="color: var(--rr-navy);">Quadrant I (Top-Right): Dual-Dominance Core</strong><br>
+            <div style="background: #091A33; border: 1px solid var(--rr-border); padding: 10px 14px; border-radius: 8px;">
+              <strong style="color: #F8FAFC;">Quadrant I (Top-Right): Dual-Dominance Core</strong><br>
               Elite both in ordinary conditions and under high pressure. True championship anchors.
             </div>
-            <div style="background: #F8FAFC; border: 1px solid var(--rr-border); padding: 10px 14px; border-radius: 8px;">
+            <div style="background: #091A33; border: 1px solid var(--rr-border); padding: 10px 14px; border-radius: 8px;">
               <strong style="color: var(--rr-text-muted);">Quadrant IV (Bottom-Right): Pressure Decliners</strong><br>
               Produce high numbers in low-pressure situations but drop significantly when leverage index spikes (x &gt; y).
             </div>
@@ -2415,13 +2498,13 @@ div[style*="border: 1px solid #CBD5E1"] {
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #F8FAFC; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
                 <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Role</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
                 <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
@@ -2429,7 +2512,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Nationality / Overseas</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
                 <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
@@ -2437,7 +2520,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Auction Availability</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
                 <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
@@ -2446,7 +2529,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--rr-navy); margin-bottom: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
                   <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
@@ -2503,13 +2586,13 @@ div[style*="border: 1px solid #CBD5E1"] {
             </div>
           </div>
 
-          <div style="background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 10px; padding: 20px;">
+          <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 20px;">
             <div id="slope-chart-svg" style="width: 100%; height: 580px; display: flex; align-items: center; justify-content: center;">
               <!-- Dynamically generated SVG -->
             </div>
           </div>
 
-          <div style="margin-top: 14px; background: #F8FAFC; border: 1px solid var(--rr-border); border-radius: 8px; padding: 12px 16px; font-size: 12px; color: var(--rr-text-muted);">
+          <div style="margin-top: 14px; background: #091A33; border: 1px solid var(--rr-border); border-radius: 8px; padding: 12px 16px; font-size: 12px; color: var(--rr-text-muted);">
             <strong>Why Ranks Shift:</strong> The opposition adjustment uses out-of-fold leave-one-match-out opponent quality ratings. Players facing elite bowling attacks in tough match scenarios (e.g. Harry Brook moving from #27 to #10, Mohit Sharma from #16 to #9) gain rank, while players whose high-pressure balls came against weaker attacks adjust downwards.
           </div>
         </div>
@@ -2531,14 +2614,14 @@ div[style*="border: 1px solid #CBD5E1"] {
           </div>
 
           <!-- DYNAMIC STABLE CORE TEXT -->
-          <div id="stable-core-text" style="background: #F8FAFC; border-left: 4px solid var(--rr-pink); padding: 12px 16px; border-radius: 8px; font-size: 13px; line-height: 1.5; color: #1E293B; margin-bottom: 18px;">
+          <div id="stable-core-text" style="background: #091A33; border-left: 4px solid var(--rr-pink); padding: 12px 16px; border-radius: 8px; font-size: 13px; line-height: 1.5; color: #F8FAFC; margin-bottom: 18px;">
             <!-- Dynamically computed -->
           </div>
 
           <!-- BOOTSTRAP BARS CONTAINER -->
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin-bottom: 24px;">
-            <div style="background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
-              <div style="font-size: 12px; font-weight: 800; color: var(--rr-navy); margin-bottom: 12px; display: flex; justify-content: space-between;">
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
+              <div style="font-size: 12px; font-weight: 800; color: #F8FAFC; margin-bottom: 12px; display: flex; justify-content: space-between;">
                 <span>Batter Stability (% of Resamples in Top 10)</span>
                 <span id="batters-chart-sub" class="font-mono text-rrPink" style="font-size: 10px;">Adjusted Order</span>
               </div>
@@ -2547,8 +2630,8 @@ div[style*="border: 1px solid #CBD5E1"] {
               </div>
             </div>
 
-            <div style="background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
-              <div style="font-size: 12px; font-weight: 800; color: var(--rr-navy); margin-bottom: 12px; display: flex; justify-content: space-between;">
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
+              <div style="font-size: 12px; font-weight: 800; color: #F8FAFC; margin-bottom: 12px; display: flex; justify-content: space-between;">
                 <span>Bowler Stability (% of Resamples in Top 10)</span>
                 <span id="bowlers-chart-sub" class="font-mono text-rrPink" style="font-size: 10px;">Adjusted Order</span>
               </div>
@@ -2560,7 +2643,7 @@ div[style*="border: 1px solid #CBD5E1"] {
 
           <!-- ROBUSTNESS HEATMAP TABLE -->
           <div style="margin-top: 10px;">
-            <div style="font-size: 14px; font-weight: 800; color: var(--rr-navy); margin-bottom: 4px;">
+            <div style="font-size: 14px; font-weight: 800; color: #F8FAFC; margin-bottom: 4px;">
               Robustness Across 7 Alternative Model Specifications
             </div>
             <div style="font-size: 11px; color: var(--rr-text-muted); margin-bottom: 12px;">
@@ -2581,7 +2664,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                       <th class="tabular" style="text-align: center;">&lambda; &times; 1.5</th>
                       <th class="tabular" style="text-align: center;">IPL Only</th>
                       <th class="tabular" style="text-align: center;">T20I Only</th>
-                      <th class="tabular" style="text-align: center; color: var(--rr-navy);">Median Rank</th>
+                      <th class="tabular" style="text-align: center; color: #F8FAFC;">Median Rank</th>
                       <th class="tabular" style="text-align: center; color: var(--rr-pink);">Weight Top10 %</th>
                     </tr>
                   </thead>
@@ -2610,13 +2693,13 @@ div[style*="border: 1px solid #CBD5E1"] {
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #F8FAFC; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
                 <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Role</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
                 <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
@@ -2624,7 +2707,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Nationality / Overseas</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
                 <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
@@ -2632,7 +2715,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Auction Availability</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
                 <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
@@ -2641,7 +2724,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--rr-navy); margin-bottom: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
                   <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
@@ -2695,8 +2778,8 @@ div[style*="border: 1px solid #CBD5E1"] {
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px;">
             <!-- LEVERAGE CHART -->
-            <div style="background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
-              <div style="font-size: 13px; font-weight: 800; color: var(--rr-navy); margin-bottom: 2px;">
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
+              <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin-bottom: 2px;">
                 Mean Leverage Index by Over (1st vs 2nd Innings)
               </div>
               <div style="font-size: 11px; color: var(--rr-text-muted); margin-bottom: 12px;">
@@ -2708,8 +2791,8 @@ div[style*="border: 1px solid #CBD5E1"] {
             </div>
 
             <!-- WP CALIBRATION CHART -->
-            <div style="background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
-              <div style="font-size: 13px; font-weight: 800; color: var(--rr-navy); margin-bottom: 2px;">
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
+              <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin-bottom: 2px;">
                 Win Probability Calibration Curve
               </div>
               <div style="font-size: 11px; color: var(--rr-text-muted); margin-bottom: 12px;">
@@ -2738,13 +2821,13 @@ div[style*="border: 1px solid #CBD5E1"] {
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #F8FAFC; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
                 <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Role</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
                 <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
@@ -2752,7 +2835,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Nationality / Overseas</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
                 <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
@@ -2760,7 +2843,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Auction Availability</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
                 <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
@@ -2769,7 +2852,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--rr-navy); margin-bottom: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
                   <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
@@ -2820,13 +2903,13 @@ div[style*="border: 1px solid #CBD5E1"] {
               </div>
             </div>
 
-            <button onclick="resetWeights()" class="btn-header-action" style="background: #F1F5F9; color: var(--rr-text); border-color: var(--rr-border);">
+            <button onclick="resetWeights()" class="btn-header-action" style="background: rgba(255, 255, 255, 0.05); color: var(--rr-text); border-color: var(--rr-border);">
               Reset to Defaults (35/30/20/15)
             </button>
           </div>
 
           <!-- SLIDERS GRID -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; background: #F8FAFC; padding: 16px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 20px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; background: #091A33; padding: 16px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 20px;">
             <div>
               <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 6px;">
                 <span>Net Value (w_net)</span>
@@ -2862,7 +2945,7 @@ div[style*="border: 1px solid #CBD5E1"] {
 
           <!-- RE-RANKED TABLE -->
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <div style="font-size: 13px; font-weight: 800; color: var(--rr-navy);">
+            <div style="font-size: 13px; font-weight: 800; color: #F8FAFC;">
               Simulated Top 15 Leaderboard
             </div>
             <div style="display: flex; gap: 6px;">
@@ -2913,13 +2996,13 @@ div[style*="border: 1px solid #CBD5E1"] {
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #F8FAFC; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
                 <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Role</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
                 <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
@@ -2927,7 +3010,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Nationality / Overseas</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
                 <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
@@ -2935,7 +3018,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Auction Availability</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
                 <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
@@ -2944,7 +3027,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--rr-navy); margin-bottom: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
                   <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
@@ -3006,7 +3089,7 @@ div[style*="border: 1px solid #CBD5E1"] {
             </div>
 
             <div>
-              <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Player 2 (Deep Navy)</label>
+              <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Player 2 (Deep Navy)</label>
               <select id="compare-select-2" class="font-mono" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--rr-border);" onchange="updateComparison()">
                 <!-- Populated via JS -->
               </select>
@@ -3023,8 +3106,8 @@ div[style*="border: 1px solid #CBD5E1"] {
 
           <!-- RADAR & COMPARISON TABLE -->
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px;">
-            <div style="background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-              <div style="font-size: 12px; font-weight: 800; color: var(--rr-navy); margin-bottom: 10px;">
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <div style="font-size: 12px; font-weight: 800; color: #F8FAFC; margin-bottom: 10px;">
                 Multi-Player Percentile Radar
               </div>
               <div id="compare-radar-svg" style="width: 320px; height: 320px;">
@@ -3032,8 +3115,8 @@ div[style*="border: 1px solid #CBD5E1"] {
               </div>
             </div>
 
-            <div style="background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
-              <div style="font-size: 12px; font-weight: 800; color: var(--rr-navy); margin-bottom: 10px;">
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
+              <div style="font-size: 12px; font-weight: 800; color: #F8FAFC; margin-bottom: 10px;">
                 Head-to-Head Metric Scorecard
               </div>
               <div id="compare-table-container">
@@ -3059,13 +3142,13 @@ div[style*="border: 1px solid #CBD5E1"] {
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #F8FAFC; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
                 <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Role</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
                 <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
@@ -3073,7 +3156,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Nationality / Overseas</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
                 <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
@@ -3081,7 +3164,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Auction Availability</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
                 <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
@@ -3090,7 +3173,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--rr-navy); margin-bottom: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
                   <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
@@ -3140,39 +3223,39 @@ div[style*="border: 1px solid #CBD5E1"] {
                 Option B Shortlist &bull; Target Pool &bull; Interactive Retention Status Tracker
               </div>
             </div>
-            <button onclick="resetRetentionTracker()" class="btn-header-action" style="background: #F1F5F9; color: var(--rr-text); border-color: var(--rr-border);">
+            <button onclick="resetRetentionTracker()" class="btn-header-action" style="background: rgba(255, 255, 255, 0.05); color: var(--rr-text); border-color: var(--rr-border);">
               Reset Retention Tracker
             </button>
           </div>
 
           <!-- 3 REFINED GOOGLE MATERIAL STATUS CARDS -->
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-bottom: 20px;">
-            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-left: 3px solid var(--rr-pink); border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);">
+            <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-left: 3px solid var(--rr-pink); border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <span style="font-size: 11px; font-weight: 800; color: var(--rr-pink); text-transform: uppercase;">1. Geopolitical Exclusions</span>
-                <span style="font-size: 9px; background: #FFF1F7; color: var(--rr-pink); padding: 1px 6px; border-radius: 4px; font-weight: 700; border: 1px solid #FCE7F3;">POLICY</span>
+                <span style="font-size: 9px; background: rgba(229, 0, 125, 0.1); color: var(--rr-pink); padding: 1px 6px; border-radius: 4px; font-weight: 700; border: 1px solid rgba(229, 0, 125, 0.25);">POLICY</span>
               </div>
-              <p id="card-pakistan-excluded-list" style="font-size: 11.5px; color: #334155; line-height: 1.45;">
+              <p id="card-pakistan-excluded-list" style="font-size: 11.5px; color: #CBD5E1; line-height: 1.45;">
                 Excluded from Option B: <strong>Babar Azam</strong> (adj #4 Bat), <strong>Fakhar Zaman</strong> (adj #9 Bat), and <strong>Abrar Ahmed</strong> (adj #2 Bowl) rank on pure sporting merit but are geopolitically excluded from IPL participation.
               </p>
             </div>
 
-            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-left: 3px solid #2563EB; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);">
+            <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-left: 3px solid #2563EB; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <span style="font-size: 11px; font-weight: 800; color: #2563EB; text-transform: uppercase;">2. Option B Roster Logic</span>
-                <span style="font-size: 9px; background: #EFF6FF; color: #1D4ED8; padding: 1px 6px; border-radius: 4px; font-weight: 700; border: 1px solid #BFDBFE;">ACTIONABLE</span>
+                <span style="font-size: 9px; background: rgba(56, 189, 248, 0.08); color: #1D4ED8; padding: 1px 6px; border-radius: 4px; font-weight: 700; border: 1px solid rgba(56, 189, 248, 0.25);">ACTIONABLE</span>
               </div>
-              <p style="font-size: 11.5px; color: #334155; line-height: 1.45;">
+              <p style="font-size: 11.5px; color: #CBD5E1; line-height: 1.45;">
                 Excluding Pakistani players advances <strong>Tim Seifert</strong> (#11) &amp; <strong>Shreyas Iyer</strong> (#12) into batting Top 10, and <strong>Axar Patel</strong> (#11) into bowling Top 10. <strong>Harry Brook</strong> (#10) and <strong>Mohit Sharma</strong> (#9) are already in the adjusted Top 10.
               </p>
             </div>
 
-            <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-left: 3px solid #059669; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);">
+            <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-left: 3px solid #059669; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <span style="font-size: 11px; font-weight: 800; color: #059669; text-transform: uppercase;">3. Uncontracted High-Scorers</span>
                 <span style="font-size: 9px; background: #ECFDF5; color: #047857; padding: 1px 6px; border-radius: 4px; font-weight: 700; border: 1px solid #A7F3D0;">SCOUTING</span>
               </div>
-              <p style="font-size: 11.5px; color: #334155; line-height: 1.45;">
+              <p style="font-size: 11.5px; color: #CBD5E1; line-height: 1.45;">
                 Qualified players with no 2026 IPL squad listing: <strong>Mohit Sharma</strong> (adj #9, score 0.540), <strong>Harry Brook</strong> (adj #10, score 0.322), and <strong>Mujeeb Ur Rahman</strong> (adj #21, score 0.360).
               </p>
             </div>
@@ -3180,7 +3263,7 @@ div[style*="border: 1px solid #CBD5E1"] {
 
           
           <!-- GOOGLE-GRADE RAJASTHAN ROYALS SQUAD PRESSURE AUDIT CONSOLE -->
-          <div class="card" style="margin-bottom: 24px; border: 1px solid #CBD5E1; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);">
+          <div class="card" style="margin-bottom: 24px; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);">
             <div class="card-header" style="background: linear-gradient(135deg, #041126 0%, #0F275E 100%); color: #FFFFFF; border-radius: 12px 12px 0 0; padding: 16px 20px;">
               <div>
                 <div style="display: flex; align-items: center; gap: 8px;">
@@ -3199,35 +3282,35 @@ div[style*="border: 1px solid #CBD5E1"] {
             </div>
 
             <!-- Key Findings KPI Grid -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; padding: 14px 20px; background: #F8FAFC; border-bottom: 1px solid #E2E8F0;">
-              <div style="background: #FFFFFF; border-left: 3px solid var(--rr-pink); padding: 10px 14px; border-radius: 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; padding: 14px 20px; background: #091A33; border-bottom: 1px solid #E2E8F0;">
+              <div style="background: #08162B; border-left: 3px solid var(--rr-pink); padding: 10px 14px; border-radius: 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);">
                 <div style="font-size: 10px; font-weight: 800; color: var(--rr-pink); text-transform: uppercase;">Top Batting Asset</div>
-                <div style="font-size: 13px; font-weight: 800; color: #0F172A; margin: 2px 0;">Vaibhav Sooryavanshi (Rank #8)</div>
-                <div style="font-size: 11px; color: #64748B;">Score 0.386 &bull; Net +75.76 &bull; RR's sole Top-10 pressure batter</div>
+                <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin: 2px 0;">Vaibhav Sooryavanshi (Rank #8)</div>
+                <div style="font-size: 11px; color: #94A3B8;">Score 0.386 &bull; Net +75.76 &bull; RR's sole Top-10 pressure batter</div>
               </div>
 
-              <div style="background: #FFFFFF; border-left: 3px solid #2563EB; padding: 10px 14px; border-radius: 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);">
+              <div style="background: #08162B; border-left: 3px solid #2563EB; padding: 10px 14px; border-radius: 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);">
                 <div style="font-size: 10px; font-weight: 800; color: #2563EB; text-transform: uppercase;">Top Bowling Asset</div>
-                <div style="font-size: 13px; font-weight: 800; color: #0F172A; margin: 2px 0;">Jofra Archer (Rank #13)</div>
-                <div style="font-size: 11px; color: #64748B;">Score 0.453 &bull; Net +24.49 &bull; Delta +25.49 &bull; RR's #1 pressure seamer</div>
+                <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin: 2px 0;">Jofra Archer (Rank #13)</div>
+                <div style="font-size: 11px; color: #94A3B8;">Score 0.453 &bull; Net +24.49 &bull; Delta +25.49 &bull; RR's #1 pressure seamer</div>
               </div>
 
-              <div style="background: #FFFFFF; border-left: 3px solid #F59E0B; padding: 10px 14px; border-radius: 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);">
+              <div style="background: #08162B; border-left: 3px solid #F59E0B; padding: 10px 14px; border-radius: 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);">
                 <div style="font-size: 10px; font-weight: 800; color: #D97706; text-transform: uppercase;">Squad Deficit Finding</div>
-                <div style="font-size: 13px; font-weight: 800; color: #0F172A; margin: 2px 0;">13 of 15 Outside Top 40</div>
-                <div style="font-size: 11px; color: #64748B;">Jaiswal #42, Hetmyer #58, Jurel #60, Parag #78, Bishnoi #93</div>
+                <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin: 2px 0;">13 of 15 Outside Top 40</div>
+                <div style="font-size: 11px; color: #94A3B8;">Jaiswal #42, Hetmyer #58, Jurel #60, Parag #78, Bishnoi #93</div>
               </div>
             </div>
 
             <!-- Table Filter Controls -->
-            <div style="padding: 10px 20px; background: #FFFFFF; border-bottom: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+            <div style="padding: 10px 20px; background: #08162B; border-bottom: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
               <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 11px; font-weight: 700; color: #475569;">Filter Role:</span>
-                <button type="button" class="btn-rr-role-filter active" onclick="filterRRSquadTable('all', this)" style="padding: 3px 10px; font-size: 11px; border-radius: 4px; border: 1px solid #CBD5E1; background: #041126; color: #FFFFFF; cursor: pointer;">All 15</button>
-                <button type="button" class="btn-rr-role-filter" onclick="filterRRSquadTable('bat', this)" style="padding: 3px 10px; font-size: 11px; border-radius: 4px; border: 1px solid #CBD5E1; background: #F8FAFC; color: #334155; cursor: pointer;">Batters (8)</button>
-                <button type="button" class="btn-rr-role-filter" onclick="filterRRSquadTable('bowl', this)" style="padding: 3px 10px; font-size: 11px; border-radius: 4px; border: 1px solid #CBD5E1; background: #F8FAFC; color: #334155; cursor: pointer;">Bowlers (7)</button>
+                <span style="font-size: 11px; font-weight: 700; color: #94A3B8;">Filter Role:</span>
+                <button type="button" class="btn-rr-role-filter active" onclick="filterRRSquadTable('all', this)" style="padding: 3px 10px; font-size: 11px; border-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.08); background: #041126; color: #FFFFFF; cursor: pointer;">All 15</button>
+                <button type="button" class="btn-rr-role-filter" onclick="filterRRSquadTable('bat', this)" style="padding: 3px 10px; font-size: 11px; border-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.08); background: #091A33; color: #CBD5E1; cursor: pointer;">Batters (8)</button>
+                <button type="button" class="btn-rr-role-filter" onclick="filterRRSquadTable('bowl', this)" style="padding: 3px 10px; font-size: 11px; border-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.08); background: #091A33; color: #CBD5E1; cursor: pointer;">Bowlers (7)</button>
               </div>
-              <div style="font-size: 11px; color: #64748B; font-family: var(--font-mono);">
+              <div style="font-size: 11px; color: #94A3B8; font-family: var(--font-mono);">
                 Status: Under IPL 2026 contract with Rajasthan Royals
               </div>
             </div>
@@ -3261,7 +3344,7 @@ div[style*="border: 1px solid #CBD5E1"] {
 
           <!-- OPTION B BATTERS TABLE -->
           <div style="margin-bottom: 24px;">
-            <div style="font-size: 13px; font-weight: 800; color: var(--rr-navy); margin-bottom: 6px;">
+            <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin-bottom: 6px;">
               Option B Batters Shortlist (Top 10 Actionable)
             </div>
             <div class="table-container">
@@ -3289,7 +3372,7 @@ div[style*="border: 1px solid #CBD5E1"] {
 
           <!-- OPTION B BOWLERS TABLE -->
           <div style="margin-bottom: 24px;">
-            <div style="font-size: 13px; font-weight: 800; color: var(--rr-navy); margin-bottom: 6px;">
+            <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin-bottom: 6px;">
               Option B Bowlers Shortlist (Top 10 Actionable)
             </div>
             <div class="table-container">
@@ -3317,7 +3400,7 @@ div[style*="border: 1px solid #CBD5E1"] {
 
           <!-- TARGET POOL TABLE -->
           <div>
-            <div style="font-size: 13px; font-weight: 800; color: var(--rr-navy); margin-bottom: 2px;">
+            <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin-bottom: 2px;">
               Uncontracted Target Pool (Direct Auction Targets)
             </div>
             <div id="targets-source-label" style="font-size: 11px; color: var(--rr-text-muted); margin-bottom: 8px;">
@@ -3363,13 +3446,13 @@ div[style*="border: 1px solid #CBD5E1"] {
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #F8FAFC; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
                 <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Role</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
                 <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
@@ -3377,7 +3460,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Nationality / Overseas</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
                 <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
@@ -3385,7 +3468,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Auction Availability</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
                 <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
@@ -3394,7 +3477,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--rr-navy); margin-bottom: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
                   <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
@@ -3446,13 +3529,13 @@ div[style*="border: 1px solid #CBD5E1"] {
               </div>
             </div>
             <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 11px; font-weight: 700; color: var(--rr-navy);">Stability Threshold:</span>
+              <span style="font-size: 11px; font-weight: 700; color: #F8FAFC;">Stability Threshold:</span>
               <span id="d2-slider-val" class="font-mono font-bold" style="color: var(--rr-pink); font-size: 13px;">50%</span>
             </div>
           </div>
 
           <!-- D2 STABILITY SLIDER -->
-          <div style="background: #F8FAFC; border: 1px solid var(--rr-border); border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;">
+          <div style="background: #091A33; border: 1px solid var(--rr-border); border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;">
             <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--rr-text-muted); margin-bottom: 6px;">
               <span>10% (Permissive)</span>
               <span>Default: 50%</span>
@@ -3478,13 +3561,13 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </div>
               </div>
               <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 11px; font-weight: 700; color: var(--rr-navy);">Pool Stability Threshold:</span>
+                <span style="font-size: 11px; font-weight: 700; color: #F8FAFC;">Pool Stability Threshold:</span>
                 <span id="pool-slider-val" class="font-mono font-bold" style="color: var(--rr-pink); font-size: 13px;">35%</span>
               </div>
             </div>
 
             <!-- POOL SLIDER -->
-            <div style="background: #F8FAFC; border: 1px solid var(--rr-border); border-radius: 8px; padding: 12px 16px; margin-bottom: 16px;">
+            <div style="background: #091A33; border: 1px solid var(--rr-border); border-radius: 8px; padding: 12px 16px; margin-bottom: 16px;">
               <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--rr-text-muted); margin-bottom: 6px;">
                 <span>10% (All Uncontracted)</span>
                 <span>Default: 35%</span>
@@ -3541,17 +3624,17 @@ div[style*="border: 1px solid #CBD5E1"] {
               <strong>Ranks 4 to 10 Tier Clustering:</strong> Model scores between Rank 4 (0.438, Babar Azam) and Rank 10 (0.322, Harry Brook) form a narrow band. The exact sequence shifts across resamples; Rajasthan Royals should treat them as an interchangeable cohort.
             </div>
 
-            <div style="background: #F8FAFC; border: 1px solid var(--rr-border); border-radius: 8px; padding: 14px;">
-              <h4 style="font-size: 13px; font-weight: 800; color: var(--rr-navy); margin-bottom: 6px;">Known Model Limitations</h4>
-              <ul style="padding-left: 20px; font-size: 12px; color: #334155; display: flex; flex-direction: column; gap: 6px;">
+            <div style="background: #091A33; border: 1px solid var(--rr-border); border-radius: 8px; padding: 14px;">
+              <h4 style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin-bottom: 6px;">Known Model Limitations</h4>
+              <ul style="padding-left: 20px; font-size: 12px; color: #CBD5E1; display: flex; flex-direction: column; gap: 6px;">
                 <li><strong>Innings Asymmetry:</strong> 2nd innings (chase) win probability model achieves AUC 0.89 (Brier score 0.137) with high confidence. 1st innings model achieves AUC 0.68 due to target unobservability and pitch variance.</li>
                 <li><strong>Batter-Bowler Matchups:</strong> batter-bowler matchups are not modelled (opposition quality enters only through a leave-one-match-out rating).</li>
                 <li><strong>Small-Sample Volatility:</strong> Players with 150-250 balls carry larger bootstrap confidence intervals than 500+ ball veterans. Empirical-Bayes shrinkage penalizes small samples, but tournament-to-tournament variance remains.</li>
               </ul>
             </div>
 
-            <div style="background: #FFFFFF; border: 1px dashed var(--rr-border); border-radius: 8px; padding: 14px;">
-              <h4 style="font-size: 13px; font-weight: 800; color: var(--rr-navy); margin-bottom: 4px;">RR Tactical Insights Placeholder</h4>
+            <div style="background: #08162B; border: 1px dashed var(--rr-border); border-radius: 8px; padding: 14px;">
+              <h4 style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin-bottom: 4px;">RR Tactical Insights Placeholder</h4>
               <div style="font-size: 12px; color: var(--rr-text-muted); font-style: italic;">
                 [Write your own insight: Rajasthan Royals tactical perspective on target trade-offs, auction purse allocation, and depth requirements...]
               </div>
@@ -3575,13 +3658,13 @@ div[style*="border: 1px solid #CBD5E1"] {
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #F8FAFC; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
                 <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Role</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
                 <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
@@ -3589,7 +3672,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Nationality / Overseas</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
                 <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
@@ -3597,7 +3680,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Auction Availability</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
                 <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
@@ -3606,7 +3689,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--rr-navy); margin-bottom: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
                   <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
@@ -3667,7 +3750,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                     <th style="width: 40px; text-align: center;">#</th>
                     <th>Player / Entity</th>
                     <th>Metric Audited</th>
-                    <th style="text-align: right; color: var(--rr-navy);">Displayed Value</th>
+                    <th style="text-align: right; color: #F8FAFC;">Displayed Value</th>
                     <th>Primary Source File</th>
                     <th>Sheet / Column</th>
                     <th>Cell / Coordinate</th>
@@ -3698,13 +3781,13 @@ div[style*="border: 1px solid #CBD5E1"] {
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #F8FAFC; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
                 <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Role</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
                 <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
@@ -3712,7 +3795,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Nationality / Overseas</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
                 <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
@@ -3720,7 +3803,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: var(--rr-navy); display: block; margin-bottom: 4px;">Auction Availability</label>
+                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
                 <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
@@ -3729,7 +3812,7 @@ div[style*="border: 1px solid #CBD5E1"] {
                 </select>
               </div>
               <div>
-                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--rr-navy); margin-bottom: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
                   <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
@@ -3790,26 +3873,26 @@ div[style*="border: 1px solid #CBD5E1"] {
           </div>
 
           <!-- CONTROLS PANEL -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; background: #F8FAFC; padding: 18px; border-radius: 8px; border: 1px solid #E2E8F0; margin-bottom: 20px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; background: #091A33; padding: 18px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 20px;">
             <div>
-              <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--rr-navy); margin-bottom: 6px;">1. Select Striker (Batter)</label>
-              <select id="duel-striker-select" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #CBD5E1; font-weight: 600; font-size: 13px; background: #fff;" onchange="updateDuelInputs()">
+              <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #F8FAFC; margin-bottom: 6px;">1. Select Striker (Batter)</label>
+              <select id="duel-striker-select" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08); font-weight: 600; font-size: 13px; background: #08162B;" onchange="updateDuelInputs()">
                 <!-- Populated dynamically -->
               </select>
               <div id="duel-striker-meta" style="font-size: 11px; color: var(--rr-text-muted); margin-top: 4px;">Loading profile...</div>
             </div>
 
             <div>
-              <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--rr-navy); margin-bottom: 6px;">2. Select Bowler</label>
-              <select id="duel-bowler-select" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #CBD5E1; font-weight: 600; font-size: 13px; background: #fff;" onchange="updateDuelInputs()">
+              <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #F8FAFC; margin-bottom: 6px;">2. Select Bowler</label>
+              <select id="duel-bowler-select" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08); font-weight: 600; font-size: 13px; background: #08162B;" onchange="updateDuelInputs()">
                 <!-- Populated dynamically -->
               </select>
               <div id="duel-bowler-meta" style="font-size: 11px; color: var(--rr-text-muted); margin-top: 4px;">Loading profile...</div>
             </div>
 
             <div>
-              <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--rr-navy); margin-bottom: 6px;">3. Match Scenario</label>
-              <select id="duel-scenario-select" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #CBD5E1; font-weight: 600; font-size: 13px; background: #fff;" onchange="onDuelScenarioChange()">
+              <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #F8FAFC; margin-bottom: 6px;">3. Match Scenario</label>
+              <select id="duel-scenario-select" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08); font-weight: 600; font-size: 13px; background: #08162B;" onchange="onDuelScenarioChange()">
                 <option value="death_14_6">Over 19: 14 needed off 6 balls (3 wkts left)</option>
                 <option value="super_over">Super Over: 16 needed off 6 balls (2 wkts left)</option>
                 <option value="powerplay_10_6">Over 4: 10 needed off 6 balls (Field restrictions)</option>
@@ -3828,23 +3911,23 @@ div[style*="border: 1px solid #CBD5E1"] {
           </div>
 
           <!-- CUSTOM SLIDERS (HIDDEN UNLESS CUSTOM) -->
-          <div id="duel-custom-controls" style="display: none; grid-template-columns: 1fr 1fr 1fr; gap: 16px; background: #F1F5F9; padding: 14px 18px; border-radius: 8px; margin-bottom: 20px;">
+          <div id="duel-custom-controls" style="display: none; grid-template-columns: 1fr 1fr 1fr; gap: 16px; background: rgba(255, 255, 255, 0.05); padding: 14px 18px; border-radius: 8px; margin-bottom: 20px;">
             <div>
-              <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--rr-navy);">
+              <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: #F8FAFC;">
                 <span>Target Runs:</span>
                 <span id="duel-custom-runs-val" class="font-mono text-rrPink font-bold">14</span>
               </div>
               <input type="range" id="duel-custom-runs" min="4" max="28" value="14" step="1" style="width: 100%; accent-color: var(--rr-pink);" oninput="document.getElementById('duel-custom-runs-val').innerText = this.value">
             </div>
             <div>
-              <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--rr-navy);">
+              <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: #F8FAFC;">
                 <span>Balls Remaining:</span>
                 <span id="duel-custom-balls-val" class="font-mono text-rrPink font-bold">6</span>
               </div>
               <input type="range" id="duel-custom-balls" min="6" max="12" value="6" step="1" style="width: 100%; accent-color: var(--rr-pink);" oninput="document.getElementById('duel-custom-balls-val').innerText = this.value">
             </div>
             <div>
-              <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--rr-navy);">
+              <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: #F8FAFC;">
                 <span>Wickets in Hand:</span>
                 <span id="duel-custom-wkts-val" class="font-mono text-rrPink font-bold">3</span>
               </div>
@@ -3881,10 +3964,10 @@ div[style*="border: 1px solid #CBD5E1"] {
             <!-- VISUAL LIVE SAMPLE OVER & RUNS DISTRIBUTION -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
               <!-- LIVE SAMPLE OVER -->
-              <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 18px;">
+              <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 18px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #F1F5F9; padding-bottom: 8px;">
-                  <span style="font-weight: 700; font-size: 13px; color: var(--rr-navy);">🎙️ Live Sample Over Ball-by-Ball Ticker</span>
-                  <button onclick="reRollSampleOver()" style="background: none; border: 1px solid #CBD5E1; border-radius: 4px; padding: 2px 8px; font-size: 11px; cursor: pointer; color: var(--rr-navy);">🎲 Re-Roll Over</button>
+                  <span style="font-weight: 700; font-size: 13px; color: #F8FAFC;">🎙️ Live Sample Over Ball-by-Ball Ticker</span>
+                  <button onclick="reRollSampleOver()" style="background: none; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 2px 8px; font-size: 11px; cursor: pointer; color: #F8FAFC;">🎲 Re-Roll Over</button>
                 </div>
                 <div id="duel-sample-balls-container" style="display: flex; flex-direction: column; gap: 8px;">
                   <!-- Dynamic balls -->
@@ -3895,9 +3978,9 @@ div[style*="border: 1px solid #CBD5E1"] {
               </div>
 
               <!-- RUNS DISTRIBUTION CHART -->
-              <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 18px;">
+              <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 18px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #F1F5F9; padding-bottom: 8px;">
-                  <span style="font-weight: 700; font-size: 13px; color: var(--rr-navy);">📊 Over Runs Distribution (1,000 Sims)</span>
+                  <span style="font-weight: 700; font-size: 13px; color: #F8FAFC;">📊 Over Runs Distribution (1,000 Sims)</span>
                   <span style="font-size: 11px; color: var(--rr-pink); font-weight: 600;">Target Cutoff Highlighted</span>
                 </div>
                 <div id="duel-histogram-svg-container" style="width: 100%; height: 210px; display: flex; align-items: center; justify-content: center;">
@@ -3926,32 +4009,32 @@ div[style*="border: 1px solid #CBD5E1"] {
 
           <!-- KEY CHOKEPOINT CALLOUTS -->
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 24px;">
-            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-left: 4px solid #64748B; border-radius: 8px; padding: 14px;">
+            <div style="background: #091A33; border: 1px solid rgba(255, 255, 255, 0.08); border-left: 4px solid #64748B; border-radius: 8px; padding: 14px;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: 800; color: var(--rr-navy); font-size: 13px;">Babar Azam: Pace vs Spin Split</span>
-                <span class="badge" style="background: #E2E8F0; color: #475569;">Sample Caveat</span>
+                <span style="font-weight: 800; color: #F8FAFC; font-size: 13px;">Babar Azam: Pace vs Spin Split</span>
+                <span class="badge" style="background: #E2E8F0; color: #94A3B8;">Sample Caveat</span>
               </div>
-              <p style="font-size: 12px; color: #475569; margin: 8px 0 0 0; line-height: 1.4;">
+              <p style="font-size: 12px; color: #94A3B8; margin: 8px 0 0 0; line-height: 1.4;">
                 Pace Net/100: +47.43 (SR 182.1, 145 balls, &plusmn;20.0 SE) vs Spin Net/100: -20.02 (SR 120.0, 75 balls, &plusmn;25.3 SE). <em>Note: Spin sample is limited (&lt;100 balls) with wider standard error.</em>
               </p>
             </div>
 
-            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-left: 4px solid #64748B; border-radius: 8px; padding: 14px;">
+            <div style="background: #091A33; border: 1px solid rgba(255, 255, 255, 0.08); border-left: 4px solid #64748B; border-radius: 8px; padding: 14px;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: 800; color: var(--rr-navy); font-size: 13px;">Shubman Gill: Pace vs Spin Split</span>
-                <span class="badge" style="background: #DCFCE7; color: #15803D;">Adequate Sample</span>
+                <span style="font-weight: 800; color: #F8FAFC; font-size: 13px;">Shubman Gill: Pace vs Spin Split</span>
+                <span class="badge" style="background: rgba(16, 185, 129, 0.12); color: #15803D;">Adequate Sample</span>
               </div>
-              <p style="font-size: 12px; color: #475569; margin: 8px 0 0 0; line-height: 1.4;">
+              <p style="font-size: 12px; color: #94A3B8; margin: 8px 0 0 0; line-height: 1.4;">
                 Spin Net/100: +45.12 (SR 169.7, 201 balls, &plusmn;13.8 SE) vs Pace Net/100: -1.20 (SR 149.6, 363 balls, &plusmn;12.9 SE). Strong positive execution against spin compared to high-pressure pace.
               </p>
             </div>
 
-            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-left: 4px solid #64748B; border-radius: 8px; padding: 14px;">
+            <div style="background: #091A33; border: 1px solid rgba(255, 255, 255, 0.08); border-left: 4px solid #64748B; border-radius: 8px; padding: 14px;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: 800; color: var(--rr-navy); font-size: 13px;">Phil Salt: Pace vs Spin Balance</span>
-                <span class="badge" style="background: #DCFCE7; color: #15803D;">Adequate Sample</span>
+                <span style="font-weight: 800; color: #F8FAFC; font-size: 13px;">Phil Salt: Pace vs Spin Balance</span>
+                <span class="badge" style="background: rgba(16, 185, 129, 0.12); color: #15803D;">Adequate Sample</span>
               </div>
-              <p style="font-size: 12px; color: #475569; margin: 8px 0 0 0; line-height: 1.4;">
+              <p style="font-size: 12px; color: #94A3B8; margin: 8px 0 0 0; line-height: 1.4;">
                 Pace Net/100: +36.93 (SR 173.7, 224 balls, &plusmn;16.7 SE) vs Spin Net/100: +36.69 (SR 179.1, 115 balls, &plusmn;23.6 SE). Demonstrates closely matched returns across bowling types.
               </p>
             </div>
@@ -3959,7 +4042,7 @@ div[style*="border: 1px solid #CBD5E1"] {
 
           <!-- BATTER PACE VS SPIN TABLE -->
           <div class="mb-8">
-            <h3 style="font-size: 15px; font-weight: 700; color: var(--rr-navy); margin-bottom: 10px;">Batter Pace vs Spin Split Matrix</h3>
+            <h3 style="font-size: 15px; font-weight: 700; color: #F8FAFC; margin-bottom: 10px;">Batter Pace vs Spin Split Matrix</h3>
             <div class="table-container">
               <div class="table-scroll">
                 <table class="scorecard-table font-mono" id="tactics-bat-table">
@@ -3986,7 +4069,7 @@ div[style*="border: 1px solid #CBD5E1"] {
           <!-- BOWLER 3-PHASE DEPLOYMENT HEATMAP -->
           <div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-              <h3 style="font-size: 15px; font-weight: 700; color: var(--rr-navy); margin: 0;">Bowler Phase Deployment Heatmap (PP, Middle, Death)</h3>
+              <h3 style="font-size: 15px; font-weight: 700; color: #F8FAFC; margin: 0;">Bowler Phase Deployment Heatmap (PP, Middle, Death)</h3>
               <div style="display: flex; gap: 8px; font-size: 11px;">
                 <span style="display: inline-flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; background: #BBF7D0; border-radius: 2px;"></span> &ge;+25 Runs (Elite)</span>
                 <span style="display: inline-flex; align-items: center; gap: 4px;"><span style="width: 10px; height: 10px; background: #FEF08A; border-radius: 2px;"></span> 0 to +25 (Solid)</span>
@@ -4037,52 +4120,52 @@ div[style*="border: 1px solid #CBD5E1"] {
           </div>
 
           <!-- 5-GATE FUNNEL EXPLAINER -->
-          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
-            <h3 style="font-size: 15px; font-weight: 800; color: var(--rr-navy); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+          <div style="background: #091A33; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+            <h3 style="font-size: 15px; font-weight: 800; color: #F8FAFC; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
               <span>🛡️ The 5-Gate IIT Data Science Selection Protocol</span>
               <span style="font-size: 11px; background: #E0E7FF; color: #3730A3; padding: 2px 8px; border-radius: 4px; font-weight: normal;">Surpassing Generic Submissions</span>
             </h3>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
-              <div style="background: #FFFFFF; border: 1px solid #CBD5E1; border-top: 3px solid #3B82F6; border-radius: 6px; padding: 12px;">
+              <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-top: 3px solid #3B82F6; border-radius: 6px; padding: 12px;">
                 <div style="font-size: 11px; font-weight: 800; color: #1E40AF;">GATE 1: SAMPLE FILTER</div>
-                <div style="font-size: 13px; font-weight: 700; color: var(--rr-navy); margin: 4px 0;">N &ge; 100, N_hp &ge; 30</div>
+                <div style="font-size: 13px; font-weight: 700; color: #F8FAFC; margin: 4px 0;">N &ge; 100, N_hp &ge; 30</div>
                 <p style="font-size: 11px; color: var(--rr-text-muted); margin: 0; line-height: 1.3;">Eliminates small-sample anomalies from 2,897 players down to 411 qualified contenders.</p>
               </div>
 
-              <div style="background: #FFFFFF; border: 1px solid #CBD5E1; border-top: 3px solid var(--rr-pink); border-radius: 6px; padding: 12px;">
+              <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-top: 3px solid var(--rr-pink); border-radius: 6px; padding: 12px;">
                 <div style="font-size: 11px; font-weight: 800; color: var(--rr-pink);">GATE 2: EB SHRINKAGE</div>
-                <div style="font-size: 13px; font-weight: 700; color: var(--rr-navy); margin: 4px 0;">4-Pillar Convergence</div>
+                <div style="font-size: 13px; font-weight: 700; color: #F8FAFC; margin: 4px 0;">4-Pillar Convergence</div>
                 <p style="font-size: 11px; color: var(--rr-text-muted); margin: 0; line-height: 1.3;">Net (35%), WPA (30%), Delta (20%), Consistency (15%) shrunk toward empirical priors.</p>
               </div>
 
-              <div style="background: #FFFFFF; border: 1px solid #CBD5E1; border-top: 3px solid #F59E0B; border-radius: 6px; padding: 12px;">
+              <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-top: 3px solid #F59E0B; border-radius: 6px; padding: 12px;">
                 <div style="font-size: 11px; font-weight: 800; color: #B45309;">GATE 3: OPP QUALITY</div>
-                <div style="font-size: 13px; font-weight: 700; color: var(--rr-navy); margin: 4px 0;">Leave-One-Out Scaling</div>
+                <div style="font-size: 13px; font-weight: 700; color: #F8FAFC; margin: 4px 0;">Leave-One-Out Scaling</div>
                 <p style="font-size: 11px; color: var(--rr-text-muted); margin: 0; line-height: 1.3;">Penalizes associate flat-track bully stats; rewards executions against Bumrah/Narine.</p>
               </div>
 
-              <div style="background: #FFFFFF; border: 1px solid #CBD5E1; border-top: 3px solid #10B981; border-radius: 6px; padding: 12px;">
+              <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-top: 3px solid #10B981; border-radius: 6px; padding: 12px;">
                 <div style="font-size: 11px; font-weight: 800; color: #047857;">GATE 4: ACTIONABILITY</div>
-                <div style="font-size: 13px; font-weight: 700; color: var(--rr-navy); margin: 4px 0;">IPL Operational Gate</div>
+                <div style="font-size: 13px; font-weight: 700; color: #F8FAFC; margin: 4px 0;">IPL Operational Gate</div>
                 <p style="font-size: 11px; color: var(--rr-text-muted); margin: 0; line-height: 1.3;">Replaces Pakistan/retired players with actionable targets: Brook &amp; Mohit enter Top 10.</p>
               </div>
 
-              <div style="background: #FFFFFF; border: 1px solid #CBD5E1; border-top: 3px solid #8B5CF6; border-radius: 6px; padding: 12px;">
+              <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-top: 3px solid #8B5CF6; border-radius: 6px; padding: 12px;">
                 <div style="font-size: 11px; font-weight: 800; color: #6D28D9;">GATE 5: BOOTSTRAP</div>
-                <div style="font-size: 13px; font-weight: 700; color: var(--rr-navy); margin: 4px 0;">300 Resample Stress</div>
+                <div style="font-size: 13px; font-weight: 700; color: #F8FAFC; margin: 4px 0;">300 Resample Stress</div>
                 <p style="font-size: 11px; color: var(--rr-text-muted); margin: 0; line-height: 1.3;">Verifies order stability: Narine (93%), Salt (82%), Surya (76%) verified core.</p>
               </div>
             </div>
           </div>
 
           <!-- THE SUPERSTAR PARADOX EXPLAINER -->
-          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-left: 4px solid var(--rr-navy); border-radius: 8px; padding: 18px; margin-bottom: 24px;">
+          <div style="background: #091A33; border: 1px solid rgba(255, 255, 255, 0.08); border-left: 4px solid var(--rr-navy); border-radius: 8px; padding: 18px; margin-bottom: 24px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span style="font-weight: 800; font-size: 14px; color: var(--rr-navy);">Analysis of Jasprit Bumrah (Rank #24 Adjusted • Rank #26 Original)</span>
-              <span class="badge" style="background: #E2E8F0; color: #475569;">Untested Cause</span>
+              <span style="font-weight: 800; font-size: 14px; color: #F8FAFC;">Analysis of Jasprit Bumrah (Rank #24 Adjusted • Rank #26 Original)</span>
+              <span class="badge" style="background: #E2E8F0; color: #94A3B8;">Untested Cause</span>
             </div>
-            <p style="font-size: 12px; line-height: 1.5; color: #334155; margin: 0;">
+            <p style="font-size: 12px; line-height: 1.5; color: #CBD5E1; margin: 0;">
               In high-pressure deliveries (LI &ge; 1.32), Jasprit Bumrah has <strong>506 deliveries</strong>, with <strong>42.2% dot balls</strong>, a batter strike rate of <strong>125.4</strong>, and <strong>20 wickets</strong> against <strong>27.8 expected</strong>. His pressure value is <strong>+15.73 Net/100</strong>, while his ordinary-level gap (Delta) is <strong>-11.19</strong>. While one possible explanation is that opposing batters adopt an unusually risk-averse approach against him, <em>the underlying cause (e.g. batter risk aversion vs. match state vs. execution) is untested in the data pack</em>.
             </p>
           </div>
@@ -4090,25 +4173,25 @@ div[style*="border: 1px solid #CBD5E1"] {
           <!-- ONE-CLICK UNSTOP SUBMISSION FORMATTERS -->
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
             <!-- TOP 10 BATTERS BOX -->
-            <div style="background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; padding: 18px;">
+            <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 18px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h4 style="font-size: 13px; font-weight: 800; color: var(--rr-navy); margin: 0;">🏆 Top 10 Batters (Unstop Submission Formatted)</h4>
+                <h4 style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin: 0;">🏆 Top 10 Batters (Unstop Submission Formatted)</h4>
                 <button onclick="copySubmissionText('bat')" class="btn-header-action" style="background: #10B981; color: #fff; padding: 4px 10px; font-size: 11px;">
                   📋 Copy Batters Text
                 </button>
               </div>
-              <textarea id="unstop-bat-text" readonly style="width: 100%; height: 260px; font-family: monospace; font-size: 11px; padding: 10px; border-radius: 6px; border: 1px solid #E2E8F0; background: #F8FAFC; resize: none;"></textarea>
+              <textarea id="unstop-bat-text" readonly style="width: 100%; height: 260px; font-family: monospace; font-size: 11px; padding: 10px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08); background: #091A33; resize: none;"></textarea>
             </div>
 
             <!-- TOP 10 BOWLERS BOX -->
-            <div style="background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; padding: 18px;">
+            <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 18px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h4 style="font-size: 13px; font-weight: 800; color: var(--rr-navy); margin: 0;">🎯 Top 10 Bowlers (Unstop Submission Formatted)</h4>
+                <h4 style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin: 0;">🎯 Top 10 Bowlers (Unstop Submission Formatted)</h4>
                 <button onclick="copySubmissionText('bowl')" class="btn-header-action" style="background: #10B981; color: #fff; padding: 4px 10px; font-size: 11px;">
                   📋 Copy Bowlers Text
                 </button>
               </div>
-              <textarea id="unstop-bowl-text" readonly style="width: 100%; height: 260px; font-family: monospace; font-size: 11px; padding: 10px; border-radius: 6px; border: 1px solid #E2E8F0; background: #F8FAFC; resize: none;"></textarea>
+              <textarea id="unstop-bowl-text" readonly style="width: 100%; height: 260px; font-family: monospace; font-size: 11px; padding: 10px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08); background: #091A33; resize: none;"></textarea>
             </div>
           </div>
         </div>
@@ -4129,7 +4212,7 @@ div[style*="border: 1px solid #CBD5E1"] {
     </div>
 
     <div class="drawer-body">
-      <div style="display: flex; justify-content: space-between; align-items: center; background: #F8FAFC; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--rr-border); font-size: 12px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; background: #091A33; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--rr-border); font-size: 12px;">
         <span style="color: var(--rr-text-muted);">Shortlist Capacity:</span>
         <span class="font-mono font-bold" id="shortlist-count-display">0 / 10 Players</span>
       </div>
@@ -4141,7 +4224,7 @@ div[style*="border: 1px solid #CBD5E1"] {
       <div style="margin-top: auto; border-top: 1px solid var(--rr-border); padding-top: 14px; display: flex; flex-direction: column; gap: 8px;">
         <div style="display: flex; gap: 8px;">
           <button onclick="exportShortlistCSV()" class="btn-header-action" style="flex: 1; justify-content: center; background: var(--rr-navy); color: #FFFFFF;">Export CSV</button>
-          <button onclick="exportShortlistJSON()" class="btn-header-action" style="flex: 1; justify-content: center; background: #F1F5F9; color: var(--rr-text); border-color: var(--rr-border);">Export JSON</button>
+          <button onclick="exportShortlistJSON()" class="btn-header-action" style="flex: 1; justify-content: center; background: rgba(255, 255, 255, 0.05); color: var(--rr-text); border-color: var(--rr-border);">Export JSON</button>
         </div>
         <button onclick="clearShortlist()" class="btn-header-action" style="justify-content: center; background: transparent; color: #EF4444; border-color: #FECACA;">Clear Shortlist</button>
       </div>
@@ -4892,7 +4975,7 @@ function renderD2DecisionCards() {
   cards.forEach(c => {
     const p = c.player;
     const cardEl = document.createElement('div');
-    cardEl.style = `background: #FFFFFF; border: 2px solid ${c.border}; border-radius: 12px; padding: 18px; box-shadow: 0 4px 14px rgba(11,31,75,0.06); display: flex; flex-direction: column; justify-content: space-between;`;
+    cardEl.style = `background: #08162B; border: 2px solid ${c.border}; border-radius: 12px; padding: 18px; box-shadow: 0 4px 14px rgba(11,31,75,0.06); display: flex; flex-direction: column; justify-content: space-between;`;
 
     if (!p) {
       cardEl.innerHTML = `
@@ -4921,7 +5004,7 @@ function renderD2DecisionCards() {
             <span class="pill-competition" style="background: ${c.bg}; color: ${c.color}; border-color: ${c.border}; font-size: 9px;">
               ${c.title}
             </span>
-            <h3 style="font-size: 18px; font-weight: 900; color: var(--rr-navy); margin-top: 4px; display: flex; align-items: center; gap: 6px;">
+            <h3 style="font-size: 18px; font-weight: 900; color: #F8FAFC; margin-top: 4px; display: flex; align-items: center; gap: 6px;">
               <span>${getFlag(p.nationality)}</span>
               <span>${p.name}</span>
             </h3>
@@ -4933,14 +5016,14 @@ function renderD2DecisionCards() {
             <div class="score-chip" style="font-size: 13px; color: ${c.color}; background: ${c.bg};">
               Score: ${p.adjusted_score.toFixed(3)}
             </div>
-            <div style="font-size: 10px; font-weight: 700; color: var(--rr-navy); margin-top: 4px;">
+            <div style="font-size: 10px; font-weight: 700; color: #F8FAFC; margin-top: 4px;">
               Stability: <span class="font-mono font-bold" style="color: var(--rr-pink);">${stabPct}%</span>
             </div>
           </div>
         </div>
 
-        <div style="margin: 12px 0; padding: 10px 12px; background: #F8FAFC; border-radius: 8px; font-size: 11px; line-height: 1.4; border: 1px solid var(--rr-border);">
-          <div style="font-weight: 700; color: var(--rr-navy); margin-bottom: 2px;">Contract / Franchise Status</div>
+        <div style="margin: 12px 0; padding: 10px 12px; background: #091A33; border-radius: 8px; font-size: 11px; line-height: 1.4; border: 1px solid var(--rr-border);">
+          <div style="font-weight: 700; color: #F8FAFC; margin-bottom: 2px;">Contract / Franchise Status</div>
           <div>${p.status || (p.ipl2026 ? `Contracted 2026 (${p.ipl2026}); retention pending` : 'Not in an IPL 2026 squad')}</div>
           <div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 10px; font-family: var(--font-mono); font-size: 10px; color: var(--rr-text-muted); border-top: 1px solid var(--rr-border); padding-top: 4px;">
             <span>Net HP: <strong style="color: var(--rr-pink);" title="Exact net_hp: ${p.net_hp.toFixed(3)}">${p.net_hp > 0 ? '+' : ''}${p.net_hp.toFixed(2)}</strong></span>
@@ -4953,7 +5036,7 @@ function renderD2DecisionCards() {
 
       <div style="border-top: 1px dashed var(--rr-border); padding-top: 10px; margin-top: 8px;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <span style="font-size: 10px; font-weight: 700; color: var(--rr-navy);">RR Selector Inputs</span>
+          <span style="font-size: 10px; font-weight: 700; color: #F8FAFC;">RR Selector Inputs</span>
           <button class="star-btn ${isStarred ? 'starred' : ''}" style="font-size: 14px;" data-pname="${p.name}" onclick="toggleShortlist(this.dataset.pname)">★ ${isStarred ? 'Shortlisted' : 'Shortlist'}</button>
         </div>
         <input type="text" placeholder="Target Price Band (e.g. ₹8-10 Cr)" class="font-mono" style="width: 100%; padding: 5px 8px; font-size: 11px; border: 1px solid var(--rr-border); border-radius: 5px; margin-bottom: 4px;" value="${priceVal}" data-key="${priceKey}" onchange="saveUserInput(this.dataset.key, this.value)">
@@ -4980,7 +5063,7 @@ function renderPoolTargetsCard() {
 
   if (pool.length === 0) {
     container.innerHTML = `
-      <div style="grid-column: 1 / -1; padding: 24px; text-align: center; color: var(--rr-text-muted); font-size: 12px; background: #F8FAFC; border-radius: 8px; border: 1px dashed var(--rr-border);">
+      <div style="grid-column: 1 / -1; padding: 24px; text-align: center; color: var(--rr-text-muted); font-size: 12px; background: #091A33; border-radius: 8px; border: 1px dashed var(--rr-border);">
         No uncontracted players meet the stability threshold of ${state.poolStability}%. Lower threshold to see pool targets.
       </div>
     `;
@@ -4989,7 +5072,7 @@ function renderPoolTargetsCard() {
 
   pool.forEach(p => {
     const cardEl = document.createElement('div');
-    cardEl.style = 'background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; transition: border-color 150ms ease;';
+    cardEl.style = 'background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; transition: border-color 150ms ease;';
     cardEl.onmouseover = () => cardEl.style.borderColor = 'var(--rr-pink)';
     cardEl.onmouseout = () => cardEl.style.borderColor = 'var(--rr-border)';
 
@@ -4998,7 +5081,7 @@ function renderPoolTargetsCard() {
 
     let labelHtml = '';
     if (p.name === 'Taskin Ahmed') {
-      labelHtml = '<span style="background: #FFFBEB; color: #B45309; border: 1px solid #FDE68A; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 11px; display: inline-block;">no IPL squad listing; auction entry uncertain</span>';
+      labelHtml = '<span style="background: #FFFBEB; color: #B45309; border: 1px solid rgba(245, 158, 11, 0.35); padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 11px; display: inline-block;">no IPL squad listing; auction entry uncertain</span>';
     } else {
       labelHtml = `<span style="color: var(--rr-text-muted); font-size: 11px; display: block;">${p.status || 'Not in an IPL 2026 squad - could reach the auction pool'}</span>`;
     }
@@ -5010,7 +5093,7 @@ function renderPoolTargetsCard() {
             <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--rr-pink);">
               ${p.role === 'bat' ? 'Batter' : 'Bowler'} &bull; ${getFlag(p.nationality)} ${p.nationality}
             </div>
-            <h4 style="font-size: 16px; font-weight: 900; color: var(--rr-navy); margin-top: 2px; cursor: pointer;" data-pname="${p.name}" onclick="openPlayerProfile(this.dataset.pname)">
+            <h4 style="font-size: 16px; font-weight: 900; color: #F8FAFC; margin-top: 2px; cursor: pointer;" data-pname="${p.name}" onclick="openPlayerProfile(this.dataset.pname)">
               ${p.name}
             </h4>
             <div style="font-size: 11px; color: var(--rr-text-muted);">
@@ -5021,7 +5104,7 @@ function renderPoolTargetsCard() {
             <span class="score-chip" style="font-size: 12px; color: var(--rr-pink); background: var(--rr-pink-light);">
               ${p.adjusted_score.toFixed(3)}
             </span>
-            <div style="font-size: 10px; font-weight: 700; color: var(--rr-navy); margin-top: 3px;">
+            <div style="font-size: 10px; font-weight: 700; color: #F8FAFC; margin-top: 3px;">
               Stability: <span class="font-mono font-bold">${stabPct}%</span>
             </div>
           </div>
@@ -5033,7 +5116,7 @@ function renderPoolTargetsCard() {
       </div>
 
       <div style="border-top: 1px solid #F1F5F9; padding-top: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-family: var(--font-mono);">
-        <div style="color: #475569;">
+        <div style="color: #94A3B8;">
           Net HP: <strong style="color: var(--rr-pink);" title="Exact net_hp: ${p.net_hp.toFixed(3)}">${p.net_hp > 0 ? '+' : ''}${p.net_hp.toFixed(2)}</strong> &bull; Delta: <strong title="Exact delta: ${p.delta.toFixed(3)}">${p.delta > 0 ? '+' : ''}${p.delta.toFixed(2)}</strong>
         </div>
         <button class="star-btn ${isStarred ? 'starred' : ''}" style="font-size: 14px;" data-pname="${p.name}" onclick="toggleShortlist(this.dataset.pname)">★</button>
@@ -5202,7 +5285,7 @@ function renderLeaderboards() {
         <span class="rank-chip ${chipClass}">${p.rank}</span>
       </td>
       <td class="sticky-col-player">
-        <span style="color: var(--rr-navy); font-weight: 700;">${p.player}</span>${origTag}
+        <span style="color: #F8FAFC; font-weight: 700;">${p.player}</span>${origTag}
       </td>
       <td class="tabular" style="text-align: right;">${p.hp_balls}</td>
       <td class="tabular" style="text-align: right;">${p.hp_runs}</td>
@@ -5244,7 +5327,7 @@ function renderLeaderboards() {
         <span class="rank-chip ${chipClass}">${p.rank}</span>
       </td>
       <td class="sticky-col-player">
-        <div style="color: var(--rr-navy); font-weight: 700;">${p.player}${origTag}</div>
+        <div style="color: #F8FAFC; font-weight: 700;">${p.player}${origTag}</div>
         ${noteTag}
       </td>
       <td class="tabular" style="text-align: right;">${p.hp_balls}</td>
@@ -5409,8 +5492,8 @@ function openPlayerProfile(pname) {
     const med = rd.median_rank;
     const hi = rd.rank_hi;
     whiskerHtml = `
-      <div style="background: #F8FAFC; border: 1px solid var(--rr-border); border-radius: 8px; padding: 12px; margin-top: 10px;">
-        <div style="font-size: 11px; font-weight: 700; color: var(--rr-navy); margin-bottom: 6px;">
+      <div style="background: #091A33; border: 1px solid var(--rr-border); border-radius: 8px; padding: 12px; margin-top: 10px;">
+        <div style="font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 6px;">
           Bootstrap Rank Whisker (Rank Range across Resamples)
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 11px; font-family: var(--font-mono); color: var(--rr-text-muted);">
@@ -5437,10 +5520,10 @@ function openPlayerProfile(pname) {
       const pace = psList.find(x => x.pace_or_spin.toLowerCase() === 'pace') || { SR: '-', net_100: 0, balls: 0 };
       const spin = psList.find(x => x.pace_or_spin.toLowerCase() === 'spin') || { SR: '-', net_100: 0, balls: 0 };
       tacticalSplitHtml = `
-        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px; margin-top: 14px;">
-          <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--rr-navy); margin-bottom: 6px;">⚡ Pace vs Spin Chokepoint Split</div>
+        <div style="background: #091A33; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 12px; margin-top: 14px;">
+          <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #F8FAFC; margin-bottom: 6px;">⚡ Pace vs Spin Chokepoint Split</div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 11px;">
-            <div style="background: #EFF6FF; padding: 6px 8px; border-radius: 4px;">
+            <div style="background: rgba(56, 189, 248, 0.08); padding: 6px 8px; border-radius: 4px;">
               <span style="font-weight: bold; color: #1E40AF;">Vs Pace:</span> ${pace.SR} SR | <b style="color: #0284C7;">${pace.net_100 > 0 ? '+' : ''}${pace.net_100.toFixed ? pace.net_100.toFixed(1) : pace.net_100}</b> Net/100
             </div>
             <div style="background: #F5F3FF; padding: 6px 8px; border-radius: 4px;">
@@ -5457,8 +5540,8 @@ function openPlayerProfile(pname) {
       const mid = bpList.find(x => x.phase === 'MID') || { econ: '-', net_100: 0 };
       const death = bpList.find(x => x.phase === 'DEATH') || { econ: '-', net_100: 0 };
       tacticalSplitHtml = `
-        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px; margin-top: 14px;">
-          <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--rr-navy); margin-bottom: 6px;">🎯 3-Phase Deployment Split</div>
+        <div style="background: #091A33; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 12px; margin-top: 14px;">
+          <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #F8FAFC; margin-bottom: 6px;">🎯 3-Phase Deployment Split</div>
           <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; font-size: 10px; text-align: center;">
             <div style="background: rgba(37,99,235,0.08); padding: 4px; border-radius: 4px;">
               <b>PP:</b> Econ ${pp.econ} | ${pp.net_100.toFixed ? pp.net_100.toFixed(1) : pp.net_100}
@@ -5478,13 +5561,13 @@ function openPlayerProfile(pname) {
   bodyEl.innerHTML = `
 
     <!-- HEADER SUMMARY CARD -->
-    <div style="background: #F8FAFC; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px;">
+    <div style="background: #091A33; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start;">
         <div>
           <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--rr-pink);">
             ${p.role === 'bat' ? 'Batter' : 'Bowler'} &bull; ${getFlag(p.nationality)} ${p.nationality}
           </div>
-          <h2 style="font-size: 18px; font-weight: 900; color: var(--rr-navy); margin-top: 2px;">${p.name}</h2>
+          <h2 style="font-size: 18px; font-weight: 900; color: #F8FAFC; margin-top: 2px;">${p.name}</h2>
           <div style="font-size: 12px; color: var(--rr-text-muted); margin-top: 2px;">
             Adjusted Rank: <strong>#${p.adjusted_rank}</strong> &bull; Score: <strong class="font-mono text-rrPink" style="color: var(--rr-pink);">${p.adjusted_score.toFixed(3)}</strong>
           </div>
@@ -5494,14 +5577,14 @@ function openPlayerProfile(pname) {
         </button>
       </div>
 
-      <div style="margin-top: 10px; font-size: 11px; color: #334155; line-height: 1.4; border-top: 1px solid var(--rr-border); padding-top: 8px;">
+      <div style="margin-top: 10px; font-size: 11px; color: #CBD5E1; line-height: 1.4; border-top: 1px solid var(--rr-border); padding-top: 8px;">
         <strong>Contract Status:</strong> ${p.status || 'Contracted 2026; retention pending'}
       </div>
     </div>
 
     <!-- RADAR CHART -->
-    <div style="background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px; text-align: center;">
-      <div style="font-size: 12px; font-weight: 800; color: var(--rr-navy); margin-bottom: 4px;" class="has-tooltip">
+    <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px; text-align: center;">
+      <div style="font-size: 12px; font-weight: 800; color: #F8FAFC; margin-bottom: 4px;" class="has-tooltip">
         Percentile Radar Rank
         <span class="tooltip-box">Computed percentile among same-role qualified players using formula: (count(x &lt; x_i) + 0.5 * count(x == x_i)) / N * 100</span>
       </div>
@@ -5514,8 +5597,8 @@ function openPlayerProfile(pname) {
     </div>
 
     <!-- HP VS NP SITUATIONAL BARS -->
-    <div style="background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px;">
-      <div style="font-size: 12px; font-weight: 800; color: var(--rr-navy); margin-bottom: 8px;">
+    <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px;">
+      <div style="font-size: 12px; font-weight: 800; color: #F8FAFC; margin-bottom: 8px;">
         Situational Split: High Pressure vs Ordinary
       </div>
       <div style="font-size: 11px; display: flex; flex-direction: column; gap: 8px;">
@@ -5524,7 +5607,7 @@ function openPlayerProfile(pname) {
             <span>High Pressure Net (${p.n_hp} balls)</span>
             <span class="font-mono font-bold" style="color: var(--rr-pink);">${p.net_hp > 0 ? '+' : ''}${p.net_hp.toFixed(2)}</span>
           </div>
-          <div style="background: #F1F5F9; height: 8px; border-radius: 4px; overflow: hidden;">
+          <div style="background: rgba(255, 255, 255, 0.05); height: 8px; border-radius: 4px; overflow: hidden;">
             <div style="width: ${hpPct}%; background: var(--rr-pink); height: 100%;"></div>
           </div>
         </div>
@@ -5534,7 +5617,7 @@ function openPlayerProfile(pname) {
             <span>Ordinary Situation Net</span>
             <span class="font-mono font-bold">${p.net_np > 0 ? '+' : ''}${p.net_np.toFixed(2)}</span>
           </div>
-          <div style="background: #F1F5F9; height: 8px; border-radius: 4px; overflow: hidden;">
+          <div style="background: rgba(255, 255, 255, 0.05); height: 8px; border-radius: 4px; overflow: hidden;">
             <div style="width: ${npPct}%; background: var(--rr-navy); height: 100%;"></div>
           </div>
         </div>
@@ -5643,12 +5726,12 @@ function renderShortlistItems() {
     };
 
     const item = document.createElement('div');
-    item.style = 'background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px;';
+    item.style = 'background: #08162B; border: 1px solid var(--rr-border); border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px;';
     item.innerHTML = `
       <div style="display: flex; align-items: center; gap: 10px;">
         <span class="font-mono font-bold" style="color: var(--rr-pink); font-size: 11px;">#${idx + 1}</span>
         <div>
-          <div style="font-size: 13px; font-weight: 700; color: var(--rr-navy);">
+          <div style="font-size: 13px; font-weight: 700; color: #F8FAFC;">
             ${getFlag(p.nationality)} ${p.name}
           </div>
           <div style="font-size: 10px; color: var(--rr-text-muted);">
@@ -5930,10 +6013,10 @@ function renderStabilitySection() {
     const extra10 = Math.max(0, p.boot_top10 - top5);
     row.innerHTML = `
       <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-        <span style="font-weight: 700; color: var(--rr-navy);">#${p.rank} ${p.player}</span>
+        <span style="font-weight: 700; color: #F8FAFC;">#${p.rank} ${p.player}</span>
         <span class="font-mono text-rrTextMuted">Top 10: <strong>${p.boot_top10.toFixed(1)}%</strong> &bull; Top 5: <strong>${top5.toFixed(1)}%</strong></span>
       </div>
-      <div style="height: 10px; background: #F1F5F9; border-radius: 5px; overflow: hidden; display: flex;">
+      <div style="height: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 5px; overflow: hidden; display: flex;">
         <div style="width: ${top5}%; background: var(--rr-pink);" title="Top 5: ${top5.toFixed(1)}%"></div>
         <div style="width: ${extra10}%; background: var(--rr-navy);" title="Top 10: ${p.boot_top10.toFixed(1)}%"></div>
       </div>
@@ -5950,10 +6033,10 @@ function renderStabilitySection() {
     const extra10 = Math.max(0, p.boot_top10 - top5);
     row.innerHTML = `
       <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-        <span style="font-weight: 700; color: var(--rr-navy);">#${p.rank} ${p.player}</span>
+        <span style="font-weight: 700; color: #F8FAFC;">#${p.rank} ${p.player}</span>
         <span class="font-mono text-rrTextMuted">Top 10: <strong>${p.boot_top10.toFixed(1)}%</strong> &bull; Top 5: <strong>${top5.toFixed(1)}%</strong></span>
       </div>
-      <div style="height: 10px; background: #F1F5F9; border-radius: 5px; overflow: hidden; display: flex;">
+      <div style="height: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 5px; overflow: hidden; display: flex;">
         <div style="width: ${top5}%; background: var(--rr-pink);" title="Top 5: ${top5.toFixed(1)}%"></div>
         <div style="width: ${extra10}%; background: var(--rr-navy);" title="Top 10: ${p.boot_top10.toFixed(1)}%"></div>
       </div>
@@ -5979,7 +6062,7 @@ function renderStabilitySection() {
 
     tr.innerHTML = `
       <td class="sticky-col-player" style="left: 0;">
-        <div style="color: var(--rr-navy); font-weight: 700;">${r.name}</div>
+        <div style="color: #F8FAFC; font-weight: 700;">${r.name}</div>
         <div style="font-size: 9px; color: var(--rr-text-muted); text-transform: uppercase;">${r.role === 'bat' ? 'Batter' : 'Bowler'}</div>
       </td>
       <td class="tabular" style="text-align: center; font-weight: 800;">${r.adjusted_rank}</td>
@@ -5990,7 +6073,7 @@ function renderStabilitySection() {
       <td class="tabular" style="text-align: center;">${formatCell(r['rank_lam_x1.5'])}</td>
       <td class="tabular" style="text-align: center;">${formatCell(r.rank_IPL_only)}</td>
       <td class="tabular" style="text-align: center;">${formatCell(r.rank_T20I_only)}</td>
-      <td class="tabular font-bold" style="text-align: center; color: var(--rr-navy);">${r.weight_tests_median_rank.toFixed(1)}</td>
+      <td class="tabular font-bold" style="text-align: center; color: #F8FAFC;">${r.weight_tests_median_rank.toFixed(1)}</td>
       <td class="tabular font-bold" style="text-align: center; color: var(--rr-pink);">${(r.weight_tests_top10_share * 100).toFixed(0)}%</td>
     `;
     robBody.appendChild(tr);
@@ -6329,18 +6412,18 @@ function renderRRSquadAuditTable(filterRole = 'all') {
       <td style="text-align: center; padding: 6px 10px;">
         <span style="display: inline-block; width: 24px; height: 24px; line-height: 24px; border-radius: 4px; font-size: 11px; font-weight: 800; ${rankBg}">#${p.adjusted_rank}</span>
       </td>
-      <td style="font-weight: 700; color: #0F172A; padding: 6px 10px;">
-        ${p.name} ${isTop15 ? '<span style="font-size: 9px; background: #FFF1F7; color: #E5007D; padding: 1px 5px; border-radius: 3px; border: 1px solid #FCE7F3; font-weight: 800; margin-left: 4px;">RR TOP ASSET</span>' : ''}
+      <td style="font-weight: 700; color: #F8FAFC; padding: 6px 10px;">
+        ${p.name} ${isTop15 ? '<span style="font-size: 9px; background: rgba(229, 0, 125, 0.1); color: #E5007D; padding: 1px 5px; border-radius: 3px; border: 1px solid rgba(229, 0, 125, 0.25); font-weight: 800; margin-left: 4px;">RR TOP ASSET</span>' : ''}
       </td>
       <td style="text-align: center; padding: 6px 10px;">
-        <span style="font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; ${p.role === 'bat' ? 'background: #EFF6FF; color: #1D4ED8;' : 'background: #ECFDF5; color: #047857;'}">${p.role}</span>
+        <span style="font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; ${p.role === 'bat' ? 'background: rgba(56, 189, 248, 0.08); color: #1D4ED8;' : 'background: #ECFDF5; color: #047857;'}">${p.role}</span>
       </td>
       <td style="text-align: center; font-size: 11px; padding: 6px 10px;">
-        ${p.overseas === 'Yes' ? '<span style="background: #FEF3C7; color: #92400E; padding: 1px 5px; border-radius: 3px; font-size: 10px; font-weight: 700;">✈ Overseas</span>' : '<span style="color: #64748B;">India</span>'}
+        ${p.overseas === 'Yes' ? '<span style="background: rgba(245, 158, 11, 0.15); color: #92400E; padding: 1px 5px; border-radius: 3px; font-size: 10px; font-weight: 700;">✈ Overseas</span>' : '<span style="color: #94A3B8;">India</span>'}
       </td>
       <td class="tabular" style="text-align: right; padding: 6px 10px; font-weight: 600;">${p.n_hp}</td>
       <td class="tabular" style="text-align: right; padding: 6px 10px; font-weight: 700; color: ${netColor};">${p.net_hp > 0 ? '+' : ''}${p.net_hp.toFixed(2)}</td>
-      <td class="tabular" style="text-align: right; padding: 6px 10px; color: #64748B;">${p.net_np > 0 ? '+' : ''}${p.net_np.toFixed(2)}</td>
+      <td class="tabular" style="text-align: right; padding: 6px 10px; color: #94A3B8;">${p.net_np > 0 ? '+' : ''}${p.net_np.toFixed(2)}</td>
       <td class="tabular" style="text-align: right; padding: 6px 10px; font-weight: 600; color: ${deltaColor};">${p.delta > 0 ? '+' : ''}${p.delta.toFixed(2)}</td>
       <td class="tabular" style="text-align: right; padding: 6px 10px;">${p.wpa_hp > 0 ? '+' : ''}${p.wpa_hp.toFixed(3)}</td>
       <td class="tabular" style="text-align: right; padding: 6px 10px;">${(p.cons * 100).toFixed(1)}%</td>
@@ -6492,7 +6575,7 @@ function renderNotableNames() {
 
   stars.forEach(s => {
     const card = document.createElement('div');
-    card.style = 'background: #FFFFFF; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; cursor: pointer; transition: all 150ms ease;';
+    card.style = 'background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; cursor: pointer; transition: all 150ms ease;';
     card.onmouseover = () => card.style.borderColor = 'var(--rr-pink)';
     card.onmouseout = () => card.style.borderColor = 'var(--rr-border)';
     card.onclick = () => openPlayerProfile(s.player);
@@ -6500,10 +6583,10 @@ function renderNotableNames() {
     card.innerHTML = `
       <div>
         <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
-          <span style="font-weight: 700; color: var(--rr-navy);">${s.player}</span>
+          <span style="font-weight: 700; color: #F8FAFC;">${s.player}</span>
           <span class="pill-round" style="background: ${s.role === 'Batter' ? 'var(--rr-pink-light)' : '#EFF6FF'}; color: ${s.role === 'Batter' ? 'var(--rr-pink)' : '#1D4ED8'}; font-size: 9px;">${s.role}</span>
         </div>
-        <div style="font-size: 16px; font-weight: 900; color: var(--rr-navy); margin-top: 4px;">
+        <div style="font-size: 16px; font-weight: 900; color: #F8FAFC; margin-top: 4px;">
           Rank #${s.rank} <span class="font-mono" style="font-size: 12px; font-weight: normal; color: var(--rr-text-muted);">(${s.score.toFixed(3)})</span>
         </div>
       </div>
@@ -6539,9 +6622,9 @@ function renderAuditTable() {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td style="text-align: center; color: var(--rr-text-muted);">${idx + 1}</td>
-      <td style="font-weight: 700; color: var(--rr-navy);">${r.entity}</td>
-      <td style="color: #475569;">${r.metric}</td>
-      <td class="tabular font-bold" style="text-align: right; color: var(--rr-navy);">${r.val}</td>
+      <td style="font-weight: 700; color: #F8FAFC;">${r.entity}</td>
+      <td style="color: #94A3B8;">${r.metric}</td>
+      <td class="tabular font-bold" style="text-align: right; color: #F8FAFC;">${r.val}</td>
       <td>${r.file}</td>
       <td>${r.sheet}</td>
       <td style="color: var(--rr-text-muted);">${r.coord}</td>
@@ -6585,13 +6668,13 @@ function openSelectorsSheet() {
   }
 
   content.innerHTML = `
-    <div style="border: 2px solid var(--rr-navy); border-radius: 12px; padding: 20px; background: #FFFFFF;">
+    <div style="border: 2px solid var(--rr-navy); border-radius: 12px; padding: 20px; background: #08162B;">
       <!-- PRINT HEADER -->
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--rr-pink); padding-bottom: 12px; margin-bottom: 16px;">
         <div style="display: flex; align-items: center; gap: 12px;">
           <div class="rr-logo-box">RR</div>
           <div>
-            <h2 style="font-size: 18px; font-weight: 900; color: var(--rr-navy);">Rajasthan Royals • SupeRR Selector Dugout Sheet</h2>
+            <h2 style="font-size: 18px; font-weight: 900; color: #F8FAFC;">Rajasthan Royals • SupeRR Selector Dugout Sheet</h2>
             <div style="font-size: 11px; color: var(--rr-text-muted);">
               Round 1 Submission • Built: ${APP_DATA.build_date} • Mode: ${isAdj ? 'Opposition-Adjusted' : 'Original Model'}
             </div>
@@ -6605,9 +6688,9 @@ function openSelectorsSheet() {
 
             <!-- TOP 1 RECOMMENDATIONS GRID (Rule D2 & Pool) -->
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;">
-        <div style="background: #FEF3C7; border: 1px solid #FDE68A; border-radius: 8px; padding: 10px;">
+        <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 8px; padding: 10px;">
           <div style="font-size: 9px; font-weight: 800; color: #B45309; text-transform: uppercase;">Top-1 Overall (Rule D2)</div>
-          <div style="font-size: 14px; font-weight: 900; color: var(--rr-navy);">Sunil Narine (#1 • 1.163)</div>
+          <div style="font-size: 14px; font-weight: 900; color: #F8FAFC;">Sunil Narine (#1 • 1.163)</div>
           <div style="font-size: 10px; color: var(--rr-text-muted); margin-top: 1px;">
             KKR Retention Pending • Stability: 93.0%
           </div>
@@ -6615,15 +6698,15 @@ function openSelectorsSheet() {
 
         <div style="background: var(--rr-pink-light); border: 1px solid var(--rr-pink-subtle); border-radius: 8px; padding: 10px;">
           <div style="font-size: 9px; font-weight: 800; color: var(--rr-pink); text-transform: uppercase;">Top-1 Batter (Rule D2)</div>
-          <div style="font-size: 14px; font-weight: 900; color: var(--rr-navy);">Suryakumar Yadav (#1 • 0.843)</div>
+          <div style="font-size: 14px; font-weight: 900; color: #F8FAFC;">Suryakumar Yadav (#1 • 0.843)</div>
           <div style="font-size: 10px; color: var(--rr-text-muted); margin-top: 1px;">
             MI Retention Pending • Stability: 76.0%
           </div>
         </div>
 
-        <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 8px; padding: 10px;">
+        <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 10px;">
           <div style="font-size: 9px; font-weight: 800; color: #1D4ED8; text-transform: uppercase;">Top-1 Bowler (Rule D2)</div>
-          <div style="font-size: 14px; font-weight: 900; color: var(--rr-navy);">Sunil Narine (#1 • 1.163)</div>
+          <div style="font-size: 14px; font-weight: 900; color: #F8FAFC;">Sunil Narine (#1 • 1.163)</div>
           <div style="font-size: 10px; color: var(--rr-text-muted); margin-top: 1px;">
             KKR Retention Pending • Stability: 93.0%
           </div>
@@ -6631,8 +6714,8 @@ function openSelectorsSheet() {
       </div>
 
       <!-- PRIMARY AUCTION POOL TARGETS (Rule D3) -->
-      <div style="background: #F8FAFC; border: 1px solid var(--rr-border); border-radius: 8px; padding: 10px 14px; margin-bottom: 16px;">
-        <div style="font-size: 11px; font-weight: 800; color: var(--rr-navy); margin-bottom: 4px;">Primary Auction Pool Targets (No 2026 Squad Listing • Rule D3)</div>
+      <div style="background: #091A33; border: 1px solid var(--rr-border); border-radius: 8px; padding: 10px 14px; margin-bottom: 16px;">
+        <div style="font-size: 11px; font-weight: 800; color: #F8FAFC; margin-bottom: 4px;">Primary Auction Pool Targets (No 2026 Squad Listing • Rule D3)</div>
         <div style="display: flex; gap: 20px; font-size: 11px;">
           <div><strong>1. Taskin Ahmed</strong> (Rank #7 • Score 0.641 • Stability 50.0% • Net HP +34.69 • Delta +36.49) - <em style="color: #B45309;">no IPL squad listing; auction entry uncertain</em></div>
           <div><strong>2. Mohit Sharma</strong> (Rank #9 • Score 0.540 • Stability 36.0% • Net HP +24.96 • Delta +38.51) - <em>Not in an IPL 2026 squad - could reach the auction pool</em></div>
@@ -6641,7 +6724,7 @@ function openSelectorsSheet() {
 
       <!-- SHORTLISTED TARGETS -->
       <div style="margin-bottom: 14px;">
-        <div style="font-size: 12px; font-weight: 800; color: var(--rr-navy); margin-bottom: 6px;">
+        <div style="font-size: 12px; font-weight: 800; color: #F8FAFC; margin-bottom: 6px;">
           Curated RR Shortlist (${state.shortlist.length} Targets)
         </div>
         <table class="scorecard-table font-mono" style="font-size: 10px;">
@@ -7022,8 +7105,8 @@ function reRollSampleOver() {
     const chipBg = b.isWkt ? '#EF4444' : (b.runs === 6 ? 'var(--rr-pink)' : (b.runs === 4 ? 'var(--rr-blue)' : (b.runs === 0 ? '#94A3B8' : '#10B981')));
     row.innerHTML = `
       <div style="display: flex; align-items: center; gap: 8px;">
-        <span style="font-weight: 700; color: var(--rr-navy); width: 44px;">Ball ${b.num}:</span>
-        <span style="color: #475569; font-size: 11px;">${b.comment}</span>
+        <span style="font-weight: 700; color: #F8FAFC; width: 44px;">Ball ${b.num}:</span>
+        <span style="color: #94A3B8; font-size: 11px;">${b.comment}</span>
       </div>
       <span style="background: ${chipBg}; color: #fff; font-weight: 800; font-family: monospace; padding: 2px 8px; border-radius: 4px; font-size: 11px;">
         ${b.isWkt ? 'WKT' : (b.runs + 'R')}
@@ -7110,8 +7193,8 @@ function renderTacticsTab() {
       tr.style.color = '#64748B';
     }
     const flagChip = isLow
-      ? `<span class="badge" style="background: #E2E8F0; color: #475569; font-size: 10px;">${r.sample_flag}</span>`
-      : `<span class="badge" style="background: #DCFCE7; color: #15803D; font-size: 10px;">OK (&ge;100)</span>`;
+      ? `<span class="badge" style="background: #E2E8F0; color: #94A3B8; font-size: 10px;">${r.sample_flag}</span>`
+      : `<span class="badge" style="background: rgba(16, 185, 129, 0.12); color: #15803D; font-size: 10px;">OK (&ge;100)</span>`;
 
     tr.innerHTML = `
       <td style="font-weight: 700;">${r.player}</td>
@@ -7136,8 +7219,8 @@ function renderTacticsTab() {
       tr.style.color = '#64748B';
     }
     const flagChip = isLow
-      ? `<span class="badge" style="background: #E2E8F0; color: #475569; font-size: 10px;">${r.sample_flag}</span>`
-      : `<span class="badge" style="background: #DCFCE7; color: #15803D; font-size: 10px;">OK (&ge;100)</span>`;
+      ? `<span class="badge" style="background: #E2E8F0; color: #94A3B8; font-size: 10px;">${r.sample_flag}</span>`
+      : `<span class="badge" style="background: rgba(16, 185, 129, 0.12); color: #15803D; font-size: 10px;">OK (&ge;100)</span>`;
 
     tr.innerHTML = `
       <td style="font-weight: 700;">${r.player}</td>
