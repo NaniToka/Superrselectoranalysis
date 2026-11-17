@@ -13,7 +13,7 @@ __pycache__/
 *.pickle
 
 # Competition raw data pack (do not commit proprietary match-level raw logs)
-data/
+data/raw/
 
 # Backup and temp files
 *.bak

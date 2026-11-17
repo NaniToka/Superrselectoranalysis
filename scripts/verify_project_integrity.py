@@ -19,9 +19,18 @@ def check(condition, msg):
     if not condition:
         fail(msg)
 
+def find_data_file(base, filename):
+    p1 = os.path.join(base, 'data', filename)
+    if os.path.exists(p1):
+        return p1
+    p2 = os.path.join(base, filename)
+    if os.path.exists(p2):
+        return p2
+    return p1
+
 # 1. Check verified CSV files exist
 try:
-    exp_path = os.path.join(base_dir, 'expected_dashboard_values.csv')
+    exp_path = find_data_file(base_dir, 'expected_dashboard_values.csv')
     exp_df = pd.read_csv(exp_path)
     check(len(exp_df) == 20, f"expected_dashboard_values.csv has {len(exp_df)} rows instead of 20")
 except Exception as e:
@@ -29,7 +38,7 @@ except Exception as e:
     exp_df = pd.DataFrame()
 
 try:
-    tac_path = os.path.join(base_dir, 'tactical_splits_verified.csv')
+    tac_path = find_data_file(base_dir, 'tactical_splits_verified.csv')
     tac_df = pd.read_csv(tac_path)
     check(len(tac_df) == 50, f"tactical_splits_verified.csv has {len(tac_df)} rows instead of 50")
     req_cols = ['role', 'player', 'split', 'hp_balls', 'runs_scored_or_conceded', 'strike_rate_or_econ', 'net100', 'std_err', 'sample_flag']

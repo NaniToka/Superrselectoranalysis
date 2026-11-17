@@ -12,11 +12,18 @@ from reportlab.pdfgen import canvas
 
 print("--- Building Rajasthan Royals SupeRR Selector Top 1 Master Report PDF ---")
 
+def find_file(name, dirs=['data', 'assets', '.']):
+    for d in dirs:
+        p = os.path.join(d, name)
+        if os.path.exists(p):
+            return p
+    return name
+
 # 1. Load verified datasets
-exp_df = pd.read_csv('expected_dashboard_values.csv')
+exp_df = pd.read_csv(find_file('expected_dashboard_values.csv'))
 bat_top = exp_df[exp_df['role'] == 'bat'].sort_values('rank')
 bowl_top = exp_df[exp_df['role'] == 'bowl'].sort_values('rank')
-tac_df = pd.read_csv('tactical_splits_verified.csv')
+tac_df = pd.read_csv(find_file('tactical_splits_verified.csv'))
 
 # Colors - Official Rajasthan Royals palette
 RR_NAVY = HexColor('#041126')
@@ -208,8 +215,9 @@ metric_rows = [
 elements.append(make_table(metric_rows, [8.4*cm, 5.0*cm, 5.0*cm], fs=6.2, alignments=['LEFT', 'CENTER', 'CENTER']))
 elements.append(Spacer(1, 2))
 
-if os.path.exists('c1.png'):
-    elements.append(Image('c1.png', width=18.4*cm, height=4.6*cm))
+c1_img = find_file('c1.png')
+if os.path.exists(c1_img):
+    elements.append(Image(c1_img, width=18.4*cm, height=4.6*cm))
     elements.append(Paragraph("<b>Figure 1:</b> Left &mdash; Mean Leverage Index by over across innings. Right &mdash; Out-of-fold win probability calibration curves.", note_style))
 
 elements.append(PageBreak())
@@ -306,8 +314,9 @@ elements.append(make_table(bowl_tbl_data, [0.6*cm, 3.6*cm, 1.2*cm, 1.1*cm, 0.9*c
                            fs=6.0, alignments=['CENTER', 'LEFT', 'CENTER', 'CENTER', 'CENTER', 'CENTER', 'CENTER', 'CENTER', 'CENTER', 'CENTER', 'CENTER', 'CENTER', 'CENTER', 'CENTER']))
 elements.append(Spacer(1, 2))
 
-if os.path.exists('c2.png'):
-    elements.append(Image('c2.png', width=18.4*cm, height=5.3*cm))
+c2_img = find_file('c2.png')
+if os.path.exists(c2_img):
+    elements.append(Image(c2_img, width=18.4*cm, height=5.3*cm))
     elements.append(Paragraph("<b>Figure 2:</b> High-Pressure Value vs. Ordinary Baseline (points above dashed diagonal elevate under pressure; bubble size = HP deliveries).", note_style))
 elements.append(Spacer(1, 2))
 
@@ -348,8 +357,9 @@ elements.append(Paragraph(
 ))
 elements.append(Spacer(1, 1))
 
-if os.path.exists('c3.png'):
-    elements.append(Image('c3.png', width=18.4*cm, height=4.8*cm))
+c3_img = find_file('c3.png')
+if os.path.exists(c3_img):
+    elements.append(Image(c3_img, width=18.4*cm, height=4.8*cm))
     elements.append(Paragraph("<b>Figure 3:</b> Share of 200 match-level bootstrap resamples in which each finalist finishes in Top 10 (navy) and Top 5 (pink).", note_style))
 elements.append(Spacer(1, 2))
 
