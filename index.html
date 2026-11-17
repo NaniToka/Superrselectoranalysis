@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="SupeRR Selector">
@@ -55,6 +55,11 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--rr-bg);
@@ -64,9 +69,21 @@ body {
   color: var(--rr-text);
   line-height: 1.5;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   -webkit-font-smoothing: antialiased;
+}
+
+body.scroll-locked {
+  position: fixed !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  touch-action: none !important;
+}
+
+.drawer-drag-handle {
+  display: none;
 }
 
 .tabular { font-variant-numeric: tabular-nums; }
@@ -620,7 +637,7 @@ body {
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(6, 17, 41, 0.5);
   backdrop-filter: blur(2px);
-  z-index: 1000;
+  z-index: 2300;
   display: none;
   opacity: 0;
   transition: opacity 200ms ease;
@@ -639,7 +656,7 @@ body {
   color: #F8FAFC;
   border-left: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: -6px 0 30px rgba(6, 17, 41, 0.25);
-  z-index: 1001;
+  z-index: 2301;
   transform: translateX(100%);
   transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
@@ -694,7 +711,7 @@ body {
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(6, 17, 41, 0.6);
   backdrop-filter: blur(3px);
-  z-index: 1100;
+  z-index: 2500;
   display: none;
   align-items: center;
   justify-content: center;
@@ -1075,63 +1092,72 @@ div[style*="border: 1px solid #CBD5E1"] {
   display: none;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 767px) {
   :root {
     --sab: env(safe-area-inset-bottom, 0px);
     --sat: env(safe-area-inset-top, 0px);
   }
 
   body {
-    padding-bottom: calc(68px + var(--sab)) !important;
+    padding-bottom: calc(76px + var(--sab)) !important;
   }
 
   .app-layout {
     flex-direction: column !important;
   }
 
-  /* Sticky Horizontal Nav Chips */
+  /* Single Consolidated Navigation: Hide Desktop Left Nav Rail completely on Mobile */
   .nav-rail {
-    width: 100% !important;
-    flex-direction: row !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    white-space: nowrap !important;
+    display: none !important;
+  }
+
+  /* Header mobile optimization & horizontal scroll snapping */
+  .header-inner {
     padding: 8px 12px !important;
     gap: 8px !important;
-    background: #041126 !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 120 !important;
-    scrollbar-width: none !important;
   }
-  .nav-rail::-webkit-scrollbar {
+  .brand-badge {
+    gap: 8px !important;
+  }
+  .brand-text h1 {
+    font-size: 15px !important;
+    line-height: 1.2 !important;
+  }
+  .brand-pills {
     display: none !important;
   }
-  .nav-section-label {
-    display: none !important;
-  }
-  .nav-btn {
+  .header-controls {
+    width: 100% !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
     white-space: nowrap !important;
-    padding: 7px 14px !important;
-    border-radius: 9999px !important;
-    font-size: 12px !important;
-    font-weight: 700 !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    color: #CBD5E1 !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
+    scrollbar-width: none !important;
+    padding: 4px 2px 8px !important;
+    gap: 8px !important;
+  }
+  .header-controls::-webkit-scrollbar {
+    display: none !important;
+  }
+  .header-controls > * {
+    scroll-snap-align: start !important;
     flex-shrink: 0 !important;
+  }
+  .header-controls .btn-header-action,
+  .header-controls .toggle-btn {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    padding: 8px 12px !important;
+    font-size: 12px !important;
     display: inline-flex !important;
     align-items: center !important;
-    gap: 6px !important;
-    transition: all 0.15s ease !important;
+    justify-content: center !important;
     -webkit-tap-highlight-color: transparent !important;
-  }
-  .nav-btn.active {
-    background: var(--rr-pink) !important;
-    color: #FFFFFF !important;
-    border-color: var(--rr-pink) !important;
-    box-shadow: 0 2px 10px rgba(229, 0, 125, 0.45) !important;
+    user-select: none !important;
   }
 
   .main-canvas {
@@ -1144,6 +1170,7 @@ div[style*="border: 1px solid #CBD5E1"] {
     overflow-x: auto !important;
     white-space: nowrap !important;
     -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
     scrollbar-width: none !important;
     padding: 6px 12px !important;
   }
@@ -1151,19 +1178,58 @@ div[style*="border: 1px solid #CBD5E1"] {
     display: none !important;
   }
 
+  /* Scoreboard Ticker Mobile Layout */
+  .scoreboard-ticker {
+    padding: 8px 10px !important;
+  }
+  .ticker-grid {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+  .ticker-card {
+    padding: 8px 12px !important;
+  }
+
   /* Cards Mobile Fit */
   .card {
     border-radius: 12px !important;
     margin-bottom: 16px !important;
+    padding: 14px !important;
   }
   .card-header {
-    padding: 14px !important;
+    padding-bottom: 12px !important;
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 10px !important;
+    gap: 8px !important;
+  }
+  .card-title {
+    font-size: 16px !important;
+  }
+  .card-subtitle {
+    font-size: 12px !important;
   }
   .card-body {
-    padding: 12px !important;
+    padding: 8px 0 !important;
+  }
+
+  /* Responsive Grid Adaptations */
+  .chart-grid, .two-col-grid, .grid-2col, .duel-output-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  .selector-sheet-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+  .chart-box {
+    height: 280px !important;
+    min-height: 240px !important;
+    padding: 6px !important;
+  }
+  .p3d-canvas-wrapper {
+    height: 420px !important;
+    max-height: 55vh !important;
+    max-height: 55dvh !important;
   }
 
   /* Swipeable Data Tables with Smooth Touch */
@@ -1181,47 +1247,97 @@ div[style*="border: 1px solid #CBD5E1"] {
     color: var(--rr-pink) !important;
     font-weight: 700 !important;
     padding: 5px 10px !important;
-    background: #FFF1F7 !important;
-    border: 1px solid #FCE7F3 !important;
+    background: rgba(229, 0, 125, 0.08) !important;
+    border: 1px solid rgba(229, 0, 125, 0.2) !important;
     border-radius: 6px !important;
     margin-bottom: 8px !important;
   }
-  .data-table th, .data-table td {
+  .data-table th, .data-table td,
+  .scorecard-table th, .scorecard-table td {
     padding: 8px 10px !important;
     font-size: 12px !important;
     white-space: nowrap !important;
   }
 
-  /* Grid adaptations */
-  .ticker-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+  /* SIDE PANEL CONVERTED TO MOBILE BOTTOM SHEET OVERLAY */
+  .drawer-overlay {
+    z-index: 2300 !important;
   }
-  .chart-grid, .two-col-grid, .grid-2col {
-    grid-template-columns: 1fr !important;
-    gap: 14px !important;
+  .drawer-panel {
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 90vh !important;
+    max-height: 90dvh !important;
+    border-radius: 20px 20px 0 0 !important;
+    border-left: none !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.18) !important;
+    transform: translateY(100%) !important;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6) !important;
+    z-index: 2301 !important;
   }
-  .chart-box {
-    height: 300px !important;
-    min-height: 260px !important;
-    padding: 8px !important;
+  .drawer-panel.open {
+    transform: translateY(0) !important;
+  }
+  .drawer-drag-handle {
+    display: block !important;
+    width: 44px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 9999px;
+    margin: 10px auto 4px auto;
+  }
+  .drawer-header {
+    padding: 10px 16px !important;
+  }
+  .drawer-body {
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 14px 16px !important;
+    padding-bottom: calc(24px + var(--sab)) !important;
   }
 
-  /* Mobile Native Bottom Navigation Bar */
+  /* MODAL OVERLAY MOBILE BOTTOM SHEET */
+  .modal-overlay {
+    z-index: 2500 !important;
+    padding: 0 !important;
+    align-items: flex-end !important;
+  }
+  .modal-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 90vh !important;
+    max-height: 90dvh !important;
+    border-radius: 20px 20px 0 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* SINGLE CONSOLIDATED MOBILE BOTTOM NAVIGATION BAR */
   .mobile-bottom-bar {
     display: flex !important;
     position: fixed !important;
     bottom: 0 !important;
     left: 0 !important;
     right: 0 !important;
-    height: 60px !important;
-    background: rgba(4, 17, 38, 0.97) !important;
+    height: calc(60px + var(--sab)) !important;
+    background: rgba(4, 17, 38, 0.98) !important;
     border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
     z-index: 1000 !important;
-    align-items: center !important;
+    align-items: flex-start !important;
     justify-content: space-around !important;
+    padding-top: 6px !important;
     padding-bottom: var(--sab) !important;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.45) !important;
   }
@@ -1231,16 +1347,19 @@ div[style*="border: 1px solid #CBD5E1"] {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 2px !important;
+    min-height: 48px !important;
+    min-width: 44px !important;
+    gap: 3px !important;
     background: transparent !important;
     border: none !important;
     color: #94A3B8 !important;
-    font-size: 10px !important;
+    font-size: 11px !important;
     font-weight: 700 !important;
     cursor: pointer !important;
-    padding: 6px 0 !important;
+    padding: 4px 0 !important;
     transition: all 0.15s ease !important;
     -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
   }
   .mobile-tab-btn:active {
     transform: scale(0.92) !important;
@@ -1256,7 +1375,7 @@ div[style*="border: 1px solid #CBD5E1"] {
     letter-spacing: -0.01em !important;
   }
 
-  /* Mobile Slide-up Sheet */
+  /* MOBILE SLIDE-UP SHEET (MODULES & SECONDARY ITEMS) */
   .mobile-sheet-backdrop {
     display: block !important;
     position: fixed !important;
@@ -1264,10 +1383,10 @@ div[style*="border: 1px solid #CBD5E1"] {
     left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
-    background: rgba(4, 17, 38, 0.7) !important;
+    background: rgba(4, 17, 38, 0.75) !important;
     backdrop-filter: blur(6px) !important;
     -webkit-backdrop-filter: blur(6px) !important;
-    z-index: 1998 !important;
+    z-index: 2200 !important;
     opacity: 0 !important;
     pointer-events: none !important;
     transition: opacity 0.25s ease !important;
@@ -1283,15 +1402,17 @@ div[style*="border: 1px solid #CBD5E1"] {
     bottom: 0 !important;
     left: 0 !important;
     right: 0 !important;
-    max-height: 82vh !important;
+    max-height: 85vh !important;
+    max-height: 85dvh !important;
     background: #0B1F4B !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.18) !important;
     border-radius: 20px 20px 0 0 !important;
-    z-index: 1999 !important;
+    z-index: 2201 !important;
     transform: translateY(100%) !important;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
     box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6) !important;
     padding-bottom: calc(16px + var(--sab)) !important;
+    overscroll-behavior: contain !important;
   }
   .mobile-sheet.open {
     transform: translateY(0) !important;
@@ -1312,50 +1433,34 @@ div[style*="border: 1px solid #CBD5E1"] {
   }
   .mobile-sheet-grid {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: 1fr !important;
     gap: 8px !important;
     padding: 14px 16px !important;
     overflow-y: auto !important;
+    overscroll-behavior: contain !important;
     -webkit-overflow-scrolling: touch !important;
   }
   .mobile-sheet-item {
     display: flex !important;
     align-items: center !important;
     gap: 10px !important;
+    min-height: 44px !important;
     background: rgba(255, 255, 255, 0.06) !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 10px !important;
-    padding: 11px 12px !important;
+    padding: 11px 14px !important;
     color: #F1F5F9 !important;
-    font-size: 12.5px !important;
+    font-size: 13.5px !important;
     font-weight: 700 !important;
     text-align: left !important;
     cursor: pointer !important;
     transition: all 0.15s ease !important;
     -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
   }
   .mobile-sheet-item:active {
     background: var(--rr-pink) !important;
     transform: scale(0.97) !important;
-  }
-}
-
-@media (max-width: 640px) {
-  .ticker-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .header-inner {
-    padding: 8px 12px !important;
-    gap: 8px !important;
-  }
-  .brand-text h1 {
-    font-size: 15px !important;
-  }
-  .brand-pills {
-    display: none !important;
-  }
-  .mobile-sheet-grid {
-    grid-template-columns: 1fr !important;
   }
 }
 
@@ -2189,7 +2294,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
           </div>
 
           <!-- 3D INTERACTIVE CANVAS WRAPPER -->
-          <div style="position: relative; width: 100%; height: 640px; background: radial-gradient(circle at 50% 50%, #08162B 0%, #020713 100%); overflow: hidden;">
+          <div class="p3d-canvas-wrapper" style="position: relative; width: 100%; height: 640px; background: radial-gradient(circle at 50% 50%, #08162B 0%, #020713 100%); overflow: hidden;">
             
             <!-- 3D WEBGL CONTAINER -->
             <div id="p3d-viewport" style="width: 100%; height: 100%; cursor: grab;"></div>
@@ -4028,7 +4133,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             </div>
 
             <!-- VISUAL LIVE SAMPLE OVER & RUNS DISTRIBUTION -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="duel-output-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
               <!-- LIVE SAMPLE OVER -->
               <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 18px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #F1F5F9; padding-bottom: 8px;">
@@ -4178,6 +4283,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
   <div id="drawer-overlay" class="drawer-overlay no-print" onclick="closeAllDrawers()"></div>
 
   <aside id="shortlist-drawer" class="drawer-panel no-print">
+    <div class="drawer-drag-handle"></div>
     <div class="drawer-header">
       <div style="display: flex; align-items: center; gap: 8px;">
         <span style="color: var(--rr-pink); font-size: 18px;">★</span>
@@ -4208,6 +4314,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
 
   <!-- PLAYER PROFILE DRAWER -->
   <aside id="profile-drawer" class="drawer-panel no-print">
+    <div class="drawer-drag-handle"></div>
     <div class="drawer-header">
       <div style="display: flex; align-items: center; gap: 8px;">
         <span id="profile-drawer-avatar" style="font-size: 14px;"></span>
@@ -4222,7 +4329,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
   </aside>
 
   <!-- SELECTOR'S SHEET MODAL -->
-  <div id="selectors-sheet-modal" class="modal-overlay">
+  <div id="selectors-sheet-modal" class="modal-overlay" onclick="if(event.target === this) closeSelectorsSheet()">
     <div class="modal-content">
       <div class="drawer-header">
         <div>
@@ -4374,6 +4481,10 @@ function init3DPlayground() {
     return;
   }
 
+  if (window.innerWidth < 768) {
+    P3D.autoOrbit = false;
+  }
+
   try {
     const width = container.clientWidth || 900;
     const height = container.clientHeight || 640;
@@ -4399,7 +4510,7 @@ function init3DPlayground() {
       P3D.controls.dampingFactor = 0.05;
       P3D.controls.maxDistance = 800;
       P3D.controls.minDistance = 60;
-      P3D.controls.autoRotate = P3D.autoOrbit;
+      P3D.controls.autoRotate = window.innerWidth >= 768 && P3D.autoOrbit;
       P3D.controls.autoRotateSpeed = 0.8;
       P3D.controls.target.set(0, 20, 0);
     }
@@ -4866,6 +4977,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initComparisonDropdowns();
   initUserInputs();
   renderSubmissionTab();
+  initDuelSimulator();
 });
 
 function initUserInputs() {
@@ -5412,6 +5524,43 @@ function generateRadarSVG(datasets, size = 300) {
   return svg;
 }
 
+// =========================================================================
+// BACKGROUND SCROLL LOCK CONTROLLER (Mobile & Overlay UX)
+// =========================================================================
+let savedScrollY = 0;
+let activeOverlaysCount = 0;
+
+function lockScroll() {
+  if (activeOverlaysCount === 0) {
+    savedScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+    document.body.style.top = `-${savedScrollY}px`;
+    document.body.classList.add('scroll-locked');
+  }
+  activeOverlaysCount++;
+}
+
+function unlockScroll(force) {
+  if (force) {
+    activeOverlaysCount = 0;
+  } else {
+    activeOverlaysCount = Math.max(0, activeOverlaysCount - 1);
+  }
+  if (activeOverlaysCount === 0) {
+    const topStr = document.body.style.top;
+    document.body.classList.remove('scroll-locked');
+    document.body.style.top = '';
+    const scrollY = topStr ? Math.abs(parseInt(topStr, 10)) : savedScrollY;
+    window.scrollTo(0, scrollY);
+  }
+}
+
+function checkAndUnlockScroll() {
+  const anyOpen = document.querySelector('.drawer-panel.open, .modal-overlay.active, .mobile-sheet.open');
+  if (!anyOpen) {
+    unlockScroll(true);
+  }
+}
+
 // PLAYER PROFILE DRAWER (Part C1)
 function openPlayerProfile(pname) {
   let p = APP_DATA.adjusted_all_players.find(x => x.name.toLowerCase() === pname.toLowerCase());
@@ -5605,11 +5754,13 @@ function openPlayerProfile(pname) {
 
   document.getElementById('drawer-overlay').classList.add('active');
   document.getElementById('profile-drawer').classList.add('open');
+  lockScroll();
 }
 
 function closeProfileDrawer() {
   document.getElementById('drawer-overlay').classList.remove('active');
   document.getElementById('profile-drawer').classList.remove('open');
+  checkAndUnlockScroll();
 }
 
 // SHORTLIST MANAGEMENT (Part D1)
@@ -5640,16 +5791,19 @@ function openShortlistDrawer() {
   renderShortlistItems();
   document.getElementById('drawer-overlay').classList.add('active');
   document.getElementById('shortlist-drawer').classList.add('open');
+  lockScroll();
 }
 
 function closeShortlistDrawer() {
   document.getElementById('drawer-overlay').classList.remove('active');
   document.getElementById('shortlist-drawer').classList.remove('open');
+  checkAndUnlockScroll();
 }
 
 function closeAllDrawers() {
   closeShortlistDrawer();
   closeProfileDrawer();
+  checkAndUnlockScroll();
 }
 
 function clearShortlist() {
@@ -6660,7 +6814,7 @@ function openSelectorsSheet() {
       </div>
 
             <!-- TOP 1 RECOMMENDATIONS GRID (Rule D2 & Pool) -->
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;">
+      <div class="selector-sheet-cards-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;">
         <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 8px; padding: 10px;">
           <div style="font-size: 9px; font-weight: 800; color: #B45309; text-transform: uppercase;">Top-1 Overall (Rule D2)</div>
           <div style="font-size: 14px; font-weight: 900; color: #F8FAFC;">Sunil Narine (#1 • 1.163)</div>
@@ -6700,21 +6854,23 @@ function openSelectorsSheet() {
         <div style="font-size: 12px; font-weight: 800; color: #F8FAFC; margin-bottom: 6px;">
           Curated RR Shortlist (${state.shortlist.length} Targets)
         </div>
-        <table class="scorecard-table font-mono" style="font-size: 10px;">
-          <thead>
-            <tr>
-              <th style="width: 30px;">Pri</th>
-              <th>Player</th>
-              <th>Role</th>
-              <th>Rank</th>
-              <th>Score</th>
-              <th>IPL Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${shortlistRowsHtml}
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="scorecard-table font-mono" style="font-size: 10px; width: 100%;">
+            <thead>
+              <tr>
+                <th style="width: 30px;">Pri</th>
+                <th>Player</th>
+                <th>Role</th>
+                <th>Rank</th>
+                <th>Score</th>
+                <th>IPL Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${shortlistRowsHtml}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- DUGOUT RULES FOOTNOTE -->
@@ -6726,11 +6882,13 @@ function openSelectorsSheet() {
   `;
 
   modal.classList.add('active');
+  lockScroll();
 }
 
 function closeSelectorsSheet() {
   const modal = document.getElementById('selectors-sheet-modal');
   if (modal) modal.classList.remove('active');
+  checkAndUnlockScroll();
 }
 
 
@@ -7193,7 +7351,7 @@ function renderDuelHistogram(hist, target) {
   `;
 
   container.innerHTML = `
-    <svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+    <svg width="100%" height="100%" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet" style="max-width: 100%; display: block;">
       ${barsSvg}
       ${lineSvg}
       <line x1="26" y1="${h-28}" x2="${w-10}" y2="${h-28}" stroke="#E2E8F0" stroke-width="1" />
@@ -7352,28 +7510,32 @@ function toggleMobileSheet(forceOpen) {
   if (isOpen) {
     sheet.classList.add('open');
     backdrop.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    lockScroll();
   } else {
     sheet.classList.remove('open');
     backdrop.classList.remove('open');
-    document.body.style.overflow = '';
+    checkAndUnlockScroll();
   }
 }
 
-// Touch swipe gesture listener for mobile sheet dismissal
+// Touch swipe gesture listeners for mobile sheet & bottom drawer dismissals
 document.addEventListener('DOMContentLoaded', () => {
-  const sheet = document.getElementById('mobile-nav-sheet');
-  if (!sheet) return;
-  let startY = 0;
-  sheet.addEventListener('touchstart', e => {
-    startY = e.touches[0].clientY;
-  }, { passive: true });
-  sheet.addEventListener('touchmove', e => {
-    const currentY = e.touches[0].clientY;
-    if (currentY - startY > 60) {
-      toggleMobileSheet(false);
-    }
-  }, { passive: true });
+  ['mobile-nav-sheet', 'profile-drawer', 'shortlist-drawer'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    let startY = 0;
+    el.addEventListener('touchstart', e => {
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+    el.addEventListener('touchmove', e => {
+      const currentY = e.touches[0].clientY;
+      if (currentY - startY > 60) {
+        if (id === 'mobile-nav-sheet') toggleMobileSheet(false);
+        else if (id === 'profile-drawer') closeProfileDrawer();
+        else if (id === 'shortlist-drawer') closeShortlistDrawer();
+      }
+    }, { passive: true });
+  });
 });
 
 </script>
@@ -7413,6 +7575,8 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
     <div class="mobile-sheet-grid">
+      <button class="mobile-sheet-item" onclick="openSelectorsSheet(); toggleMobileSheet(false);" style="border-color: var(--rr-pink); background: rgba(229, 0, 125, 0.15); color: #FF85C0; font-weight: 800;"><span>📄</span> Executive Selector's Sheet</button>
+      <button class="mobile-sheet-item" onclick="openShortlistDrawer(); toggleMobileSheet(false);" style="border-color: #F59E0B; background: rgba(245, 158, 11, 0.15); color: #FDE68A; font-weight: 800;"><span>★</span> Rajasthan Royals Shortlist</button>
       <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-3d-playground')" style="border-color: #38BDF8; background: rgba(56, 189, 248, 0.15); color: #38BDF8; font-weight: 800;"><span>🌐</span> 3D Data Universe</button>
       <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-summary')"><span>📊</span> Overview</button>
       <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-leaderboards')"><span>🏆</span> Top 10 Leaderboards</button>
