@@ -5167,6 +5167,9 @@ function switchTab(tabId) {
   const mobBtn = document.getElementById('mob-' + tabId);
   if (mobBtn) mobBtn.classList.add('active');
 
+  // Smooth scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
   // Trigger lazy re-renders
   if (tabId === 'tab-3d-playground') init3DPlayground();
   else if (tabId === 'tab-scatter') renderPressureScatter();
