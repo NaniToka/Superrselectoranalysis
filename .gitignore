@@ -1,0 +1,26 @@
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Large binary dumps and model state (>100MB exceeds GitHub limits)
+*.pkl
+*.pickle
+
+# Competition raw data pack (do not commit proprietary match-level raw logs)
+data/
+
+# Backup and temp files
+*.bak
+*.bak*
+*.tmp
+scratch_test.js
+CNCF*.pdf
+.DS_Store
+.idea/
+.vscode/
