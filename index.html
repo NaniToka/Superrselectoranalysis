@@ -3,7 +3,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SupeRR Selector">
+  <meta name="theme-color" content="#041126">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
   <title>Rajasthan Royals • SupeRR Selector Season 2 • Dugout Intelligence Board</title>
   <style>
 
@@ -757,24 +763,295 @@ body {
   }
 }
 
-/* RESPONSIVE DESIGN */
+/* =========================================================================
+   MOBILE APPLICATION ARCHITECTURE (PWA & SMARTPHONE OPTIMIZATION)
+   ========================================================================= */
+.mobile-bottom-bar, .mobile-sheet-backdrop, .mobile-sheet, .table-swipe-hint {
+  display: none;
+}
+
 @media (max-width: 1024px) {
-  .app-layout { flex-direction: column; }
-  .nav-rail {
-    width: 100%;
-    flex-direction: row;
-    overflow-x: auto;
-    padding: 8px 12px;
+  :root {
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sat: env(safe-area-inset-top, 0px);
   }
-  .nav-section-label { display: none; }
-  .nav-btn { white-space: nowrap; }
-  .main-canvas { max-width: 100%; padding: 14px; }
-  .ticker-grid { grid-template-columns: repeat(2, 1fr); }
+
+  body {
+    padding-bottom: calc(68px + var(--sab)) !important;
+  }
+
+  .app-layout {
+    flex-direction: column !important;
+  }
+
+  /* Sticky Horizontal Nav Chips */
+  .nav-rail {
+    width: 100% !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    white-space: nowrap !important;
+    padding: 8px 12px !important;
+    gap: 8px !important;
+    background: #041126 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 120 !important;
+    scrollbar-width: none !important;
+  }
+  .nav-rail::-webkit-scrollbar {
+    display: none !important;
+  }
+  .nav-section-label {
+    display: none !important;
+  }
+  .nav-btn {
+    white-space: nowrap !important;
+    padding: 7px 14px !important;
+    border-radius: 9999px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #CBD5E1 !important;
+    flex-shrink: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.15s ease !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+  .nav-btn.active {
+    background: var(--rr-pink) !important;
+    color: #FFFFFF !important;
+    border-color: var(--rr-pink) !important;
+    box-shadow: 0 2px 10px rgba(229, 0, 125, 0.45) !important;
+  }
+
+  .main-canvas {
+    max-width: 100% !important;
+    padding: 12px 10px !important;
+  }
+
+  /* Telemetry Bar as horizontal scroll ticker */
+  .google-telemetry-bar {
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    padding: 6px 12px !important;
+  }
+  .google-telemetry-bar::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* Cards Mobile Fit */
+  .card {
+    border-radius: 12px !important;
+    margin-bottom: 16px !important;
+  }
+  .card-header {
+    padding: 14px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+  .card-body {
+    padding: 12px !important;
+  }
+
+  /* Swipeable Data Tables with Smooth Touch */
+  .table-scroll {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: thin !important;
+    overscroll-behavior-x: contain !important;
+  }
+  .table-swipe-hint {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 11px !important;
+    color: var(--rr-pink) !important;
+    font-weight: 700 !important;
+    padding: 5px 10px !important;
+    background: #FFF1F7 !important;
+    border: 1px solid #FCE7F3 !important;
+    border-radius: 6px !important;
+    margin-bottom: 8px !important;
+  }
+  .data-table th, .data-table td {
+    padding: 8px 10px !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Grid adaptations */
+  .ticker-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  .chart-grid, .two-col-grid, .grid-2col {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  .chart-box {
+    height: 300px !important;
+    min-height: 260px !important;
+    padding: 8px !important;
+  }
+
+  /* Mobile Native Bottom Navigation Bar */
+  .mobile-bottom-bar {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 60px !important;
+    background: rgba(4, 17, 38, 0.97) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    z-index: 1000 !important;
+    align-items: center !important;
+    justify-content: space-around !important;
+    padding-bottom: var(--sab) !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.45) !important;
+  }
+  .mobile-tab-btn {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+    background: transparent !important;
+    border: none !important;
+    color: #94A3B8 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    padding: 6px 0 !important;
+    transition: all 0.15s ease !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+  .mobile-tab-btn:active {
+    transform: scale(0.92) !important;
+  }
+  .mobile-tab-btn.active {
+    color: var(--rr-pink) !important;
+  }
+  .mobile-tab-btn .mob-icon {
+    font-size: 18px !important;
+    line-height: 1 !important;
+  }
+  .mobile-tab-btn .mob-label {
+    letter-spacing: -0.01em !important;
+  }
+
+  /* Mobile Slide-up Sheet */
+  .mobile-sheet-backdrop {
+    display: block !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(4, 17, 38, 0.7) !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+    z-index: 1998 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.25s ease !important;
+  }
+  .mobile-sheet-backdrop.open {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  .mobile-sheet {
+    display: flex !important;
+    flex-direction: column !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    max-height: 82vh !important;
+    background: #0B1F4B !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 20px 20px 0 0 !important;
+    z-index: 1999 !important;
+    transform: translateY(100%) !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6) !important;
+    padding-bottom: calc(16px + var(--sab)) !important;
+  }
+  .mobile-sheet.open {
+    transform: translateY(0) !important;
+  }
+  .mobile-sheet-header {
+    padding: 12px 18px 8px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+  .mobile-sheet-handle {
+    width: 36px !important;
+    height: 4px !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-radius: 9999px !important;
+    margin-bottom: 8px !important;
+  }
+  .mobile-sheet-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+    padding: 14px 16px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .mobile-sheet-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 10px !important;
+    padding: 11px 12px !important;
+    color: #F1F5F9 !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    text-align: left !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+  .mobile-sheet-item:active {
+    background: var(--rr-pink) !important;
+    transform: scale(0.97) !important;
+  }
 }
 
 @media (max-width: 640px) {
-  .ticker-grid { grid-template-columns: 1fr; }
-  .header-inner { flex-direction: column; align-items: flex-start; }
+  .ticker-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .header-inner {
+    padding: 8px 12px !important;
+    gap: 8px !important;
+  }
+  .brand-text h1 {
+    font-size: 15px !important;
+  }
+  .brand-pills {
+    display: none !important;
+  }
+  .mobile-sheet-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3603,7 +3880,17 @@ function switchTab(tabId) {
 
   document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
   const activeBtn = document.getElementById('nav-' + tabId);
-  if (activeBtn) activeBtn.classList.add('active');
+  if (activeBtn) {
+    activeBtn.classList.add('active');
+    if (window.innerWidth <= 1024) {
+      activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }
+
+  // Sync mobile bottom navigation bar
+  document.querySelectorAll('.mobile-tab-btn').forEach(btn => btn.classList.remove('active'));
+  const mobBtn = document.getElementById('mob-' + tabId);
+  if (mobBtn) mobBtn.classList.add('active');
 
   // Trigger lazy re-renders
   if (tabId === 'tab-scatter') renderPressureScatter();
@@ -5692,6 +5979,106 @@ function copySubmissionText(role) {
   });
 }
 
+/* =========================================================================
+   MOBILE APPLICATION NATIVE NAVIGATION CONTROLLER
+   ========================================================================= */
+function mobileSwitchTab(tabId) {
+  switchTab(tabId);
+  toggleMobileSheet(false);
+  document.querySelectorAll('.mobile-tab-btn').forEach(btn => btn.classList.remove('active'));
+  const targetMobBtn = document.getElementById('mob-' + tabId);
+  if (targetMobBtn) {
+    targetMobBtn.classList.add('active');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleMobileSheet(forceOpen) {
+  const sheet = document.getElementById('mobile-nav-sheet');
+  const backdrop = document.getElementById('mobile-sheet-backdrop');
+  if (!sheet || !backdrop) return;
+  const isOpen = forceOpen !== undefined ? forceOpen : !sheet.classList.contains('open');
+  if (isOpen) {
+    sheet.classList.add('open');
+    backdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  } else {
+    sheet.classList.remove('open');
+    backdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+// Touch swipe gesture listener for mobile sheet dismissal
+document.addEventListener('DOMContentLoaded', () => {
+  const sheet = document.getElementById('mobile-nav-sheet');
+  if (!sheet) return;
+  let startY = 0;
+  sheet.addEventListener('touchstart', e => {
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  sheet.addEventListener('touchmove', e => {
+    const currentY = e.touches[0].clientY;
+    if (currentY - startY > 60) {
+      toggleMobileSheet(false);
+    }
+  }, { passive: true });
+});
+
 </script>
+
+  <!-- NATIVE MOBILE APP BOTTOM NAVIGATION BAR -->
+  <nav class="mobile-bottom-bar no-print" id="mobile-app-bottom-bar">
+    <button class="mobile-tab-btn active" id="mob-tab-summary" onclick="mobileSwitchTab('tab-summary')">
+      <span class="mob-icon">📊</span>
+      <span class="mob-label">Overview</span>
+    </button>
+    <button class="mobile-tab-btn" id="mob-tab-leaderboards" onclick="mobileSwitchTab('tab-leaderboards')">
+      <span class="mob-icon">🏆</span>
+      <span class="mob-label">Top 10</span>
+    </button>
+    <button class="mobile-tab-btn" id="mob-tab-tactics" onclick="mobileSwitchTab('tab-tactics')">
+      <span class="mob-icon">🎯</span>
+      <span class="mob-label">Tactics</span>
+    </button>
+    <button class="mobile-tab-btn" id="mob-tab-auction" onclick="mobileSwitchTab('tab-auction')">
+      <span class="mob-icon">🏰</span>
+      <span class="mob-label">RR Squad</span>
+    </button>
+    <button class="mobile-tab-btn" id="mob-tab-menu" onclick="toggleMobileSheet()">
+      <span class="mob-icon">☰</span>
+      <span class="mob-label">Modules</span>
+    </button>
+  </nav>
+
+  <!-- MOBILE SLIDE-UP NAVIGATION DRAWER / SHEET -->
+  <div class="mobile-sheet-backdrop" id="mobile-sheet-backdrop" onclick="toggleMobileSheet(false)"></div>
+  <div class="mobile-sheet" id="mobile-nav-sheet">
+    <div class="mobile-sheet-header">
+      <div class="mobile-sheet-handle"></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 6px;">
+        <span style="font-weight: 800; font-size: 15px; color: #FFFFFF;">All Analysis Modules</span>
+        <button onclick="toggleMobileSheet(false)" style="background: rgba(255,255,255,0.12); border: none; color: #FFF; width: 28px; height: 28px; border-radius: 50%; font-size: 14px; cursor: pointer;">✕</button>
+      </div>
+    </div>
+    <div class="mobile-sheet-grid">
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-summary')"><span>📊</span> Overview</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-leaderboards')"><span>🏆</span> Top 10 Leaderboards</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-tactics')"><span>🎯</span> Pace/Spin &amp; Phase</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-auction')"><span>🏰</span> RR Squad Pressure</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-duel')"><span>⚔️</span> Duel Simulator</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-scatter')"><span>⚡</span> Pressure Scatter</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-slope')"><span>📈</span> Rank Movement</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-stability')"><span>🎲</span> Stability (Bootstrap)</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-leverage')"><span>⚖️</span> Leverage Curves</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-weights')"><span>🎛️</span> Weight Sensitivity</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-compare')"><span>👥</span> Player Compare</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-top1')"><span>🎯</span> Top-1 Target</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-notable')"><span>⭐</span> Notable Stars</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-submission')"><span>📋</span> Unstop Hub</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-limitations')"><span>⚠️</span> Limitations</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-audit')"><span>🔍</span> Audit Console</button>
+    </div>
+  </div>
 </body>
 </html>
