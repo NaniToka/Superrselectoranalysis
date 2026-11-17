@@ -2097,11 +2097,11 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
-                <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
+                <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
-                <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-role" class="explorer-role-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
                   <option value="bowl">Bowlers (101)</option>
@@ -2109,7 +2109,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
-                <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-overseas" class="explorer-overseas-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
                   <option value="overseas">Overseas Only</option>
@@ -2117,7 +2117,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
-                <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-status" class="explorer-status-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
                   <option value="contracted">Contracted 2026</option>
@@ -2127,9 +2127,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               <div>
                 <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
-                  <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
+                  <span id="explorer-min-hp-val" class="explorer-min-hp-val font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
-                <input type="range" id="explorer-min-hp" class="range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value)">
+                <input type="range" id="explorer-min-hp" class="explorer-min-hp-slider range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value, this)">
               </div>
             </div>
 
@@ -2153,7 +2153,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                       <th style="text-align: center;">Shortlist</th>
                     </tr>
                   </thead>
-                  <tbody id="explorer-table-body">
+                  <tbody id="explorer-table-body" class="explorer-table-body">
                     <!-- Dynamically populated -->
                   </tbody>
                 </table>
@@ -2427,11 +2427,11 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
-                <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
+                <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
-                <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-role" class="explorer-role-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
                   <option value="bowl">Bowlers (101)</option>
@@ -2439,7 +2439,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
-                <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-overseas" class="explorer-overseas-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
                   <option value="overseas">Overseas Only</option>
@@ -2447,7 +2447,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
-                <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-status" class="explorer-status-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
                   <option value="contracted">Contracted 2026</option>
@@ -2457,9 +2457,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               <div>
                 <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
-                  <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
+                  <span id="explorer-min-hp-val" class="explorer-min-hp-val font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
-                <input type="range" id="explorer-min-hp" class="range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value)">
+                <input type="range" id="explorer-min-hp" class="explorer-min-hp-slider range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value, this)">
               </div>
             </div>
 
@@ -2483,7 +2483,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                       <th style="text-align: center;">Shortlist</th>
                     </tr>
                   </thead>
-                  <tbody id="explorer-table-body">
+                  <tbody id="explorer-table-body" class="explorer-table-body">
                     <!-- Dynamically populated -->
                   </tbody>
                 </table>
@@ -2557,11 +2557,11 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
-                <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
+                <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
-                <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-role" class="explorer-role-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
                   <option value="bowl">Bowlers (101)</option>
@@ -2569,7 +2569,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
-                <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-overseas" class="explorer-overseas-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
                   <option value="overseas">Overseas Only</option>
@@ -2577,7 +2577,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
-                <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-status" class="explorer-status-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
                   <option value="contracted">Contracted 2026</option>
@@ -2587,9 +2587,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               <div>
                 <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
-                  <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
+                  <span id="explorer-min-hp-val" class="explorer-min-hp-val font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
-                <input type="range" id="explorer-min-hp" class="range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value)">
+                <input type="range" id="explorer-min-hp" class="explorer-min-hp-slider range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value, this)">
               </div>
             </div>
 
@@ -2613,7 +2613,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                       <th style="text-align: center;">Shortlist</th>
                     </tr>
                   </thead>
-                  <tbody id="explorer-table-body">
+                  <tbody id="explorer-table-body" class="explorer-table-body">
                     <!-- Dynamically populated -->
                   </tbody>
                 </table>
@@ -2752,11 +2752,11 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
-                <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
+                <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
-                <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-role" class="explorer-role-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
                   <option value="bowl">Bowlers (101)</option>
@@ -2764,7 +2764,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
-                <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-overseas" class="explorer-overseas-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
                   <option value="overseas">Overseas Only</option>
@@ -2772,7 +2772,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
-                <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-status" class="explorer-status-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
                   <option value="contracted">Contracted 2026</option>
@@ -2782,9 +2782,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               <div>
                 <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
-                  <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
+                  <span id="explorer-min-hp-val" class="explorer-min-hp-val font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
-                <input type="range" id="explorer-min-hp" class="range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value)">
+                <input type="range" id="explorer-min-hp" class="explorer-min-hp-slider range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value, this)">
               </div>
             </div>
 
@@ -2808,7 +2808,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                       <th style="text-align: center;">Shortlist</th>
                     </tr>
                   </thead>
-                  <tbody id="explorer-table-body">
+                  <tbody id="explorer-table-body" class="explorer-table-body">
                     <!-- Dynamically populated -->
                   </tbody>
                 </table>
@@ -2880,11 +2880,11 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
-                <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
+                <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
-                <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-role" class="explorer-role-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
                   <option value="bowl">Bowlers (101)</option>
@@ -2892,7 +2892,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
-                <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-overseas" class="explorer-overseas-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
                   <option value="overseas">Overseas Only</option>
@@ -2900,7 +2900,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
-                <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-status" class="explorer-status-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
                   <option value="contracted">Contracted 2026</option>
@@ -2910,9 +2910,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               <div>
                 <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
-                  <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
+                  <span id="explorer-min-hp-val" class="explorer-min-hp-val font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
-                <input type="range" id="explorer-min-hp" class="range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value)">
+                <input type="range" id="explorer-min-hp" class="explorer-min-hp-slider range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value, this)">
               </div>
             </div>
 
@@ -2936,7 +2936,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                       <th style="text-align: center;">Shortlist</th>
                     </tr>
                   </thead>
-                  <tbody id="explorer-table-body">
+                  <tbody id="explorer-table-body" class="explorer-table-body">
                     <!-- Dynamically populated -->
                   </tbody>
                 </table>
@@ -3055,11 +3055,11 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
-                <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
+                <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
-                <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-role" class="explorer-role-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
                   <option value="bowl">Bowlers (101)</option>
@@ -3067,7 +3067,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
-                <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-overseas" class="explorer-overseas-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
                   <option value="overseas">Overseas Only</option>
@@ -3075,7 +3075,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
-                <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-status" class="explorer-status-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
                   <option value="contracted">Contracted 2026</option>
@@ -3085,9 +3085,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               <div>
                 <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
-                  <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
+                  <span id="explorer-min-hp-val" class="explorer-min-hp-val font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
-                <input type="range" id="explorer-min-hp" class="range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value)">
+                <input type="range" id="explorer-min-hp" class="explorer-min-hp-slider range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value, this)">
               </div>
             </div>
 
@@ -3111,7 +3111,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                       <th style="text-align: center;">Shortlist</th>
                     </tr>
                   </thead>
-                  <tbody id="explorer-table-body">
+                  <tbody id="explorer-table-body" class="explorer-table-body">
                     <!-- Dynamically populated -->
                   </tbody>
                 </table>
@@ -3201,11 +3201,11 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
-                <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
+                <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
-                <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-role" class="explorer-role-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
                   <option value="bowl">Bowlers (101)</option>
@@ -3213,7 +3213,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
-                <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-overseas" class="explorer-overseas-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
                   <option value="overseas">Overseas Only</option>
@@ -3221,7 +3221,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
-                <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-status" class="explorer-status-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
                   <option value="contracted">Contracted 2026</option>
@@ -3231,9 +3231,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               <div>
                 <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
-                  <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
+                  <span id="explorer-min-hp-val" class="explorer-min-hp-val font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
-                <input type="range" id="explorer-min-hp" class="range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value)">
+                <input type="range" id="explorer-min-hp" class="explorer-min-hp-slider range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value, this)">
               </div>
             </div>
 
@@ -3257,7 +3257,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                       <th style="text-align: center;">Shortlist</th>
                     </tr>
                   </thead>
-                  <tbody id="explorer-table-body">
+                  <tbody id="explorer-table-body" class="explorer-table-body">
                     <!-- Dynamically populated -->
                   </tbody>
                 </table>
@@ -3505,11 +3505,11 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
-                <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
+                <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
-                <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-role" class="explorer-role-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
                   <option value="bowl">Bowlers (101)</option>
@@ -3517,7 +3517,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
-                <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-overseas" class="explorer-overseas-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
                   <option value="overseas">Overseas Only</option>
@@ -3525,7 +3525,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
-                <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-status" class="explorer-status-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
                   <option value="contracted">Contracted 2026</option>
@@ -3535,9 +3535,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               <div>
                 <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
-                  <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
+                  <span id="explorer-min-hp-val" class="explorer-min-hp-val font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
-                <input type="range" id="explorer-min-hp" class="range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value)">
+                <input type="range" id="explorer-min-hp" class="explorer-min-hp-slider range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value, this)">
               </div>
             </div>
 
@@ -3561,7 +3561,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                       <th style="text-align: center;">Shortlist</th>
                     </tr>
                   </thead>
-                  <tbody id="explorer-table-body">
+                  <tbody id="explorer-table-body" class="explorer-table-body">
                     <!-- Dynamically populated -->
                   </tbody>
                 </table>
@@ -3727,11 +3727,11 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
-                <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
+                <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
-                <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-role" class="explorer-role-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
                   <option value="bowl">Bowlers (101)</option>
@@ -3739,7 +3739,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
-                <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-overseas" class="explorer-overseas-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
                   <option value="overseas">Overseas Only</option>
@@ -3747,7 +3747,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
-                <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-status" class="explorer-status-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
                   <option value="contracted">Contracted 2026</option>
@@ -3757,9 +3757,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               <div>
                 <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
-                  <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
+                  <span id="explorer-min-hp-val" class="explorer-min-hp-val font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
-                <input type="range" id="explorer-min-hp" class="range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value)">
+                <input type="range" id="explorer-min-hp" class="explorer-min-hp-slider range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value, this)">
               </div>
             </div>
 
@@ -3783,7 +3783,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                       <th style="text-align: center;">Shortlist</th>
                     </tr>
                   </thead>
-                  <tbody id="explorer-table-body">
+                  <tbody id="explorer-table-body" class="explorer-table-body">
                     <!-- Dynamically populated -->
                   </tbody>
                 </table>
@@ -3850,11 +3850,11 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
-                <input type="text" id="explorer-search" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange()">
+                <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Role</label>
-                <select id="explorer-role" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-role" class="explorer-role-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Roles (202)</option>
                   <option value="bat">Batters (101)</option>
                   <option value="bowl">Bowlers (101)</option>
@@ -3862,7 +3862,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Nationality / Overseas</label>
-                <select id="explorer-overseas" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-overseas" class="explorer-overseas-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Nationalities</option>
                   <option value="domestic">Domestic (India Only)</option>
                   <option value="overseas">Overseas Only</option>
@@ -3870,7 +3870,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div>
                 <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Auction Availability</label>
-                <select id="explorer-status" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange()">
+                <select id="explorer-status" class="explorer-status-select" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" onchange="onExplorerFilterChange(this)">
                   <option value="all">All Statuses</option>
                   <option value="pool">Target Pool (Not in 2026 Squad)</option>
                   <option value="contracted">Contracted 2026</option>
@@ -3880,9 +3880,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               <div>
                 <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #F8FAFC; margin-bottom: 4px;">
                   <span>Min HP Deliveries</span>
-                  <span id="explorer-min-hp-val" class="font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
+                  <span id="explorer-min-hp-val" class="explorer-min-hp-val font-mono text-rrPink" style="color: var(--rr-pink);">0</span>
                 </div>
-                <input type="range" id="explorer-min-hp" class="range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value)">
+                <input type="range" id="explorer-min-hp" class="explorer-min-hp-slider range-slider" min="0" max="600" step="25" value="0" oninput="onExplorerMinHPChange(this.value, this)">
               </div>
             </div>
 
@@ -3906,7 +3906,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                       <th style="text-align: center;">Shortlist</th>
                     </tr>
                   </thead>
-                  <tbody id="explorer-table-body">
+                  <tbody id="explorer-table-body" class="explorer-table-body">
                     <!-- Dynamically populated -->
                   </tbody>
                 </table>
@@ -5171,6 +5171,7 @@ function switchTab(tabId) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // Trigger lazy re-renders
+  renderExplorerTable();
   if (tabId === 'tab-3d-playground') init3DPlayground();
   else if (tabId === 'tab-scatter') renderPressureScatter();
   else if (tabId === 'tab-slope') renderSlopeChart();
@@ -6744,18 +6745,60 @@ const explorerState = {
   sortAsc: true
 };
 
-function onExplorerFilterChange() {
-  explorerState.search = (document.getElementById('explorer-search')?.value || '').toLowerCase().trim();
-  explorerState.role = document.getElementById('explorer-role')?.value || 'all';
-  explorerState.overseas = document.getElementById('explorer-overseas')?.value || 'all';
-  explorerState.status = document.getElementById('explorer-status')?.value || 'all';
+function onExplorerFilterChange(el) {
+  const target = el || (typeof event !== 'undefined' ? event.target : null);
+  if (target) {
+    const card = target.closest('.card') || target.closest('.tab-pane') || document;
+    const sInp = card.querySelector('.explorer-search-input, [id="explorer-search"]');
+    const rSel = card.querySelector('.explorer-role-select, [id="explorer-role"]');
+    const oSel = card.querySelector('.explorer-overseas-select, [id="explorer-overseas"]');
+    const stSel = card.querySelector('.explorer-status-select, [id="explorer-status"]');
+
+    if (sInp) explorerState.search = (sInp.value || '').toLowerCase().trim();
+    if (rSel) explorerState.role = rSel.value || 'all';
+    if (oSel) explorerState.overseas = oSel.value || 'all';
+    if (stSel) explorerState.status = stSel.value || 'all';
+  } else {
+    const sInp = document.querySelector('.explorer-search-input, [id="explorer-search"]');
+    const rSel = document.querySelector('.explorer-role-select, [id="explorer-role"]');
+    const oSel = document.querySelector('.explorer-overseas-select, [id="explorer-overseas"]');
+    const stSel = document.querySelector('.explorer-status-select, [id="explorer-status"]');
+
+    if (sInp) explorerState.search = (sInp.value || '').toLowerCase().trim();
+    if (rSel) explorerState.role = rSel.value || 'all';
+    if (oSel) explorerState.overseas = oSel.value || 'all';
+    if (stSel) explorerState.status = stSel.value || 'all';
+  }
+
+  // Synchronize all explorer filter bars across all tabs
+  document.querySelectorAll('.explorer-search-input, [id="explorer-search"]').forEach(inp => {
+    if (inp !== target) inp.value = explorerState.search;
+  });
+  document.querySelectorAll('.explorer-role-select, [id="explorer-role"]').forEach(sel => {
+    if (sel !== target) sel.value = explorerState.role;
+  });
+  document.querySelectorAll('.explorer-overseas-select, [id="explorer-overseas"]').forEach(sel => {
+    if (sel !== target) sel.value = explorerState.overseas;
+  });
+  document.querySelectorAll('.explorer-status-select, [id="explorer-status"]').forEach(sel => {
+    if (sel !== target) sel.value = explorerState.status;
+  });
+
   renderExplorerTable();
 }
 
-function onExplorerMinHPChange(val) {
-  explorerState.minHP = parseInt(val, 10);
-  const disp = document.getElementById('explorer-min-hp-val');
-  if (disp) disp.innerText = val;
+function onExplorerMinHPChange(val, el) {
+  const target = el || (typeof event !== 'undefined' ? event.target : null);
+  explorerState.minHP = parseInt(val, 10) || 0;
+
+  // Synchronize all sliders & numeric displays across all tabs
+  document.querySelectorAll('.explorer-min-hp-val, [id="explorer-min-hp-val"]').forEach(disp => {
+    disp.innerText = val;
+  });
+  document.querySelectorAll('.explorer-min-hp-slider, [id="explorer-min-hp"]').forEach(inp => {
+    if (inp !== target) inp.value = val;
+  });
+
   renderExplorerTable();
 }
 
@@ -6770,16 +6813,20 @@ function sortExplorer(col) {
 }
 
 function renderExplorerTable() {
-  const tbody = document.getElementById('explorer-table-body');
-  if (!tbody) return;
-  tbody.innerHTML = '';
+  const tbodies = document.querySelectorAll('tbody[id="explorer-table-body"], tbody.explorer-table-body');
+  if (!tbodies || tbodies.length === 0) return;
 
-  let list = APP_DATA.adjusted_all_players.slice();
+  let list = (APP_DATA.adjusted_all_players || []).slice();
 
   // Search filter
   if (explorerState.search) {
-    const q = explorerState.search;
-    list = list.filter(p => p.name.toLowerCase().includes(q) || p.nationality.toLowerCase().includes(q) || p.ipl2026.toLowerCase().includes(q));
+    const q = explorerState.search.toLowerCase();
+    list = list.filter(p => 
+      (p.name && p.name.toLowerCase().includes(q)) || 
+      (p.nationality && p.nationality.toLowerCase().includes(q)) || 
+      (p.ipl2026 && p.ipl2026.toLowerCase().includes(q)) ||
+      (p.status && p.status.toLowerCase().includes(q))
+    );
   }
 
   // Role filter
@@ -6796,7 +6843,7 @@ function renderExplorerTable() {
 
   // Status filter
   if (explorerState.status === 'pool') {
-    list = list.filter(p => p.status.includes('Not in an IPL 2026 squad') || !p.ipl2026);
+    list = list.filter(p => (p.status && p.status.includes('Not in an IPL 2026 squad')) || !p.ipl2026);
   } else if (explorerState.status === 'contracted') {
     list = list.filter(p => p.ipl2026 && p.ipl2026.trim() !== '');
   } else if (explorerState.status === 'pakistan') {
@@ -6812,39 +6859,45 @@ function renderExplorerTable() {
   const col = explorerState.sortCol;
   const asc = explorerState.sortAsc;
   list.sort((a, b) => {
-    let va = a[col];
-    let vb = b[col];
+    let va = a[col] != null ? a[col] : (asc ? Infinity : -Infinity);
+    let vb = b[col] != null ? b[col] : (asc ? Infinity : -Infinity);
     if (typeof va === 'string') {
       return asc ? va.localeCompare(vb) : vb.localeCompare(va);
     }
     return asc ? (va - vb) : (vb - va);
   });
 
-  list.forEach(p => {
-    const isStarred = state.shortlist.includes(p.name);
-    const tr = document.createElement('tr');
-    tr.onclick = (e) => {
-      if (e.target.closest('.star-btn')) return;
-      openPlayerProfile(p.name, p.role);
-    };
+  let rowsHtml = '';
+  if (list.length === 0) {
+    rowsHtml = `<tr><td colspan="12" style="text-align: center; padding: 28px; color: var(--rr-text-muted); font-size: 12px;">No players match the selected filter criteria.</td></tr>`;
+  } else {
+    rowsHtml = list.map(p => {
+      const isStarred = state.shortlist.includes(p.name);
+      const roleColor = p.role === 'bat' ? 'var(--rr-pink)' : '#38BDF8';
+      const safeName = p.name.replace(/'/g, "\\'");
+      return `
+        <tr onclick="openPlayerProfile('${safeName}')" style="cursor: pointer;">
+          <td class="sticky-col-rank"><span class="rank-chip ${p.adjusted_rank <= 3 ? 'top3' : ''}">${p.adjusted_rank}</span></td>
+          <td class="sticky-col-player" style="font-weight: 700; color: #FFFFFF;">${p.name}</td>
+          <td style="text-transform: uppercase; color: ${roleColor}; font-weight: 700;">${p.role}</td>
+          <td>${getFlag(p.nationality)} ${p.nationality}</td>
+          <td class="tabular" style="text-align: right;">${p.n_hp}</td>
+          <td class="tabular font-bold" style="text-align: right; color: var(--rr-pink);">${p.net_hp > 0 ? '+' : ''}${p.net_hp.toFixed(2)}</td>
+          <td class="tabular ${p.delta >= 0 ? 'delta-pos' : 'delta-neg'}" style="text-align: right;">${p.delta > 0 ? '+' : ''}${p.delta.toFixed(2)}</td>
+          <td class="tabular" style="text-align: right;">${p.wpa_hp.toFixed(3)}</td>
+          <td class="tabular" style="text-align: right;">${p.cons.toFixed(3)}</td>
+          <td class="tabular font-bold" style="text-align: right; color: #34D399;">${p.adjusted_score.toFixed(3)}</td>
+          <td style="font-size: 11px; color: #CBD5E1;">${p.ipl2026 || 'Direct Pool Target'}</td>
+          <td style="text-align: center;">
+            <button class="star-btn ${isStarred ? 'starred' : ''}" data-player="${safeName}" onclick="event.stopPropagation(); toggleShortlist(this.dataset.player)">★</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
 
-    tr.innerHTML = `
-      <td class="sticky-col-rank"><span class="rank-chip ${p.adjusted_rank <= 3 ? 'top3' : ''}">${p.adjusted_rank}</span></td>
-      <td class="sticky-col-player">${p.name}</td>
-      <td style="text-transform: uppercase; color: ${p.role === 'bat' ? 'var(--rr-pink)' : '#1D4ED8'}; font-weight: 700;">${p.role}</td>
-      <td>${getFlag(p.nationality)} ${p.nationality}</td>
-      <td class="tabular" style="text-align: right;">${p.n_hp}</td>
-      <td class="tabular font-bold" style="text-align: right; color: var(--rr-pink);">${p.net_hp > 0 ? '+' : ''}${p.net_hp.toFixed(2)}</td>
-      <td class="tabular ${p.delta >= 0 ? 'delta-pos' : 'delta-neg'}" style="text-align: right;">${p.delta > 0 ? '+' : ''}${p.delta.toFixed(2)}</td>
-      <td class="tabular" style="text-align: right;">${p.wpa_hp.toFixed(3)}</td>
-      <td class="tabular" style="text-align: right;">${p.cons.toFixed(3)}</td>
-      <td class="tabular font-bold" style="text-align: right;">${p.adjusted_score.toFixed(3)}</td>
-      <td style="font-size: 10px; color: var(--rr-text-muted);">${p.ipl2026 || 'Direct Pool Target'}</td>
-      <td style="text-align: center;">
-        <button class="star-btn ${isStarred ? 'starred' : ''}" data-player="${p.name}" onclick="toggleShortlist(this.dataset.player)">★</button>
-      </td>
-    `;
-    tbody.appendChild(tr);
+  tbodies.forEach(tb => {
+    tb.innerHTML = rowsHtml;
   });
 }
 
