@@ -32,7 +32,7 @@ superr-selector-analysis/
 │   ├── c2.png                            # Figure 2: Pressure Value vs. Ordinary Baseline (Scatter)
 │   └── c3.png                            # Figure 3: Bootstrap Stability Distribution (Top 10 / Top 5)
 ├── data/                                 # Consolidated analysis datasets & verified benchmarks
-│   ├── rr_official_ground_truth.csv     # Official Top 10 Batters & Bowlers verified benchmark
+│   ├── RR_Player_Evaluation_Master.csv     # Official Top 10 Batters & Bowlers verified benchmark
 │   ├── tactical_splits_verified.csv      # Pace/Spin & Match Phase situational breakdowns
 │   ├── rr_squad_pressure_audit.csv       # Empirical pressure audit of 15 RR-contracted players
 │   ├── adjusted_all_batters.csv          # Complete qualified batters ranking (100 players)
@@ -60,7 +60,7 @@ superr-selector-analysis/
 
 ## 🏆 Verified Top 10 Leaderboards
 
-All metrics are verified across `rr_official_ground_truth.csv`, `index.html`, and `SupeRR_Selector_Methodology_Report_v4_Top1.pdf`.
+All metrics are verified across `RR_Player_Evaluation_Master.csv`, `index.html`, and `SupeRR_Selector_Methodology_Report_v4_Top1.pdf`.
 
 ### 🏏 Top 10 Batters Under High Pressure
 

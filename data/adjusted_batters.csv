@@ -1,11 +1,11 @@
 rank,player,hp_balls,net_100,delta,wpa_100,consistency,score,boot_top10,boot_top5,hp_runs,outs,sr,orig_rank,source,role
-1,Suryakumar Yadav,697,38.74,13.1,0.629,0.729,0.843,76.0,58.0,1213,28,174.0,1,rr_official_ground_truth.csv,bat
-2,Phil Salt,339,36.85,17.42,0.839,0.774,0.771,82.0,56.5,595,12,175.5,2,rr_official_ground_truth.csv,bat
-3,Tim David,419,26.85,-10.51,0.847,0.649,0.457,37.5,19.5,731,21,174.5,3,rr_official_ground_truth.csv,bat
-4,Babar Azam,220,24.44,26.62,0.242,0.727,0.438,24.5,7.0,354,8,160.9,6,rr_official_ground_truth.csv,bat
-5,Shubman Gill,564,15.31,6.22,0.31,0.723,0.437,19.5,5.0,884,20,156.7,7,rr_official_ground_truth.csv,bat
-6,Nicholas Pooran,575,21.84,6.48,0.127,0.702,0.412,26.5,11.5,926,27,161.0,5,rr_official_ground_truth.csv,bat
-7,Abhishek Sharma,476,24.34,-14.38,0.494,0.675,0.41,16.0,7.5,877,30,184.2,4,rr_official_ground_truth.csv,bat
-8,Vaibhav Sooryavanshi,161,75.76,7.89,1.209,0.556,0.386,39.0,32.0,372,8,231.1,8,rr_official_ground_truth.csv,bat
-9,Fakhar Zaman,217,19.25,23.87,0.635,0.667,0.343,24.0,7.0,329,11,151.6,9,rr_official_ground_truth.csv,bat
-10,Harry Brook,193,25.94,10.49,0.724,0.647,0.322,22.5,12.5,n/a,n/a,n/a,27,rr_official_ground_truth.csv,bat
+1,Suryakumar Yadav,697,38.74,13.1,0.629,0.729,0.843,76.0,58.0,1213,28,174.0,1,RR_Player_Evaluation_Master.csv,bat
+2,Phil Salt,339,36.85,17.42,0.839,0.774,0.771,82.0,56.5,595,12,175.5,2,RR_Player_Evaluation_Master.csv,bat
+3,Tim David,419,26.85,-10.51,0.847,0.649,0.457,37.5,19.5,731,21,174.5,3,RR_Player_Evaluation_Master.csv,bat
+4,Babar Azam,220,24.44,26.62,0.242,0.727,0.438,24.5,7.0,354,8,160.9,6,RR_Player_Evaluation_Master.csv,bat
+5,Shubman Gill,564,15.31,6.22,0.31,0.723,0.437,19.5,5.0,884,20,156.7,7,RR_Player_Evaluation_Master.csv,bat
+6,Nicholas Pooran,575,21.84,6.48,0.127,0.702,0.412,26.5,11.5,926,27,161.0,5,RR_Player_Evaluation_Master.csv,bat
+7,Abhishek Sharma,476,24.34,-14.38,0.494,0.675,0.41,16.0,7.5,877,30,184.2,4,RR_Player_Evaluation_Master.csv,bat
+8,Vaibhav Sooryavanshi,161,75.76,7.89,1.209,0.556,0.386,39.0,32.0,372,8,231.1,8,RR_Player_Evaluation_Master.csv,bat
+9,Fakhar Zaman,217,19.25,23.87,0.635,0.667,0.343,24.0,7.0,329,11,151.6,9,RR_Player_Evaluation_Master.csv,bat
+10,Harry Brook,193,25.94,10.49,0.724,0.647,0.322,22.5,12.5,n/a,n/a,n/a,27,RR_Player_Evaluation_Master.csv,bat
