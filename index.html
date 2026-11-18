@@ -742,9 +742,9 @@ body.scroll-locked {
 .drawer-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(6, 17, 41, 0.5);
+  background: rgba(6, 17, 41, 0.65);
   backdrop-filter: blur(2px);
-  z-index: 2300;
+  z-index: 2600;
   display: none;
   opacity: 0;
   transition: opacity 200ms ease;
@@ -763,11 +763,14 @@ body.scroll-locked {
   color: #F8FAFC;
   border-left: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: -6px 0 30px rgba(6, 17, 41, 0.25);
-  z-index: 2301;
+  z-index: 2601;
   transform: translateX(100%);
   transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
+}
+#profile-drawer {
+  z-index: 2605 !important;
 }
 .drawer-panel.open {
   transform: translateX(0);
@@ -1372,7 +1375,7 @@ div[style*="border: 1px solid #CBD5E1"] {
 
   /* SIDE PANEL CONVERTED TO MOBILE BOTTOM SHEET OVERLAY */
   .drawer-overlay {
-    z-index: 2300 !important;
+    z-index: 2600 !important;
   }
   .drawer-panel {
     top: auto !important;
@@ -1390,7 +1393,10 @@ div[style*="border: 1px solid #CBD5E1"] {
     transform: translateY(100%) !important;
     transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
     box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6) !important;
-    z-index: 2301 !important;
+    z-index: 2601 !important;
+  }
+  #profile-drawer {
+    z-index: 2605 !important;
   }
   .drawer-panel.open {
     transform: translateY(0) !important;
@@ -1845,7 +1851,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
     <div class="ticker-grid">
       <div class="ticker-card">
         <div class="ticker-title">🎯 Top-1 Model Recommendations</div>
-        <div class="ticker-val" id="ticker-top1-text">Overall: Sunil Narine (#1) • Bat: Suryakumar Yadav (#1) • Bowl: Sunil Narine (#1)</div>
+        <div class="ticker-val" id="ticker-top1-text">Overall: <span onclick="openPlayerProfile('Sunil Narine')" style="cursor: pointer; text-decoration: underline;" title="View Sunil Narine stats">Sunil Narine (#1)</span> • Bat: <span onclick="openPlayerProfile('Suryakumar Yadav')" style="cursor: pointer; text-decoration: underline;" title="View Suryakumar Yadav stats">Suryakumar Yadav (#1)</span></div>
         <div class="ticker-sub" id="ticker-top1-sub">KKR &amp; MI retention pending • Stability &ge; 50% (Rule D2)</div>
       </div>
 
@@ -1857,14 +1863,14 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
 
       <div class="ticker-card">
         <div class="ticker-title">🔒 Stable Core (Top 10 Share &ge; 75%)</div>
-        <div class="ticker-val" id="ticker-stable-text">Surya (76%), Salt (82%), Narine (93%)</div>
+        <div class="ticker-val" id="ticker-stable-text"><span onclick="openPlayerProfile('Suryakumar Yadav')" style="cursor: pointer; text-decoration: underline;" title="View Surya stats">Surya (76%)</span>, <span onclick="openPlayerProfile('Phil Salt')" style="cursor: pointer; text-decoration: underline;" title="View Phil Salt stats">Salt (82%)</span>, <span onclick="openPlayerProfile('Sunil Narine')" style="cursor: pointer; text-decoration: underline;" title="View Sunil Narine stats">Narine (93%)</span></div>
         <div class="ticker-sub" id="ticker-stable-sub">Order sensitivity tested over 200 resamples</div>
       </div>
 
       <div class="ticker-card">
         <div class="ticker-title">⚙️ Active Model Specification</div>
         <div class="ticker-val" id="ticker-mode-text">Opposition-Adjusted Model</div>
-        <div class="ticker-sub" id="ticker-mode-sub">Brook &amp; Mohit enter Top 10 • LI &ge; 1.32 (49,276 balls)</div>
+        <div class="ticker-sub" id="ticker-mode-sub"><span onclick="openPlayerProfile('Harry Brook')" style="cursor: pointer; text-decoration: underline;" title="View Harry Brook stats">Harry Brook (#10)</span> &amp; <span onclick="openPlayerProfile('Mohit Sharma')" style="cursor: pointer; text-decoration: underline;" title="View Mohit Sharma stats">Mohit Sharma (#9)</span> enter Top 10</div>
       </div>
     </div>
   </section>
@@ -3542,8 +3548,8 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
               <div id="card-pakistan-excluded-list" style="font-size: 11.5px; color: #CBD5E1; line-height: 1.5;">
                 <ul style="margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 4px;">
-                  <li><strong>Batters:</strong> Babar Azam (adj #4), Fakhar Zaman (adj #9), Dinesh Karthik (adj #13, retired)</li>
-                  <li><strong>Bowlers:</strong> Abrar Ahmed (adj #2), Shaheen Afridi (adj #16), Mohammad Nawaz (adj #17), Saim Ayub (adj #31)</li>
+                  <li><strong>Batters:</strong> <span onclick="openPlayerProfile('Babar Azam')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;" title="Click to view Babar Azam stats">Babar Azam</span> (adj #4), <span onclick="openPlayerProfile('Fakhar Zaman')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;" title="Click to view Fakhar Zaman stats">Fakhar Zaman</span> (adj #9), <span onclick="openPlayerProfile('Dinesh Karthik')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;" title="Click to view Dinesh Karthik stats">Dinesh Karthik</span> (adj #13, retired)</li>
+                  <li><strong>Bowlers:</strong> <span onclick="openPlayerProfile('Abrar Ahmed')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;" title="Click to view Abrar Ahmed stats">Abrar Ahmed</span> (adj #2), <span onclick="openPlayerProfile('Shaheen Afridi')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;" title="Click to view Shaheen Afridi stats">Shaheen Afridi</span> (adj #16), <span onclick="openPlayerProfile('Mohammad Nawaz')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;" title="Click to view Mohammad Nawaz stats">Mohammad Nawaz</span> (adj #17), <span onclick="openPlayerProfile('Saim Ayub')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;" title="Click to view Saim Ayub stats">Saim Ayub</span> (adj #31)</li>
                 </ul>
               </div>
             </div>
@@ -3554,9 +3560,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                 <span style="font-size: 9px; background: rgba(56, 189, 248, 0.1); color: #38BDF8; padding: 1px 6px; border-radius: 4px; font-weight: 700; border: 1px solid rgba(56, 189, 248, 0.25);">ACTIONABLE</span>
               </div>
               <ul style="margin: 0; padding-left: 16px; font-size: 11.5px; color: #CBD5E1; line-height: 1.5; display: flex; flex-direction: column; gap: 4px;">
-                <li><strong>Batting Top 10:</strong> Tim Seifert (#11) &amp; Shreyas Iyer (#12) advance into Top 10</li>
-                <li><strong>Bowling Top 10:</strong> Axar Patel (#11) advances into Top 10</li>
-                <li><strong>Direct Top 10:</strong> Harry Brook (#10) &amp; Mohit Sharma (#9) qualified directly</li>
+                <li><strong>Batting Top 10:</strong> <span onclick="openPlayerProfile('Tim Seifert')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;" title="Click to view Tim Seifert stats">Tim Seifert</span> (#11) &amp; <span onclick="openPlayerProfile('Shreyas Iyer')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;" title="Click to view Shreyas Iyer stats">Shreyas Iyer</span> (#12) advance into Top 10</li>
+                <li><strong>Bowling Top 10:</strong> <span onclick="openPlayerProfile('Axar Patel')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;" title="Click to view Axar Patel stats">Axar Patel</span> (#11) advances into Top 10</li>
+                <li><strong>Direct Top 10:</strong> <span onclick="openPlayerProfile('Harry Brook')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;" title="Click to view Harry Brook stats">Harry Brook</span> (#10) &amp; <span onclick="openPlayerProfile('Mohit Sharma')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;" title="Click to view Mohit Sharma stats">Mohit Sharma</span> (#9) qualified directly</li>
               </ul>
             </div>
 
@@ -3566,9 +3572,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                 <span style="font-size: 9px; background: rgba(52, 211, 153, 0.1); color: #34D399; padding: 1px 6px; border-radius: 4px; font-weight: 700; border: 1px solid rgba(52, 211, 153, 0.25);">SCOUTING</span>
               </div>
               <ul style="margin: 0; padding-left: 16px; font-size: 11.5px; color: #CBD5E1; line-height: 1.5; display: flex; flex-direction: column; gap: 4px;">
-                <li><strong>Mohit Sharma:</strong> adj #9 • Score 0.540 (No 2026 IPL squad)</li>
-                <li><strong>Harry Brook:</strong> adj #10 • Score 0.322 (Available target)</li>
-                <li><strong>Mujeeb Ur Rahman:</strong> adj #21 • Score 0.360 (Mystery spin asset)</li>
+                <li><strong onclick="openPlayerProfile('Mohit Sharma')" style="color: #34D399; cursor: pointer; text-decoration: underline;" title="Click to view Mohit Sharma stats">Mohit Sharma:</strong> adj #9 • Score 0.540 (No 2026 IPL squad)</li>
+                <li><strong onclick="openPlayerProfile('Harry Brook')" style="color: #34D399; cursor: pointer; text-decoration: underline;" title="Click to view Harry Brook stats">Harry Brook:</strong> adj #10 • Score 0.322 (Available target)</li>
+                <li><strong onclick="openPlayerProfile('Mujeeb Ur Rahman')" style="color: #34D399; cursor: pointer; text-decoration: underline;" title="Click to view Mujeeb Ur Rahman stats">Mujeeb Ur Rahman:</strong> adj #21 • Score 0.360 (Mystery spin asset)</li>
               </ul>
             </div>
           </div>
@@ -3593,22 +3599,28 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
 
             <!-- Key Findings KPI Grid -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; padding: 14px 20px; background: #091A33; border-bottom: 1px solid #E2E8F0;">
-              <div style="background: #08162B; border-left: 3px solid var(--rr-pink); padding: 10px 14px; border-radius: 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);">
+              <div style="background: #08162B; border-left: 3px solid var(--rr-pink); padding: 10px 14px; border-radius: 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); cursor: pointer;" onclick="openPlayerProfile('Vaibhav Sooryavanshi')" title="Click to view Vaibhav Sooryavanshi stats">
                 <div style="font-size: 10px; font-weight: 800; color: var(--rr-pink); text-transform: uppercase;">Top Batting Asset</div>
-                <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin: 2px 0;">Vaibhav Sooryavanshi (Rank #8)</div>
+                <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin: 2px 0;">Vaibhav Sooryavanshi (Rank #8) <span style="font-size: 11px; color: var(--rr-pink);">↗</span></div>
                 <div style="font-size: 11px; color: #94A3B8;">Score 0.386 &bull; Net +75.76 &bull; RR's sole Top-10 pressure batter</div>
               </div>
 
-              <div style="background: #08162B; border-left: 3px solid #2563EB; padding: 10px 14px; border-radius: 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);">
+              <div style="background: #08162B; border-left: 3px solid #2563EB; padding: 10px 14px; border-radius: 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); cursor: pointer;" onclick="openPlayerProfile('Jofra Archer')" title="Click to view Jofra Archer stats">
                 <div style="font-size: 10px; font-weight: 800; color: #2563EB; text-transform: uppercase;">Top Bowling Asset</div>
-                <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin: 2px 0;">Jofra Archer (Rank #13)</div>
+                <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin: 2px 0;">Jofra Archer (Rank #13) <span style="font-size: 11px; color: #38BDF8;">↗</span></div>
                 <div style="font-size: 11px; color: #94A3B8;">Score 0.453 &bull; Net +24.49 &bull; Delta +25.49 &bull; RR's #1 pressure seamer</div>
               </div>
 
               <div style="background: #08162B; border-left: 3px solid #F59E0B; padding: 10px 14px; border-radius: 6px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);">
                 <div style="font-size: 10px; font-weight: 800; color: #D97706; text-transform: uppercase;">Squad Deficit Finding</div>
                 <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin: 2px 0;">13 of 15 Outside Top 40</div>
-                <div style="font-size: 11px; color: #94A3B8;">Jaiswal #42, Hetmyer #58, Jurel #60, Parag #78, Bishnoi #93</div>
+                <div style="font-size: 11px; color: #94A3B8;">
+                  <span onclick="openPlayerProfile('Yashasvi Jaiswal')" style="cursor: pointer; color: #38BDF8; text-decoration: underline;" title="View Jaiswal stats">Jaiswal #42</span>, 
+                  <span onclick="openPlayerProfile('Shimron Hetmyer')" style="cursor: pointer; color: #38BDF8; text-decoration: underline;" title="View Hetmyer stats">Hetmyer #58</span>, 
+                  <span onclick="openPlayerProfile('Dhruv Jurel')" style="cursor: pointer; color: #38BDF8; text-decoration: underline;" title="View Jurel stats">Jurel #60</span>, 
+                  <span onclick="openPlayerProfile('Riyan Parag')" style="cursor: pointer; color: #38BDF8; text-decoration: underline;" title="View Parag stats">Parag #78</span>, 
+                  <span onclick="openPlayerProfile('Ravi Bishnoi')" style="cursor: pointer; color: #38BDF8; text-decoration: underline;" title="View Bishnoi stats">Bishnoi #93</span>
+                </div>
               </div>
             </div>
 
@@ -5368,9 +5380,9 @@ function renderD2DecisionCards() {
             <span class="pill-competition" style="background: ${c.bg}; color: ${c.color}; border-color: ${c.border}; font-size: 9px;">
               ${c.title}
             </span>
-            <h3 style="font-size: 18px; font-weight: 900; color: #F8FAFC; margin-top: 4px; display: flex; align-items: center; gap: 6px;">
+            <h3 style="font-size: 18px; font-weight: 900; color: #F8FAFC; margin-top: 4px; display: flex; align-items: center; gap: 6px; cursor: pointer;" onclick="openPlayerProfile('${p.name.replace(/'/g, "\\'")}')" title="Click to view full stats for ${p.name}">
               <span>${getFlag(p.nationality)}</span>
-              <span>${p.name}</span>
+              <span style="text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 3px;">${p.name} ↗</span>
             </h3>
             <div style="font-size: 11px; color: var(--rr-text-muted); margin-top: 2px;">
               ${p.role === 'bat' ? 'Batter' : 'Bowler'} &bull; ${p.nationality} &bull; Adjusted Rank <strong>#${p.adjusted_rank}</strong>
@@ -5601,16 +5613,16 @@ function renderScoreboardTicker() {
   const modeSub = document.getElementById('ticker-mode-sub');
 
   if (isAdj) {
-    if (top1Text) top1Text.innerText = 'Overall: Sunil Narine (#1) • Bat: Suryakumar Yadav (#1) • Bowl: Sunil Narine (#1)';
+    if (top1Text) top1Text.innerHTML = 'Overall: <span onclick="openPlayerProfile(\'Sunil Narine\')" style="cursor: pointer; text-decoration: underline;" title="View Sunil Narine stats">Sunil Narine (#1)</span> • Bat: <span onclick="openPlayerProfile(\'Suryakumar Yadav\')" style="cursor: pointer; text-decoration: underline;" title="View Suryakumar Yadav stats">Suryakumar Yadav (#1)</span>';
     if (top1Sub) top1Sub.innerText = 'KKR & MI retention pending • Stability >= 50% (Rule D2)';
-    if (stableText) stableText.innerText = 'Surya (76%), Salt (82%), Narine (93%)';
+    if (stableText) stableText.innerHTML = '<span onclick="openPlayerProfile(\'Suryakumar Yadav\')" style="cursor: pointer; text-decoration: underline;" title="View Surya stats">Surya (76%)</span>, <span onclick="openPlayerProfile(\'Phil Salt\')" style="cursor: pointer; text-decoration: underline;" title="View Phil Salt stats">Salt (82%)</span>, <span onclick="openPlayerProfile(\'Sunil Narine\')" style="cursor: pointer; text-decoration: underline;" title="View Sunil Narine stats">Narine (93%)</span>';
     if (stableSub) stableSub.innerText = 'Tested over 200 match-level bootstrap resamples';
     if (modeText) modeText.innerText = 'Opposition-Adjusted Model';
-    if (modeSub) modeSub.innerText = 'Harry Brook (#10) & Mohit Sharma (#9) enter Top 10';
+    if (modeSub) modeSub.innerHTML = '<span onclick="openPlayerProfile(\'Harry Brook\')" style="cursor: pointer; text-decoration: underline;" title="View Harry Brook stats">Harry Brook (#10)</span> & <span onclick="openPlayerProfile(\'Mohit Sharma\')" style="cursor: pointer; text-decoration: underline;" title="View Mohit Sharma stats">Mohit Sharma (#9)</span> enter Top 10';
   } else {
-    if (top1Text) top1Text.innerText = 'Bat: Suryakumar Yadav (#1) • Bowl: Mitchell Santner (#3)';
+    if (top1Text) top1Text.innerHTML = 'Bat: <span onclick="openPlayerProfile(\'Suryakumar Yadav\')" style="cursor: pointer; text-decoration: underline;" title="View Suryakumar Yadav stats">Suryakumar Yadav (#1)</span> • Bowl: <span onclick="openPlayerProfile(\'Mitchell Santner\')" style="cursor: pointer; text-decoration: underline;" title="View Mitchell Santner stats">Mitchell Santner (#3)</span>';
     if (top1Sub) top1Sub.innerText = 'Surya (#1 MI) & Narine (#1 KKR) contracted retention pending';
-    if (stableText) stableText.innerText = 'Surya (79.7%), Salt (80.7%), Narine (95.7%)';
+    if (stableText) stableText.innerHTML = '<span onclick="openPlayerProfile(\'Suryakumar Yadav\')" style="cursor: pointer; text-decoration: underline;" title="View Surya stats">Surya (79.7%)</span>, <span onclick="openPlayerProfile(\'Phil Salt\')" style="cursor: pointer; text-decoration: underline;" title="View Phil Salt stats">Salt (80.7%)</span>, <span onclick="openPlayerProfile(\'Sunil Narine\')" style="cursor: pointer; text-decoration: underline;" title="View Sunil Narine stats">Narine (95.7%)</span>';
     if (stableSub) stableSub.innerText = 'Tested over 300 match-level bootstrap resamples';
     if (modeText) modeText.innerText = 'Original Rankings Model';
     if (modeSub) modeSub.innerText = 'Workbook Final Rankings Sheet parity';
@@ -5628,6 +5640,8 @@ function renderLeaderboards() {
   bBody.innerHTML = '';
   batters.forEach(p => {
     const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.title = `Click to view full stats for ${p.player}`;
     tr.onclick = (e) => {
       if (e.target.closest('.star-btn')) return;
       openPlayerProfile(p.player);
@@ -5667,6 +5681,8 @@ function renderLeaderboards() {
   bwBody.innerHTML = '';
   bowlers.forEach(p => {
     const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.title = `Click to view full stats for ${p.player}`;
     tr.onclick = (e) => {
       if (e.target.closest('.star-btn')) return;
       openPlayerProfile(p.player);
@@ -5840,10 +5856,28 @@ function checkAndUnlockScroll() {
 
 // PLAYER PROFILE DRAWER (Part C1)
 function openPlayerProfile(pname) {
-  let p = APP_DATA.adjusted_all_players.find(x => x.name.toLowerCase() === pname.toLowerCase());
+  if (!pname) return;
+  const cleanName = pname.trim().toLowerCase();
+  
+  // 1. Exact match in adjusted_all_players
+  let p = (APP_DATA.adjusted_all_players || []).find(x => x.name.toLowerCase().trim() === cleanName);
+  
+  // 2. Substring match in adjusted_all_players
   if (!p) {
-    // Try finding in Top 10
-    const b = APP_DATA.adj_batters.concat(APP_DATA.adj_bowlers).find(x => x.player.toLowerCase() === pname.toLowerCase());
+    p = (APP_DATA.adjusted_all_players || []).find(x => {
+      const n = x.name.toLowerCase().trim();
+      return n.includes(cleanName) || cleanName.includes(n);
+    });
+  }
+
+  // 3. Match in Top 10 lists
+  if (!p) {
+    const allTop = (APP_DATA.adj_batters || []).concat(
+      APP_DATA.adj_bowlers || [],
+      APP_DATA.orig_batters || [],
+      APP_DATA.orig_bowlers || []
+    );
+    const b = allTop.find(x => (x.player && x.player.toLowerCase().trim() === cleanName) || (x.player && (x.player.toLowerCase().includes(cleanName) || cleanName.includes(x.player.toLowerCase()))));
     if (b) {
       p = {
         name: b.player,
@@ -5851,10 +5885,10 @@ function openPlayerProfile(pname) {
         adjusted_rank: b.rank,
         adjusted_score: b.score,
         net_hp: b.net_100,
-        net_np: b.net_100 - b.delta,
-        delta: b.delta,
-        wpa_hp: b.wpa_100,
-        cons: b.consistency,
+        net_np: b.net_100 - (b.delta || 0),
+        delta: b.delta || 0,
+        wpa_hp: b.wpa_100 || 0,
+        cons: b.consistency || 0.5,
         n_hp: b.hp_balls,
         nationality: 'India',
         ipl2026: '',
@@ -5862,6 +5896,13 @@ function openPlayerProfile(pname) {
       };
     }
   }
+
+  // 4. Match in RR squad pressure audit
+  if (!p && APP_DATA.rr_squad_audit) {
+    const s = APP_DATA.rr_squad_audit.find(x => x.name.toLowerCase().trim() === cleanName || x.name.toLowerCase().includes(cleanName));
+    if (s) p = { ...s };
+  }
+
   if (!p) return;
 
   const percentiles = getPlayerPercentiles(p);
@@ -6173,9 +6214,12 @@ function renderShortlistItems() {
     };
 
     const item = document.createElement('div');
-    item.style = 'background: #08162B; border: 1px solid var(--rr-border); border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px;';
+    item.style = 'background: #08162B; border: 1px solid var(--rr-border); border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; transition: border-color 0.15s ease;';
+    item.onmouseover = () => item.style.borderColor = 'var(--rr-pink)';
+    item.onmouseout = () => item.style.borderColor = 'var(--rr-border)';
+    const safeName = p.name.replace(/'/g, "\\'");
     item.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 10px; cursor: pointer; flex: 1;" onclick="openPlayerProfile('${safeName}')" title="Click to view full stats for ${safeName}">
         <span class="font-mono font-bold" style="color: var(--rr-pink); font-size: 11px;">#${idx + 1}</span>
         <div>
           <div style="font-size: 13px; font-weight: 700; color: #F8FAFC;">
@@ -6190,7 +6234,7 @@ function renderShortlistItems() {
       <div style="display: flex; align-items: center; gap: 4px;">
         <button onclick="reorderShortlist(${idx}, -1)" class="drawer-close" style="width: 22px; height: 22px; font-size: 10px;" ${idx === 0 ? 'disabled style="opacity: 0.3;"' : ''}>▲</button>
         <button onclick="reorderShortlist(${idx}, 1)" class="drawer-close" style="width: 22px; height: 22px; font-size: 10px;" ${idx === state.shortlist.length - 1 ? 'disabled style="opacity: 0.3;"' : ''}>▼</button>
-        <button onclick="toggleShortlist('${p.name.replace("'", "\\'")}')" class="drawer-close" style="width: 22px; height: 22px; font-size: 12px; color: #EF4444;">✕</button>
+        <button onclick="toggleShortlist('${safeName}')" class="drawer-close" style="width: 22px; height: 22px; font-size: 12px; color: #EF4444;">✕</button>
       </div>
     `;
     container.appendChild(item);
@@ -6325,7 +6369,7 @@ function renderPressureScatter() {
         onmouseout="hideScatterTooltip()" />
     `;
     if (isFinalist) {
-      svg += `<text x="${cx}" y="${cy - radius - 4}" font-size="9.5" font-weight="800" fill="#FFFFFF" text-anchor="middle" style="text-shadow: 0 1px 3px rgba(0,0,0,0.8);">${p.name}</text>`;
+      svg += `<text x="${cx}" y="${cy - radius - 4}" font-size="9.5" font-weight="800" fill="#FFFFFF" text-anchor="middle" style="text-shadow: 0 1px 3px rgba(0,0,0,0.8); cursor: pointer;" onclick="openPlayerProfile('${p.name.replace("'", "\\'")}')">${p.name}</text>`;
     }
   });
 
@@ -6409,12 +6453,12 @@ function renderSlopeChart() {
     svg += `<line x1="${xLeft}" y1="${yOrig}" x2="${xRight}" y2="${yAdj}" stroke="${color}" stroke-width="${diff !== 0 ? 2.5 : 1.5}" stroke-opacity="0.85" style="cursor: pointer;" onclick="openPlayerProfile('${p.name.replace("'", "\\'")}')" />`;
 
     // Left marker & text
-    svg += `<circle cx="${xLeft}" cy="${yOrig}" r="4.5" fill="${color}" stroke="#08162B" stroke-width="1.5" />`;
-    svg += `<text x="${xLeft - 12}" y="${yOrig + 4}" font-size="11.5" font-weight="600" fill="#CBD5E1" text-anchor="end">${p.name} <tspan fill="#94A3B8" font-size="10.5" font-weight="700">(#${p.original_rank})</tspan></text>`;
+    svg += `<circle cx="${xLeft}" cy="${yOrig}" r="4.5" fill="${color}" stroke="#08162B" stroke-width="1.5" style="cursor: pointer;" onclick="openPlayerProfile('${p.name.replace("'", "\\'")}')" />`;
+    svg += `<text x="${xLeft - 12}" y="${yOrig + 4}" font-size="11.5" font-weight="600" fill="#CBD5E1" text-anchor="end" style="cursor: pointer;" onclick="openPlayerProfile('${p.name.replace("'", "\\'")}')">${p.name} <tspan fill="#94A3B8" font-size="10.5" font-weight="700">(#${p.original_rank})</tspan></text>`;
 
     // Right marker & text
-    svg += `<circle cx="${xRight}" cy="${yAdj}" r="4.5" fill="${color}" stroke="#08162B" stroke-width="1.5" />`;
-    svg += `<text x="${xRight + 12}" y="${yAdj + 4}" font-size="11.5" font-weight="700" fill="#FFFFFF" text-anchor="start">#${p.adjusted_rank} ${p.name} <tspan fill="${diffColor}" font-size="11" font-weight="800">${diffTag}</tspan></text>`;
+    svg += `<circle cx="${xRight}" cy="${yAdj}" r="4.5" fill="${color}" stroke="#08162B" stroke-width="1.5" style="cursor: pointer;" onclick="openPlayerProfile('${p.name.replace("'", "\\'")}')" />`;
+    svg += `<text x="${xRight + 12}" y="${yAdj + 4}" font-size="11.5" font-weight="700" fill="#FFFFFF" text-anchor="start" style="cursor: pointer;" onclick="openPlayerProfile('${p.name.replace("'", "\\'")}')">#${p.adjusted_rank} ${p.name} <tspan fill="${diffColor}" font-size="11" font-weight="800">${diffTag}</tspan></text>`;
   });
 
   svg += '</svg>';
@@ -6458,12 +6502,16 @@ function renderStabilitySection() {
   bCont.innerHTML = '';
   batters.forEach(p => {
     const row = document.createElement('div');
-    row.style = 'font-size: 11px;';
+    row.style = 'font-size: 11px; cursor: pointer; padding: 4px 6px; border-radius: 6px; transition: background 0.15s ease;';
+    row.title = `Click to view full stats for ${p.player}`;
+    row.onmouseover = () => row.style.background = 'rgba(255, 255, 255, 0.06)';
+    row.onmouseout = () => row.style.background = 'transparent';
+    row.onclick = () => openPlayerProfile(p.player);
     const top5 = p.boot_top5;
     const extra10 = Math.max(0, p.boot_top10 - top5);
     row.innerHTML = `
       <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-        <span style="font-weight: 700; color: #F8FAFC;">#${p.rank} ${p.player}</span>
+        <span style="font-weight: 700; color: #F8FAFC;">#${p.rank} ${p.player} <span style="font-size: 10px; color: var(--rr-pink);">↗</span></span>
         <span class="font-mono text-rrTextMuted">Top 10: <strong>${p.boot_top10.toFixed(1)}%</strong> &bull; Top 5: <strong>${top5.toFixed(1)}%</strong></span>
       </div>
       <div style="height: 10px; background: rgba(255, 255, 255, 0.08); border-radius: 5px; overflow: hidden; display: flex;">
@@ -6478,12 +6526,16 @@ function renderStabilitySection() {
   bwCont.innerHTML = '';
   bowlers.forEach(p => {
     const row = document.createElement('div');
-    row.style = 'font-size: 11px;';
+    row.style = 'font-size: 11px; cursor: pointer; padding: 4px 6px; border-radius: 6px; transition: background 0.15s ease;';
+    row.title = `Click to view full stats for ${p.player}`;
+    row.onmouseover = () => row.style.background = 'rgba(255, 255, 255, 0.06)';
+    row.onmouseout = () => row.style.background = 'transparent';
+    row.onclick = () => openPlayerProfile(p.player);
     const top5 = p.boot_top5;
     const extra10 = Math.max(0, p.boot_top10 - top5);
     row.innerHTML = `
       <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-        <span style="font-weight: 700; color: #F8FAFC;">#${p.rank} ${p.player}</span>
+        <span style="font-weight: 700; color: #F8FAFC;">#${p.rank} ${p.player} <span style="font-size: 10px; color: #38BDF8;">↗</span></span>
         <span class="font-mono text-rrTextMuted">Top 10: <strong>${p.boot_top10.toFixed(1)}%</strong> &bull; Top 5: <strong>${top5.toFixed(1)}%</strong></span>
       </div>
       <div style="height: 10px; background: rgba(255, 255, 255, 0.08); border-radius: 5px; overflow: hidden; display: flex;">
@@ -6499,6 +6551,8 @@ function renderStabilitySection() {
   robBody.innerHTML = '';
   APP_DATA.robustness_variants.forEach(r => {
     const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.title = `Click to view full stats for ${r.name}`;
     tr.onclick = () => openPlayerProfile(r.name);
 
     function formatCell(val) {
@@ -6940,7 +6994,7 @@ function updateComparison() {
       <thead>
         <tr>
           <th>Metric</th>
-          ${datasets.map(d => `<th style="color: ${d.color}; font-weight: 800;">${d.name}</th>`).join('')}
+          ${datasets.map(d => `<th style="color: ${d.color}; font-weight: 800; cursor: pointer; text-decoration: underline; text-underline-offset: 3px;" onclick="openPlayerProfile('${d.name.replace(/'/g, "\\'")}')" title="Click to view full stats for ${d.name}">${d.name} ↗</th>`).join('')}
         </tr>
       </thead>
       <tbody>
@@ -7016,7 +7070,10 @@ function renderRRSquadAuditTable(filterRole = 'all') {
 
   list.forEach(p => {
     const tr = document.createElement('tr');
-    tr.style.borderBottom = '1px solid #E2E8F0';
+    tr.style.borderBottom = '1px solid rgba(255, 255, 255, 0.08)';
+    tr.style.cursor = 'pointer';
+    tr.title = `Click to view ${p.name} full profile & stats`;
+    tr.onclick = () => openPlayerProfile(p.name);
     const isTop15 = p.adjusted_rank <= 15;
     const rankBg = isTop15 ? 'background: #E5007D; color: #FFFFFF;' : 'background: #041126; color: #FFFFFF;';
     const netColor = p.net_hp > 0 ? '#059669' : '#DC2626';
@@ -7070,15 +7127,15 @@ function renderAuctionSection() {
   const pakEl = document.getElementById('card-pakistan-excluded-list');
   if (pakEl) {
     pakEl.innerHTML = isAdj 
-      ? '<ul style="margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 4px; line-height: 1.5;"><li><strong>Batters:</strong> Babar Azam (adj #4), Fakhar Zaman (adj #9), Dinesh Karthik (adj #13, retired)</li><li><strong>Bowlers:</strong> Abrar Ahmed (adj #2), Shaheen Afridi (adj #16), Mohammad Nawaz (adj #17), Saim Ayub (adj #31)</li></ul>'
-      : '<ul style="margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 4px; line-height: 1.5;"><li><strong>Batters:</strong> Babar Azam (orig #6), Fakhar Zaman (orig #9)</li><li><strong>Bowlers:</strong> Abrar Ahmed (orig #2), Shaheen Afridi (orig #12), Mohammad Nawaz (orig #13)</li></ul>';
+      ? '<ul style="margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 4px; line-height: 1.5;"><li><strong>Batters:</strong> <span onclick="openPlayerProfile(\'Babar Azam\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Babar Azam</span> (adj #4), <span onclick="openPlayerProfile(\'Fakhar Zaman\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Fakhar Zaman</span> (adj #9), <span onclick="openPlayerProfile(\'Dinesh Karthik\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Dinesh Karthik</span> (adj #13, retired)</li><li><strong>Bowlers:</strong> <span onclick="openPlayerProfile(\'Abrar Ahmed\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Abrar Ahmed</span> (adj #2), <span onclick="openPlayerProfile(\'Shaheen Afridi\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Shaheen Afridi</span> (adj #16), <span onclick="openPlayerProfile(\'Mohammad Nawaz\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Mohammad Nawaz</span> (adj #17), <span onclick="openPlayerProfile(\'Saim Ayub\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Saim Ayub</span> (adj #31)</li></ul>'
+      : '<ul style="margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 4px; line-height: 1.5;"><li><strong>Batters:</strong> <span onclick="openPlayerProfile(\'Babar Azam\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Babar Azam</span> (orig #6), <span onclick="openPlayerProfile(\'Fakhar Zaman\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Fakhar Zaman</span> (orig #9)</li><li><strong>Bowlers:</strong> <span onclick="openPlayerProfile(\'Abrar Ahmed\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Abrar Ahmed</span> (orig #2), <span onclick="openPlayerProfile(\'Shaheen Afridi\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Shaheen Afridi</span> (orig #12), <span onclick="openPlayerProfile(\'Mohammad Nawaz\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Mohammad Nawaz</span> (orig #13)</li></ul>';
   }
 
   const rrAssetEl = document.getElementById('card-rr-assets-text');
   if (rrAssetEl) {
     rrAssetEl.innerHTML = isAdj
-      ? 'RR contracted assets: <strong>Vaibhav Sooryavanshi</strong> (adjusted #8) and <strong>Jofra Archer</strong> (adjusted #13) are already contracted in Rajasthan Royals 2026 squad.'
-      : 'RR contracted assets: <strong>Vaibhav Sooryavanshi</strong> (original #8) and <strong>Jofra Archer</strong> (original #11) are already contracted in Rajasthan Royals 2026 squad.';
+      ? 'RR contracted assets: <strong onclick="openPlayerProfile(\'Vaibhav Sooryavanshi\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Vaibhav Sooryavanshi</strong> (adjusted #8) and <strong onclick="openPlayerProfile(\'Jofra Archer\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Jofra Archer</strong> (adjusted #13) are already contracted in Rajasthan Royals 2026 squad.'
+      : 'RR contracted assets: <strong onclick="openPlayerProfile(\'Vaibhav Sooryavanshi\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Vaibhav Sooryavanshi</strong> (original #8) and <strong onclick="openPlayerProfile(\'Jofra Archer\')" style="color: #38BDF8; cursor: pointer; text-decoration: underline;">Jofra Archer</strong> (original #11) are already contracted in Rajasthan Royals 2026 squad.';
   }
 
   // Option B Batters
@@ -7092,9 +7149,15 @@ function renderAuctionSection() {
     else if (customStatus === 'retained') statusText = `RETAINED by ${p.ipl_team} • Off the Market`;
 
     const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.title = `Click to view ${p.player} profile`;
+    tr.onclick = (e) => {
+      if (e.target.closest('select') || e.target.closest('.star-btn')) return;
+      openPlayerProfile(p.player);
+    };
     tr.innerHTML = `
       <td class="sticky-col-rank"><span class="rank-chip">${p.opt_rank}</span></td>
-      <td class="sticky-col-player">${p.player}</td>
+      <td class="sticky-col-player" style="color: #FFFFFF; font-weight: 700;">${p.player}</td>
       <td class="tabular" style="text-align: center;">#${p.model_rank}</td>
       <td>${getFlag(p.nationality)} ${p.nationality}</td>
       <td>${p.ipl_team}</td>
@@ -7126,9 +7189,15 @@ function renderAuctionSection() {
     else if (customStatus === 'retained') statusText = `RETAINED by ${p.ipl_team} • Off the Market`;
 
     const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.title = `Click to view ${p.player} profile`;
+    tr.onclick = (e) => {
+      if (e.target.closest('select') || e.target.closest('.star-btn')) return;
+      openPlayerProfile(p.player);
+    };
     tr.innerHTML = `
       <td class="sticky-col-rank"><span class="rank-chip">${p.opt_rank}</span></td>
-      <td class="sticky-col-player">${p.player}</td>
+      <td class="sticky-col-player" style="color: #FFFFFF; font-weight: 700;">${p.player}</td>
       <td class="tabular" style="text-align: center;">#${p.model_rank}</td>
       <td>${getFlag(p.nationality)} ${p.nationality}</td>
       <td>${p.ipl_team}</td>
@@ -7155,9 +7224,15 @@ function renderAuctionSection() {
   targets.forEach(p => {
     const isStarred = state.shortlist.includes(p.player);
     const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.title = `Click to view ${p.player} profile`;
+    tr.onclick = (e) => {
+      if (e.target.closest('.star-btn')) return;
+      openPlayerProfile(p.player);
+    };
     tr.innerHTML = `
       <td style="font-weight: 700; color: ${p.role === 'Bowler' ? '#1D4ED8' : 'var(--rr-pink)'};">${p.role}</td>
-      <td class="sticky-col-player" style="left: 0;">${p.player}</td>
+      <td class="sticky-col-player" style="left: 0; color: #FFFFFF; font-weight: 700;">${p.player}</td>
       <td class="tabular" style="text-align: center;">#${p.model_rank}</td>
       <td>${getFlag(p.nationality)} ${p.nationality}</td>
       <td class="tabular" style="text-align: center;">${p.overseas}</td>
@@ -7270,10 +7345,11 @@ function openSelectorsSheet() {
       const p = APP_DATA.adjusted_all_players.find(x => x.name.toLowerCase() === name.toLowerCase()) || {
         name: name, role: 'bat', nationality: 'India', adjusted_rank: '-', adjusted_score: 0, ipl2026: ''
       };
+      const safeName = p.name.replace(/'/g, "\\'");
       shortlistRowsHtml += `
-        <tr>
+        <tr onclick="openPlayerProfile('${safeName}')" style="cursor: pointer; transition: background 0.15s ease;" title="Click to view full stats for ${safeName}">
           <td class="tabular font-bold">${i + 1}</td>
-          <td style="font-weight: 700;">${getFlag(p.nationality)} ${p.name}</td>
+          <td style="font-weight: 700; color: #FFFFFF;"><span style="color: #38BDF8; text-decoration: underline; text-decoration-color: rgba(56,189,248,0.4); cursor: pointer;">${getFlag(p.nationality)} ${p.name}</span></td>
           <td>${p.role.toUpperCase()}</td>
           <td class="tabular">#${p.adjusted_rank}</td>
           <td class="tabular font-bold" style="color: var(--rr-pink);">${p.adjusted_score ? p.adjusted_score.toFixed(3) : '-'}</td>
@@ -7304,7 +7380,7 @@ function openSelectorsSheet() {
 
             <!-- TOP 1 RECOMMENDATIONS GRID (Rule D2 & Pool) -->
       <div class="selector-sheet-cards-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;">
-        <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 8px; padding: 10px;">
+        <div onclick="openPlayerProfile('Sunil Narine')" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 8px; padding: 10px; cursor: pointer; transition: transform 0.15s ease;" title="Click to view Sunil Narine profile">
           <div style="font-size: 9px; font-weight: 800; color: #B45309; text-transform: uppercase;">Top-1 Overall (Rule D2)</div>
           <div style="font-size: 14px; font-weight: 900; color: #F8FAFC;">Sunil Narine (#1 • 1.163)</div>
           <div style="font-size: 10px; color: var(--rr-text-muted); margin-top: 1px;">
@@ -7312,7 +7388,7 @@ function openSelectorsSheet() {
           </div>
         </div>
 
-        <div style="background: var(--rr-pink-light); border: 1px solid var(--rr-pink-subtle); border-radius: 8px; padding: 10px;">
+        <div onclick="openPlayerProfile('Suryakumar Yadav')" style="background: var(--rr-pink-light); border: 1px solid var(--rr-pink-subtle); border-radius: 8px; padding: 10px; cursor: pointer; transition: transform 0.15s ease;" title="Click to view Suryakumar Yadav profile">
           <div style="font-size: 9px; font-weight: 800; color: var(--rr-pink); text-transform: uppercase;">Top-1 Batter (Rule D2)</div>
           <div style="font-size: 14px; font-weight: 900; color: #F8FAFC;">Suryakumar Yadav (#1 • 0.843)</div>
           <div style="font-size: 10px; color: var(--rr-text-muted); margin-top: 1px;">
@@ -7320,7 +7396,7 @@ function openSelectorsSheet() {
           </div>
         </div>
 
-        <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 10px;">
+        <div onclick="openPlayerProfile('Sunil Narine')" style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 10px; cursor: pointer; transition: transform 0.15s ease;" title="Click to view Sunil Narine profile">
           <div style="font-size: 9px; font-weight: 800; color: #1D4ED8; text-transform: uppercase;">Top-1 Bowler (Rule D2)</div>
           <div style="font-size: 14px; font-weight: 900; color: #F8FAFC;">Sunil Narine (#1 • 1.163)</div>
           <div style="font-size: 10px; color: var(--rr-text-muted); margin-top: 1px;">
@@ -7333,8 +7409,8 @@ function openSelectorsSheet() {
       <div style="background: #091A33; border: 1px solid var(--rr-border); border-radius: 8px; padding: 10px 14px; margin-bottom: 16px;">
         <div style="font-size: 11px; font-weight: 800; color: #F8FAFC; margin-bottom: 4px;">Primary Auction Pool Targets (No 2026 Squad Listing • Rule D3)</div>
         <div style="display: flex; gap: 20px; font-size: 11px;">
-          <div><strong>1. Taskin Ahmed</strong> (Rank #7 • Score 0.641 • Stability 50.0% • Net HP +34.69 • Delta +36.49) - <em style="color: #B45309;">no IPL squad listing; auction entry uncertain</em></div>
-          <div><strong>2. Mohit Sharma</strong> (Rank #9 • Score 0.540 • Stability 36.0% • Net HP +24.96 • Delta +38.51) - <em>Not in an IPL 2026 squad - could reach the auction pool</em></div>
+          <div><strong onclick="openPlayerProfile('Taskin Ahmed')" style="cursor: pointer; color: #38BDF8; text-decoration: underline;" title="Click to view Taskin Ahmed profile">1. Taskin Ahmed</strong> (Rank #7 • Score 0.641 • Stability 50.0% • Net HP +34.69 • Delta +36.49) - <em style="color: #B45309;">no IPL squad listing; auction entry uncertain</em></div>
+          <div><strong onclick="openPlayerProfile('Mohit Sharma')" style="cursor: pointer; color: #38BDF8; text-decoration: underline;" title="Click to view Mohit Sharma profile">2. Mohit Sharma</strong> (Rank #9 • Score 0.540 • Stability 36.0% • Net HP +24.96 • Delta +38.51) - <em>Not in an IPL 2026 squad - could reach the auction pool</em></div>
         </div>
       </div>
 
@@ -7618,8 +7694,8 @@ function updateDuelInputs() {
 
   const bMeta = document.getElementById('duel-striker-meta');
   const bwMeta = document.getElementById('duel-bowler-meta');
-  if (bMeta && bp) bMeta.innerHTML = `HP SR: <b>${bp.sr}</b> • Dot%: <b>${bp.dot_pct}%</b> • Boundary%: <b>${(bp.four_pct + bp.six_pct).toFixed(1)}%</b>`;
-  if (bwMeta && bwp) bwMeta.innerHTML = `HP Econ: <b>${bwp.econ}</b> • Dot%: <b>${bwp.dot_pct}%</b> • Wkt%: <b>${bwp.wkt_pct}%</b>`;
+  if (bMeta && bp) bMeta.innerHTML = `HP SR: <b>${bp.sr}</b> • Dot%: <b>${bp.dot_pct}%</b> • Boundary%: <b>${(bp.four_pct + bp.six_pct).toFixed(1)}%</b> <span onclick="openPlayerProfile('${duelState.striker}')" style="cursor: pointer; color: var(--rr-pink); text-decoration: underline; margin-left: 6px; font-weight: 700;" title="Click to view full stats for ${duelState.striker}">View Stats ↗</span>`;
+  if (bwMeta && bwp) bwMeta.innerHTML = `HP Econ: <b>${bwp.econ}</b> • Dot%: <b>${bwp.dot_pct}%</b> • Wkt%: <b>${bwp.wkt_pct}%</b> <span onclick="openPlayerProfile('${duelState.bowler}')" style="cursor: pointer; color: #38BDF8; text-decoration: underline; margin-left: 6px; font-weight: 700;" title="Click to view full stats for ${duelState.bowler}">View Stats ↗</span>`;
 }
 
 function onDuelScenarioChange() {
@@ -7861,6 +7937,9 @@ function renderTacticsTab() {
   batBody.innerHTML = '';
   batSplits.forEach(r => {
     const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.title = `Click to view full stats for ${r.player}`;
+    tr.onclick = () => openPlayerProfile(r.player);
     const isLow = r.sample_flag && r.sample_flag.startsWith('LOW');
     if (isLow) {
       tr.style.opacity = '0.85';
@@ -7892,6 +7971,9 @@ function renderTacticsTab() {
   bowlBody.innerHTML = '';
   bowlSplits.forEach(r => {
     const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.title = `Click to view full stats for ${r.player}`;
+    tr.onclick = () => openPlayerProfile(r.player);
     const isLow = r.sample_flag && r.sample_flag.startsWith('LOW');
     if (isLow) {
       tr.style.opacity = '0.85';
