@@ -329,7 +329,7 @@ body.scroll-locked {
   width: 100%;
 }
 
-/* LEFT NAVIGATION RAIL */
+/* LEFT NAVIGATION RAIL (Sticky with Auto-Fit Screen Expansion) */
 .nav-rail {
   width: 230px;
   background: var(--rr-navy);
@@ -339,6 +339,18 @@ body.scroll-locked {
   flex-direction: column;
   gap: 3px;
   flex-shrink: 0;
+  position: sticky;
+  top: 56px;
+  max-height: calc(100vh - 56px);
+  max-height: calc(100dvh - 56px);
+  overflow-y: auto;
+  align-self: flex-start;
+  scrollbar-width: none;
+  z-index: 80;
+  transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1), padding 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+.nav-rail::-webkit-scrollbar {
+  display: none;
 }
 
 .nav-section-label {
@@ -391,12 +403,79 @@ body.scroll-locked {
   opacity: 1;
 }
 
-/* MAIN CONTENT CANVAS */
+/* MAIN CONTENT CANVAS (Responsive fluid width) */
 .main-canvas {
   flex: 1;
   padding: 20px 24px;
   max-width: calc(100% - 230px);
+  width: 100%;
+  min-width: 0;
   overflow-x: hidden;
+  transition: max-width 0.28s cubic-bezier(0.16, 1, 0.3, 1), padding 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* AUTO-FIT SCREEN & SIDEBAR COLLAPSE (ELIMINATES EMPTY LEFT SPACE ON SCROLL) */
+.app-layout.auto-fit-screen,
+.app-layout.sidebar-collapsed {
+  max-width: 100% !important;
+}
+
+.app-layout.auto-fit-screen .nav-rail,
+.app-layout.sidebar-collapsed .nav-rail {
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  padding: 0 !important;
+  border-right: none !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.app-layout.auto-fit-screen .main-canvas,
+.app-layout.sidebar-collapsed .main-canvas {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 20px 32px;
+}
+
+/* Floating Sidebar Pill for rapid desktop navigation when collapsed */
+.floating-sidebar-pill {
+  position: fixed;
+  bottom: 24px;
+  left: 20px;
+  z-index: 999;
+  background: rgba(9, 26, 51, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #F8FAFC;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+  display: none;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
+}
+.floating-sidebar-pill:hover {
+  background: var(--rr-pink);
+  border-color: var(--rr-pink);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(229, 0, 125, 0.4);
+}
+.app-layout.auto-fit-screen ~ .floating-sidebar-pill,
+.app-layout.sidebar-collapsed ~ .floating-sidebar-pill {
+  display: inline-flex;
+}
+@media (max-width: 767px) {
+  .floating-sidebar-pill {
+    display: none !important;
+  }
 }
 
 /* CARDS AND SURFACES (Dark Luxury Slate) */
@@ -1681,6 +1760,11 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
           <span>⚔️ Duel Sim</span>
         </button>
 
+        <button id="btn-toggle-sidebar" onclick="toggleSidebarManual()" class="btn-header-action" title="Toggle Navigation Sidebar (Auto Fit Screen)" style="display: inline-flex; align-items: center; gap: 5px;">
+          <span id="sidebar-toggle-icon">⇥</span>
+          <span id="sidebar-toggle-text">Fit Screen</span>
+        </button>
+
 
 
         <button onclick="openSelectorsSheet()" class="btn-header-action" title="View Executive Selector's Sheet">
@@ -2261,7 +2345,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                 <span style="background: linear-gradient(135deg, var(--rr-pink) 0%, #38BDF8 100%); color: #FFFFFF; font-size: 10px; font-weight: 800; font-family: var(--font-mono); padding: 2px 8px; border-radius: 9999px;">WEBGL 3D HARDWARE ACCELERATED</span>
               </div>
               <div style="font-size: 12px; color: #94A3B8; margin-top: 4px;">
-                Interactive 3D state-space manifold plotting all 202 qualified players (100 Batters &bull; 102 Bowlers). Rotate in 360&deg;, zoom, morph dimensions, and play live physics animations.
+                360&deg; interactive state-space clutch manifold (202 qualified players).
               </div>
             </div>
 
@@ -4350,7 +4434,7 @@ const APP_DATA = {"build_date":"2026-11-13","orig_batters":[{"rank":1,"player":"
 
 const DEFAULT_TOP_20_SHORTLIST = [
   'Suryakumar Yadav', 'Phil Salt', 'Tim David', 'Abhishek Sharma', 'Nicholas Pooran',
-  'Shubman Gill', 'Vaibhav Sooryavanshi', 'Pathum Nissanka', 'Tim Seifert', 'Mark Chapman',
+  'Shubman Gill', 'Vaibhav Sooryavanshi', 'Harry Brook', 'Pathum Nissanka', 'Tim Seifert',
   'Sunil Narine', 'Mitchell Santner', 'Jacob Duffy', 'Matheesha Pathirana', 'Taskin Ahmed',
   'Lockie Ferguson', 'Josh Hazlewood', 'Krunal Pandya', 'Axar Patel', 'Jofra Archer'
 ];
@@ -4374,16 +4458,37 @@ const  state = {
 // Safe LocalStorage Helpers
 function loadStorage() {
   try {
-    const sl = localStorage.getItem('rr_shortlist_v2');
+    const sl = localStorage.getItem('rr_shortlist_v3');
     if (sl) {
       const parsed = JSON.parse(sl);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        state.shortlist = parsed;
+        state.shortlist = parsed.map(n => n === 'Mark Chapman' ? 'Harry Brook' : n);
+        if (!state.shortlist.includes('Harry Brook') && state.shortlist.length < 20) {
+          state.shortlist.push('Harry Brook');
+        }
       } else {
         state.shortlist = [...DEFAULT_TOP_20_SHORTLIST];
       }
     } else {
-      state.shortlist = [...DEFAULT_TOP_20_SHORTLIST];
+      // Migrate from older storage versions if present
+      const oldSl = localStorage.getItem('rr_shortlist_v2') || localStorage.getItem('rr_shortlist');
+      if (oldSl) {
+        try {
+          const parsedOld = JSON.parse(oldSl);
+          if (Array.isArray(parsedOld) && parsedOld.length > 0) {
+            state.shortlist = parsedOld.map(n => n === 'Mark Chapman' ? 'Harry Brook' : n);
+            if (!state.shortlist.includes('Harry Brook') && state.shortlist.length < 20) {
+              state.shortlist.push('Harry Brook');
+            }
+          } else {
+            state.shortlist = [...DEFAULT_TOP_20_SHORTLIST];
+          }
+        } catch (e) {
+          state.shortlist = [...DEFAULT_TOP_20_SHORTLIST];
+        }
+      } else {
+        state.shortlist = [...DEFAULT_TOP_20_SHORTLIST];
+      }
       saveShortlist();
     }
     const ret = localStorage.getItem('rr_retention');
@@ -4398,7 +4503,7 @@ function loadStorage() {
 
 function saveShortlist() {
   try {
-    localStorage.setItem('rr_shortlist_v2', JSON.stringify(state.shortlist));
+    localStorage.setItem('rr_shortlist_v3', JSON.stringify(state.shortlist));
   } catch (e) {}
 }
 
@@ -4971,6 +5076,58 @@ function initFallback3DCanvas(container) {
   renderFallback();
 }
 
+
+let isSidebarUserPinned = false;
+let isSidebarManuallyCollapsed = false;
+
+function toggleSidebarManual() {
+  const layout = document.querySelector('.app-layout');
+  if (!layout) return;
+  const isCollapsed = layout.classList.contains('sidebar-collapsed') || layout.classList.contains('auto-fit-screen');
+  
+  if (isCollapsed) {
+    layout.classList.remove('sidebar-collapsed');
+    layout.classList.remove('auto-fit-screen');
+    isSidebarUserPinned = true;
+    isSidebarManuallyCollapsed = false;
+    updateSidebarToggleUI(false);
+  } else {
+    layout.classList.add('sidebar-collapsed');
+    layout.classList.remove('auto-fit-screen');
+    isSidebarUserPinned = false;
+    isSidebarManuallyCollapsed = true;
+    updateSidebarToggleUI(true);
+  }
+}
+
+function updateSidebarToggleUI(collapsed) {
+  const icon = document.getElementById('sidebar-toggle-icon');
+  const text = document.getElementById('sidebar-toggle-text');
+  if (icon && text) {
+    icon.textContent = collapsed ? '⇤' : '⇥';
+    text.textContent = collapsed ? 'Show Menu' : 'Fit Screen';
+  }
+}
+
+// Automatically fit screen when scrolling down on desktop
+window.addEventListener('scroll', () => {
+  if (window.innerWidth < 768) return;
+  const layout = document.querySelector('.app-layout');
+  if (!layout) return;
+  if (isSidebarUserPinned || isSidebarManuallyCollapsed) return;
+
+  if (window.scrollY > 220) {
+    if (!layout.classList.contains('auto-fit-screen')) {
+      layout.classList.add('auto-fit-screen');
+      updateSidebarToggleUI(true);
+    }
+  } else {
+    if (layout.classList.contains('auto-fit-screen')) {
+      layout.classList.remove('auto-fit-screen');
+      updateSidebarToggleUI(false);
+    }
+  }
+}, { passive: true });
 
 window.addEventListener('DOMContentLoaded', () => {
   loadStorage();
