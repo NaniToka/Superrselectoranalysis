@@ -2641,6 +2641,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               <button id="p3d-btn-std" class="toggle-btn active" onclick="set3DDimension('std')">Standard 3D Clutch Space</button>
               <button id="p3d-btn-wp" class="toggle-btn" onclick="set3DDimension('wp')">Win Prob Manifold</button>
               <button id="p3d-btn-stability" class="toggle-btn" onclick="set3DDimension('stability')">Bootstrap Stability Cube</button>
+              <button id="p3d-btn-auction" class="toggle-btn" onclick="set3DDimension('auction')" style="border-color: #34D399; color: #34D399;">💰 Auction Value Space</button>
             </div>
           </div>
 
@@ -2657,10 +2658,14 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                 <div id="p3d-axes-legend" style="font-size: 11.5px; font-weight: 700; color: #FFFFFF; margin-top: 2px;">
                   X: HP Deliveries &bull; Y: Net/100 (Height) &bull; Z: &Delta; vs Baseline
                 </div>
-                <div style="display: flex; align-items: center; gap: 12px; margin-top: 6px; font-size: 10.5px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-top: 6px; font-size: 10.5px; flex-wrap: wrap;">
                   <span style="display: flex; align-items: center; gap: 4px; color: #FF85C0;"><span style="width: 8px; height: 8px; background: var(--rr-pink); border-radius: 50%;"></span> Batters (100)</span>
                   <span style="display: flex; align-items: center; gap: 4px; color: #7DD3FC;"><span style="width: 8px; height: 8px; background: #38BDF8; border-radius: 50%;"></span> Bowlers (102)</span>
                   <span style="display: flex; align-items: center; gap: 4px; color: #FDE68A;"><span style="width: 8px; height: 8px; background: #F59E0B; border-radius: 50%;"></span> #1 Rank Core</span>
+                  <span style="display: flex; align-items: center; gap: 4px; color: #34D399;"><span style="width: 8px; height: 8px; background: #34D399; border-radius: 50%;"></span> RR Contracted</span>
+                </div>
+                <div id="p3d-hud-coords" style="font-size: 9.5px; font-family: var(--font-mono); color: #38BDF8; margin-top: 6px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 4px;">
+                  🛰️ CAMERA: 360° ORBIT &bull; 1,500 STARDUST NODES ACTIVE &bull; 60 FPS
                 </div>
               </div>
             </div>
@@ -2702,13 +2707,19 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               <!-- LEFT: ACTION BUTTONS -->
               <div style="display: flex; gap: 8px; flex-wrap: wrap; pointer-events: auto;">
                 <button id="p3d-btn-animate" onclick="toggle3DPressureAnimation()" class="btn-p3d-action" style="background: linear-gradient(135deg, var(--rr-pink) 0%, #C4006A 100%); border-color: var(--rr-pink); color: #FFFFFF;">
-                  <span>▶ Play Pressure Shift Vector Animation</span>
+                  <span>▶ Play Shift Vector</span>
                 </button>
                 <button id="p3d-btn-orbit" onclick="toggle3DAutoOrbit()" class="btn-p3d-action">
-                  <span>🔄 360&deg; Auto-Orbit: <strong id="p3d-orbit-status">ON</strong></span>
+                  <span>🔄 Orbit: <strong id="p3d-orbit-status">ON</strong></span>
                 </button>
-                <button onclick="reset3DCamera()" class="btn-p3d-action">
-                  <span>🎯 Reset Perspective</span>
+                <button onclick="set3DCameraMode('topdown')" class="btn-p3d-action" title="Overhead Tactical Satellite Projection">
+                  <span>🛰️ Top-Down Planar</span>
+                </button>
+                <button onclick="set3DCameraMode('elevation')" class="btn-p3d-action" title="Height Elevation Profile (Net/100)">
+                  <span>📐 Elevation Profile</span>
+                </button>
+                <button onclick="reset3DCamera()" class="btn-p3d-action" title="Reset Default Cinematic Angle">
+                  <span>🎯 Reset Angle</span>
                 </button>
               </div>
 
@@ -6134,7 +6145,18 @@ const P3D = {
   targetPositions: new Map(),
   basePositions: new Map(),
   clutchPositions: new Map(),
-  animId: null
+  animId: null,
+  // USA-Brain Next-Level Upgrades
+  starField: null,
+  radarGroup: null,
+  constellationGroup: null,
+  dropLaser: null,
+  dropTarget: null,
+  gimbalRings: [],
+  isTransitioningCam: false,
+  targetCamPos: null,
+  targetCamLook: null,
+  camSpeed: 0.05
 };
 
 function init3DPlayground() {
@@ -6163,98 +6185,220 @@ function init3DPlayground() {
     const width = container.clientWidth || 900;
     const height = container.clientHeight || 640;
 
-    // 1. Scene, Camera, Renderer
+    // 1. Scene, Camera, Renderer with Cyber Deep-Space Atmosphere
     P3D.scene = new THREE.Scene();
-    P3D.scene.background = new THREE.Color(0x040D1A);
-    P3D.scene.fog = new THREE.FogExp2(0x040D1A, 0.0018);
+    P3D.scene.background = new THREE.Color(0x020713);
+    P3D.scene.fog = new THREE.FogExp2(0x020713, 0.0011);
 
-    P3D.camera = new THREE.PerspectiveCamera(50, width / height, 1, 2000);
-    P3D.camera.position.set(0, 180, 420);
+    P3D.camera = new THREE.PerspectiveCamera(50, width / height, 1, 2500);
+    P3D.camera.position.set(0, 180, 440);
 
-    P3D.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    P3D.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     P3D.renderer.setSize(width, height);
     P3D.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    if (P3D.renderer.toneMapping !== undefined) {
+      P3D.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      P3D.renderer.toneMappingExposure = 1.15;
+    }
     container.innerHTML = '';
     container.appendChild(P3D.renderer.domElement);
 
-    // 2. Controls
+    // 2. Camera Controls
     if (typeof THREE.OrbitControls !== 'undefined') {
       P3D.controls = new THREE.OrbitControls(P3D.camera, P3D.renderer.domElement);
       P3D.controls.enableDamping = true;
-      P3D.controls.dampingFactor = 0.05;
-      P3D.controls.maxDistance = 800;
-      P3D.controls.minDistance = 60;
+      P3D.controls.dampingFactor = 0.06;
+      P3D.controls.maxDistance = 900;
+      P3D.controls.minDistance = 50;
       P3D.controls.autoRotate = window.innerWidth >= 768 && P3D.autoOrbit;
-      P3D.controls.autoRotateSpeed = 0.8;
+      P3D.controls.autoRotateSpeed = 0.75;
       P3D.controls.target.set(0, 20, 0);
     }
 
-    // 3. Lighting
-    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.7);
+    // 3. Multi-Directional Cyber Lighting
+    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.85);
     P3D.scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0xE5007D, 1.2);
-    dirLight1.position.set(200, 300, 200);
+    const dirLight1 = new THREE.DirectionalLight(0xE5007D, 1.4);
+    dirLight1.position.set(250, 350, 250);
     P3D.scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x38BDF8, 1.0);
-    dirLight2.position.set(-200, 200, -200);
+    const dirLight2 = new THREE.DirectionalLight(0x38BDF8, 1.2);
+    dirLight2.position.set(-250, 250, -250);
     P3D.scene.add(dirLight2);
 
-    // 4. Cyber Cricket Stadium Grid Floor
-    const gridHelper = new THREE.GridHelper(600, 30, 0x38BDF8, 0x132E58);
-    gridHelper.position.y = -60;
-    P3D.scene.add(gridHelper);
+    const dirLight3 = new THREE.DirectionalLight(0xF59E0B, 0.6);
+    dirLight3.position.set(0, -100, 200);
+    P3D.scene.add(dirLight3);
 
-    // Pitch Strip Mesh (22 yards proportional)
-    const pitchGeo = new THREE.PlaneGeometry(50, 180);
-    const pitchMat = new THREE.MeshBasicMaterial({ 
-      color: 0x0A2244, 
-      side: THREE.DoubleSide, 
-      wireframe: false 
-    });
-    const pitch = new THREE.Mesh(pitchGeo, pitchMat);
-    pitch.rotation.x = -Math.PI / 2;
-    pitch.position.y = -59.5;
-    P3D.scene.add(pitch);
+    // 4. Cosmic Stardust Particle Cloud (1,500 Stars)
+    build3DStarfield();
 
-    // Pitch Crease Lines
-    const creaseMat = new THREE.LineBasicMaterial({ color: 0x38BDF8 });
-    const c1Geo = new THREE.BufferGeometry().setFromPoints([
-      new THREE.Vector3(-25, -59, 70),
-      new THREE.Vector3(25, -59, 70)
-    ]);
-    const c2Geo = new THREE.BufferGeometry().setFromPoints([
-      new THREE.Vector3(-25, -59, -70),
-      new THREE.Vector3(25, -59, -70)
-    ]);
-    P3D.scene.add(new THREE.Line(c1Geo, creaseMat));
-    P3D.scene.add(new THREE.Line(c2Geo, creaseMat));
+    // 5. Holographic Concentric Radar & Stadium Ground Floor
+    build3DHolographicFloor();
 
-    // Outer Stadium Boundary Ring
-    const ringGeo = new THREE.RingGeometry(250, 252, 64);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0xE5007D, side: THREE.DoubleSide });
-    const boundRing = new THREE.Mesh(ringGeo, ringMat);
-    boundRing.rotation.x = -Math.PI / 2;
-    boundRing.position.y = -59.8;
-    P3D.scene.add(boundRing);
-
-    // 5. Populate 202 Player Nodes
+    // 6. Populate 202 Player Nodes with Advanced Shaders & Halos
     build3DPlayerNodes();
 
-    // 6. Setup Raycaster
+    // 7. Elite Decile Constellation Laser Beams
+    updateConstellationLines();
+
+    // 8. Ground Drop Laser & Reticle
+    build3DDropLaser();
+
+    // 9. Setup Raycaster
     setup3DRaycaster(container);
 
-    // 7. Resize Listener
+    // 10. Resize Listener
     window.addEventListener('resize', onP3DResize);
 
-    // 8. Animation Loop
+    // 11. Start Animation Loop
     P3D.initialized = true;
     animate3D();
   } catch (err) {
     console.error('Three.js init error, falling back to Canvas 3D:', err);
     initFallback3DCanvas(container);
   }
+}
+
+function build3DStarfield() {
+  const count = 1500;
+  const geo = new THREE.BufferGeometry();
+  const positions = new Float32Array(count * 3);
+  const colors = new Float32Array(count * 3);
+
+  for (let i = 0; i < count; i++) {
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(Math.random() * 2 - 1);
+    const r = 450 + Math.random() * 550;
+    positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+    positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+    positions[i * 3 + 2] = r * Math.cos(phi);
+
+    const pick = Math.random();
+    if (pick < 0.45) { // Cyan stardust
+      colors[i * 3] = 0.22; colors[i * 3 + 1] = 0.74; colors[i * 3 + 2] = 0.97;
+    } else if (pick < 0.75) { // Pink nebula dust
+      colors[i * 3] = 0.90; colors[i * 3 + 1] = 0.0; colors[i * 3 + 2] = 0.49;
+    } else { // White/gold stars
+      colors[i * 3] = 0.96; colors[i * 3 + 1] = 0.98; colors[i * 3 + 2] = 1.0;
+    }
+  }
+
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  const mat = new THREE.PointsMaterial({
+    size: 2.2,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.75,
+    sizeAttenuation: true
+  });
+
+  P3D.starField = new THREE.Points(geo, mat);
+  P3D.scene.add(P3D.starField);
+}
+
+function build3DHolographicFloor() {
+  const radarGroup = new THREE.Group();
+
+  // 1. Grid helper with deep cyan/navy styling
+  const gridHelper = new THREE.GridHelper(640, 32, 0x38BDF8, 0x0E2445);
+  gridHelper.position.y = -60;
+  radarGroup.add(gridHelper);
+
+  // 2. Concentric Holographic Radar Range Rings (80m, 160m, 240m, 320m)
+  [80, 160, 240, 320].forEach((rad, idx) => {
+    const rGeo = new THREE.RingGeometry(rad - 0.75, rad + 0.75, 64);
+    const rMat = new THREE.MeshBasicMaterial({
+      color: idx === 1 ? 0xE5007D : 0x38BDF8,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.35 - idx * 0.06
+    });
+    const rMesh = new THREE.Mesh(rGeo, rMat);
+    rMesh.rotation.x = -Math.PI / 2;
+    rMesh.position.y = -59.7;
+    radarGroup.add(rMesh);
+  });
+
+  // 3. Radial Spoke Crosshairs
+  const spokeMat = new THREE.LineBasicMaterial({ color: 0x38BDF8, transparent: true, opacity: 0.22 });
+  const spokePts = [
+    new THREE.Vector3(-320, -59.5, 0), new THREE.Vector3(320, -59.5, 0),
+    new THREE.Vector3(0, -59.5, -320), new THREE.Vector3(0, -59.5, 320),
+    new THREE.Vector3(-226, -59.5, -226), new THREE.Vector3(226, -59.5, 226),
+    new THREE.Vector3(-226, -59.5, 226), new THREE.Vector3(226, -59.5, -226)
+  ];
+  radarGroup.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(spokePts), spokeMat));
+
+  // 4. Pitch Strip Mesh (22 yards proportional)
+  const pitchGeo = new THREE.PlaneGeometry(50, 180);
+  const pitchMat = new THREE.MeshBasicMaterial({
+    color: 0x091C38,
+    side: THREE.DoubleSide
+  });
+  const pitch = new THREE.Mesh(pitchGeo, pitchMat);
+  pitch.rotation.x = -Math.PI / 2;
+  pitch.position.y = -59.6;
+  radarGroup.add(pitch);
+
+  // Crease Lines
+  const creaseMat = new THREE.LineBasicMaterial({ color: 0x38BDF8 });
+  const c1Geo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-25, -59.4, 70), new THREE.Vector3(25, -59.4, 70)]);
+  const c2Geo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-25, -59.4, -70), new THREE.Vector3(25, -59.4, -70)]);
+  radarGroup.add(new THREE.Line(c1Geo, creaseMat));
+  radarGroup.add(new THREE.Line(c2Geo, creaseMat));
+
+  // Outer Stadium Boundary Ring (Jaipur 78m boundary metaphor)
+  const ringGeo = new THREE.RingGeometry(250, 252.5, 64);
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0xE5007D, side: THREE.DoubleSide, transparent: true, opacity: 0.85 });
+  const boundRing = new THREE.Mesh(ringGeo, ringMat);
+  boundRing.rotation.x = -Math.PI / 2;
+  boundRing.position.y = -59.5;
+  radarGroup.add(boundRing);
+
+  P3D.scene.add(radarGroup);
+  P3D.radarGroup = radarGroup;
+}
+
+function build3DDropLaser() {
+  const lineGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0), new THREE.Vector3(0,-60,0)]);
+  const lineMat = new THREE.LineBasicMaterial({ color: 0x38BDF8, transparent: true, opacity: 0.85, linewidth: 2 });
+  P3D.dropLaser = new THREE.Line(lineGeo, lineMat);
+  P3D.dropLaser.visible = false;
+  P3D.scene.add(P3D.dropLaser);
+
+  const tRingGeo = new THREE.RingGeometry(6, 8, 32);
+  const tRingMat = new THREE.MeshBasicMaterial({ color: 0x38BDF8, side: THREE.DoubleSide, transparent: true, opacity: 0.85 });
+  P3D.dropTarget = new THREE.Mesh(tRingGeo, tRingMat);
+  P3D.dropTarget.rotation.x = -Math.PI / 2;
+  P3D.dropTarget.position.y = -59.4;
+  P3D.dropTarget.visible = false;
+  P3D.scene.add(P3D.dropTarget);
+}
+
+function updateDropLaser(pos, colorHex) {
+  if (!P3D.dropLaser || !P3D.dropTarget) return;
+  if (!pos) {
+    P3D.dropLaser.visible = false;
+    P3D.dropTarget.visible = false;
+    return;
+  }
+  P3D.dropLaser.visible = true;
+  P3D.dropTarget.visible = true;
+
+  const col = new THREE.Color(colorHex || 0x38BDF8);
+  P3D.dropLaser.material.color = col;
+  P3D.dropTarget.material.color = col;
+
+  const pts = [
+    new THREE.Vector3(pos.x, pos.y, pos.z),
+    new THREE.Vector3(pos.x, -59.4, pos.z)
+  ];
+  P3D.dropLaser.geometry.setFromPoints(pts);
+  P3D.dropTarget.position.set(pos.x, -59.3, pos.z);
 }
 
 function compute3DCoords(p, dim) {
@@ -6280,9 +6424,16 @@ function compute3DCoords(p, dim) {
     x = (n_hp - 350) * 0.55;
     y = boot * 1.8 - 40.0;
     z = (cons - 0.5) * 450.0;
+  } else if (dim === 'auction') {
+    // 4th Dimension: Auction Economic Manifold
+    const baseP = (score < 0.25 && p.adjusted_rank > 50) ? 1.00 : 2.00;
+    const fairVal = Math.min(22.0, Math.max(baseP, baseP + (Math.max(0, score) * 11.5) + (Math.max(0, p.wpa_hp || 0) * 3.2)));
+    const walkAway = fairVal * 1.15;
+    x = (baseP - 1.5) * 120.0;
+    y = fairVal * 8.5 - 40.0;
+    z = (walkAway - 12.0) * 12.0;
   }
 
-  // Base coordinates for shift animation
   const baseY = net_np * 2.8;
   return { x, y, z, baseX: x, baseY, baseZ: 0 };
 }
@@ -6291,14 +6442,15 @@ function build3DPlayerNodes() {
   if (!APP_DATA.adjusted_all_players) return;
   const players = APP_DATA.adjusted_all_players;
 
-  // Clear existing meshes
+  // Clear existing
   P3D.playerMeshes.forEach(m => P3D.scene.remove(m));
   P3D.playerMeshes = [];
+  P3D.gimbalRings = [];
   P3D.targetPositions.clear();
   P3D.basePositions.clear();
   P3D.clutchPositions.clear();
 
-  const sphereGeo = new THREE.SphereGeometry(1, 16, 16);
+  const sphereGeo = new THREE.SphereGeometry(1, 18, 18);
 
   players.forEach(p => {
     const isBat = p.role === 'bat';
@@ -6311,28 +6463,27 @@ function build3DPlayerNodes() {
     let colorHex = isBat ? 0xE5007D : 0x38BDF8;
 
     if (isTop1) {
-      radius = 8.5;
+      radius = 8.8;
       colorHex = 0xF59E0B; // Royal Gold
     } else if (isTop3) {
-      radius = 6.2;
+      radius = 6.4;
       colorHex = isBat ? 0xFF2D9B : 0x00F0FF;
     } else if (isTop10) {
-      radius = 5.0;
+      radius = 5.2;
     }
 
     const mat = new THREE.MeshStandardMaterial({
       color: colorHex,
       emissive: colorHex,
-      emissiveIntensity: isTop1 ? 0.8 : (isTop10 ? 0.5 : 0.25),
-      roughness: 0.2,
-      metalness: 0.8
+      emissiveIntensity: isTop1 ? 0.85 : (isTop10 ? 0.55 : 0.28),
+      roughness: 0.18,
+      metalness: 0.82
     });
 
     const mesh = new THREE.Mesh(sphereGeo, mat);
     mesh.scale.set(radius, radius, radius);
     mesh.userData = { player: p, origRadius: radius, colorHex: colorHex };
 
-    // Calculate position
     const coords = compute3DCoords(p, P3D.dimension);
     mesh.position.set(coords.x, coords.y, coords.z);
 
@@ -6340,13 +6491,28 @@ function build3DPlayerNodes() {
     P3D.basePositions.set(p.name, new THREE.Vector3(coords.baseX, coords.baseY, coords.baseZ));
     P3D.clutchPositions.set(p.name, new THREE.Vector3(coords.x, coords.y, coords.z));
 
-    // Add glowing orbital halo for Top 1 and RR assets
-    if (isTop1 || (isRR && isTop10)) {
-      const haloGeo = new THREE.RingGeometry(radius * 1.3, radius * 1.5, 32);
-      const haloMat = new THREE.MeshBasicMaterial({ 
-        color: isTop1 ? 0xF59E0B : 0x34D399, 
-        side: THREE.DoubleSide 
-      });
+    // Dual Counter-Rotating Gimbal Rings for Top 1 Kings (Narine & Surya)
+    if (isTop1) {
+      const g1Geo = new THREE.RingGeometry(radius * 1.35, radius * 1.5, 32);
+      const g1Mat = new THREE.MeshBasicMaterial({ color: 0xF59E0B, side: THREE.DoubleSide, transparent: true, opacity: 0.85 });
+      const ring1 = new THREE.Mesh(g1Geo, g1Mat);
+      mesh.add(ring1);
+
+      const g2Geo = new THREE.RingGeometry(radius * 1.6, radius * 1.75, 32);
+      const g2Mat = new THREE.MeshBasicMaterial({ color: isBat ? 0xE5007D : 0x38BDF8, side: THREE.DoubleSide, transparent: true, opacity: 0.75 });
+      const ring2 = new THREE.Mesh(g2Geo, g2Mat);
+      ring2.rotation.y = Math.PI / 2;
+      mesh.add(ring2);
+
+      P3D.gimbalRings.push({ r1: ring1, r2: ring2, mesh: mesh });
+
+      // Core point light for luminous illumination
+      const pLight = new THREE.PointLight(0xF59E0B, 0.8, 80);
+      mesh.add(pLight);
+    } else if (isRR) {
+      // Emerald Halo for Rajasthan Royals Assets
+      const haloGeo = new THREE.RingGeometry(radius * 1.3, radius * 1.45, 32);
+      const haloMat = new THREE.MeshBasicMaterial({ color: 0x34D399, side: THREE.DoubleSide, transparent: true, opacity: 0.75 });
       const halo = new THREE.Mesh(haloGeo, haloMat);
       halo.rotation.x = Math.PI / 2;
       mesh.add(halo);
@@ -6357,9 +6523,50 @@ function build3DPlayerNodes() {
   });
 }
 
+function updateConstellationLines() {
+  if (P3D.constellationGroup) P3D.scene.remove(P3D.constellationGroup);
+  const group = new THREE.Group();
+
+  const topBatters = ['Suryakumar Yadav', 'Phil Salt', 'Tim David', 'Babar Azam', 'Shubman Gill'];
+  const topBowlers = ['Sunil Narine', 'Abrar Ahmed', 'Mitchell Santner', 'Jacob Duffy', 'Matheesha Pathirana'];
+
+  // Batter Laser Beam Constellation (Pink)
+  const batPoints = [];
+  for (let i = 0; i < topBatters.length - 1; i++) {
+    const m1 = P3D.playerMeshes.find(m => m.userData.player.name === topBatters[i]);
+    const m2 = P3D.playerMeshes.find(m => m.userData.player.name === topBatters[i+1]);
+    if (m1 && m2) {
+      batPoints.push(m1.position.clone(), m2.position.clone());
+    }
+  }
+  if (batPoints.length > 0) {
+    const bGeo = new THREE.BufferGeometry().setFromPoints(batPoints);
+    const bMat = new THREE.LineBasicMaterial({ color: 0xFF2D9B, linewidth: 2, transparent: true, opacity: 0.7 });
+    group.add(new THREE.LineSegments(bGeo, bMat));
+  }
+
+  // Bowler Laser Beam Constellation (Cyan)
+  const bowlPoints = [];
+  for (let i = 0; i < topBowlers.length - 1; i++) {
+    const m1 = P3D.playerMeshes.find(m => m.userData.player.name === topBowlers[i]);
+    const m2 = P3D.playerMeshes.find(m => m.userData.player.name === topBowlers[i+1]);
+    if (m1 && m2) {
+      bowlPoints.push(m1.position.clone(), m2.position.clone());
+    }
+  }
+  if (bowlPoints.length > 0) {
+    const bwGeo = new THREE.BufferGeometry().setFromPoints(bowlPoints);
+    const bwMat = new THREE.LineBasicMaterial({ color: 0x00F0FF, linewidth: 2, transparent: true, opacity: 0.7 });
+    group.add(new THREE.LineSegments(bwGeo, bwMat));
+  }
+
+  P3D.scene.add(group);
+  P3D.constellationGroup = group;
+}
+
 function set3DDimension(dim) {
   P3D.dimension = dim;
-  ['std', 'wp', 'stability'].forEach(k => {
+  ['std', 'wp', 'stability', 'auction'].forEach(k => {
     const el = document.getElementById('p3d-btn-' + k);
     if (el) el.classList.toggle('active', k === dim);
   });
@@ -6369,6 +6576,7 @@ function set3DDimension(dim) {
     if (dim === 'std') legend.innerHTML = 'X: HP Deliveries &bull; Y: Net/100 (Height) &bull; Z: &Delta; vs Baseline';
     else if (dim === 'wp') legend.innerHTML = 'X: Net/100 &bull; Y: Win Prob Added WPA (Height) &bull; Z: EB Composite Score';
     else if (dim === 'stability') legend.innerHTML = 'X: HP Deliveries &bull; Y: Top 10% Bootstrap (Height) &bull; Z: Consistency';
+    else if (dim === 'auction') legend.innerHTML = 'X: Base Price (₹Cr) &bull; Y: Model Fair Value (Height) &bull; Z: Walk-Away Price Ceiling';
   }
 
   // Update target positions for smooth interpolation
@@ -6399,6 +6607,8 @@ function filter3DNodes(f) {
 
     mesh.visible = visible;
   });
+
+  updateConstellationLines();
 }
 
 function toggle3DAutoOrbit() {
@@ -6408,12 +6618,37 @@ function toggle3DAutoOrbit() {
   if (status) status.innerText = P3D.autoOrbit ? 'ON' : 'OFF';
 }
 
-function reset3DCamera() {
-  if (P3D.controls) {
-    P3D.controls.target.set(0, 20, 0);
-    P3D.camera.position.set(0, 180, 420);
-    P3D.controls.update();
+function set3DCameraMode(mode) {
+  if (!P3D.controls || !P3D.camera) return;
+
+  let targetPos = new THREE.Vector3(0, 180, 440);
+  let targetLook = new THREE.Vector3(0, 20, 0);
+
+  if (mode === 'topdown') {
+    targetPos = new THREE.Vector3(0, 560, 1);
+    targetLook = new THREE.Vector3(0, 0, 0);
+    P3D.controls.autoRotate = false;
+  } else if (mode === 'elevation') {
+    targetPos = new THREE.Vector3(0, 40, 520);
+    targetLook = new THREE.Vector3(0, 30, 0);
+    P3D.controls.autoRotate = false;
+  } else if (mode === 'orbit') {
+    targetPos = new THREE.Vector3(0, 180, 440);
+    targetLook = new THREE.Vector3(0, 20, 0);
+    P3D.controls.autoRotate = true;
+    P3D.autoOrbit = true;
   }
+
+  const orbitStatus = document.getElementById('p3d-orbit-status');
+  if (orbitStatus) orbitStatus.innerText = P3D.controls.autoRotate ? 'ON' : 'OFF';
+
+  P3D.targetCamPos = targetPos;
+  P3D.targetCamLook = targetLook;
+  P3D.isTransitioningCam = true;
+}
+
+function reset3DCamera() {
+  set3DCameraMode('orbit');
 }
 
 function focus3DPlayer(name) {
@@ -6423,11 +6658,13 @@ function focus3DPlayer(name) {
   mesh.visible = true;
   show3DPlayerCard(mesh.userData.player);
 
-  if (P3D.controls) {
+  updateDropLaser(mesh.position, mesh.userData.colorHex);
+
+  if (P3D.controls && P3D.camera) {
     const pPos = mesh.position;
-    P3D.controls.target.set(pPos.x, pPos.y, pPos.z);
-    P3D.camera.position.set(pPos.x + 30, pPos.y + 20, pPos.z + 60);
-    P3D.controls.update();
+    P3D.targetCamLook = pPos.clone();
+    P3D.targetCamPos = pPos.clone().add(new THREE.Vector3(45, 25, 75));
+    P3D.isTransitioningCam = true;
   }
 }
 
@@ -6436,17 +6673,18 @@ function toggle3DPressureAnimation() {
   P3D.shiftT = 0;
   const btn = document.getElementById('p3d-btn-animate');
   if (btn) {
-    btn.innerHTML = P3D.isAnimatingShift 
-      ? '<span>⏹ Reset to Clutch State</span>' 
-      : '<span>▶ Play Pressure Shift Vector Animation</span>';
+    btn.innerHTML = P3D.isAnimatingShift
+      ? '<span>⏹ Reset to Clutch State</span>'
+      : '<span>▶ Play Shift Vector</span>';
   }
 
   if (!P3D.isAnimatingShift) {
-    // Snap back to clutch target
     P3D.playerMeshes.forEach(m => {
       const target = P3D.clutchPositions.get(m.userData.player.name);
       if (target) m.position.copy(target);
     });
+    updateConstellationLines();
+    if (P3D.hoveredMesh) updateDropLaser(P3D.hoveredMesh.position, P3D.hoveredMesh.userData.colorHex);
   }
 }
 
@@ -6473,6 +6711,15 @@ function show3DPlayerCard(p) {
   if (scoreEl) scoreEl.innerText = (p.adjusted_score || 0).toFixed(3);
 
   card.style.display = 'block';
+
+  // Update HUD coordinate readout
+  const hudCoords = document.getElementById('p3d-hud-coords');
+  if (hudCoords) {
+    const mesh = P3D.playerMeshes.find(m => m.userData.player.name === p.name);
+    if (mesh) {
+      hudCoords.innerHTML = `🛰️ TARGET LOCK: <strong style="color: #FFF;">${p.name.toUpperCase()}</strong> &bull; [X: ${mesh.position.x.toFixed(1)}, Y: ${mesh.position.y.toFixed(1)}, Z: ${mesh.position.z.toFixed(1)}] &bull; 60 FPS WEBGL`;
+    }
+  }
 }
 
 function openPlayerFrom3D() {
@@ -6501,15 +6748,17 @@ function setup3DRaycaster(container) {
           P3D.hoveredMesh.scale.set(origR, origR, origR);
         }
         P3D.hoveredMesh = hit;
-        const newR = hit.userData.origRadius * 1.4;
+        const newR = hit.userData.origRadius * 1.45;
         hit.scale.set(newR, newR, newR);
         show3DPlayerCard(hit.userData.player);
+        updateDropLaser(hit.position, hit.userData.colorHex);
       }
     } else {
       if (P3D.hoveredMesh) {
         const origR = P3D.hoveredMesh.userData.origRadius;
         P3D.hoveredMesh.scale.set(origR, origR, origR);
         P3D.hoveredMesh = null;
+        updateDropLaser(null);
       }
     }
   });
@@ -6539,6 +6788,30 @@ function onP3DResize() {
 function animate3D() {
   P3D.animId = requestAnimationFrame(animate3D);
 
+  // Rotate Cosmic Stardust Parallax
+  if (P3D.starField) {
+    P3D.starField.rotation.y += 0.00035;
+  }
+
+  // Smooth Camera Lerp Gliding
+  if (P3D.isTransitioningCam && P3D.targetCamPos && P3D.controls && P3D.camera) {
+    P3D.camera.position.lerp(P3D.targetCamPos, 0.07);
+    P3D.controls.target.lerp(P3D.targetCamLook, 0.07);
+    if (P3D.camera.position.distanceTo(P3D.targetCamPos) < 1.5) {
+      P3D.isTransitioningCam = false;
+    }
+  }
+
+  // Counter-Rotate Dual Gimbal Rings for Rank #1 Kings
+  if (P3D.gimbalRings.length > 0) {
+    P3D.gimbalRings.forEach(g => {
+      g.r1.rotation.z += 0.024;
+      g.r1.rotation.x += 0.015;
+      g.r2.rotation.y += 0.020;
+      g.r2.rotation.z -= 0.012;
+    });
+  }
+
   if (P3D.controls) P3D.controls.update();
 
   // Smooth position interpolation for dimension morphing
@@ -6551,7 +6824,7 @@ function animate3D() {
     });
   } else {
     // Animate Baseline -> Clutch vector shift
-    P3D.shiftT += 0.012;
+    P3D.shiftT += 0.014;
     const progress = (Math.sin(P3D.shiftT) + 1) / 2; // oscillates 0 -> 1 -> 0
     P3D.playerMeshes.forEach(mesh => {
       const base = P3D.basePositions.get(mesh.userData.player.name);
@@ -6567,7 +6840,6 @@ function animate3D() {
   }
 }
 
-// Fallback Canvas 2D/3D Projection Engine (Bulletproof Network/Offline guarantee)
 function initFallback3DCanvas(container) {
   container.innerHTML = '<canvas id="fallback-3d-cv" style="width:100%; height:100%;"></canvas>';
   const canvas = document.getElementById('fallback-3d-cv');
