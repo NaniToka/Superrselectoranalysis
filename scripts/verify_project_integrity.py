@@ -30,11 +30,13 @@ def find_data_file(base, filename):
 
 # 1. Check verified CSV files exist
 try:
-    exp_path = find_data_file(base_dir, 'expected_dashboard_values.csv')
+    exp_path = find_data_file(base_dir, 'rr_official_ground_truth.csv')
+    if not os.path.exists(exp_path):
+        exp_path = find_data_file(base_dir, 'expected_dashboard_values.csv')
     exp_df = pd.read_csv(exp_path)
-    check(len(exp_df) == 20, f"expected_dashboard_values.csv has {len(exp_df)} rows instead of 20")
+    check(len(exp_df) == 20, f"rr_official_ground_truth.csv has {len(exp_df)} rows instead of 20")
 except Exception as e:
-    fail(f"Could not read expected_dashboard_values.csv: {e}")
+    fail(f"Could not read rr_official_ground_truth.csv: {e}")
     exp_df = pd.DataFrame()
 
 try:
