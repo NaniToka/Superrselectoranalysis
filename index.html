@@ -2126,7 +2126,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
       </button>
 
       <div class="nav-section-label">Dugout War Room</div>
-      <button onclick="switchTab('tab-auction'); setTimeout(() => { document.getElementById('auction-warroom-console')?.scrollIntoView({behavior: 'smooth', block: 'start'}); }, 100);" id="nav-tab-rrsquad" class="nav-btn">
+      <button onclick="openAuctionValuationConsole()" id="nav-tab-auction" class="nav-btn">
         <span class="nav-icon">🏰</span>
         <span>Auction War Room &amp; RR</span>
       </button>
@@ -6594,14 +6594,18 @@ function setView(view) {
 }
 
 // TAB SWITCHER
-function switchTab(tabId) {
+function switchTab(rawTabId) {
+  if (!rawTabId) return;
+  const tabId = rawTabId.startsWith('tab-') ? rawTabId : 'tab-' + rawTabId;
   state.tab = tabId;
   document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
-  const activePane = document.getElementById(tabId);
+  const activePane = document.getElementById(tabId) || document.getElementById(rawTabId);
   if (activePane) activePane.classList.add('active');
 
   document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-  const activeBtn = document.getElementById('nav-' + tabId);
+  const activeBtn = document.getElementById('nav-' + tabId) || 
+                    document.getElementById('nav-' + rawTabId) || 
+                    (tabId === 'tab-auction' ? (document.getElementById('nav-tab-auction') || document.getElementById('nav-tab-rrsquad')) : null);
   if (activeBtn) {
     activeBtn.classList.add('active');
     if (window.innerWidth <= 1024) {
@@ -6611,7 +6615,7 @@ function switchTab(tabId) {
 
   // Sync mobile bottom navigation bar
   document.querySelectorAll('.mobile-tab-btn').forEach(btn => btn.classList.remove('active'));
-  const mobBtn = document.getElementById('mob-' + tabId);
+  const mobBtn = document.getElementById('mob-' + tabId) || document.getElementById('mob-' + rawTabId);
   if (mobBtn) mobBtn.classList.add('active');
 
   // Smooth scroll to top
@@ -6629,6 +6633,10 @@ function switchTab(tabId) {
   else if (tabId === 'tab-duel') initDuelSimulator();
   else if (tabId === 'tab-tactics') renderTacticsTab();
   else if (tabId === 'tab-submission') renderSubmissionTab();
+  else if (tabId === 'tab-auction') {
+    renderAuctionSection();
+    initAuctionSimulator();
+  }
 }
 
 function setRole(role) {
@@ -9591,21 +9599,22 @@ function updateAuctionSimulator(bidVal) {
 }
 
 function openAuctionValuationConsole() {
-  switchTab('auction');
+  switchTab('tab-auction');
+  initAuctionSimulator();
   setTimeout(() => {
     const el = document.getElementById('auction-warroom-console');
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 100);
+  }, 50);
 }
 
 function openAuctionValuationForPlayer(pName) {
-  switchTab('auction');
+  switchTab('tab-auction');
+  initAuctionSimulator();
+  selectAuctionSimulatorPlayer(pName);
   setTimeout(() => {
-    initAuctionSimulator();
-    selectAuctionSimulatorPlayer(pName);
     const el = document.getElementById('auction-warroom-console');
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 100);
+  }, 50);
 }
 
 window.initAuctionSimulator = initAuctionSimulator;
