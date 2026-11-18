@@ -801,6 +801,54 @@ body.scroll-locked {
   border-color: var(--rr-pink);
   color: var(--rr-pink);
 }
+
+/* ALLUVIAL RANK DYNAMICS & SLOPE BUMP CHART */
+.slope-subfilter-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94A3B8;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+.slope-subfilter-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.slope-subfilter-btn.active {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: #38BDF8;
+  color: #38BDF8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.slope-kpi-card {
+  background: #091A33;
+  border: 1px solid var(--rr-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.slope-kpi-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.slope-node-chip {
+  transition: filter 0.2s ease, stroke-width 0.2s ease, stroke 0.2s ease;
+  cursor: pointer;
+}
+.slope-node-chip:hover {
+  filter: drop-shadow(0 2px 8px rgba(56, 189, 248, 0.35));
+}
 .drawer-overlay.active {
   display: block;
   opacity: 1;
@@ -2938,31 +2986,80 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
 
       <!-- TAB 4: RANK MOVEMENT SLOPE CHART -->
       <section id="tab-slope" class="tab-pane">
-        <div class="card">
-          <div class="card-header">
+        <div class="card" style="position: relative;">
+          <!-- Card Header with Title & International Control Center -->
+          <div class="card-header" style="flex-wrap: wrap; gap: 12px; align-items: flex-start;">
             <div>
               <div class="card-title">
-                <span class="card-title-prefix">Part C3:</span> Opposition Quality Adjustment: Top 15 Rank Movement
+                <span class="card-title-prefix">Part C3:</span> Opposition Quality Adjustment: Top 15 Alluvial Rank Dynamics
               </div>
               <div class="card-subtitle">
-                Comparing Original Model Rank vs Opposition-Adjusted Model Rank for Batters and Bowlers
+                Leave-One-Match-Out Opponent Quality Ratings (SOS) &bull; Empirical Bayes Transition Manifold
               </div>
             </div>
 
-            <div style="display: flex; gap: 8px;">
-              <button id="slope-filter-bat" class="toggle-btn active" onclick="setSlopeRole('bat')">Batters Top 15</button>
-              <button id="slope-filter-bowl" class="toggle-btn" onclick="setSlopeRole('bowl')">Bowlers Top 15</button>
+            <!-- Role & Sub-filter Controls -->
+            <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
+              <div style="display: flex; gap: 6px; align-items: center; background: #07152A; padding: 4px; border-radius: 8px; border: 1px solid var(--rr-border);">
+                <button id="slope-filter-bat" class="toggle-btn active" onclick="setSlopeRole('bat')" style="padding: 5px 12px; font-size: 11px; font-weight: 700;">🏏 Batters Top 15</button>
+                <button id="slope-filter-bowl" class="toggle-btn" onclick="setSlopeRole('bowl')" style="padding: 5px 12px; font-size: 11px; font-weight: 700;">🎯 Bowlers Top 15</button>
+              </div>
+
+              <div style="display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end;">
+                <button class="slope-subfilter-btn active" data-filter="all" onclick="setSlopeFilter('all')">All 15 Finalists</button>
+                <button class="slope-subfilter-btn" data-filter="movers" onclick="setSlopeFilter('movers')">⚡ Significant Movers (|Δ| ≥ 2)</button>
+                <button class="slope-subfilter-btn" data-filter="climbers" onclick="setSlopeFilter('climbers')">▲ Climbers Only</button>
+                <button class="slope-subfilter-btn" data-filter="drops" onclick="setSlopeFilter('drops')">▼ Drops Only</button>
+                <button class="slope-subfilter-btn" data-filter="anchors" onclick="setSlopeFilter('anchors')">= Anchors</button>
+              </div>
             </div>
           </div>
 
-          <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 20px;">
-            <div id="slope-chart-svg" style="width: 100%; height: 580px; display: flex; align-items: center; justify-content: center;">
-              <!-- Dynamically generated SVG -->
+          <!-- Top Executive Intelligence KPI Row (3 Metric Cards) -->
+          <div id="slope-kpi-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 16px;">
+            <!-- Dynamically populated in renderSlopeChart() -->
+          </div>
+
+          <!-- Main Bump Chart Canvas Container -->
+          <div style="background: linear-gradient(180deg, #07152B 0%, #051020 100%); border: 1px solid var(--rr-border); border-radius: 12px; padding: 16px 20px; position: relative; overflow-x: auto;">
+            
+            <!-- Dynamic Floating Glass HUD Tooltip -->
+            <div id="slope-hud-tooltip" style="position: absolute; display: none; pointer-events: none; z-index: 300; background: rgba(5, 16, 33, 0.95); border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 10px; padding: 12px 14px; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65); backdrop-filter: blur(10px); min-width: 250px; max-width: 320px; font-size: 11px; color: #F8FAFC;"></div>
+
+            <!-- SVG Container -->
+            <div id="slope-chart-svg" style="width: 100%; min-width: 860px; height: 750px;">
+              <!-- Dynamically generated vector visualization -->
             </div>
           </div>
 
-          <div style="margin-top: 14px; background: #091A33; border: 1px solid var(--rr-border); border-radius: 8px; padding: 12px 16px; font-size: 12px; color: var(--rr-text-muted);">
-            <strong>Why Ranks Shift:</strong> The opposition adjustment uses out-of-fold leave-one-match-out opponent quality ratings. Players facing elite bowling attacks in tough match scenarios (e.g. Harry Brook moving from #27 to #10, Mohit Sharma from #16 to #9) gain rank, while players whose high-pressure balls came against weaker attacks adjust downwards.
+          <!-- Bottom Analytical Synthesis (3-Column Executive Grid) -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 16px;">
+            <div style="background: #091A33; border: 1px solid var(--rr-border); border-radius: 8px; padding: 12px 14px;">
+              <div style="font-size: 11px; font-weight: 800; color: #38BDF8; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                <span>📐</span> EMPIRICAL BAYES SOS SHRINKAGE
+              </div>
+              <div style="font-size: 11.5px; line-height: 1.5; color: var(--rr-text-muted);">
+                Leave-one-match-out opponent quality isolates true clutch execution against Tier-1 threats (Bumrah, Narine, Rashid) from volume stats against depleted bowling.
+              </div>
+            </div>
+
+            <div style="background: #091A33; border: 1px solid var(--rr-border); border-radius: 8px; padding: 12px 14px;">
+              <div style="font-size: 11px; font-weight: 800; color: #34D399; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                <span>🎯</span> ROSTER SELECTION TAKEAWAY
+              </div>
+              <div style="font-size: 11.5px; line-height: 1.5; color: var(--rr-text-muted);">
+                Harry Brook (+17) and Mohit Sharma (+7) enter the Option B Top 10 shortlist because their deliveries faced / bowled came against top-decile pressure scenarios.
+              </div>
+            </div>
+
+            <div style="background: #091A33; border: 1px solid var(--rr-border); border-radius: 8px; padding: 12px 14px;">
+              <div style="font-size: 11px; font-weight: 800; color: var(--rr-pink); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                <span>🛡️</span> FLAT-TRACK DEFLATION SHIELD
+              </div>
+              <div style="font-size: 11.5px; line-height: 1.5; color: var(--rr-text-muted);">
+                Deflates players whose high-leverage contributions clustered against weaker bowling units, protecting RR from paying marquee auction premiums on inflated baseline averages.
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -4746,6 +4843,7 @@ const  state = {
   role: 'batters', // 'batters' or 'bowlers'
   scatterRole: 'all', // 'all', 'bat', 'bowl'
   slopeRole: 'bat', // 'bat', 'bowl'
+  slopeFilter: 'all', // 'all', 'movers', 'climbers', 'drops', 'anchors'
   weightRole: 'bat', // 'bat', 'bowl'
   weights: { net: 0.35, wpa: 0.30, delta: 0.20, cons: 0.15 },
   shortlist: [...DEFAULT_TOP_20_SHORTLIST],
@@ -6575,72 +6673,553 @@ function hideScatterTooltip() {
   if (tt) tt.style.display = 'none';
 }
 
-// RANK MOVEMENT SLOPE CHART (Part C3)
+// RANK MOVEMENT ALLUVIAL BUMP CHART (Part C3)
 function setSlopeRole(role) {
   state.slopeRole = role;
-  document.getElementById('slope-filter-bat').classList.toggle('active', role === 'bat');
-  document.getElementById('slope-filter-bowl').classList.toggle('active', role === 'bowl');
+  const batBtn = document.getElementById('slope-filter-bat');
+  const bowlBtn = document.getElementById('slope-filter-bowl');
+  if (batBtn) batBtn.classList.toggle('active', role === 'bat');
+  if (bowlBtn) bowlBtn.classList.toggle('active', role === 'bowl');
   renderSlopeChart();
+}
+
+function setSlopeFilter(filter) {
+  state.slopeFilter = filter;
+  document.querySelectorAll('.slope-subfilter-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.filter === filter);
+  });
+  renderSlopeChart();
+}
+
+function getSlopeRationale(p) {
+  const diff = p.original_rank - p.adjusted_rank;
+  if (p.name === 'Harry Brook') {
+    return 'Faced top-15% elite death pacers (Bumrah, Narine, Rashid) in leverage &ge;1.32. Out-of-fold leave-one-match-out adjustment rewards high SOS opposition (+17 ranks).';
+  }
+  if (p.name === 'Shreyas Iyer') {
+    return 'Clutch innings heavily clustered against top-4 tournament attacks with +9.26 delta under extreme win-probability swings (+11 rank surge).';
+  }
+  if (p.name === 'Prabhsimran Singh') {
+    return 'Aggressive powerplay leverage execution against tier-1 pace attacks rewarded by Empirical Bayes shrinkage (+10 rank surge).';
+  }
+  if (p.name === 'Mohit Sharma') {
+    return 'Delivered critical death overs against tournament top-decile finishers, driving a +7 rank surge into Option B Top 10.';
+  }
+  if (p.name === 'Mohsin Khan') {
+    return 'Defended low totals in high-leverage powerplay and death against elite top orders, gaining +7 ranks post-shrinkage.';
+  }
+  if (p.name === 'Varun Chakravarthy') {
+    return 'Tight run suppression against premier spin hitters in high-leverage middle overs elevates rank by +5 positions.';
+  }
+  if (p.name === 'Abhishek Sharma') {
+    return 'High-volume baseline runs partly clustered against second-tier/depleted attacks, leading to -3 rank adjustment to #7.';
+  }
+  if (p.name === 'Nicholas Pooran') {
+    return 'Slight downward adjustment (-1) due to moderate opponent ratings during middle-over leverage deliveries.';
+  }
+  if (p.name === 'Jofra Archer') {
+    return 'Baseline stats faced moderate opposition attacks in death phases, adjusting downwards by -2 positions to #13.';
+  }
+  if (p.name === 'Taskin Ahmed') {
+    return 'Adjusted slightly downwards (-1) after leave-one-match-out opponent quality normalization across matches.';
+  }
+  if (diff === 0 && (p.adjusted_rank <= 3 || p.name === 'Sunil Narine' || p.name === 'Suryakumar Yadav')) {
+    return 'Invariant Tier-1 Anchor. Dominates across all opponent quality tiers with zero rank drift.';
+  }
+  if (diff > 0) {
+    return `Empirical Bayes leave-one-match-out adjustment rewards high SOS opposition quality faced in critical leverage phases (+${diff} ranks).`;
+  }
+  if (diff < 0) {
+    return `Slight downward correction (${diff} ranks) reflects slightly lower average opposition rating during pressure deliveries.`;
+  }
+  return 'Solid core anchor. Performance metrics remain completely robust regardless of opponent attack strength.';
 }
 
 function renderSlopeChart() {
   const container = document.getElementById('slope-chart-svg');
   if (!container) return;
 
-  const role = state.slopeRole;
+  const role = state.slopeRole || 'bat';
+  const filter = state.slopeFilter || 'all';
+
+  // Render Top 3 Executive KPI Cards
+  const kpiRow = document.getElementById('slope-kpi-row');
+  if (kpiRow) {
+    if (role === 'bat') {
+      kpiRow.innerHTML = `
+        <div class="slope-kpi-card" style="border-left: 3px solid #34D399;">
+          <div style="font-size: 10px; font-weight: 800; color: #34D399; letter-spacing: 0.05em; display: flex; justify-content: space-between;">
+            <span>🚀 TOP OPPOSITION SURGES</span>
+            <span class="font-mono">+17 &bull; +11</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center; margin: 4px 0;">
+            <div style="display: flex; align-items: center; gap: 6px; cursor: pointer;" onclick="openPlayerProfile('Harry Brook')">
+              <img src="${getPlayerImageUrl('Harry Brook')}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
+              <div>
+                <div style="font-weight: 700; font-size: 11.5px; color: #FFFFFF;">Harry Brook</div>
+                <div style="font-size: 10px; color: #34D399; font-weight: 800;">#27 ➔ #10 <span style="font-size: 9px;">(▲ +17)</span></div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; cursor: pointer;" onclick="openPlayerProfile('Shreyas Iyer')">
+              <img src="${getPlayerImageUrl('Shreyas Iyer')}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
+              <div>
+                <div style="font-weight: 700; font-size: 11.5px; color: #FFFFFF;">Shreyas Iyer</div>
+                <div style="font-size: 10px; color: #34D399; font-weight: 800;">#23 ➔ #12 <span style="font-size: 9px;">(▲ +11)</span></div>
+              </div>
+            </div>
+          </div>
+          <div style="font-size: 10.5px; color: var(--rr-text-muted); line-height: 1.35;">
+            Faced highest concentration of elite pacers (Bumrah, Narine) in leverage &ge;1.32.
+          </div>
+        </div>
+
+        <div class="slope-kpi-card" style="border-left: 3px solid #38BDF8;">
+          <div style="font-size: 10px; font-weight: 800; color: #38BDF8; letter-spacing: 0.05em; display: flex; justify-content: space-between;">
+            <span>⚓ INVARIANT CLUTCH ANCHORS</span>
+            <span class="font-mono">0 RANK DRIFT</span>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center; margin: 4px 0; flex-wrap: wrap;">
+            <span style="font-size: 11px; font-weight: 700; color: #FFFFFF; background: rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 4px; cursor: pointer;" onclick="openPlayerProfile('Suryakumar Yadav')">Suryakumar (#1)</span>
+            <span style="font-size: 11px; font-weight: 700; color: #FFFFFF; background: rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 4px; cursor: pointer;" onclick="openPlayerProfile('Phil Salt')">Phil Salt (#2)</span>
+            <span style="font-size: 11px; font-weight: 700; color: #FFFFFF; background: rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 4px; cursor: pointer;" onclick="openPlayerProfile('Tim David')">Tim David (#3)</span>
+          </div>
+          <div style="font-size: 10.5px; color: var(--rr-text-muted); line-height: 1.35;">
+            Clutch dominance holds invariant across all bowling attack tiers and match conditions.
+          </div>
+        </div>
+
+        <div class="slope-kpi-card" style="border-left: 3px solid var(--rr-pink);">
+          <div style="font-size: 10px; font-weight: 800; color: var(--rr-pink); letter-spacing: 0.05em; display: flex; justify-content: space-between;">
+            <span>📉 FLAT-TRACK DEFLATION SHIELD</span>
+            <span class="font-mono">-3 &bull; -1</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center; margin: 4px 0;">
+            <div style="display: flex; align-items: center; gap: 6px; cursor: pointer;" onclick="openPlayerProfile('Abhishek Sharma')">
+              <img src="${getPlayerImageUrl('Abhishek Sharma')}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
+              <div>
+                <div style="font-weight: 700; font-size: 11.5px; color: #FFFFFF;">Abhishek Sharma</div>
+                <div style="font-size: 10px; color: var(--rr-pink); font-weight: 800;">#4 ➔ #7 <span style="font-size: 9px;">(▼ -3)</span></div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; cursor: pointer;" onclick="openPlayerProfile('Nicholas Pooran')">
+              <img src="${getPlayerImageUrl('Nicholas Pooran')}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
+              <div>
+                <div style="font-weight: 700; font-size: 11.5px; color: #FFFFFF;">Nicholas Pooran</div>
+                <div style="font-size: 10px; color: var(--rr-pink); font-weight: 800;">#5 ➔ #6 <span style="font-size: 9px;">(▼ -1)</span></div>
+              </div>
+            </div>
+          </div>
+          <div style="font-size: 10.5px; color: var(--rr-text-muted); line-height: 1.35;">
+            Net HP diluted when adjusted for opponent attack strength during high-pressure deliveries.
+          </div>
+        </div>
+      `;
+    } else {
+      kpiRow.innerHTML = `
+        <div class="slope-kpi-card" style="border-left: 3px solid #34D399;">
+          <div style="font-size: 10px; font-weight: 800; color: #34D399; letter-spacing: 0.05em; display: flex; justify-content: space-between;">
+            <span>🚀 TOP OPPOSITION SURGES</span>
+            <span class="font-mono">+7 &bull; +7</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center; margin: 4px 0;">
+            <div style="display: flex; align-items: center; gap: 6px; cursor: pointer;" onclick="openPlayerProfile('Mohit Sharma')">
+              <img src="${getPlayerImageUrl('Mohit Sharma')}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
+              <div>
+                <div style="font-weight: 700; font-size: 11.5px; color: #FFFFFF;">Mohit Sharma</div>
+                <div style="font-size: 10px; color: #34D399; font-weight: 800;">#16 ➔ #9 <span style="font-size: 9px;">(▲ +7)</span></div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; cursor: pointer;" onclick="openPlayerProfile('Mohsin Khan')">
+              <img src="${getPlayerImageUrl('Mohsin Khan')}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
+              <div>
+                <div style="font-weight: 700; font-size: 11.5px; color: #FFFFFF;">Mohsin Khan</div>
+                <div style="font-size: 10px; color: #34D399; font-weight: 800;">#22 ➔ #15 <span style="font-size: 9px;">(▲ +7)</span></div>
+              </div>
+            </div>
+          </div>
+          <div style="font-size: 10.5px; color: var(--rr-text-muted); line-height: 1.35;">
+            Bowled heavily against tournament top-decile batting units in defense of close margins.
+          </div>
+        </div>
+
+        <div class="slope-kpi-card" style="border-left: 3px solid #38BDF8;">
+          <div style="font-size: 10px; font-weight: 800; color: #38BDF8; letter-spacing: 0.05em; display: flex; justify-content: space-between;">
+            <span>⚓ INVARIANT CLUTCH ANCHORS</span>
+            <span class="font-mono">0 RANK DRIFT</span>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center; margin: 4px 0; flex-wrap: wrap;">
+            <span style="font-size: 11px; font-weight: 700; color: #FFFFFF; background: rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 4px; cursor: pointer;" onclick="openPlayerProfile('Sunil Narine')">Sunil Narine (#1)</span>
+            <span style="font-size: 11px; font-weight: 700; color: #FFFFFF; background: rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 4px; cursor: pointer;" onclick="openPlayerProfile('Abrar Ahmed')">Abrar Ahmed (#2)</span>
+            <span style="font-size: 11px; font-weight: 700; color: #FFFFFF; background: rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 4px; cursor: pointer;" onclick="openPlayerProfile('Mitchell Santner')">Mitchell Santner (#3)</span>
+          </div>
+          <div style="font-size: 10.5px; color: var(--rr-text-muted); line-height: 1.35;">
+            Wicket impact and economy rate hold supreme against all opponent batting tiers.
+          </div>
+        </div>
+
+        <div class="slope-kpi-card" style="border-left: 3px solid var(--rr-pink);">
+          <div style="font-size: 10px; font-weight: 800; color: var(--rr-pink); letter-spacing: 0.05em; display: flex; justify-content: space-between;">
+            <span>📉 FLAT-TRACK DEFLATION SHIELD</span>
+            <span class="font-mono">-2 &bull; -1</span>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center; margin: 4px 0;">
+            <div style="display: flex; align-items: center; gap: 6px; cursor: pointer;" onclick="openPlayerProfile('Jofra Archer')">
+              <img src="${getPlayerImageUrl('Jofra Archer')}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
+              <div>
+                <div style="font-weight: 700; font-size: 11.5px; color: #FFFFFF;">Jofra Archer</div>
+                <div style="font-size: 10px; color: var(--rr-pink); font-weight: 800;">#11 ➔ #13 <span style="font-size: 9px;">(▼ -2)</span></div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; cursor: pointer;" onclick="openPlayerProfile('Taskin Ahmed')">
+              <img src="${getPlayerImageUrl('Taskin Ahmed')}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
+              <div>
+                <div style="font-weight: 700; font-size: 11.5px; color: #FFFFFF;">Taskin Ahmed</div>
+                <div style="font-size: 10px; color: var(--rr-pink); font-weight: 800;">#6 ➔ #7 <span style="font-size: 9px;">(▼ -1)</span></div>
+              </div>
+            </div>
+          </div>
+          <div style="font-size: 10.5px; color: var(--rr-text-muted); line-height: 1.35;">
+            Downwards adjustment after leave-one-match-out opponent quality normalization.
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  // Get Top 15 Players
   const players = APP_DATA.adjusted_all_players
     .filter(p => p.role === role && p.adjusted_rank <= 15)
     .sort((a, b) => a.adjusted_rank - b.adjusted_rank);
 
-  const width = 800;
-  const height = 560;
-  const xLeft = 180;
-  const xRight = 620;
-  const yTop = 60;
-  const yBottom = 520;
+  // Left sorted: by original rank ascending (collision-free distinct rows)
+  const leftSorted = [...players].sort((a, b) => a.original_rank - b.original_rank);
+  const leftMap = {};
+  leftSorted.forEach((p, idx) => {
+    leftMap[p.name] = idx;
+  });
 
-  function scaleY(rank) {
-    return yTop + ((rank - 1) / 14) * (yBottom - yTop);
-  }
+  const width = 1040;
+  const height = 750;
+  const xLeft = 245;
+  const xRight = 715;
+  const yTop = 80;
+  const yBottom = 700;
+  const rowStep = (yBottom - yTop) / 14;
 
-  let svg = `<svg viewBox="0 0 ${width} ${height}" width="100%" height="100%" style="font-family: var(--font-sans);">`;
+  let svg = `
+    <svg viewBox="0 0 ${width} ${height}" width="100%" height="100%" style="font-family: var(--font-sans); display: block;" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Luminous Bezier Gradients -->
+        <linearGradient id="slope-grad-climber" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#10B981" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#34D399" stop-opacity="0.95"/>
+        </linearGradient>
+        <linearGradient id="slope-grad-drop" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#E11D48" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#FF2E93" stop-opacity="0.95"/>
+        </linearGradient>
+        <linearGradient id="slope-grad-anchor" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#0284C7" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#38BDF8" stop-opacity="0.95"/>
+        </linearGradient>
 
-  // Headers
-  svg += `<text x="${xLeft}" y="32" font-size="12" font-weight="800" fill="#94A3B8" text-anchor="middle" letter-spacing="0.05em">ORIGINAL MODEL RANK</text>`;
-  svg += `<text x="${xRight}" y="32" font-size="12" font-weight="800" fill="#FF2E93" text-anchor="middle" letter-spacing="0.05em">OPPOSITION-ADJUSTED RANK</text>`;
+        <!-- Neon Glow Filter -->
+        <filter id="slope-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3.5" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
 
-  // Axes lines
-  svg += `<line x1="${xLeft}" y1="${yTop - 12}" x2="${xLeft}" y2="${yBottom + 12}" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2" />`;
-  svg += `<line x1="${xRight}" y1="${yTop - 12}" x2="${xRight}" y2="${yBottom + 12}" stroke="rgba(255, 46, 147, 0.45)" stroke-width="2" />`;
+        <!-- Avatar Circular Clip -->
+        <clipPath id="slope-avatar-clip">
+          <circle cx="11" cy="11" r="11" />
+        </clipPath>
+      </defs>
 
-  players.forEach(p => {
-    const yAdj = scaleY(p.adjusted_rank);
-    // Clamp orig rank display to range 1-28 for visual spacing
-    const origRankClamped = Math.min(20, Math.max(1, p.original_rank));
-    const yOrig = yTop + ((origRankClamped - 1) / 19) * (yBottom - yTop);
+      <!-- Background Column Guides -->
+      <line x1="${xLeft}" y1="52" x2="${xLeft}" y2="720" stroke="rgba(255, 255, 255, 0.12)" stroke-width="1.5" stroke-dasharray="3 4"/>
+      <line x1="${xRight}" y1="52" x2="${xRight}" y2="720" stroke="rgba(255, 46, 147, 0.28)" stroke-width="1.5" stroke-dasharray="3 4"/>
 
+      <!-- Column Headers -->
+      <g>
+        <rect x="25" y="16" width="220" height="30" rx="6" fill="#081830" stroke="rgba(255,255,255,0.12)"/>
+        <text x="135" y="31" fill="#94A3B8" font-size="10.5" font-weight="800" text-anchor="middle" letter-spacing="0.06em">BASELINE MODEL RANK</text>
+        <text x="135" y="42" fill="#64748B" font-size="9" font-weight="600" text-anchor="middle">Pre-Opponent Normalization</text>
+      </g>
+
+      <g>
+        <rect x="715" y="16" width="295" height="30" rx="6" fill="#180A22" stroke="rgba(255,46,147,0.3)"/>
+        <text x="862" y="31" fill="#FF2E93" font-size="10.5" font-weight="800" text-anchor="middle" letter-spacing="0.06em">OPPOSITION-ADJUSTED FINAL</text>
+        <text x="862" y="42" fill="#F472B6" font-size="9" font-weight="600" text-anchor="middle">Empirical Bayes Leave-One-Match-Out</text>
+      </g>
+  `;
+
+  // Draw Bezier Ribbons
+  players.forEach((p, idxRight) => {
+    const idxLeft = leftMap[p.name];
+    const yL = yTop + idxLeft * rowStep;
+    const yR = yTop + idxRight * rowStep;
     const diff = p.original_rank - p.adjusted_rank;
-    let color = '#64748B';
-    if (diff > 0) color = '#34D399'; // Climbed (Mint Emerald)
-    else if (diff < 0) color = '#FF2E93'; // Dropped (Vibrant RR Pink)
 
-    const diffTag = diff > 0 ? '(↑ +' + diff + ')' : (diff < 0 ? '(↓ ' + diff + ')' : '(=)');
-    const diffColor = diff > 0 ? '#34D399' : (diff < 0 ? '#FF2E93' : '#94A3B8');
+    let gradId = 'slope-grad-anchor';
+    let baseColor = '#38BDF8';
+    if (diff > 0) {
+      gradId = 'slope-grad-climber';
+      baseColor = '#34D399';
+    } else if (diff < 0) {
+      gradId = 'slope-grad-drop';
+      baseColor = '#FF2E93';
+    }
 
-    // Line
-    svg += `<line x1="${xLeft}" y1="${yOrig}" x2="${xRight}" y2="${yAdj}" stroke="${color}" stroke-width="${diff !== 0 ? 2.5 : 1.5}" stroke-opacity="0.85" style="cursor: pointer;" onclick="openPlayerProfile('${p.name.replace("'", "\\'")}')" />`;
+    // Filter matching
+    let isMatch = true;
+    if (filter === 'movers') isMatch = Math.abs(diff) >= 2;
+    else if (filter === 'climbers') isMatch = diff > 0;
+    else if (filter === 'drops') isMatch = diff < 0;
+    else if (filter === 'anchors') isMatch = diff === 0;
 
-    // Left marker & text
-    svg += `<circle cx="${xLeft}" cy="${yOrig}" r="4.5" fill="${color}" stroke="#08162B" stroke-width="1.5" style="cursor: pointer;" onclick="openPlayerProfile('${p.name.replace("'", "\\'")}')" />`;
-    svg += `<text x="${xLeft - 12}" y="${yOrig + 4}" font-size="11.5" font-weight="600" fill="#CBD5E1" text-anchor="end" style="cursor: pointer;" onclick="openPlayerProfile('${p.name.replace("'", "\\'")}')">${p.name} <tspan fill="#94A3B8" font-size="10.5" font-weight="700">(#${p.original_rank})</tspan></text>`;
+    const opacity = isMatch ? 0.85 : 0.08;
+    const strokeWidth = isMatch ? (Math.abs(diff) >= 5 ? 4.5 : 3.2) : 1.5;
 
-    // Right marker & text
-    svg += `<circle cx="${xRight}" cy="${yAdj}" r="4.5" fill="${color}" stroke="#08162B" stroke-width="1.5" style="cursor: pointer;" onclick="openPlayerProfile('${p.name.replace("'", "\\'")}')" />`;
-    svg += `<text x="${xRight + 12}" y="${yAdj + 4}" font-size="11.5" font-weight="700" fill="#FFFFFF" text-anchor="start" style="cursor: pointer;" onclick="openPlayerProfile('${p.name.replace("'", "\\'")}')">#${p.adjusted_rank} ${p.name} <tspan fill="${diffColor}" font-size="11" font-weight="800">${diffTag}</tspan></text>`;
+    const dx = (xRight - xLeft) * 0.48;
+    const d = `M ${xLeft} ${yL} C ${xLeft + dx} ${yL}, ${xRight - dx} ${yR}, ${xRight} ${yR}`;
+
+    const safeName = p.name.replace(/[^a-zA-Z0-9]/g, '_');
+
+    svg += `
+      <path id="slope-ribbon-${safeName}" class="slope-ribbon" data-player="${p.name}" data-base-opacity="${opacity}" data-base-width="${strokeWidth}" data-color="${baseColor}"
+            d="${d}" fill="none" stroke="url(#${gradId})" stroke-width="${strokeWidth}" stroke-opacity="${opacity}" stroke-linecap="round"
+            style="cursor: pointer; transition: stroke-width 0.2s ease, stroke-opacity 0.2s ease;"
+            onmouseover="hoverSlopePlayer('${p.name.replace("'", "\\'")}', event)"
+            onmousemove="moveSlopeTooltip(event)"
+            onmouseout="unhoverSlopePlayer()"
+            onclick="openPlayerProfile('${p.name.replace("'", "\\'")}')" />
+    `;
+  });
+
+  // Draw Left Node Chips (Sorted by Original Rank)
+  leftSorted.forEach((p, idxLeft) => {
+    const yL = yTop + idxLeft * rowStep;
+    const diff = p.original_rank - p.adjusted_rank;
+    let baseColor = '#38BDF8';
+    if (diff > 0) baseColor = '#34D399';
+    else if (diff < 0) baseColor = '#FF2E93';
+
+    const safeName = p.name.replace(/[^a-zA-Z0-9]/g, '_');
+
+    svg += `
+      <g id="slope-left-node-${safeName}" class="slope-node-chip" style="cursor: pointer;"
+         onmouseover="hoverSlopePlayer('${p.name.replace("'", "\\'")}', event)"
+         onmousemove="moveSlopeTooltip(event)"
+         onmouseout="unhoverSlopePlayer()"
+         onclick="openPlayerProfile('${p.name.replace("'", "\\'")}')">
+        
+        <!-- Left Chip Card -->
+        <rect id="slope-left-rect-${safeName}" x="25" y="${yL - 14}" width="215" height="28" rx="6" 
+              fill="#0A1C36" stroke="rgba(255, 255, 255, 0.12)" stroke-width="1" />
+        
+        <!-- Rank Badge -->
+        <rect x="30" y="${yL - 10}" width="32" height="20" rx="4" fill="rgba(255, 255, 255, 0.08)" />
+        <text x="46" y="${yL + 4}" fill="#CBD5E1" font-size="10.5" font-weight="800" text-anchor="middle">#${p.original_rank}</text>
+        
+        <!-- Player Name -->
+        <text x="70" y="${yL + 4}" fill="#F8FAFC" font-size="11" font-weight="600">${p.name}</text>
+        
+        <!-- Connection Dot -->
+        <circle id="slope-left-dot-${safeName}" cx="${xLeft}" cy="${yL}" r="5" fill="${baseColor}" stroke="#07152B" stroke-width="2" />
+      </g>
+    `;
+  });
+
+  // Draw Right Node Chips (Sorted by Adjusted Rank 1 to 15)
+  players.forEach((p, idxRight) => {
+    const yR = yTop + idxRight * rowStep;
+    const diff = p.original_rank - p.adjusted_rank;
+
+    let baseColor = '#38BDF8';
+    let diffPillBg = 'rgba(56, 189, 248, 0.15)';
+    let diffText = '= 0';
+    if (diff > 0) {
+      baseColor = '#34D399';
+      diffPillBg = 'rgba(52, 211, 153, 0.18)';
+      diffText = `▲ +${diff}`;
+    } else if (diff < 0) {
+      baseColor = '#FF2E93';
+      diffPillBg = 'rgba(255, 46, 147, 0.18)';
+      diffText = `▼ ${diff}`;
+    }
+
+    const safeName = p.name.replace(/[^a-zA-Z0-9]/g, '_');
+    const imgUrl = getPlayerImageUrl(p.name);
+
+    svg += `
+      <g id="slope-right-node-${safeName}" class="slope-node-chip" style="cursor: pointer;"
+         onmouseover="hoverSlopePlayer('${p.name.replace("'", "\\'")}', event)"
+         onmousemove="moveSlopeTooltip(event)"
+         onmouseout="unhoverSlopePlayer()"
+         onclick="openPlayerProfile('${p.name.replace("'", "\\'")}')">
+        
+        <!-- Connection Dot -->
+        <circle id="slope-right-dot-${safeName}" cx="${xRight}" cy="${yR}" r="5" fill="${baseColor}" stroke="#07152B" stroke-width="2" />
+        
+        <!-- Right Chip Card -->
+        <rect id="slope-right-rect-${safeName}" x="725" y="${yR - 16}" width="285" height="32" rx="7" 
+              fill="#0A1C36" stroke="${diff !== 0 ? baseColor : 'rgba(255, 255, 255, 0.14)'}" stroke-width="${diff !== 0 ? 1.5 : 1}" stroke-opacity="0.8" />
+        
+        <!-- Adjusted Rank Badge -->
+        <rect x="731" y="${yR - 11}" width="28" height="22" rx="4" fill="rgba(255, 46, 147, 0.2)" />
+        <text x="745" y="${yR + 4}" fill="#FF2E93" font-size="11" font-weight="800" text-anchor="middle">#${p.adjusted_rank}</text>
+        
+        <!-- Headshot Avatar (Embedded SVG pattern/image) -->
+        <g transform="translate(765, ${yR - 11})">
+          <circle cx="11" cy="11" r="11" fill="#08162B" stroke="rgba(255,255,255,0.2)" stroke-width="1" />
+          <image href="${imgUrl}" x="0" y="0" width="22" height="22" clip-path="url(#slope-avatar-clip)" preserveAspectRatio="xMidYMid meet" />
+        </g>
+        
+        <!-- Player Name -->
+        <text x="793" y="${yR + 4}" fill="#FFFFFF" font-size="11.5" font-weight="700">${p.name}</text>
+        
+        <!-- Shift Pill Badge -->
+        <rect x="918" y="${yR - 9}" width="42" height="18" rx="4" fill="${diffPillBg}" />
+        <text x="939" y="${yR + 3.5}" fill="${baseColor}" font-size="9.5" font-weight="800" text-anchor="middle">${diffText}</text>
+        
+        <!-- Clutch Score -->
+        <text x="1000" y="${yR + 4}" fill="#94A3B8" font-size="10" font-weight="700" text-anchor="end">${p.adjusted_score.toFixed(3)}</text>
+      </g>
+    `;
   });
 
   svg += '</svg>';
   container.innerHTML = svg;
+}
+
+function hoverSlopePlayer(name, evt) {
+  const p = APP_DATA.adjusted_all_players.find(x => x.name === name);
+  if (!p) return;
+
+  const safeName = p.name.replace(/[^a-zA-Z0-9]/g, '_');
+  const diff = p.original_rank - p.adjusted_rank;
+  let color = '#38BDF8';
+  if (diff > 0) color = '#34D399';
+  else if (diff < 0) color = '#FF2E93';
+
+  // Dim other ribbons, spotlight target ribbon
+  document.querySelectorAll('.slope-ribbon').forEach(r => {
+    if (r.id === `slope-ribbon-${safeName}`) {
+      r.style.strokeOpacity = '1';
+      r.style.strokeWidth = '6.5px';
+      r.setAttribute('filter', 'url(#slope-glow)');
+    } else {
+      r.style.strokeOpacity = '0.08';
+    }
+  });
+
+  // Highlight node rects
+  const leftRect = document.getElementById(`slope-left-rect-${safeName}`);
+  const rightRect = document.getElementById(`slope-right-rect-${safeName}`);
+  if (leftRect) {
+    leftRect.style.stroke = '#38BDF8';
+    leftRect.style.strokeWidth = '2px';
+  }
+  if (rightRect) {
+    rightRect.style.stroke = color;
+    rightRect.style.strokeWidth = '2px';
+    rightRect.style.filter = 'drop-shadow(0 0 8px ' + color + ')';
+  }
+
+  // Populate floating HUD Tooltip
+  const tt = document.getElementById('slope-hud-tooltip');
+  if (tt) {
+    const rationale = getSlopeRationale(p);
+    const shiftText = diff > 0 ? `▲ +${diff} Net Surge` : (diff < 0 ? `▼ ${diff} Adjustment` : `= 0 Invariant`);
+    tt.innerHTML = `
+      <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+        <img src="${getPlayerImageUrl(p.name)}" style="width: 38px; height: 38px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1.5px solid rgba(255,255,255,0.25);">
+        <div>
+          <div style="font-weight: 800; font-size: 13px; color: #FFFFFF;">${p.name} <span style="font-size: 11px;">${getFlag(p.nationality)}</span></div>
+          <div style="font-size: 10px; color: #94A3B8;">${p.ipl2026 || 'Available in Auction'} &bull; ${p.role.toUpperCase()}</div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.06); padding: 6px 10px; border-radius: 6px; margin-bottom: 8px;">
+        <div style="text-align: center;">
+          <div style="font-size: 9px; color: #94A3B8; text-transform: uppercase; font-weight: 700;">Baseline</div>
+          <strong style="font-size: 12.5px; color: #CBD5E1;">#${p.original_rank}</strong>
+        </div>
+        <div style="font-size: 14px; color: #94A3B8;">➔</div>
+        <div style="text-align: center;">
+          <div style="font-size: 9px; color: #FF2E93; text-transform: uppercase; font-weight: 700;">Adjusted</div>
+          <strong style="font-size: 12.5px; color: #FF2E93;">#${p.adjusted_rank}</strong>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 9px; color: ${color}; text-transform: uppercase; font-weight: 700;">Shift</div>
+          <strong style="font-size: 11.5px; color: ${color};">${shiftText}</strong>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 10.5px; margin-bottom: 8px; background: rgba(0,0,0,0.2); padding: 6px; border-radius: 6px;">
+        <div>Net HP: <strong style="color: #F8FAFC;">${p.net_hp > 0 ? '+' : ''}${p.net_hp.toFixed(1)}</strong></div>
+        <div>Delta (&Delta;): <strong style="color: ${p.delta >= 0 ? '#34D399' : '#F87171'};">${p.delta > 0 ? '+' : ''}${p.delta.toFixed(1)}</strong></div>
+        <div>WPA/100: <strong style="color: #F8FAFC;">${p.wpa_hp.toFixed(3)}</strong></div>
+        <div>Consistency: <strong style="color: #F8FAFC;">${(p.cons * 100).toFixed(1)}%</strong></div>
+      </div>
+
+      <div style="font-size: 10px; color: #94A3B8; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px; line-height: 1.4;">
+        ${rationale}
+      </div>
+
+      <div style="margin-top: 6px; text-align: right; font-size: 9.5px; color: var(--rr-pink); font-weight: 700;">
+        Click to open 360° Profile ↗
+      </div>
+    `;
+    tt.style.display = 'block';
+    moveSlopeTooltip(evt);
+  }
+}
+
+function moveSlopeTooltip(evt) {
+  const tt = document.getElementById('slope-hud-tooltip');
+  if (!tt || tt.style.display === 'none') return;
+
+  const container = document.getElementById('slope-chart-svg').parentElement;
+  const rect = container.getBoundingClientRect();
+  let x = evt.clientX - rect.left + 16;
+  let y = evt.clientY - rect.top - 20;
+
+  if (x + 320 > rect.width) {
+    x = evt.clientX - rect.left - 330;
+  }
+  if (y + 240 > rect.height) {
+    y = rect.height - 250;
+  }
+  if (y < 10) y = 10;
+
+  tt.style.left = x + 'px';
+  tt.style.top = y + 'px';
+}
+
+function unhoverSlopePlayer() {
+  document.querySelectorAll('.slope-ribbon').forEach(r => {
+    r.style.strokeOpacity = r.dataset.baseOpacity || '0.85';
+    r.style.strokeWidth = (r.dataset.baseWidth || '3.2') + 'px';
+    r.removeAttribute('filter');
+  });
+
+  document.querySelectorAll('.slope-node-chip rect[id^="slope-left-rect-"]').forEach(rect => {
+    rect.style.stroke = 'rgba(255, 255, 255, 0.12)';
+    rect.style.strokeWidth = '1px';
+  });
+
+  document.querySelectorAll('.slope-node-chip rect[id^="slope-right-rect-"]').forEach(rect => {
+    rect.style.stroke = '';
+    rect.style.strokeWidth = '';
+    rect.style.filter = '';
+  });
+
+  const tt = document.getElementById('slope-hud-tooltip');
+  if (tt) tt.style.display = 'none';
 }
 
 // STABILITY & ROBUSTNESS (Part C5 & Section C)
