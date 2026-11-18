@@ -742,12 +742,64 @@ body.scroll-locked {
 .drawer-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(6, 17, 41, 0.65);
-  backdrop-filter: blur(2px);
+  background: rgba(4, 13, 28, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 2600;
   display: none;
   opacity: 0;
-  transition: opacity 200ms ease;
+  transition: opacity 220ms ease;
+}
+
+/* COLLAPSIBLE CONTROLS & FILTER BARS (SMOOTH DISAPPEAR & REAPPEAR) */
+.collapsible-control-bar {
+  max-height: 500px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: max-height 0.32s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+              margin 0.28s cubic-bezier(0.16, 1, 0.3, 1), 
+              padding 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: visible;
+}
+.collapsible-control-bar.collapsed {
+  max-height: 0 !important;
+  opacity: 0 !important;
+  transform: translateY(-8px) !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  border-width: 0 !important;
+}
+
+.btn-toggle-collapse {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #CBD5E1;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+.btn-toggle-collapse:hover {
+  background: rgba(229, 0, 125, 0.15);
+  border-color: var(--rr-pink);
+  color: #FFFFFF;
+}
+.btn-toggle-collapse.active {
+  background: rgba(229, 0, 125, 0.2);
+  border-color: var(--rr-pink);
+  color: var(--rr-pink);
 }
 .drawer-overlay.active {
   display: block;
@@ -823,16 +875,20 @@ body.scroll-locked {
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(6, 17, 41, 0.6);
-  backdrop-filter: blur(3px);
+  background: rgba(4, 13, 28, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 2500;
   display: none;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  opacity: 0;
+  transition: opacity 220ms ease;
 }
 .modal-overlay.active {
   display: flex;
+  opacity: 1;
 }
 
 .modal-content {
@@ -1375,6 +1431,9 @@ div[style*="border: 1px solid #CBD5E1"] {
 
   /* SIDE PANEL CONVERTED TO MOBILE BOTTOM SHEET OVERLAY */
   .drawer-overlay {
+    background: rgba(4, 13, 28, 0.88) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
     z-index: 2600 !important;
   }
   .drawer-panel {
@@ -2309,15 +2368,26 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                   Comprehensive database of all 202 qualified players &bull; Live search, role/overseas/status filters, min HP deliveries slider, and column sorting
                 </div>
               </div>
-              <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
-                <span>Export Filtered (CSV)</span>
-              </button>
+              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="btn-toggle-collapse" onclick="toggleFilterBar(this)" title="Toggle filter bar visibility to save space">
+                  <span>▾ Hide Filters</span>
+                </button>
+                <button type="button" class="btn-toggle-collapse" onclick="resetExplorerFilters(this)" title="Reset all filters to defaults">
+                  <span>↺ Reset</span>
+                </button>
+                <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
+                  <span>Export Filtered (CSV)</span>
+                </button>
+              </div>
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div class="filter-controls-bar collapsible-control-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <label style="font-size: 11px; font-weight: 700; color: #F8FAFC;">Search Player or Team</label>
+                  <button type="button" class="btn-clear-search" onclick="clearExplorerSearch(this)" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #F87171; font-size: 10px; font-weight: 700; border-radius: 3px; padding: 0 5px; cursor: pointer;" title="Clear search query">✕ Clear</button>
+                </div>
                 <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
@@ -2639,15 +2709,26 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                   Comprehensive database of all 202 qualified players &bull; Live search, role/overseas/status filters, min HP deliveries slider, and column sorting
                 </div>
               </div>
-              <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
-                <span>Export Filtered (CSV)</span>
-              </button>
+              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="btn-toggle-collapse" onclick="toggleFilterBar(this)" title="Toggle filter bar visibility to save space">
+                  <span>▾ Hide Filters</span>
+                </button>
+                <button type="button" class="btn-toggle-collapse" onclick="resetExplorerFilters(this)" title="Reset all filters to defaults">
+                  <span>↺ Reset</span>
+                </button>
+                <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
+                  <span>Export Filtered (CSV)</span>
+                </button>
+              </div>
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div class="filter-controls-bar collapsible-control-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <label style="font-size: 11px; font-weight: 700; color: #F8FAFC;">Search Player or Team</label>
+                  <button type="button" class="btn-clear-search" onclick="clearExplorerSearch(this)" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #F87171; font-size: 10px; font-weight: 700; border-radius: 3px; padding: 0 5px; cursor: pointer;" title="Clear search query">✕ Clear</button>
+                </div>
                 <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
@@ -2769,15 +2850,26 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                   Comprehensive database of all 202 qualified players &bull; Live search, role/overseas/status filters, min HP deliveries slider, and column sorting
                 </div>
               </div>
-              <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
-                <span>Export Filtered (CSV)</span>
-              </button>
+              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="btn-toggle-collapse" onclick="toggleFilterBar(this)" title="Toggle filter bar visibility to save space">
+                  <span>▾ Hide Filters</span>
+                </button>
+                <button type="button" class="btn-toggle-collapse" onclick="resetExplorerFilters(this)" title="Reset all filters to defaults">
+                  <span>↺ Reset</span>
+                </button>
+                <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
+                  <span>Export Filtered (CSV)</span>
+                </button>
+              </div>
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div class="filter-controls-bar collapsible-control-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <label style="font-size: 11px; font-weight: 700; color: #F8FAFC;">Search Player or Team</label>
+                  <button type="button" class="btn-clear-search" onclick="clearExplorerSearch(this)" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #F87171; font-size: 10px; font-weight: 700; border-radius: 3px; padding: 0 5px; cursor: pointer;" title="Clear search query">✕ Clear</button>
+                </div>
                 <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
@@ -2964,15 +3056,26 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                   Comprehensive database of all 202 qualified players &bull; Live search, role/overseas/status filters, min HP deliveries slider, and column sorting
                 </div>
               </div>
-              <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
-                <span>Export Filtered (CSV)</span>
-              </button>
+              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="btn-toggle-collapse" onclick="toggleFilterBar(this)" title="Toggle filter bar visibility to save space">
+                  <span>▾ Hide Filters</span>
+                </button>
+                <button type="button" class="btn-toggle-collapse" onclick="resetExplorerFilters(this)" title="Reset all filters to defaults">
+                  <span>↺ Reset</span>
+                </button>
+                <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
+                  <span>Export Filtered (CSV)</span>
+                </button>
+              </div>
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div class="filter-controls-bar collapsible-control-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <label style="font-size: 11px; font-weight: 700; color: #F8FAFC;">Search Player or Team</label>
+                  <button type="button" class="btn-clear-search" onclick="clearExplorerSearch(this)" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #F87171; font-size: 10px; font-weight: 700; border-radius: 3px; padding: 0 5px; cursor: pointer;" title="Clear search query">✕ Clear</button>
+                </div>
                 <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
@@ -3126,15 +3229,26 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                   Comprehensive database of all 202 qualified players &bull; Live search, role/overseas/status filters, min HP deliveries slider, and column sorting
                 </div>
               </div>
-              <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
-                <span>Export Filtered (CSV)</span>
-              </button>
+              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="btn-toggle-collapse" onclick="toggleFilterBar(this)" title="Toggle filter bar visibility to save space">
+                  <span>▾ Hide Filters</span>
+                </button>
+                <button type="button" class="btn-toggle-collapse" onclick="resetExplorerFilters(this)" title="Reset all filters to defaults">
+                  <span>↺ Reset</span>
+                </button>
+                <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
+                  <span>Export Filtered (CSV)</span>
+                </button>
+              </div>
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div class="filter-controls-bar collapsible-control-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <label style="font-size: 11px; font-weight: 700; color: #F8FAFC;">Search Player or Team</label>
+                  <button type="button" class="btn-clear-search" onclick="clearExplorerSearch(this)" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #F87171; font-size: 10px; font-weight: 700; border-radius: 3px; padding: 0 5px; cursor: pointer;" title="Clear search query">✕ Clear</button>
+                </div>
                 <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
@@ -3301,15 +3415,26 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                   Comprehensive database of all 202 qualified players &bull; Live search, role/overseas/status filters, min HP deliveries slider, and column sorting
                 </div>
               </div>
-              <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
-                <span>Export Filtered (CSV)</span>
-              </button>
+              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="btn-toggle-collapse" onclick="toggleFilterBar(this)" title="Toggle filter bar visibility to save space">
+                  <span>▾ Hide Filters</span>
+                </button>
+                <button type="button" class="btn-toggle-collapse" onclick="resetExplorerFilters(this)" title="Reset all filters to defaults">
+                  <span>↺ Reset</span>
+                </button>
+                <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
+                  <span>Export Filtered (CSV)</span>
+                </button>
+              </div>
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div class="filter-controls-bar collapsible-control-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <label style="font-size: 11px; font-weight: 700; color: #F8FAFC;">Search Player or Team</label>
+                  <button type="button" class="btn-clear-search" onclick="clearExplorerSearch(this)" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #F87171; font-size: 10px; font-weight: 700; border-radius: 3px; padding: 0 5px; cursor: pointer;" title="Clear search query">✕ Clear</button>
+                </div>
                 <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
@@ -3388,10 +3513,16 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                 Select 2 or 3 players for multi-dimensional percentile overlay across Net, WPA, Delta, Consistency &amp; Stability
               </div>
             </div>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <span id="compare-summary-chip" style="font-size: 11px; color: #94A3B8; font-weight: 600; display: none;"></span>
+              <button type="button" class="btn-toggle-collapse" id="btn-toggle-compare" onclick="toggleCompareBar(this)" title="Toggle selector bar visibility to focus on charts">
+                <span>▾ Hide Selectors</span>
+              </button>
+            </div>
           </div>
 
           <!-- SELECTORS ROW -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 18px;">
+          <div id="compare-selectors-bar" class="collapsible-control-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 18px;">
             <div>
               <label style="font-size: 11px; font-weight: 700; color: var(--rr-pink); display: block; margin-bottom: 4px;">Player 1 (Royals Pink)</label>
               <select id="compare-select-1" class="font-mono" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--rr-border);" onchange="updateComparison()">
@@ -3407,7 +3538,10 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             </div>
 
             <div>
-              <label style="font-size: 11px; font-weight: 700; color: var(--rr-green); display: block; margin-bottom: 4px;">Player 3 (Optional - Emerald)</label>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <label style="font-size: 11px; font-weight: 700; color: var(--rr-green); display: block;">Player 3 (Optional - Emerald)</label>
+                <button type="button" id="btn-clear-player3" onclick="clearPlayer3()" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #F87171; font-size: 10px; font-weight: 700; border-radius: 4px; padding: 1px 7px; cursor: pointer; transition: all 0.15s ease;" title="Remove Player 3 and make it disappear from comparison">✕ Remove</button>
+              </div>
               <select id="compare-select-3" class="font-mono" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--rr-border);" onchange="updateComparison()">
                 <option value="">None</option>
                 <!-- Populated via JS -->
@@ -3447,15 +3581,26 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                   Comprehensive database of all 202 qualified players &bull; Live search, role/overseas/status filters, min HP deliveries slider, and column sorting
                 </div>
               </div>
-              <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
-                <span>Export Filtered (CSV)</span>
-              </button>
+              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="btn-toggle-collapse" onclick="toggleFilterBar(this)" title="Toggle filter bar visibility to save space">
+                  <span>▾ Hide Filters</span>
+                </button>
+                <button type="button" class="btn-toggle-collapse" onclick="resetExplorerFilters(this)" title="Reset all filters to defaults">
+                  <span>↺ Reset</span>
+                </button>
+                <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
+                  <span>Export Filtered (CSV)</span>
+                </button>
+              </div>
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div class="filter-controls-bar collapsible-control-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <label style="font-size: 11px; font-weight: 700; color: #F8FAFC;">Search Player or Team</label>
+                  <button type="button" class="btn-clear-search" onclick="clearExplorerSearch(this)" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #F87171; font-size: 10px; font-weight: 700; border-radius: 3px; padding: 0 5px; cursor: pointer;" title="Clear search query">✕ Clear</button>
+                </div>
                 <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
@@ -3762,15 +3907,26 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                   Comprehensive database of all 202 qualified players &bull; Live search, role/overseas/status filters, min HP deliveries slider, and column sorting
                 </div>
               </div>
-              <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
-                <span>Export Filtered (CSV)</span>
-              </button>
+              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="btn-toggle-collapse" onclick="toggleFilterBar(this)" title="Toggle filter bar visibility to save space">
+                  <span>▾ Hide Filters</span>
+                </button>
+                <button type="button" class="btn-toggle-collapse" onclick="resetExplorerFilters(this)" title="Reset all filters to defaults">
+                  <span>↺ Reset</span>
+                </button>
+                <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
+                  <span>Export Filtered (CSV)</span>
+                </button>
+              </div>
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div class="filter-controls-bar collapsible-control-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <label style="font-size: 11px; font-weight: 700; color: #F8FAFC;">Search Player or Team</label>
+                  <button type="button" class="btn-clear-search" onclick="clearExplorerSearch(this)" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #F87171; font-size: 10px; font-weight: 700; border-radius: 3px; padding: 0 5px; cursor: pointer;" title="Clear search query">✕ Clear</button>
+                </div>
                 <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
@@ -3984,15 +4140,26 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                   Comprehensive database of all 202 qualified players &bull; Live search, role/overseas/status filters, min HP deliveries slider, and column sorting
                 </div>
               </div>
-              <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
-                <span>Export Filtered (CSV)</span>
-              </button>
+              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="btn-toggle-collapse" onclick="toggleFilterBar(this)" title="Toggle filter bar visibility to save space">
+                  <span>▾ Hide Filters</span>
+                </button>
+                <button type="button" class="btn-toggle-collapse" onclick="resetExplorerFilters(this)" title="Reset all filters to defaults">
+                  <span>↺ Reset</span>
+                </button>
+                <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
+                  <span>Export Filtered (CSV)</span>
+                </button>
+              </div>
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div class="filter-controls-bar collapsible-control-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <label style="font-size: 11px; font-weight: 700; color: #F8FAFC;">Search Player or Team</label>
+                  <button type="button" class="btn-clear-search" onclick="clearExplorerSearch(this)" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #F87171; font-size: 10px; font-weight: 700; border-radius: 3px; padding: 0 5px; cursor: pointer;" title="Clear search query">✕ Clear</button>
+                </div>
                 <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
@@ -4107,15 +4274,26 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
                   Comprehensive database of all 202 qualified players &bull; Live search, role/overseas/status filters, min HP deliveries slider, and column sorting
                 </div>
               </div>
-              <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
-                <span>Export Filtered (CSV)</span>
-              </button>
+              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="btn-toggle-collapse" onclick="toggleFilterBar(this)" title="Toggle filter bar visibility to save space">
+                  <span>▾ Hide Filters</span>
+                </button>
+                <button type="button" class="btn-toggle-collapse" onclick="resetExplorerFilters(this)" title="Reset all filters to defaults">
+                  <span>↺ Reset</span>
+                </button>
+                <button onclick="exportFilteredPlayersCSV()" class="btn-header-action">
+                  <span>Export Filtered (CSV)</span>
+                </button>
+              </div>
             </div>
 
             <!-- Filter Bar -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
+            <div class="filter-controls-bar collapsible-control-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; background: #091A33; padding: 14px; border-radius: 10px; border: 1px solid var(--rr-border); margin-bottom: 16px;">
               <div>
-                <label style="font-size: 11px; font-weight: 700; color: #F8FAFC; display: block; margin-bottom: 4px;">Search Player or Team</label>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <label style="font-size: 11px; font-weight: 700; color: #F8FAFC;">Search Player or Team</label>
+                  <button type="button" class="btn-clear-search" onclick="clearExplorerSearch(this)" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #F87171; font-size: 10px; font-weight: 700; border-radius: 3px; padding: 0 5px; cursor: pointer;" title="Clear search query">✕ Clear</button>
+                </div>
                 <input type="text" id="explorer-search" class="explorer-search-input" placeholder="Type name or team..." style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1px solid var(--rr-border); border-radius: 6px;" oninput="onExplorerFilterChange(this)">
               </div>
               <div>
@@ -7042,6 +7220,39 @@ function updateComparison() {
     </table>
   `;
   tableCont.innerHTML = html;
+
+  // Update clear button for Player 3 and summary chip
+  const clearP3Btn = document.getElementById('btn-clear-player3');
+  if (clearP3Btn) {
+    clearP3Btn.style.display = (sel3 && sel3.value) ? 'inline-block' : 'none';
+  }
+  const summaryChip = document.getElementById('compare-summary-chip');
+  if (summaryChip) {
+    const activeNames = datasets.map(d => d.player.name.split(' ').pop()).join(' vs ');
+    summaryChip.innerText = activeNames ? 'Active: ' + activeNames : '';
+    summaryChip.style.display = activeNames ? 'inline-block' : 'none';
+  }
+}
+
+function clearPlayer3() {
+  const sel3 = document.getElementById('compare-select-3');
+  if (sel3) {
+    sel3.value = '';
+    updateComparison();
+  }
+}
+
+function toggleCompareBar(btn) {
+  const bar = document.getElementById('compare-selectors-bar');
+  if (!bar) return;
+  const isCollapsed = bar.classList.toggle('collapsed');
+  const toggleBtn = btn || document.getElementById('btn-toggle-compare');
+  if (toggleBtn) {
+    toggleBtn.innerHTML = isCollapsed 
+      ? '<span>▸ Show Selectors</span>' 
+      : '<span>▾ Hide Selectors</span>';
+    toggleBtn.classList.toggle('active', isCollapsed);
+  }
 }
 
 // AUCTION, OPTION B & RETENTION TRACKER (Part C9)
@@ -7506,6 +7717,45 @@ function onExplorerFilterChange(el) {
   document.querySelectorAll('.explorer-status-select, [id="explorer-status"]').forEach(sel => {
     if (sel !== target) sel.value = explorerState.status;
   });
+  document.querySelectorAll('.btn-clear-search').forEach(b => {
+    b.style.display = explorerState.search ? 'inline-block' : 'none';
+  });
+
+  renderExplorerTable();
+}
+
+function clearExplorerSearch(btn) {
+  explorerState.search = '';
+  document.querySelectorAll('.explorer-search-input, [id="explorer-search"]').forEach(inp => inp.value = '');
+  document.querySelectorAll('.btn-clear-search').forEach(b => b.style.display = 'none');
+  renderExplorerTable();
+}
+
+function toggleFilterBar(btn) {
+  const card = btn.closest('.card') || btn.closest('.tab-pane') || document;
+  const bar = card.querySelector('.filter-controls-bar');
+  if (!bar) return;
+  const isCollapsed = bar.classList.toggle('collapsed');
+  btn.innerHTML = isCollapsed 
+    ? '<span>▸ Show Filters</span>' 
+    : '<span>▾ Hide Filters</span>';
+  btn.classList.toggle('active', isCollapsed);
+}
+
+function resetExplorerFilters(btn) {
+  explorerState.search = '';
+  explorerState.role = 'all';
+  explorerState.overseas = 'all';
+  explorerState.status = 'all';
+  explorerState.minHP = 0;
+
+  document.querySelectorAll('.explorer-search-input, [id="explorer-search"]').forEach(i => i.value = '');
+  document.querySelectorAll('.explorer-role-select, [id="explorer-role"]').forEach(s => s.value = 'all');
+  document.querySelectorAll('.explorer-overseas-select, [id="explorer-overseas"]').forEach(s => s.value = 'all');
+  document.querySelectorAll('.explorer-status-select, [id="explorer-status"]').forEach(s => s.value = 'all');
+  document.querySelectorAll('.explorer-min-hp-slider, [id="explorer-min-hp"]').forEach(sl => sl.value = '0');
+  document.querySelectorAll('.explorer-min-hp-val, [id="explorer-min-hp-val"]').forEach(v => v.innerText = '0');
+  document.querySelectorAll('.btn-clear-search').forEach(b => b.style.display = 'none');
 
   renderExplorerTable();
 }
