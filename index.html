@@ -781,6 +781,7 @@ body.scroll-locked {
   align-items: center;
   justify-content: space-between;
   border-bottom: 2px solid var(--rr-pink);
+  flex-shrink: 0;
 }
 
 .drawer-header h3 {
@@ -795,6 +796,9 @@ body.scroll-locked {
   display: flex;
   flex-direction: column;
   gap: 18px;
+}
+.drawer-body > * {
+  flex-shrink: 0 !important;
 }
 
 .drawer-close {
@@ -1401,6 +1405,7 @@ div[style*="border: 1px solid #CBD5E1"] {
   }
   .drawer-header {
     padding: 10px 16px !important;
+    flex-shrink: 0 !important;
   }
   .drawer-body {
     overflow-y: auto !important;
@@ -1408,6 +1413,9 @@ div[style*="border: 1px solid #CBD5E1"] {
     -webkit-overflow-scrolling: touch !important;
     padding: 14px 16px !important;
     padding-bottom: calc(24px + var(--sab)) !important;
+  }
+  .drawer-body > * {
+    flex-shrink: 0 !important;
   }
 
   /* MODAL OVERLAY MOBILE BOTTOM SHEET */
@@ -5866,6 +5874,9 @@ function openPlayerProfile(pname) {
   }
 
   const bodyEl = document.getElementById('profile-drawer-body');
+  if (bodyEl) bodyEl.scrollTop = 0;
+  const drawerEl = document.getElementById('profile-drawer');
+  if (drawerEl) drawerEl.scrollTop = 0;
   const radarSvg = generateRadarSVG([{ name: p.name, color: 'var(--rr-pink)', values: percentiles }], 280);
 
   // Situational Bars
@@ -5949,7 +5960,7 @@ function openPlayerProfile(pname) {
   bodyEl.innerHTML = `
 
     <!-- HEADER SUMMARY CARD WITH CREX-STYLE PLAYER HEADSHOT -->
-    <div style="background: linear-gradient(135deg, #091A33 0%, #06152B 100%); border: 1px solid var(--rr-border); border-radius: 12px; padding: 16px; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);">
+    <div style="background: linear-gradient(135deg, #091A33 0%, #06152B 100%); border: 1px solid var(--rr-border); border-radius: 12px; padding: 16px; position: relative; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35); flex-shrink: 0; min-height: fit-content;">
       <div style="display: flex; gap: 16px; align-items: center;">
         
         <!-- PLAYER VECTOR HEADSHOT (CREX STYLE) -->
@@ -5968,7 +5979,7 @@ function openPlayerProfile(pname) {
           <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
             <div>
               <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--rr-pink); letter-spacing: 0.04em;">
-                ${p.role === 'bat' ? 'Batter' : 'Bowler'} &bull; ${p.nationality}
+                ${p.role === 'bat' ? 'Batter' : 'Bowler'} &bull; ${getFlag(p.nationality)} ${p.nationality}
               </div>
               <h2 style="font-size: 19px; font-weight: 900; color: #FFFFFF; margin: 2px 0; line-height: 1.2;">
                 ${p.name}
@@ -6048,6 +6059,9 @@ function openPlayerProfile(pname) {
     ${tacticalSplitHtml}
   `;
 
+  if (bodyEl) bodyEl.scrollTop = 0;
+  if (drawerEl) drawerEl.scrollTop = 0;
+
   document.getElementById('drawer-overlay').classList.add('active');
   document.getElementById('profile-drawer').classList.add('open');
   lockScroll();
@@ -6094,8 +6108,14 @@ function updateShortlistBadge() {
 
 function openShortlistDrawer() {
   renderShortlistItems();
+  const sDrawer = document.getElementById('shortlist-drawer');
+  if (sDrawer) {
+    sDrawer.scrollTop = 0;
+    const sBody = sDrawer.querySelector('.drawer-body');
+    if (sBody) sBody.scrollTop = 0;
+    sDrawer.classList.add('open');
+  }
   document.getElementById('drawer-overlay').classList.add('active');
-  document.getElementById('shortlist-drawer').classList.add('open');
   lockScroll();
 }
 
