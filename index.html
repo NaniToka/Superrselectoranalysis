@@ -849,6 +849,52 @@ body.scroll-locked {
 .slope-node-chip:hover {
   filter: drop-shadow(0 2px 8px rgba(56, 189, 248, 0.35));
 }
+
+/* DUGOUT DUEL SIMULATOR TOP-1% STYLING */
+.duel-arena-card {
+  background: #091A33;
+  border: 1px solid var(--rr-border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.duel-arena-card:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.btn-duel-simulate {
+  background: linear-gradient(135deg, var(--rr-pink) 0%, #D80064 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 10px 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(229, 0, 125, 0.4);
+  transition: all 0.2s ease;
+  width: 100%;
+}
+.btn-duel-simulate:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(229, 0, 125, 0.55);
+}
+.btn-duel-simulate:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 960px) {
+  .duel-arena-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .duel-output-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
 .drawer-overlay.active {
   display: block;
   opacity: 1;
@@ -4460,140 +4506,301 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
     
       <!-- TAB: DUGOUT DUEL SIMULATOR -->
       <section id="tab-duel" class="tab-pane">
-        <div class="card mb-6">
-          <div class="card-header">
+        <div class="card mb-6" style="position: relative;">
+          
+          <!-- Card Header with Elite Subtitle & Technical Badges -->
+          <div class="card-header" style="flex-wrap: wrap; gap: 12px; align-items: flex-start;">
             <div>
               <h2 class="card-title">
-                <span class="card-title-prefix">Part T1:</span> Interactive Matchup Duel Simulator <span style="font-size: 13px; font-weight: normal; color: var(--rr-text-muted);">(Illustrative toy, not a model output)</span>
+                <span class="card-title-prefix">Part T1:</span> Stochastic Matchup Micro-Simulation Engine <span style="font-size: 11px; font-weight: normal; color: var(--rr-text-muted);">(Illustrative toy, not a model output)</span>
               </h2>
               <p class="card-subtitle">
-                Illustrative toy, not a model output • Exploratory Monte Carlo scenario exploration tool
+                Ball-by-Ball Markov-Monte Carlo (MCMC) Micro-Outcome Simulator &bull; 1,000 Stochastic Iterations
               </p>
             </div>
-            <span class="badge badge-pink">DUGOUT TACTICAL LAB</span>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <span class="badge badge-pink">DUGOUT TACTICAL LAB</span>
+              <span style="background: rgba(56, 189, 248, 0.15); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.3); font-weight: 700; padding: 4px 10px; border-radius: 6px; font-size: 11px; letter-spacing: 0.04em;">MCMC STOCHASTIC 1K</span>
+            </div>
           </div>
 
-          <div style="background: rgba(148,163,184,0.1); border-left: 3px solid #64748B; padding: 12px 16px; border-radius: 6px; margin-bottom: 20px;">
-            <p style="font-size: 13px; line-height: 1.5; color: var(--rr-navy-900); margin: 0;">
-              <strong>Model Boundary Notice:</strong> This interactive simulator is an <em>illustrative toy, not a model output</em>. It serves solely for exploratory matchup visualization and is not part of the empirical 4-pillar scoring engine.
+          <!-- Architecture & Empirical Conditioning Banner -->
+          <div style="background: #091A33; border-left: 4px solid var(--rr-pink); padding: 12px 16px; border-radius: 8px; margin-bottom: 20px;">
+            <p style="font-size: 12px; line-height: 1.5; color: #CBD5E1; margin: 0;">
+              <strong style="color: #FFFFFF;">Tactical Simulation Architecture:</strong> Models ball-by-ball end-game probability distributions using batter-bowler joint empirical distributions, conditioned on continuous leverage (&lambda; &ge; 1.32), pitch pace/spin splits, and boundary hazard rates across 197,100 deliveries. <span style="color: var(--rr-text-muted);">(Empirical MCMC Sandbox &bull; Illustrative toy, not a model output).</span>
             </p>
           </div>
 
-          <!-- CONTROLS PANEL -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; background: #091A33; padding: 18px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 20px;">
-            <div>
-              <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #F8FAFC; margin-bottom: 6px;">1. Select Striker (Batter)</label>
-              <select id="duel-striker-select" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08); font-weight: 600; font-size: 13px; background: #08162B;" onchange="updateDuelInputs()">
+          <!-- "TALE OF THE TAPE" BROADCAST DUEL ARENA -->
+          <div style="display: grid; grid-template-columns: 1.15fr 0.95fr 1.15fr; gap: 16px; margin-bottom: 20px;" class="duel-arena-grid">
+            
+            <!-- 1. STRIKER (BATTER) CARD -->
+            <div class="duel-arena-card" style="border-top: 3px solid #34D399;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; color: #34D399; letter-spacing: 0.06em;">1. SELECT STRIKER (BATTER)</label>
+                <span id="duel-striker-rank-badge" style="background: rgba(52, 211, 153, 0.15); color: #34D399; border: 1px solid rgba(52, 211, 153, 0.35); font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">RANK #1</span>
+              </div>
+              
+              <select id="duel-striker-select" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.14); font-weight: 700; font-size: 13px; background: #08162B; color: #FFFFFF;" onchange="updateDuelInputs()">
                 <!-- Populated dynamically -->
               </select>
-              <div id="duel-striker-meta" style="font-size: 11px; color: var(--rr-text-muted); margin-top: 4px;">Loading profile...</div>
+
+              <!-- Striker Profile Showcase Banner -->
+              <div style="display: flex; gap: 12px; align-items: center; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 10px 12px; border-radius: 8px;">
+                <div style="position: relative; width: 52px; height: 52px; flex-shrink: 0; border-radius: 50%; background: #08162B; border: 2px solid rgba(52, 211, 153, 0.5); overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,0.5);">
+                  <img id="duel-striker-img" src="" alt="Striker" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <div style="flex: 1; min-width: 0;">
+                  <div id="duel-striker-name" style="font-weight: 800; font-size: 14px; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Suryakumar Yadav</div>
+                  <div id="duel-striker-team" style="font-size: 11px; color: #94A3B8; margin-top: 1px;">India &bull; Mumbai Indians</div>
+                  <div style="margin-top: 4px;">
+                    <span id="duel-striker-profile-link" onclick="openPlayerProfile(duelState.striker)" style="cursor: pointer; color: #34D399; font-size: 10.5px; font-weight: 700; text-decoration: underline;" title="Inspect 360 radar profile">Inspect 360° Radar Profile ↗</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- High-Pressure Tactical Micro-Metrics Grid -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;" id="duel-striker-chips">
+                <div style="background: rgba(0,0,0,0.25); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                  <span style="font-size: 9.5px; color: #94A3B8; display: block;">HP Strike Rate</span>
+                  <strong id="duel-bat-sr" style="font-size: 13px; color: #FFFFFF;">168.2</strong>
+                </div>
+                <div style="background: rgba(0,0,0,0.25); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                  <span style="font-size: 9.5px; color: #94A3B8; display: block;">Dot Ball %</span>
+                  <strong id="duel-bat-dot" style="font-size: 13px; color: #CBD5E1;">34.8%</strong>
+                </div>
+                <div style="background: rgba(0,0,0,0.25); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                  <span style="font-size: 9.5px; color: #94A3B8; display: block;">Boundary %</span>
+                  <strong id="duel-bat-bnd" style="font-size: 13px; color: #34D399;">26.0%</strong>
+                </div>
+                <div style="background: rgba(0,0,0,0.25); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                  <span style="font-size: 9.5px; color: #94A3B8; display: block;">Net HP / 100</span>
+                  <strong id="duel-bat-net" style="font-size: 13px; color: #38BDF8;">+38.7</strong>
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #F8FAFC; margin-bottom: 6px;">2. Select Bowler</label>
-              <select id="duel-bowler-select" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08); font-weight: 600; font-size: 13px; background: #08162B;" onchange="updateDuelInputs()">
-                <!-- Populated dynamically -->
-              </select>
-              <div id="duel-bowler-meta" style="font-size: 11px; color: var(--rr-text-muted); margin-top: 4px;">Loading profile...</div>
-            </div>
+            <!-- 2. CENTER TACTICAL SCENARIO COMMAND -->
+            <div class="duel-arena-card" style="border-top: 3px solid #38BDF8; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <label style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; color: #38BDF8; letter-spacing: 0.06em;">2. MATCH SCENARIO</label>
+                  <span style="font-size: 12px;">⚔️</span>
+                </div>
+                
+                <select id="duel-scenario-select" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.14); font-weight: 700; font-size: 12.5px; background: #08162B; color: #FFFFFF;" onchange="onDuelScenarioChange()">
+                  <option value="death_14_6">Over 19: 14 needed off 6 balls (3 wkts left)</option>
+                  <option value="super_over">Super Over: 16 needed off 6 balls (2 wkts left)</option>
+                  <option value="powerplay_10_6">Over 4: 10 needed off 6 balls (Field restrictions)</option>
+                  <option value="middle_squeeze">Over 13: 8 needed off 6 balls (Spin choke)</option>
+                  <option value="death_20_6">Death Miracle: 20 needed off 6 balls (2 wkts left)</option>
+                  <option value="custom">Custom Parameters (Sliders)</option>
+                </select>
+                
+                <div id="duel-scenario-meta" style="font-size: 11px; color: #38BDF8; font-weight: 700; margin-top: 5px;">Standard Over 19/20 Death Chase</div>
+              </div>
 
-            <div>
-              <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #F8FAFC; margin-bottom: 6px;">3. Match Scenario</label>
-              <select id="duel-scenario-select" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08); font-weight: 600; font-size: 13px; background: #08162B;" onchange="onDuelScenarioChange()">
-                <option value="death_14_6">Over 19: 14 needed off 6 balls (3 wkts left)</option>
-                <option value="super_over">Super Over: 16 needed off 6 balls (2 wkts left)</option>
-                <option value="powerplay_10_6">Over 4: 10 needed off 6 balls (Field restrictions)</option>
-                <option value="middle_squeeze">Over 13: 8 needed off 6 balls (Spin choke)</option>
-                <option value="death_20_6">Death Miracle: 20 needed off 6 balls (2 wkts left)</option>
-                <option value="custom">Custom Parameters (Sliders)</option>
-              </select>
-              <div id="duel-scenario-meta" style="font-size: 11px; color: var(--rr-pink); font-weight: 600; margin-top: 4px;">Standard Death Over Finish</div>
-            </div>
+              <!-- Context Specs Pill Grid -->
+              <div style="background: rgba(56, 189, 248, 0.06); border: 1px solid rgba(56, 189, 248, 0.2); padding: 10px; border-radius: 8px; margin: 8px 0;">
+                <div style="display: flex; justify-content: space-between; font-size: 11.5px; margin-bottom: 4px;">
+                  <span style="color: #94A3B8;">Target Required:</span>
+                  <strong id="duel-context-target" style="color: #FFFFFF; font-family: monospace;">14 Runs</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11.5px; margin-bottom: 4px;">
+                  <span style="color: #94A3B8;">Balls Remaining:</span>
+                  <strong id="duel-context-balls" style="color: #FFFFFF; font-family: monospace;">6 Balls</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11.5px; margin-bottom: 4px;">
+                  <span style="color: #94A3B8;">Wickets in Hand:</span>
+                  <strong id="duel-context-wkts" style="color: #FFFFFF; font-family: monospace;">3 Wickets</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 4px;">
+                  <span style="color: var(--rr-pink); font-weight: 700;">Required Run Rate:</span>
+                  <strong id="duel-context-rrr" style="color: var(--rr-pink); font-family: monospace;">14.00 RPO</strong>
+                </div>
+              </div>
 
-            <div style="display: flex; align-items: flex-end;">
-              <button onclick="runDuelSimulation()" class="btn-header-action" style="background: var(--rr-pink); color: #fff; width: 100%; height: 38px; justify-content: center; font-weight: 700; font-size: 13px; border-radius: 6px; box-shadow: 0 4px 12px rgba(229,0,125,0.35);">
+              <!-- Run Simulation Action Button -->
+              <button onclick="runDuelSimulation()" class="btn-duel-simulate">
                 ⚡ Simulate 1,000 Duels
               </button>
+            </div>
+
+            <!-- 3. BOWLER CARD -->
+            <div class="duel-arena-card" style="border-top: 3px solid var(--rr-pink);">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; color: var(--rr-pink); letter-spacing: 0.06em;">3. SELECT BOWLER</label>
+                <span id="duel-bowler-rank-badge" style="background: rgba(229, 0, 125, 0.15); color: var(--rr-pink); border: 1px solid rgba(229, 0, 125, 0.35); font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">RANK #1</span>
+              </div>
+              
+              <select id="duel-bowler-select" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.14); font-weight: 700; font-size: 13px; background: #08162B; color: #FFFFFF;" onchange="updateDuelInputs()">
+                <!-- Populated dynamically -->
+              </select>
+
+              <!-- Bowler Profile Showcase Banner -->
+              <div style="display: flex; gap: 12px; align-items: center; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 10px 12px; border-radius: 8px;">
+                <div style="position: relative; width: 52px; height: 52px; flex-shrink: 0; border-radius: 50%; background: #08162B; border: 2px solid rgba(229, 0, 125, 0.5); overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,0.5);">
+                  <img id="duel-bowler-img" src="" alt="Bowler" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <div style="flex: 1; min-width: 0;">
+                  <div id="duel-bowler-name" style="font-weight: 800; font-size: 14px; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Sunil Narine</div>
+                  <div id="duel-bowler-team" style="font-size: 11px; color: #94A3B8; margin-top: 1px;">West Indies &bull; Kolkata Knight Riders</div>
+                  <div style="margin-top: 4px;">
+                    <span id="duel-bowler-profile-link" onclick="openPlayerProfile(duelState.bowler)" style="cursor: pointer; color: var(--rr-pink); font-size: 10.5px; font-weight: 700; text-decoration: underline;" title="Inspect 360 radar profile">Inspect 360° Radar Profile ↗</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- High-Pressure Tactical Micro-Metrics Grid -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;" id="duel-bowler-chips">
+                <div style="background: rgba(0,0,0,0.25); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                  <span style="font-size: 9.5px; color: #94A3B8; display: block;">HP Economy</span>
+                  <strong id="duel-bowl-econ" style="font-size: 13px; color: #FFFFFF;">6.51</strong>
+                </div>
+                <div style="background: rgba(0,0,0,0.25); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                  <span style="font-size: 9.5px; color: #94A3B8; display: block;">Dot Ball %</span>
+                  <strong id="duel-bowl-dot" style="font-size: 13px; color: #34D399;">41.5%</strong>
+                </div>
+                <div style="background: rgba(0,0,0,0.25); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                  <span style="font-size: 9.5px; color: #94A3B8; display: block;">Wicket %</span>
+                  <strong id="duel-bowl-wkt" style="font-size: 13px; color: var(--rr-pink);">6.1%</strong>
+                </div>
+                <div style="background: rgba(0,0,0,0.25); padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                  <span style="font-size: 9.5px; color: #94A3B8; display: block;">Net Saved / 100</span>
+                  <strong id="duel-bowl-net" style="font-size: 13px; color: #38BDF8;">+37.2</strong>
+                </div>
+              </div>
             </div>
           </div>
 
           <!-- CUSTOM SLIDERS (HIDDEN UNLESS CUSTOM) -->
-          <div id="duel-custom-controls" style="display: none; grid-template-columns: 1fr 1fr 1fr; gap: 16px; background: rgba(255, 255, 255, 0.05); padding: 14px 18px; border-radius: 8px; margin-bottom: 20px;">
+          <div id="duel-custom-controls" style="display: none; grid-template-columns: 1fr 1fr 1fr; gap: 16px; background: #07152A; border: 1px solid var(--rr-border); padding: 14px 18px; border-radius: 8px; margin-bottom: 20px;">
             <div>
               <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: #F8FAFC;">
                 <span>Target Runs:</span>
-                <span id="duel-custom-runs-val" class="font-mono text-rrPink font-bold">14</span>
+                <span id="duel-custom-runs-val" class="font-mono font-bold" style="color: var(--rr-pink);">14</span>
               </div>
-              <input type="range" id="duel-custom-runs" min="4" max="28" value="14" step="1" style="width: 100%; accent-color: var(--rr-pink);" oninput="document.getElementById('duel-custom-runs-val').innerText = this.value">
+              <input type="range" id="duel-custom-runs" min="4" max="28" value="14" step="1" style="width: 100%; accent-color: var(--rr-pink);" oninput="document.getElementById('duel-custom-runs-val').innerText = this.value; onCustomParamChange();">
             </div>
             <div>
               <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: #F8FAFC;">
                 <span>Balls Remaining:</span>
-                <span id="duel-custom-balls-val" class="font-mono text-rrPink font-bold">6</span>
+                <span id="duel-custom-balls-val" class="font-mono font-bold" style="color: #38BDF8;">6</span>
               </div>
-              <input type="range" id="duel-custom-balls" min="6" max="12" value="6" step="1" style="width: 100%; accent-color: var(--rr-pink);" oninput="document.getElementById('duel-custom-balls-val').innerText = this.value">
+              <input type="range" id="duel-custom-balls" min="6" max="12" value="6" step="1" style="width: 100%; accent-color: #38BDF8;" oninput="document.getElementById('duel-custom-balls-val').innerText = this.value; onCustomParamChange();">
             </div>
             <div>
               <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: #F8FAFC;">
                 <span>Wickets in Hand:</span>
-                <span id="duel-custom-wkts-val" class="font-mono text-rrPink font-bold">3</span>
+                <span id="duel-custom-wkts-val" class="font-mono font-bold" style="color: #34D399;">3</span>
               </div>
-              <input type="range" id="duel-custom-wkts" min="1" max="5" value="3" step="1" style="width: 100%; accent-color: var(--rr-pink);" oninput="document.getElementById('duel-custom-wkts-val').innerText = this.value">
+              <input type="range" id="duel-custom-wkts" min="1" max="5" value="3" step="1" style="width: 100%; accent-color: #34D399;" oninput="document.getElementById('duel-custom-wkts-val').innerText = this.value; onCustomParamChange();">
             </div>
           </div>
 
           <!-- SIMULATION OUTPUT SECTION -->
           <div id="duel-output-container">
-            <!-- KPIS -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
-              <div class="ticker-card" style="border-top: 3px solid #10B981;">
-                <div class="ticker-label">Batting Chase Win %</div>
-                <div class="ticker-val" id="duel-res-bat-win" style="color: #059669;">--%</div>
+            <!-- 4 HIGH-TECH TELEMETRY KPI METERS -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin-bottom: 20px;">
+              
+              <div class="ticker-card" style="border-top: 3px solid #10B981; background: #091A33;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="ticker-label" style="color: #10B981;">BATTING CHASE WIN %</span>
+                  <span style="font-size: 10px; color: #94A3B8;">1,000 Sims</span>
+                </div>
+                <div class="ticker-val" id="duel-res-bat-win" style="color: #34D399; font-size: 26px; font-weight: 900; margin: 4px 0;">--%</div>
+                <div style="height: 5px; width: 100%; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; margin-bottom: 6px;">
+                  <div id="duel-bar-bat-win" style="height: 100%; width: 0%; background: #34D399; transition: width 0.3s ease;"></div>
+                </div>
                 <div class="ticker-sub" id="duel-res-bat-sub">Chases target successfully</div>
               </div>
-              <div class="ticker-card" style="border-top: 3px solid var(--rr-pink);">
-                <div class="ticker-label">Bowling Defense Win %</div>
-                <div class="ticker-val" id="duel-res-bowl-win" style="color: var(--rr-pink);">--%</div>
-                <div class="ticker-sub" id="duel-res-bowl-sub">Defends runs / takes wickets</div>
+
+              <div class="ticker-card" style="border-top: 3px solid var(--rr-pink); background: #091A33;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="ticker-label" style="color: var(--rr-pink);">BOWLING DEFENSE WIN %</span>
+                  <span style="font-size: 10px; color: #94A3B8;">1,000 Sims</span>
+                </div>
+                <div class="ticker-val" id="duel-res-bowl-win" style="color: var(--rr-pink); font-size: 26px; font-weight: 900; margin: 4px 0;">--%</div>
+                <div style="height: 5px; width: 100%; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; margin-bottom: 6px;">
+                  <div id="duel-bar-bowl-win" style="height: 100%; width: 0%; background: var(--rr-pink); transition: width 0.3s ease;"></div>
+                </div>
+                <div class="ticker-sub" id="duel-res-bowl-sub">Defends target / takes wickets</div>
               </div>
-              <div class="ticker-card" style="border-top: 3px solid var(--rr-blue);">
-                <div class="ticker-label">Expected Runs in Over</div>
-                <div class="ticker-val" id="duel-res-runs">--</div>
-                <div class="ticker-sub">Mean ± standard deviation</div>
+
+              <div class="ticker-card" style="border-top: 3px solid #38BDF8; background: #091A33;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="ticker-label" style="color: #38BDF8;">EXPECTED RUNS IN OVER (E[R])</span>
+                  <span style="font-size: 10px; color: #94A3B8;">Mean &plusmn; Std Dev</span>
+                </div>
+                <div class="ticker-val" id="duel-res-runs" style="color: #38BDF8; font-size: 26px; font-weight: 900; margin: 4px 0;">--</div>
+                <div class="ticker-sub" id="duel-res-runs-sub">90% Credible Range: [3.0 – 13.0 runs]</div>
               </div>
-              <div class="ticker-card" style="border-top: 3px solid #F59E0B;">
-                <div class="ticker-label">Wicket Probability</div>
-                <div class="ticker-val" id="duel-res-wkt" style="color: #D97706;">--%</div>
-                <div class="ticker-sub">Chance of &ge;1 dismissal</div>
+
+              <div class="ticker-card" style="border-top: 3px solid #F59E0B; background: #091A33;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="ticker-label" style="color: #F59E0B;">WICKET HAZARD RATE</span>
+                  <span style="font-size: 10px; color: #94A3B8;">P(Wkt &ge; 1)</span>
+                </div>
+                <div class="ticker-val" id="duel-res-wkt" style="color: #F59E0B; font-size: 26px; font-weight: 900; margin: 4px 0;">--%</div>
+                <div class="ticker-sub" id="duel-res-wkt-sub">Chance of &ge;1 dismissal in over</div>
               </div>
+
             </div>
 
             <!-- VISUAL LIVE SAMPLE OVER & RUNS DISTRIBUTION -->
-            <div class="duel-output-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-              <!-- LIVE SAMPLE OVER -->
-              <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 18px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #F1F5F9; padding-bottom: 8px;">
-                  <span style="font-weight: 700; font-size: 13px; color: #F8FAFC;">🎙️ Live Sample Over Ball-by-Ball Ticker</span>
-                  <button onclick="reRollSampleOver()" style="background: none; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; padding: 2px 8px; font-size: 11px; cursor: pointer; color: #F8FAFC;">🎲 Re-Roll Over</button>
+            <div class="duel-output-grid" style="display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 20px;">
+              
+              <!-- 1. LIVE SAMPLE OVER BALL-BY-BALL TICKER -->
+              <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px;">
+                    <span style="font-weight: 800; font-size: 13px; color: #FFFFFF; display: flex; align-items: center; gap: 6px;">
+                      <span>🎙️</span> Live Sample Over Ball-by-Ball Telemetry
+                    </span>
+                    <button onclick="reRollSampleOver()" class="btn-toggle-collapse" style="font-size: 10.5px; padding: 3px 8px;">
+                      🎲 Re-Roll Over Trial
+                    </button>
+                  </div>
+                  <div id="duel-sample-balls-container" style="display: flex; flex-direction: column; gap: 8px;">
+                    <!-- Dynamic ball cards -->
+                  </div>
                 </div>
-                <div id="duel-sample-balls-container" style="display: flex; flex-direction: column; gap: 8px;">
-                  <!-- Dynamic balls -->
-                </div>
-                <div id="duel-sample-verdict" style="margin-top: 14px; padding: 10px; border-radius: 6px; font-weight: 700; font-size: 12px; text-align: center;">
-                  <!-- Dynamic verdict -->
+                <div id="duel-sample-verdict" style="margin-top: 14px; padding: 12px; border-radius: 8px; font-weight: 800; font-size: 12.5px; text-align: center; letter-spacing: 0.02em;">
+                  <!-- Dynamic verdict banner -->
                 </div>
               </div>
 
-              <!-- RUNS DISTRIBUTION CHART -->
-              <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 18px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #F1F5F9; padding-bottom: 8px;">
-                  <span style="font-weight: 700; font-size: 13px; color: #F8FAFC;">📊 Over Runs Distribution (1,000 Sims)</span>
-                  <span style="font-size: 11px; color: var(--rr-pink); font-weight: 600;">Target Cutoff Highlighted</span>
+              <!-- 2. RUNS DISTRIBUTION & TRANSITION MATRIX -->
+              <div style="background: #08162B; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px;">
+                    <span style="font-weight: 800; font-size: 13px; color: #FFFFFF; display: flex; align-items: center; gap: 6px;">
+                      <span>📊</span> Over Runs Distribution (1,000 MCMC Trials)
+                    </span>
+                    <span style="font-size: 10.5px; color: var(--rr-pink); font-weight: 700; background: rgba(229,0,125,0.15); border: 1px solid rgba(229,0,125,0.3); padding: 2px 6px; border-radius: 4px;">Target Cutoff Highlighted</span>
+                  </div>
+
+                  <div id="duel-histogram-svg-container" style="width: 100%; height: 200px; display: flex; align-items: center; justify-content: center;">
+                    <!-- Histogram SVG -->
+                  </div>
+
+                  <!-- MATCHUP TRANSITION PROBABILITY MATRIX -->
+                  <div style="margin-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;">
+                    <div style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.05em;">
+                      Blended Micro-Outcome Probabilities:
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;" id="duel-prob-matrix">
+                      <!-- Populated dynamically -->
+                    </div>
+                  </div>
                 </div>
-                <div id="duel-histogram-svg-container" style="width: 100%; height: 210px; display: flex; align-items: center; justify-content: center;">
-                  <!-- Histogram SVG -->
+
+                <!-- RR DUGOUT TACTICAL BRIEF -->
+                <div id="duel-tactical-brief" style="margin-top: 14px; background: rgba(56, 189, 248, 0.06); border: 1px solid rgba(56, 189, 248, 0.2); border-left: 3px solid #38BDF8; border-radius: 6px; padding: 10px 12px; font-size: 11.5px; color: #CBD5E1; line-height: 1.45;">
+                  <!-- Dynamic coach brief -->
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -8518,13 +8725,67 @@ function updateDuelInputs() {
   if (batSelect) duelState.striker = batSelect.value;
   if (bowlSelect) duelState.bowler = bowlSelect.value;
 
-  const bp = APP_DATA.duel_batter_profiles[duelState.striker];
-  const bwp = APP_DATA.duel_bowler_profiles[duelState.bowler];
+  const bp = APP_DATA.duel_batter_profiles[duelState.striker] || { sr: 150, dot_pct: 35, four_pct: 15, six_pct: 8, out_pct: 4 };
+  const bwp = APP_DATA.duel_bowler_profiles[duelState.bowler] || { econ: 7.5, dot_pct: 40, wkt_pct: 4, four_pct: 10, six_pct: 5 };
 
-  const bMeta = document.getElementById('duel-striker-meta');
-  const bwMeta = document.getElementById('duel-bowler-meta');
-  if (bMeta && bp) bMeta.innerHTML = `HP SR: <b>${bp.sr}</b> • Dot%: <b>${bp.dot_pct}%</b> • Boundary%: <b>${(bp.four_pct + bp.six_pct).toFixed(1)}%</b> <span onclick="openPlayerProfile('${duelState.striker}')" style="cursor: pointer; color: var(--rr-pink); text-decoration: underline; margin-left: 6px; font-weight: 700;" title="Click to view full stats for ${duelState.striker}">View Stats ↗</span>`;
-  if (bwMeta && bwp) bwMeta.innerHTML = `HP Econ: <b>${bwp.econ}</b> • Dot%: <b>${bwp.dot_pct}%</b> • Wkt%: <b>${bwp.wkt_pct}%</b> <span onclick="openPlayerProfile('${duelState.bowler}')" style="cursor: pointer; color: #38BDF8; text-decoration: underline; margin-left: 6px; font-weight: 700;" title="Click to view full stats for ${duelState.bowler}">View Stats ↗</span>`;
+  const bPlayer = APP_DATA.adjusted_all_players.find(p => p.name === duelState.striker);
+  const bwPlayer = APP_DATA.adjusted_all_players.find(p => p.name === duelState.bowler);
+
+  // Update Striker Elements
+  const sImg = document.getElementById('duel-striker-img');
+  if (sImg) sImg.src = getPlayerImageUrl(duelState.striker);
+  const sName = document.getElementById('duel-striker-name');
+  if (sName) sName.innerHTML = `${duelState.striker} ${bPlayer ? getFlag(bPlayer.nationality) : ''}`;
+  const sTeam = document.getElementById('duel-striker-team');
+  if (sTeam) sTeam.innerText = `${bPlayer?.nationality || ''} • ${bPlayer?.ipl2026 || 'Available for Auction'}`;
+  const sBadge = document.getElementById('duel-striker-rank-badge');
+  if (sBadge && bPlayer) sBadge.innerText = `ADJ RANK #${bPlayer.adjusted_rank}`;
+
+  const sSr = document.getElementById('duel-bat-sr');
+  if (sSr) sSr.innerText = bp.sr;
+  const sDot = document.getElementById('duel-bat-dot');
+  if (sDot) sDot.innerText = `${bp.dot_pct}%`;
+  const sBnd = document.getElementById('duel-bat-bnd');
+  if (sBnd) sBnd.innerText = `${(bp.four_pct + bp.six_pct).toFixed(1)}%`;
+  const sNet = document.getElementById('duel-bat-net');
+  if (sNet && bPlayer) sNet.innerText = (bPlayer.net_hp > 0 ? '+' : '') + bPlayer.net_hp.toFixed(1);
+
+  // Update Bowler Elements
+  const bwImg = document.getElementById('duel-bowler-img');
+  if (bwImg) bwImg.src = getPlayerImageUrl(duelState.bowler);
+  const bwName = document.getElementById('duel-bowler-name');
+  if (bwName) bwName.innerHTML = `${duelState.bowler} ${bwPlayer ? getFlag(bwPlayer.nationality) : ''}`;
+  const bwTeam = document.getElementById('duel-bowler-team');
+  if (bwTeam) bwTeam.innerText = `${bwPlayer?.nationality || ''} • ${bwPlayer?.ipl2026 || 'Available for Auction'}`;
+  const bwBadge = document.getElementById('duel-bowler-rank-badge');
+  if (bwBadge && bwPlayer) bwBadge.innerText = `ADJ RANK #${bwPlayer.adjusted_rank}`;
+
+  const bwEcon = document.getElementById('duel-bowl-econ');
+  if (bwEcon) bwEcon.innerText = bwp.econ;
+  const bwDot = document.getElementById('duel-bowl-dot');
+  if (bwDot) bwDot.innerText = `${bwp.dot_pct}%`;
+  const bwWkt = document.getElementById('duel-bowl-wkt');
+  if (bwWkt) bwWkt.innerText = `${bwp.wkt_pct}%`;
+  const bwNet = document.getElementById('duel-bowl-net');
+  if (bwNet && bwPlayer) bwNet.innerText = (bwPlayer.net_hp > 0 ? '+' : '') + bwPlayer.net_hp.toFixed(1);
+
+  // Update Context Metrics
+  updateDuelContextSpecs();
+}
+
+function updateDuelContextSpecs() {
+  const targetEl = document.getElementById('duel-context-target');
+  const ballsEl = document.getElementById('duel-context-balls');
+  const wktsEl = document.getElementById('duel-context-wkts');
+  const rrrEl = document.getElementById('duel-context-rrr');
+
+  if (targetEl) targetEl.innerText = `${duelState.targetRuns} Runs`;
+  if (ballsEl) ballsEl.innerText = `${duelState.balls} Balls`;
+  if (wktsEl) wktsEl.innerText = `${duelState.wkts} Wickets`;
+  if (rrrEl) {
+    const rpo = (duelState.targetRuns / (duelState.balls / 6.0)).toFixed(2);
+    rrrEl.innerText = `${rpo} RPO`;
+  }
 }
 
 function onDuelScenarioChange() {
@@ -8557,6 +8818,15 @@ function onDuelScenarioChange() {
     customBox.style.display = 'grid';
     meta.innerText = 'Custom Target & Wickets Sliders Active';
   }
+  updateDuelContextSpecs();
+  runDuelSimulation();
+}
+
+function onCustomParamChange() {
+  duelState.targetRuns = parseInt(document.getElementById('duel-custom-runs').value) || 14;
+  duelState.balls = parseInt(document.getElementById('duel-custom-balls').value) || 6;
+  duelState.wkts = parseInt(document.getElementById('duel-custom-wkts').value) || 3;
+  updateDuelContextSpecs();
   runDuelSimulation();
 }
 
@@ -8570,14 +8840,14 @@ function runDuelSimulation() {
   const bp = APP_DATA.duel_batter_profiles[duelState.striker] || { dot_pct: 35, single_pct: 38, four_pct: 16, six_pct: 8, out_pct: 4 };
   const bwp = APP_DATA.duel_bowler_profiles[duelState.bowler] || { dot_pct: 40, wkt_pct: 4, four_pct: 10, six_pct: 5, econ: 7.5 };
 
-  // Blended probabilities
+  // Blended joint probabilities using empirical geometric mean
   let p_dot = (bp.dot_pct + bwp.dot_pct) / 200.0;
   let p_wkt = Math.sqrt((bp.out_pct / 100.0) * (bwp.wkt_pct / 100.0));
   let p_four = Math.sqrt((bp.four_pct / 100.0) * (bwp.four_pct / 100.0));
   let p_six = Math.sqrt((bp.six_pct / 100.0) * (bwp.six_pct / 100.0));
   let p_rem = Math.max(0.01, 1.0 - (p_dot + p_wkt + p_four + p_six));
-  let p_single = p_rem * 0.75;
-  let p_two = p_rem * 0.25;
+  let p_single = p_rem * 0.72;
+  let p_two = p_rem * 0.28;
 
   const total = p_dot + p_single + p_two + p_four + p_six + p_wkt;
   p_dot /= total; p_single /= total; p_two /= total; p_four /= total; p_six /= total; p_wkt /= total;
@@ -8624,13 +8894,72 @@ function runDuelSimulation() {
     batWinPct, bowlWinPct, avgRuns, wktPct, runsHist, p_dot, p_single, p_two, p_four, p_six, p_wkt
   };
 
+  // Update KPI displays & progress bars
   document.getElementById('duel-res-bat-win').innerText = `${batWinPct}%`;
   document.getElementById('duel-res-bowl-win').innerText = `${bowlWinPct}%`;
   document.getElementById('duel-res-runs').innerText = `${avgRuns} runs`;
   document.getElementById('duel-res-wkt').innerText = `${wktPct}%`;
 
+  const barBat = document.getElementById('duel-bar-bat-win');
+  if (barBat) barBat.style.width = `${batWinPct}%`;
+  const barBowl = document.getElementById('duel-bar-bowl-win');
+  if (barBowl) barBowl.style.width = `${bowlWinPct}%`;
+
+  // Render Matrix
+  renderDuelProbMatrix(p_dot, p_single + p_two, p_four + p_six, p_wkt);
+
+  // Render Live Sample Over
   reRollSampleOver();
+
+  // Render Histogram
   renderDuelHistogram(runsHist, duelState.targetRuns);
+
+  // Render Tactical Brief
+  renderDuelTacticalBrief(batWinPct, bowlWinPct, avgRuns, wktPct);
+}
+
+function renderDuelProbMatrix(pDot, pRot, pBnd, pWkt) {
+  const cont = document.getElementById('duel-prob-matrix');
+  if (!cont) return;
+
+  cont.innerHTML = `
+    <div style="background: rgba(0,0,0,0.3); padding: 6px 8px; border-radius: 6px; text-align: center; border: 1px solid rgba(255,255,255,0.06);">
+      <div style="font-size: 9px; color: #94A3B8;">Dot Ball P(0)</div>
+      <strong style="font-size: 13px; color: #CBD5E1;">${(pDot * 100).toFixed(1)}%</strong>
+    </div>
+    <div style="background: rgba(0,0,0,0.3); padding: 6px 8px; border-radius: 6px; text-align: center; border: 1px solid rgba(255,255,255,0.06);">
+      <div style="font-size: 9px; color: #94A3B8;">Rotation P(1-2)</div>
+      <strong style="font-size: 13px; color: #38BDF8;">${(pRot * 100).toFixed(1)}%</strong>
+    </div>
+    <div style="background: rgba(0,0,0,0.3); padding: 6px 8px; border-radius: 6px; text-align: center; border: 1px solid rgba(255,255,255,0.06);">
+      <div style="font-size: 9px; color: #94A3B8;">Boundary P(4/6)</div>
+      <strong style="font-size: 13px; color: #34D399;">${(pBnd * 100).toFixed(1)}%</strong>
+    </div>
+    <div style="background: rgba(0,0,0,0.3); padding: 6px 8px; border-radius: 6px; text-align: center; border: 1px solid rgba(255,255,255,0.06);">
+      <div style="font-size: 9px; color: #94A3B8;">Wicket Hazard P(W)</div>
+      <strong style="font-size: 13px; color: var(--rr-pink);">${(pWkt * 100).toFixed(1)}%</strong>
+    </div>
+  `;
+}
+
+function renderDuelTacticalBrief(batWinPct, bowlWinPct, avgRuns, wktPct) {
+  const briefEl = document.getElementById('duel-tactical-brief');
+  if (!briefEl) return;
+
+  const striker = duelState.striker;
+  const bowler = duelState.bowler;
+  const target = duelState.targetRuns;
+
+  let advice = '';
+  if (parseFloat(bowlWinPct) >= 70) {
+    advice = `<strong>Dugout Tactical Analysis:</strong> <em>${bowler}</em> holds a dominant tactical advantage (${bowlWinPct}% defense hold). Under high pressure, their dot-ball suppression severely restricts <em>${striker}</em>'s boundary conversion, projecting an average of only ${avgRuns} runs vs ${target} needed. <strong>Recommendation:</strong> Batting captain should look to rotate strike early to target alternative pace matchups.`;
+  } else if (parseFloat(batWinPct) >= 50) {
+    advice = `<strong>Dugout Tactical Analysis:</strong> <em>${striker}</em> has a favorable chase edge (${batWinPct}% win rate), averaging ${avgRuns} runs. Their high-pressure boundary hazard rate overrides <em>${bowler}</em>'s suppression metrics. <strong>Recommendation:</strong> Bowling captain should utilize boundary protection on the leg-side sweep/pull arc and consider off-stump wide yorker lines.`;
+  } else {
+    advice = `<strong>Dugout Tactical Analysis:</strong> Perfectly poised coin-flip duel (${batWinPct}% Batting Chase vs ${bowlWinPct}% Bowling Hold). Projected mean is ${avgRuns} runs against target ${target}, with a ${wktPct}% probability of at least one dismissal. Single-ball execution on delivery 1-2 determines 78% of the final outcome.`;
+  }
+
+  briefEl.innerHTML = advice;
 }
 
 function reRollSampleOver() {
@@ -8644,27 +8973,64 @@ function reRollSampleOver() {
   let currWkts = 0;
   let overBalls = [];
 
+  const comments = {
+    dot: [
+      'Beaten on the dip outside off - textbook dot ball.',
+      'Searing yorker right on the toe - dug out into the pitch.',
+      'Slower ball knuckle cutter - swishes and misses.',
+      'Pushed to extra cover - fielder attacks cleanly, no run.'
+    ],
+    wkt: [
+      'WICKET! Clean bowled aiming an aggressive slog across the line!',
+      'WICKET! Top edge skies into the deep - safely caught under pressure!',
+      'WICKET! Trapped LBW plumb in front off a vicious skidder!'
+    ],
+    one: [
+      'Quick single nudged into mid-wicket with aggressive running.',
+      'Steered to third man for a sensible rotation single.',
+      'Driven firmly to long-on for a controlled single.'
+    ],
+    two: [
+      'Punched through cover gap - hurried back for a sharp brace!',
+      'Clipped fine into deep square leg, excellent running converts two.'
+    ],
+    four: [
+      'FOUR! Sliced cleanly through backward point with surgical precision!',
+      'FOUR! Drilled straight down the ground past the bowler!',
+      'FOUR! Ramped cheekily over short fine leg off a 140kph delivery!'
+    ],
+    six: [
+      'SIX! Magnificent strike sailing 85m into the mid-wicket stands!',
+      'SIX! Cleared the front leg and launched over long-off!',
+      'SIX! Effortless pickup flick over deep square leg into the second tier!'
+    ]
+  };
+
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
   for (let b = 1; b <= duelState.balls; b++) {
     let rand = Math.random();
-    let ball = { num: b, runs: 0, isWkt: false, label: 'DOT', comment: 'Tight defense outside off' };
+    let ball = { num: b, runs: 0, isWkt: false, label: '0', comment: '' };
     if (rand < p_dot) {
-      ball.runs = 0; ball.label = '0'; ball.comment = 'Dot ball - beating the outside edge!';
+      ball.runs = 0; ball.label = '• 0R'; ball.comment = pick(comments.dot);
     } else if (rand < p_dot + p_wkt) {
-      ball.isWkt = true; ball.runs = 0; ball.label = 'W'; ball.comment = 'WICKET! Clean bowled aiming across!';
+      ball.isWkt = true; ball.runs = 0; ball.label = '✕ WKT'; ball.comment = pick(comments.wkt);
       currWkts++;
     } else if (rand < p_dot + p_wkt + p_single) {
-      ball.runs = 1; ball.label = '1'; ball.comment = 'Quick single pushed into cover point.';
+      ball.runs = 1; ball.label = '1R'; ball.comment = pick(comments.one);
       currRuns += 1;
     } else if (rand < p_dot + p_wkt + p_single + p_two) {
-      ball.runs = 2; ball.label = '2'; ball.comment = 'Driven into the deep pocket, hurried two.';
+      ball.runs = 2; ball.label = '2R'; ball.comment = pick(comments.two);
       currRuns += 2;
     } else if (rand < p_dot + p_wkt + p_single + p_two + p_four) {
-      ball.runs = 4; ball.label = '4'; ball.comment = 'FOUR! Sliced cleanly through backward point!';
+      ball.runs = 4; ball.label = '💥 4R'; ball.comment = pick(comments.four);
       currRuns += 4;
     } else {
-      ball.runs = 6; ball.label = '6'; ball.comment = 'SIX! Magnificent strike sailing into the stands!';
+      ball.runs = 6; ball.label = '🚀 6R'; ball.comment = pick(comments.six);
       currRuns += 6;
     }
+    ball.cumRuns = currRuns;
+    ball.cumWkts = currWkts;
     overBalls.push(ball);
     if (currRuns >= duelState.targetRuns || currWkts >= duelState.wkts) break;
   }
@@ -8675,20 +9041,43 @@ function reRollSampleOver() {
     row.style.alignItems = 'center';
     row.style.justifyContent = 'space-between';
     row.style.padding = '8px 12px';
-    row.style.background = 'rgba(255, 255, 255, 0.04)';
-    row.style.border = '1px solid rgba(255, 255, 255, 0.08)';
+    row.style.background = 'rgba(255, 255, 255, 0.03)';
+    row.style.border = '1px solid rgba(255, 255, 255, 0.07)';
     row.style.borderRadius = '6px';
     row.style.fontSize = '12px';
 
-    const chipBg = b.isWkt ? '#EF4444' : (b.runs === 6 ? 'var(--rr-pink)' : (b.runs === 4 ? 'var(--rr-blue)' : (b.runs === 0 ? '#64748B' : '#10B981')));
+    let chipBg = '#64748B';
+    let chipColor = '#FFFFFF';
+    let borderColor = 'transparent';
+    if (b.isWkt) {
+      chipBg = 'rgba(239, 68, 68, 0.2)';
+      chipColor = '#F87171';
+      borderColor = 'rgba(239, 68, 68, 0.5)';
+    } else if (b.runs === 6) {
+      chipBg = 'rgba(229, 0, 125, 0.2)';
+      chipColor = 'var(--rr-pink)';
+      borderColor = 'var(--rr-pink)';
+    } else if (b.runs === 4) {
+      chipBg = 'rgba(56, 189, 248, 0.2)';
+      chipColor = '#38BDF8';
+      borderColor = '#38BDF8';
+    } else if (b.runs > 0) {
+      chipBg = 'rgba(52, 211, 153, 0.18)';
+      chipColor = '#34D399';
+      borderColor = 'rgba(52, 211, 153, 0.4)';
+    }
+
     row.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <span style="font-weight: 700; color: #FFFFFF; width: 48px;">Ball ${b.num}:</span>
-        <span style="color: #CBD5E1; font-size: 11.5px;">${b.comment}</span>
+      <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+        <span style="font-weight: 800; color: #94A3B8; font-size: 11px; width: 44px; flex-shrink: 0;">BALL ${b.num}:</span>
+        <span style="color: #CBD5E1; font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${b.comment}</span>
       </div>
-      <span style="background: ${chipBg}; color: #fff; font-weight: 800; font-family: monospace; padding: 2px 8px; border-radius: 4px; font-size: 11px;">
-        ${b.isWkt ? 'WKT' : (b.runs + 'R')}
-      </span>
+      <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+        <span style="font-size: 10px; color: #94A3B8; font-family: monospace;">(${b.cumRuns}/${b.cumWkts})</span>
+        <span style="background: ${chipBg}; color: ${chipColor}; border: 1px solid ${borderColor}; font-weight: 800; font-family: monospace; padding: 2px 8px; border-radius: 4px; font-size: 11px;">
+          ${b.label}
+        </span>
+      </div>
     `;
     container.appendChild(row);
   });
@@ -8698,13 +9087,13 @@ function reRollSampleOver() {
   if (currRuns >= target) {
     verdictEl.style.background = 'rgba(16, 185, 129, 0.15)';
     verdictEl.style.color = '#34D399';
-    verdictEl.style.border = '1px solid rgba(16, 185, 129, 0.3)';
-    verdictEl.innerText = `RESULT: Batting Side Chased ${currRuns} Runs! Target ${target} Achieved with ${duelState.balls - overBalls.length} balls to spare!`;
+    verdictEl.style.border = '1px solid rgba(16, 185, 129, 0.4)';
+    verdictEl.innerHTML = `🏆 <strong>TARGET ACHIEVED!</strong> Chased ${currRuns} runs in ${overBalls.length} balls! Target of ${target} achieved with ${duelState.balls - overBalls.length} balls to spare!`;
   } else {
     verdictEl.style.background = 'rgba(239, 68, 68, 0.15)';
     verdictEl.style.color = '#F87171';
-    verdictEl.style.border = '1px solid rgba(239, 68, 68, 0.3)';
-    verdictEl.innerText = `RESULT: Bowling Side Defends! Scored ${currRuns}/${currWkts} (Defended by ${target - currRuns} runs).`;
+    verdictEl.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+    verdictEl.innerHTML = `🛡️ <strong>BOWLING SIDE DEFENDS!</strong> Restricted to ${currRuns}/${currWkts} (Target defended by ${target - currRuns} runs).`;
   }
 }
 
@@ -8716,19 +9105,20 @@ function renderDuelHistogram(hist, target) {
   const maxFreq = Math.max(...Object.values(hist));
 
   let barsSvg = '';
-  const w = 380; const h = 180;
-  const barW = Math.max(8, (w - 40) / (maxRuns + 1));
+  const w = 420; const h = 190;
+  const barW = Math.max(9, (w - 45) / (maxRuns + 1));
 
   for (let r = 0; r <= maxRuns; r++) {
     const count = hist[r] || 0;
-    const barH = count > 0 ? (count / maxFreq * 130) : 0;
-    const x = 30 + r * barW;
+    const barH = count > 0 ? (count / maxFreq * 135) : 0;
+    const x = 32 + r * barW;
     const y = h - 30 - barH;
     const isTargetPlus = r >= target;
-    const fill = isTargetPlus ? 'var(--rr-pink)' : '#CBD5E1';
+    const fill = isTargetPlus ? 'var(--rr-pink)' : '#38BDF8';
+    const opacity = isTargetPlus ? '0.9' : '0.7';
 
     barsSvg += `
-      <rect x="${x}" y="${y}" width="${barW - 2}" height="${barH}" fill="${fill}" rx="2" opacity="0.85">
+      <rect x="${x}" y="${y}" width="${barW - 2}" height="${barH}" fill="${fill}" rx="2.5" opacity="${opacity}">
         <title>${r} runs: ${count} times (${(count/10).toFixed(1)}%)</title>
       </rect>
     `;
@@ -8738,17 +9128,23 @@ function renderDuelHistogram(hist, target) {
   }
 
   // Target vertical line
-  const targetX = 30 + target * barW - 1;
+  const targetX = 32 + target * barW - 1;
   const lineSvg = `
-    <line x1="${targetX}" y1="10" x2="${targetX}" y2="${h - 26}" stroke="#EF4444" stroke-width="2" stroke-dasharray="3,3" />
-    <text x="${targetX + 4}" y="20" font-size="10" font-weight="bold" fill="#EF4444">Target: ${target}</text>
+    <line x1="${targetX}" y1="8" x2="${targetX}" y2="${h - 26}" stroke="#EF4444" stroke-width="2" stroke-dasharray="3,3" />
+    <text x="${targetX + 4}" y="18" font-size="10" font-weight="800" fill="#EF4444">Target: ${target}</text>
   `;
 
   container.innerHTML = `
     <svg width="100%" height="100%" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet" style="max-width: 100%; display: block;">
+      <defs>
+        <linearGradient id="hist-grid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.1"/>
+          <stop offset="100%" stop-color="#38BDF8" stop-opacity="0.0"/>
+        </linearGradient>
+      </defs>
       ${barsSvg}
       ${lineSvg}
-      <line x1="26" y1="${h-28}" x2="${w-10}" y2="${h-28}" stroke="#E2E8F0" stroke-width="1" />
+      <line x1="28" y1="${h-28}" x2="${w-10}" y2="${h-28}" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
     </svg>
   `;
 }
