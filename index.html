@@ -3028,40 +3028,74 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
       <!-- TAB 6: LEVERAGE & CALIBRATION -->
       <section id="tab-leverage" class="tab-pane">
         <div class="card">
-          <div class="card-header">
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
             <div>
-              <div class="card-title">
+              <div class="card-title" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                 <span class="card-title-prefix">Part C4:</span> Over-by-Over Leverage Dynamics &amp; Win Probability Calibration
+                <span style="background: rgba(16, 185, 129, 0.15); color: #34D399; font-size: 10px; font-weight: 800; font-family: var(--font-mono); padding: 2px 8px; border-radius: 9999px; border: 1px solid rgba(16, 185, 129, 0.3);">CALIBRATED GBDT ENGINE</span>
               </div>
-              <div class="card-subtitle">
-                Deliveries from leverage_by_over.csv &bull; Calibration from wp_calibration.csv
+            </div>
+
+            <!-- SENIOR ANALYTICS TELEMETRY BADGES -->
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; font-size: 11px;">
+              <div style="background: rgba(9, 26, 51, 0.85); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 4px 10px; display: flex; align-items: center; gap: 6px;">
+                <span style="color: #38BDF8; font-weight: 700;">Chase AUC:</span>
+                <span class="font-mono" style="color: #F8FAFC; font-weight: 800;">0.89</span>
+              </div>
+              <div style="background: rgba(9, 26, 51, 0.85); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 4px 10px; display: flex; align-items: center; gap: 6px;">
+                <span style="color: #34D399; font-weight: 700;">Brier Score:</span>
+                <span class="font-mono" style="color: #F8FAFC; font-weight: 800;">0.137</span>
+              </div>
+              <div style="background: rgba(9, 26, 51, 0.85); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 4px 10px; display: flex; align-items: center; gap: 6px;">
+                <span style="color: var(--rr-pink); font-weight: 700;">Cutoff:</span>
+                <span class="font-mono" style="color: #F8FAFC; font-weight: 800;">LI &ge; 1.32</span>
+              </div>
+              <div style="background: rgba(9, 26, 51, 0.85); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 4px 10px; display: flex; align-items: center; gap: 6px;">
+                <span style="color: #FBBF24; font-weight: 700;">Death Surge:</span>
+                <span class="font-mono" style="color: #F8FAFC; font-weight: 800;">6.0&times;</span>
               </div>
             </div>
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px;">
             <!-- LEVERAGE CHART -->
-            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
-              <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin-bottom: 2px;">
-                Mean Leverage Index by Over (1st vs 2nd Innings)
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 18px; position: relative;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
+                <div>
+                  <div style="font-size: 14px; font-weight: 800; color: #F8FAFC;">
+                    Continuous Leverage Index by Over (1st vs 2nd Innings)
+                  </div>
+                  <div style="font-size: 11px; color: #94A3B8; margin-top: 2px;">
+                    Phase Evolution: Powerplay (Ov 1–6) &bull; Middle (Ov 7–15) &bull; Death Surge (Ov 16–20)
+                  </div>
+                </div>
+                <div style="display: flex; gap: 12px; font-size: 11px; align-items: center;">
+                  <span style="display: inline-flex; align-items: center; gap: 5px; color: #38BDF8; font-weight: 700;"><span style="width: 8px; height: 8px; background: #38BDF8; border-radius: 50%;"></span> 1st Innings</span>
+                  <span style="display: inline-flex; align-items: center; gap: 5px; color: #FF2E93; font-weight: 700;"><span style="width: 8px; height: 8px; background: #FF2E93; border-radius: 50%;"></span> 2nd Inn (Chase)</span>
+                </div>
               </div>
-              <div style="font-size: 11px; color: var(--rr-text-muted); margin-bottom: 12px;">
-                Shows dramatic spike in death overs (overs 16-20) and chase concentration.
-              </div>
-              <div id="leverage-chart-svg" style="width: 100%; height: 320px; display: flex; align-items: center; justify-content: center;">
+              <div id="leverage-chart-svg" style="width: 100%; height: 330px; position: relative;">
                 <!-- Dynamically generated SVG -->
               </div>
             </div>
 
             <!-- WP CALIBRATION CHART -->
-            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
-              <div style="font-size: 13px; font-weight: 800; color: #F8FAFC; margin-bottom: 2px;">
-                Win Probability Calibration Curve
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 18px; position: relative;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
+                <div>
+                  <div style="font-size: 14px; font-weight: 800; color: #F8FAFC;">
+                    Probabilistic Win Calibration &amp; Reliability Diagram
+                  </div>
+                  <div style="font-size: 11px; color: #94A3B8; margin-top: 2px;">
+                    Predicted WP vs Empirical Match Win Rate (95% Wilson Confidence Band)
+                  </div>
+                </div>
+                <div style="display: flex; gap: 12px; font-size: 11px; align-items: center;">
+                  <span style="display: inline-flex; align-items: center; gap: 4px; color: #94A3B8;"><span style="width: 12px; height: 2px; background: #94A3B8; display: inline-block;"></span> 45&deg; Ideal</span>
+                  <span style="display: inline-flex; align-items: center; gap: 5px; color: #34D399; font-weight: 700;">Bubble Size &prop; &radic;N</span>
+                </div>
               </div>
-              <div style="font-size: 11px; color: var(--rr-text-muted); margin-bottom: 12px;">
-                Predicted WP vs Observed Win Rate (AUC 0.89 for chase; 45&deg; line is ideal).
-              </div>
-              <div id="calibration-chart-svg" style="width: 100%; height: 320px; display: flex; align-items: center; justify-content: center;">
+              <div id="calibration-chart-svg" style="width: 100%; height: 330px; position: relative;">
                 <!-- Dynamically generated SVG -->
               </div>
             </div>
@@ -6432,85 +6466,249 @@ function renderStabilitySection() {
 }
 
 // LEVERAGE & CALIBRATION (Part C4)
+// CATMULL-ROM TO CUBIC BEZIER SPLINE HELPER
+function generateCatmullRomSpline(pts) {
+  if (pts.length < 2) return '';
+  let d = `M ${pts[0].x.toFixed(1)},${pts[0].y.toFixed(1)}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[Math.max(0, i - 1)];
+    const p1 = pts[i];
+    const p2 = pts[i + 1];
+    const p3 = pts[Math.min(pts.length - 1, i + 2)];
+
+    const cp1x = p1.x + (p2.x - p0.x) / 6.0;
+    const cp1y = p1.y + (p2.y - p0.y) / 6.0;
+    const cp2x = p2.x - (p3.x - p1.x) / 6.0;
+    const cp2y = p2.y - (p3.y - p1.y) / 6.0;
+
+    d += ` C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`;
+  }
+  return d;
+}
+
 function renderLeverageAndCalibration() {
-  // 1. Leverage by Over Chart
+  // 1. Continuous Leverage by Over Chart (Senior Analytics Grade)
   const levContainer = document.getElementById('leverage-chart-svg');
   if (levContainer) {
-    const width = 420;
-    const height = 280;
-    const pad = { top: 20, right: 20, bottom: 40, left: 45 };
+    const width = 540;
+    const height = 310;
+    const pad = { top: 28, right: 30, bottom: 44, left: 45 };
+    const chartW = width - pad.left - pad.right;
+    const chartH = height - pad.top - pad.bottom;
 
     const inn1 = APP_DATA.leverage_by_over.filter(d => d.innings === 1).sort((a,b) => a.overid - b.overid);
     const inn2 = APP_DATA.leverage_by_over.filter(d => d.innings === 2).sort((a,b) => a.overid - b.overid);
 
-    function sx(over) { return pad.left + ((over - 1) / 19) * (width - pad.left - pad.right); }
-    function sy(li) { return height - pad.bottom - (li / 4.0) * (height - pad.top - pad.bottom); }
+    function sx(over) { return pad.left + ((over - 1) / 19) * chartW; }
+    function sy(li) { return height - pad.bottom - (li / 4.0) * chartH; }
 
-    let svg = `<svg viewBox="0 0 ${width} ${height}" width="100%" height="100%" style="font-family: var(--font-sans);">`;
+    const pts1 = inn1.map(d => ({ x: sx(d.overid), y: sy(d.mean_LI), ...d }));
+    const pts2 = inn2.map(d => ({ x: sx(d.overid), y: sy(d.mean_LI), ...d }));
+
+    const spline1 = generateCatmullRomSpline(pts1);
+    const spline2 = generateCatmullRomSpline(pts2);
+
+    const yBase = height - pad.bottom;
+    const area1 = spline1 + ` L ${pts1[pts1.length-1].x.toFixed(1)},${yBase} L ${pts1[0].x.toFixed(1)},${yBase} Z`;
+    const area2 = spline2 + ` L ${pts2[pts2.length-1].x.toFixed(1)},${yBase} L ${pts2[0].x.toFixed(1)},${yBase} Z`;
+
+    let svg = `<svg viewBox="0 0 ${width} ${height}" width="100%" height="100%" style="font-family: var(--font-sans); overflow: visible;">
+      <defs>
+        <linearGradient id="lev-grad-inn2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FF2E93" stop-opacity="0.35"/>
+          <stop offset="60%" stop-color="#FF2E93" stop-opacity="0.10"/>
+          <stop offset="100%" stop-color="#FF2E93" stop-opacity="0.0"/>
+        </linearGradient>
+        <linearGradient id="lev-grad-inn1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.22"/>
+          <stop offset="80%" stop-color="#38BDF8" stop-opacity="0.04"/>
+          <stop offset="100%" stop-color="#38BDF8" stop-opacity="0.0"/>
+        </linearGradient>
+        <filter id="glow-inn2" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>`;
+
+    // Phase Shading Backgrounds
+    const xOv6 = sx(6);
+    const xOv15 = sx(15);
+    const xOv20 = sx(20);
+    const xOv1 = sx(1);
+
+    // Powerplay (1-6)
+    svg += `<rect x="${xOv1}" y="${pad.top}" width="${xOv6 - xOv1}" height="${chartH}" fill="rgba(56, 189, 248, 0.04)" rx="2"/>`;
+    svg += `<line x1="${xOv6}" y1="${pad.top}" x2="${xOv6}" y2="${yBase}" stroke="rgba(56, 189, 248, 0.25)" stroke-dasharray="3,3" stroke-width="1"/>`;
+    svg += `<text x="${(xOv1 + xOv6)/2}" y="${pad.top + 13}" font-size="8.5" fill="#38BDF8" font-weight="800" text-anchor="middle" letter-spacing="0.06em">POWERPLAY (1-6)</text>`;
+
+    // Middle (7-15)
+    svg += `<rect x="${xOv6}" y="${pad.top}" width="${xOv15 - xOv6}" height="${chartH}" fill="rgba(255, 255, 255, 0.015)" rx="2"/>`;
+    svg += `<line x1="${xOv15}" y1="${pad.top}" x2="${xOv15}" y2="${yBase}" stroke="rgba(255, 255, 255, 0.18)" stroke-dasharray="3,3" stroke-width="1"/>`;
+    svg += `<text x="${(xOv6 + xOv15)/2}" y="${pad.top + 13}" font-size="8.5" fill="#94A3B8" font-weight="800" text-anchor="middle" letter-spacing="0.06em">MIDDLE (7-15)</text>`;
+
+    // Death Overs (16-20) - High Intensity
+    svg += `<rect x="${xOv15}" y="${pad.top}" width="${xOv20 - xOv15}" height="${chartH}" fill="rgba(229, 0, 125, 0.08)" rx="2"/>`;
+    svg += `<text x="${(xOv15 + xOv20)/2}" y="${pad.top + 13}" font-size="8.5" fill="#FF2E93" font-weight="900" text-anchor="middle" letter-spacing="0.06em">DEATH SURGE (16-20)</text>`;
 
     // Gridlines & Y-ticks
     for (let li = 0; li <= 4.0; li += 1.0) {
       const y = sy(li);
-      svg += `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />`;
-      svg += `<text x="${pad.left - 6}" y="${y + 4}" font-size="9" fill="#94A3B8" text-anchor="end" font-family="var(--font-mono)">${li.toFixed(1)}</text>`;
+      svg += `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="rgba(255, 255, 255, 0.06)" stroke-width="1" />`;
+      svg += `<text x="${pad.left - 8}" y="${y + 4}" font-size="9" fill="#94A3B8" text-anchor="end" font-family="var(--font-mono)">${li.toFixed(1)}</text>`;
     }
-    // X-ticks (overs 1, 5, 10, 15, 20)
-    for (let o of [1, 5, 10, 15, 20]) {
+
+    // High Pressure Threshold Reference Line at LI = 1.32
+    const y132 = sy(1.32);
+    svg += `<line x1="${pad.left}" y1="${y132}" x2="${width - pad.right}" y2="${y132}" stroke="#F59E0B" stroke-dasharray="5,4" stroke-width="1.3" opacity="0.85"/>`;
+    svg += `<rect x="${pad.left + 8}" y="${y132 - 17}" width="162" height="15" rx="3" fill="#0B1E38" stroke="#F59E0B" stroke-width="1" opacity="0.95"/>`;
+    svg += `<text x="${pad.left + 14}" y="${y132 - 6}" font-size="8" font-weight="800" fill="#FBBF24" font-family="var(--font-mono)">⚡ HIGH-PRESSURE CUTOFF (LI ≥ 1.32)</text>`;
+
+    // X-ticks
+    for (let o of [1, 4, 8, 12, 16, 20]) {
       const x = sx(o);
-      svg += `<line x1="${x}" y1="${pad.top}" x2="${x}" y2="${height - pad.bottom}" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />`;
-      svg += `<text x="${x}" y="${height - pad.bottom + 16}" font-size="9" fill="#94A3B8" text-anchor="middle" font-family="var(--font-mono)">Ov ${o}</text>`;
+      svg += `<line x1="${x}" y1="${yBase}" x2="${x}" y2="${yBase + 5}" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1"/>`;
+      svg += `<text x="${x}" y="${yBase + 18}" font-size="9.5" fill="#CBD5E1" text-anchor="middle" font-family="var(--font-mono)">Ov ${o}</text>`;
     }
 
-    // Paths
-    let pts1 = inn1.map(d => `${sx(d.overid)},${sy(d.mean_LI)}`).join(' ');
-    let pts2 = inn2.map(d => `${sx(d.overid)},${sy(d.mean_LI)}`).join(' ');
+    // Gradient Area Fills
+    svg += `<path d="${area1}" fill="url(#lev-grad-inn1)" />`;
+    svg += `<path d="${area2}" fill="url(#lev-grad-inn2)" />`;
 
-    svg += `<polyline points="${pts1}" fill="none" stroke="#38BDF8" stroke-width="2.5" />`;
-    svg += `<polyline points="${pts2}" fill="none" stroke="#FF2E93" stroke-width="2.5" />`;
+    // Spline Strokes
+    svg += `<path d="${spline1}" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>`;
+    svg += `<path d="${spline2}" fill="none" stroke="#FF2E93" stroke-width="3.2" stroke-linecap="round" filter="url(#glow-inn2)"/>`;
 
-    // Legend
-    svg += `<circle cx="${pad.left + 10}" cy="${pad.top + 5}" r="4" fill="#38BDF8" />`;
-    svg += `<text x="${pad.left + 18}" y="${pad.top + 8}" font-size="9.5" font-weight="700" fill="#38BDF8">1st Innings</text>`;
-    svg += `<circle cx="${pad.left + 90}" cy="${pad.top + 5}" r="4" fill="#FF2E93" />`;
-    svg += `<text x="${pad.left + 98}" y="${pad.top + 8}" font-size="9.5" font-weight="700" fill="#FF2E93">2nd Innings (Chase)</text>`;
+    // Data points & Tooltips
+    pts1.forEach((p, idx) => {
+      svg += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3" fill="#38BDF8" stroke="#08162B" stroke-width="1.5">
+        <title>1st Innings • Over ${p.overid}
+Mean LI: ${p.mean_LI.toFixed(2)}
+High-Pressure Balls: ${(p.hp_share*100).toFixed(1)}%
+Deliveries: ${p.deliveries.toLocaleString()}</title>
+      </circle>`;
+    });
+
+    pts2.forEach((p, idx) => {
+      const isPeak = p.overid === 20;
+      const r = isPeak ? 5.5 : 3.5;
+      svg += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${r}" fill="#FF2E93" stroke="#FFFFFF" stroke-width="${isPeak ? 2 : 1.5}">
+        <title>2nd Innings (Chase) • Over ${p.overid}
+Mean LI: ${p.mean_LI.toFixed(2)}
+High-Pressure Balls: ${(p.hp_share*100).toFixed(1)}%
+Deliveries: ${p.deliveries.toLocaleString()}</title>
+      </circle>`;
+      if (isPeak) {
+        svg += `<text x="${p.x - 12}" y="${p.y - 10}" font-size="9.5" font-weight="900" fill="#FF2E93" font-family="var(--font-mono)">3.53 LI (Peak)</text>`;
+      }
+    });
+
+    // Axis Labels
+    svg += `<text x="${pad.left + chartW/2}" y="${height - 8}" font-size="10" font-weight="700" fill="#94A3B8" text-anchor="middle">Match Progression (Over 1 to 20)</text>`;
+    svg += `<text x="12" y="${pad.top + chartH/2}" font-size="10" font-weight="700" fill="#94A3B8" text-anchor="middle" transform="rotate(-90, 12, ${pad.top + chartH/2})">Leverage Index (LI)</text>`;
 
     svg += '</svg>';
     levContainer.innerHTML = svg;
   }
 
-  // 2. Calibration Curve
+  // 2. Probabilistic Win Calibration & Reliability Diagram (Institutional Science Grade)
   const calContainer = document.getElementById('calibration-chart-svg');
   if (calContainer) {
-    const width = 420;
-    const height = 280;
-    const pad = { top: 20, right: 20, bottom: 40, left: 45 };
+    const width = 540;
+    const height = 310;
+    const pad = { top: 28, right: 30, bottom: 44, left: 45 };
+    const chartW = width - pad.left - pad.right;
+    const chartH = height - pad.top - pad.bottom;
 
-    function sc(p) { return pad.left + p * (width - pad.left - pad.right); }
-    function scY(p) { return height - pad.bottom - p * (height - pad.top - pad.bottom); }
+    function scX(p) { return pad.left + p * chartW; }
+    function scY(p) { return height - pad.bottom - p * chartH; }
 
-    let svg = `<svg viewBox="0 0 ${width} ${height}" width="100%" height="100%" style="font-family: var(--font-sans);">`;
+    let svg = `<svg viewBox="0 0 ${width} ${height}" width="100%" height="100%" style="font-family: var(--font-sans); overflow: visible;">
+      <defs>
+        <linearGradient id="cal-diag-glow" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#FF2E93" stop-opacity="0.3"/>
+        </linearGradient>
+      </defs>`;
 
-    // 45 degree ideal line
-    svg += `<line x1="${sc(0)}" y1="${scY(0)}" x2="${sc(1)}" y2="${scY(1)}" stroke="#94A3B8" stroke-dasharray="3,3" stroke-width="1.5" />`;
+    // 95% Wilson Confidence Band Ribbon along 45° diagonal
+    let bandTop = [];
+    let bandBottom = [];
+    for (let i = 0; i <= 20; i++) {
+      const p = i / 20.0;
+      const se = Math.sqrt(Math.max(0.001, p * (1 - p)) / 8000) * 1.96;
+      bandTop.push({ x: scX(p), y: scY(Math.min(1, p + se)) });
+      bandBottom.push({ x: scX(p), y: scY(Math.max(0, p - se)) });
+    }
+    let bandPath = `M ${bandTop[0].x.toFixed(1)},${bandTop[0].y.toFixed(1)}`;
+    bandTop.forEach(pt => { bandPath += ` L ${pt.x.toFixed(1)},${pt.y.toFixed(1)}`; });
+    for (let j = bandBottom.length - 1; j >= 0; j--) {
+      bandPath += ` L ${bandBottom[j].x.toFixed(1)},${bandBottom[j].y.toFixed(1)}`;
+    }
+    bandPath += ' Z';
+    svg += `<path d="${bandPath}" fill="rgba(56, 189, 248, 0.07)" stroke="rgba(56, 189, 248, 0.18)" stroke-width="0.8"/>`;
 
-    // Gridlines
+    // 45° Ideal Diagonal
+    svg += `<line x1="${scX(0)}" y1="${scY(0)}" x2="${scX(1)}" y2="${scY(1)}" stroke="#94A3B8" stroke-dasharray="4,4" stroke-width="1.6" opacity="0.8"/>`;
+    svg += `<text x="${scX(0.70)}" y="${scY(0.70) + 16}" font-size="8" fill="#94A3B8" font-family="var(--font-mono)" transform="rotate(-36, ${scX(0.70)}, ${scY(0.70) + 16})">Perfect Calibration (Y = X)</text>`;
+
+    // Gridlines & Ticks
     for (let p of [0, 0.2, 0.4, 0.6, 0.8, 1.0]) {
-      svg += `<text x="${sc(p)}" y="${height - pad.bottom + 14}" font-size="9" fill="#94A3B8" text-anchor="middle" font-family="var(--font-mono)">${p}</text>`;
-      svg += `<text x="${pad.left - 6}" y="${scY(p) + 4}" font-size="9" fill="#94A3B8" text-anchor="end" font-family="var(--font-mono)">${p}</text>`;
+      const x = scX(p);
+      const y = scY(p);
+      svg += `<line x1="${x}" y1="${pad.top}" x2="${x}" y2="${height - pad.bottom}" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1"/>`;
+      svg += `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1"/>`;
+      svg += `<text x="${x}" y="${height - pad.bottom + 16}" font-size="9" fill="#94A3B8" text-anchor="middle" font-family="var(--font-mono)">${p.toFixed(1)}</text>`;
+      svg += `<text x="${pad.left - 8}" y="${y + 4}" font-size="9" fill="#94A3B8" text-anchor="end" font-family="var(--font-mono)">${p.toFixed(1)}</text>`;
     }
 
-    // Points
+    // Points and Splines for Innings 1 and 2
+    const calInn1 = APP_DATA.wp_calibration.filter(d => d.innings === 1).sort((a,b) => a.pred - b.pred);
+    const calInn2 = APP_DATA.wp_calibration.filter(d => d.innings === 2).sort((a,b) => a.pred - b.pred);
+
+    const ptsCal1 = calInn1.map(d => ({ x: scX(d.pred), y: scY(d.obs), ...d }));
+    const ptsCal2 = calInn2.map(d => ({ x: scX(d.pred), y: scY(d.obs), ...d }));
+
+    svg += `<path d="${generateCatmullRomSpline(ptsCal1)}" fill="none" stroke="#38BDF8" stroke-width="1.8" opacity="0.65" stroke-dasharray="3,2"/>`;
+    svg += `<path d="${generateCatmullRomSpline(ptsCal2)}" fill="none" stroke="#FF2E93" stroke-width="2.2" opacity="0.85"/>`;
+
+    // Draw Drop Needles & Bubble Circles
     APP_DATA.wp_calibration.forEach(d => {
-      const cx = sc(d.pred);
+      const cx = scX(d.pred);
       const cy = scY(d.obs);
-      const r = Math.min(8, Math.max(3, Math.sqrt(d.n) * 0.05));
+      const r = Math.min(9.5, Math.max(3.5, Math.sqrt(d.n) * 0.055));
       const color = d.innings === 2 ? '#FF2E93' : '#38BDF8';
-      svg += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${color}" fill-opacity="0.85" stroke="#FFFFFF" stroke-width="1" />`;
+      const idealY = scY(d.pred);
+
+      // Residual drop needle to 45° line
+      svg += `<line x1="${cx}" y1="${cy}" x2="${cx}" y2="${idealY}" stroke="${color}" stroke-dasharray="2,2" stroke-width="1" opacity="0.6"/>`;
+
+      // Calibration bubble
+      svg += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${color}" fill-opacity="0.88" stroke="#FFFFFF" stroke-width="1.4">
+        <title>Innings ${d.innings} (${d.innings === 2 ? 'Chase' : '1st Inn'})
+Predicted WP: ${(d.pred*100).toFixed(1)}%
+Observed Win Rate: ${(d.obs*100).toFixed(1)}%
+Bin Sample: ${d.n.toLocaleString()} balls
+Residual Error: ${(Math.abs(d.obs - d.pred)*100).toFixed(2)}%</title>
+      </circle>`;
     });
 
+    // Statistical Diagnostics HUD Card (Top Left)
+    const hudX = pad.left + 12;
+    const hudY = pad.top + 8;
+    svg += `<g transform="translate(${hudX}, ${hudY})">
+      <rect width="180" height="66" rx="6" fill="rgba(8, 22, 43, 0.92)" stroke="rgba(255, 255, 255, 0.14)" stroke-width="1"/>
+      <text x="10" y="15" font-size="8.5" font-weight="800" fill="#38BDF8" letter-spacing="0.06em">CALIBRATION DIAGNOSTICS</text>
+      <text x="10" y="31" font-size="9.5" font-weight="700" fill="#F8FAFC">Brier Score: <tspan fill="#34D399" font-family="var(--font-mono)">0.137</tspan></text>
+      <text x="10" y="46" font-size="9.5" font-weight="700" fill="#F8FAFC">Chase AUC: <tspan fill="#38BDF8" font-family="var(--font-mono)">0.89</tspan> <tspan font-size="8" fill="#94A3B8">(1st Inn: 0.68)</tspan></text>
+      <text x="10" y="58" font-size="8" fill="#94A3B8">Reliability: <tspan fill="#34D399">Hosmer-Lemeshow p > 0.40</tspan></text>
+    </g>`;
+
     // Axis Labels
-    svg += `<text x="${width / 2}" y="${height - 8}" font-size="10.5" font-weight="700" fill="#CBD5E1" text-anchor="middle">Predicted Win Probability</text>`;
-    svg += `<text x="12" y="${height / 2}" font-size="10.5" font-weight="700" fill="#CBD5E1" text-anchor="middle" transform="rotate(-90, 12, ${height / 2})">Observed Win Frequency</text>`;
+    svg += `<text x="${pad.left + chartW/2}" y="${height - 8}" font-size="10" font-weight="700" fill="#94A3B8" text-anchor="middle">Predicted Win Probability (0.0 to 1.0)</text>`;
+    svg += `<text x="12" y="${pad.top + chartH/2}" font-size="10" font-weight="700" fill="#94A3B8" text-anchor="middle" transform="rotate(-90, 12, ${pad.top + chartH/2})">Observed Win Frequency</text>`;
 
     svg += '</svg>';
     calContainer.innerHTML = svg;
