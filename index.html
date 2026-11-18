@@ -2010,6 +2010,10 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
           <span>⚔️ Duel Sim</span>
         </button>
 
+        <button onclick="openAuctionValuationConsole()" class="btn-header-action" title="Open IPL 2027 Auction War Room & Walk-Away Valuation Simulator" style="background: rgba(229, 0, 125, 0.18); border-color: var(--rr-pink); color: #FF85C0; font-weight: 700;">
+          <span>💰 War Room</span>
+        </button>
+
         <button id="btn-toggle-sidebar" onclick="toggleSidebarManual()" class="btn-header-action" title="Toggle Navigation Sidebar (Auto Fit Screen)" style="display: inline-flex; align-items: center; gap: 5px;">
           <span id="sidebar-toggle-icon">⇥</span>
           <span id="sidebar-toggle-text">Fit Screen</span>
@@ -2122,9 +2126,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
       </button>
 
       <div class="nav-section-label">Dugout War Room</div>
-      <button onclick="switchTab('tab-auction'); setTimeout(() => { document.getElementById('rr-squad-audit-table-body')?.scrollIntoView({behavior: 'smooth', block: 'center'}); }, 100);" id="nav-tab-rrsquad" class="nav-btn">
+      <button onclick="switchTab('tab-auction'); setTimeout(() => { document.getElementById('auction-warroom-console')?.scrollIntoView({behavior: 'smooth', block: 'start'}); }, 100);" id="nav-tab-rrsquad" class="nav-btn">
         <span class="nav-icon">🏰</span>
-        <span>RR Squad Pressure</span>
+        <span>Auction War Room &amp; RR</span>
       </button>
       <button onclick="switchTab('tab-duel')" id="nav-tab-duel" class="nav-btn">
         <span class="nav-icon">⚔️</span>
@@ -4063,6 +4067,198 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             <button onclick="resetRetentionTracker()" class="btn-header-action" style="background: rgba(255, 255, 255, 0.05); color: var(--rr-text); border-color: var(--rr-border);">
               Reset Retention Tracker
             </button>
+          </div>
+
+          <!-- PART D0: RAJASTHAN ROYALS AUCTION WAR ROOM & WALK-AWAY VALUATION SIMULATOR -->
+          <div id="auction-warroom-console" class="card" style="margin-bottom: 24px; border: 1px solid rgba(229, 0, 125, 0.4); background: linear-gradient(180deg, #07152B 0%, #040D1A 100%); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(229, 0, 125, 0.12); border-radius: 12px; overflow: hidden;">
+            <!-- Top Header -->
+            <div style="background: linear-gradient(135deg, #091A33 0%, #170724 50%, #091A33 100%); padding: 16px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 18px;">💰</span>
+                  <div style="font-size: 15px; font-weight: 900; color: #FFFFFF; letter-spacing: -0.01em;">
+                    <span style="color: var(--rr-pink);">Part D0:</span> Rajasthan Royals 2027 Auction War Room &amp; Valuation Engine
+                  </div>
+                  <span class="pill-competition" style="background: rgba(229,0,125,0.2); color: #FF85C0; border-color: var(--rr-pink); font-size: 9px;">LIVE SIMULATOR</span>
+                </div>
+                <div style="font-size: 11px; color: #94A3B8; margin-top: 3px;">
+                  Dynamic Win-Probability Economic Valuation &bull; Marginal Surplus Bidding &bull; Walk-Away Ceiling Price &bull; SMS Jaipur Venue Fit
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <span style="font-size: 10.5px; font-family: var(--font-mono); color: #38BDF8; background: rgba(56,189,248,0.12); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(56,189,248,0.25);">
+                  RR Estimated Purse: ₹42.50 Cr
+                </span>
+              </div>
+            </div>
+
+            <!-- Player Presets Quick Strip -->
+            <div style="padding: 12px 20px; background: rgba(0,0,0,0.25); border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+              <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                <span style="font-size: 10px; font-weight: 800; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; margin-right: 4px;">Target Presets:</span>
+                <button type="button" class="btn-warroom-preset active" id="btn-warroom-narine" onclick="selectAuctionSimulatorPlayer('Sunil Narine')" style="background: rgba(229,0,125,0.2); border: 1px solid var(--rr-pink); color: #FF85C0; font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 4px; cursor: pointer;">👑 Narine (#1 Bowl)</button>
+                <button type="button" class="btn-warroom-preset" id="btn-warroom-surya" onclick="selectAuctionSimulatorPlayer('Suryakumar Yadav')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #CBD5E1; font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 4px; cursor: pointer;">🏏 Surya (#1 Bat)</button>
+                <button type="button" class="btn-warroom-preset" id="btn-warroom-salt" onclick="selectAuctionSimulatorPlayer('Phil Salt')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #CBD5E1; font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 4px; cursor: pointer;">⚡ Salt (#2 Bat)</button>
+                <button type="button" class="btn-warroom-preset" id="btn-warroom-santner" onclick="selectAuctionSimulatorPlayer('Mitchell Santner')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #CBD5E1; font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 4px; cursor: pointer;">🎯 Santner (#3 Bowl)</button>
+                <button type="button" class="btn-warroom-preset" id="btn-warroom-mohit" onclick="selectAuctionSimulatorPlayer('Mohit Sharma')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #CBD5E1; font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 4px; cursor: pointer;">🏹 Mohit (#9 Target)</button>
+                <button type="button" class="btn-warroom-preset" id="btn-warroom-brook" onclick="selectAuctionSimulatorPlayer('Harry Brook')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #CBD5E1; font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 4px; cursor: pointer;">💣 Brook (#10 Target)</button>
+                <button type="button" class="btn-warroom-preset" id="btn-warroom-vaibhav" onclick="selectAuctionSimulatorPlayer('Vaibhav Sooryavanshi')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #CBD5E1; font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 4px; cursor: pointer;">🏰 Vaibhav (RR #8)</button>
+                <button type="button" class="btn-warroom-preset" id="btn-warroom-duffy" onclick="selectAuctionSimulatorPlayer('Jacob Duffy')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #CBD5E1; font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 4px; cursor: pointer;">🚀 Duffy (#4 Bowl)</button>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 10px; font-weight: 700; color: #94A3B8;">Select Player (202):</span>
+                <select id="warroom-all-player-select" onchange="selectAuctionSimulatorPlayer(this.value)" style="background: #08162B; border: 1px solid var(--rr-border); color: #F8FAFC; font-size: 11px; padding: 4px 8px; border-radius: 4px; max-width: 190px;">
+                  <!-- Populated via JS -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Interactive Cockpit: 2 Columns -->
+            <div style="padding: 18px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px;">
+              <!-- LEFT: Bidding Simulator & Surplus Gauge -->
+              <div style="background: #08162B; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+                <!-- Player Header Card -->
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <img id="sim-player-avatar" src="" style="width: 44px; height: 44px; border-radius: 50%; object-fit: contain; background: #091A33; border: 2px solid var(--rr-pink);">
+                    <div>
+                      <div style="font-size: 15px; font-weight: 900; color: #FFFFFF; display: flex; align-items: center; gap: 6px;">
+                        <span id="sim-player-name">Sunil Narine</span>
+                        <span id="sim-player-flag" style="font-size: 13px;">🏝️</span>
+                      </div>
+                      <div style="font-size: 11px; color: #94A3B8; display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+                        <span id="sim-player-rank-badge" style="color: #38BDF8; font-weight: 800; font-family: var(--font-mono);">Rank #1 (Bowler)</span>
+                        <span>&bull;</span>
+                        <span id="sim-player-role">Mystery Spin</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="text-align: right;">
+                    <div style="font-size: 9.5px; font-weight: 800; color: #64748B; text-transform: uppercase;">2026 IPL Status</div>
+                    <div id="sim-player-status" style="font-size: 11px; font-weight: 700; color: #FFB3D9; max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">KKR Retention Pending</div>
+                  </div>
+                </div>
+
+                <!-- Valuation Telemetry Metrics Grid (3 Boxes) -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                  <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(52,211,153,0.3); border-radius: 8px; padding: 10px; text-align: center;">
+                    <div style="font-size: 9.5px; font-weight: 800; color: #34D399; text-transform: uppercase;">Model Fair Value</div>
+                    <div id="sim-val-fair" style="font-size: 17px; font-weight: 900; color: #34D399; font-family: var(--font-mono); margin: 3px 0;">₹19.71 Cr</div>
+                    <div style="font-size: 9px; color: #94A3B8;">Win-Contr. Par</div>
+                  </div>
+
+                  <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(229,0,125,0.3); border-radius: 8px; padding: 10px; text-align: center;">
+                    <div style="font-size: 9.5px; font-weight: 800; color: #FF85C0; text-transform: uppercase;">Walk-Away Price</div>
+                    <div id="sim-val-walkaway" style="font-size: 17px; font-weight: 900; color: var(--rr-pink); font-family: var(--font-mono); margin: 3px 0;">₹22.21 Cr</div>
+                    <div style="font-size: 9px; color: #94A3B8;">Hard Bid Ceiling</div>
+                  </div>
+
+                  <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; text-align: center;">
+                    <div style="font-size: 9.5px; font-weight: 800; color: #94A3B8; text-transform: uppercase;">Auction Base</div>
+                    <div id="sim-val-base" style="font-size: 17px; font-weight: 900; color: #F8FAFC; font-family: var(--font-mono); margin: 3px 0;">₹2.00 Cr</div>
+                    <div style="font-size: 9px; color: #94A3B8;">Opening Bid</div>
+                  </div>
+                </div>
+
+                <!-- Interactive Bid Slider -->
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 11px; font-weight: 800; color: #CBD5E1; text-transform: uppercase; letter-spacing: 0.04em;">Simulate Auction Room Bid:</span>
+                    <span id="sim-bid-display" style="font-size: 18px; font-weight: 900; color: var(--rr-pink); font-family: var(--font-mono); text-shadow: 0 0 10px rgba(229,0,125,0.5);">₹14.00 Cr</span>
+                  </div>
+                  <input type="range" id="sim-bid-slider" min="0.5" max="25.0" step="0.25" value="14.0" style="width: 100%; accent-color: var(--rr-pink); cursor: pointer;" oninput="onAuctionBidSliderChange(this.value)">
+                  <div style="display: flex; justify-content: space-between; font-size: 9.5px; color: #64748B; font-family: var(--font-mono); margin-top: 4px;">
+                    <span>₹0.5 Cr (Min)</span>
+                    <span>₹10.0 Cr</span>
+                    <span>₹18.0 Cr</span>
+                    <span>₹25.0 Cr (Max)</span>
+                  </div>
+
+                  <!-- Quick Bid Buttons -->
+                  <div style="display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;">
+                    <button type="button" onclick="setSimulatedBid('base')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #CBD5E1; font-size: 10px; padding: 3px 8px; border-radius: 4px; cursor: pointer;">Base Price</button>
+                    <button type="button" onclick="setSimulatedBid('fair')" style="background: rgba(52,211,153,0.15); border: 1px solid #34D399; color: #34D399; font-size: 10px; padding: 3px 8px; border-radius: 4px; cursor: pointer;">Fair Value</button>
+                    <button type="button" onclick="setSimulatedBid('walkaway')" style="background: rgba(229,0,125,0.15); border: 1px solid var(--rr-pink); color: #FF85C0; font-size: 10px; padding: 3px 8px; border-radius: 4px; cursor: pointer;">Walk-Away</button>
+                    <button type="button" onclick="stepSimulatedBid(0.5)" style="background: rgba(56,189,248,0.15); border: 1px solid #38BDF8; color: #38BDF8; font-size: 10px; padding: 3px 8px; border-radius: 4px; cursor: pointer;">+₹0.5 Cr</button>
+                    <button type="button" onclick="stepSimulatedBid(1.0)" style="background: rgba(56,189,248,0.15); border: 1px solid #38BDF8; color: #38BDF8; font-size: 10px; padding: 3px 8px; border-radius: 4px; cursor: pointer;">+₹1.0 Cr</button>
+                  </div>
+                </div>
+
+                <!-- Economic Surplus Gauge & Operational Verdict -->
+                <div id="sim-verdict-card" style="border-radius: 8px; padding: 12px 14px; border: 1px solid #34D399; background: rgba(52,211,153,0.1); transition: all 0.25s ease;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; flex-wrap: wrap; gap: 4px;">
+                    <span id="sim-verdict-title" style="font-size: 11px; font-weight: 800; color: #34D399; text-transform: uppercase; letter-spacing: 0.05em;">🟢 STRONG BUY / HIGH SURPLUS</span>
+                    <span id="sim-surplus-val" style="font-size: 13.5px; font-weight: 900; color: #34D399; font-family: var(--font-mono);">+₹5.71 Cr Surplus</span>
+                  </div>
+                  <div id="sim-verdict-desc" style="font-size: 11px; color: #CBD5E1; line-height: 1.45;">
+                    Outstanding marginal value per rupee. Player's win-probability added under high leverage exceeds auction clearing cost. Aggressively bid.
+                  </div>
+                </div>
+
+                <!-- Purse Depletion Progress Bar -->
+                <div style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.06);">
+                  <div style="display: flex; justify-content: space-between; font-size: 10px; font-family: var(--font-mono); margin-bottom: 4px;">
+                    <span style="color: #94A3B8;">RR Purse Depletion:</span>
+                    <span id="sim-purse-percent" style="color: #38BDF8; font-weight: 800;">32.9% of Available Purse</span>
+                  </div>
+                  <div style="height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden;">
+                    <div id="sim-purse-bar" style="width: 32.9%; height: 100%; background: linear-gradient(90deg, #38BDF8, #E5007D); border-radius: 3px;"></div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 9.5px; color: #64748B; margin-top: 3px; font-family: var(--font-mono);">
+                    <span id="sim-purse-remaining">Remaining: ₹28.50 Cr</span>
+                    <span>Target 5-6 auction squad slots</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RIGHT: Competitor Bidding Intel & SMS Jaipur Venue Fit -->
+              <div style="background: #08162B; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+                <!-- SMS Jaipur Venue Fit Box -->
+                <div style="background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.25); border-radius: 8px; padding: 12px 14px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 11px; font-weight: 800; color: #38BDF8; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
+                      <span>🏰</span> <span>Sawai Mansingh Stadium (Jaipur) Fit Index</span>
+                    </span>
+                    <span id="sim-sms-rating" style="font-size: 12px; font-weight: 900; color: #38BDF8; font-family: var(--font-mono);">98% Elite Fit</span>
+                  </div>
+                  <div style="height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
+                    <div id="sim-sms-bar" style="width: 98%; height: 100%; background: linear-gradient(90deg, #0284C7, #38BDF8); border-radius: 3px;"></div>
+                  </div>
+                  <div id="sim-sms-reason" style="font-size: 11px; color: #CBD5E1; line-height: 1.45;">
+                    78m square boundaries and dry surface at SMS Jaipur reward mystery spin run suppression. Boundary containment rate is 2.3x more impactful at SMS than small grounds.
+                  </div>
+                </div>
+
+                <!-- Competitor Bidding Threat Box -->
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px 14px;">
+                  <div style="font-size: 11px; font-weight: 800; color: #F8FAFC; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                    <span>⚔️</span> <span>Rival Franchise Bidding Threats</span>
+                  </div>
+                  <div id="sim-rivals-list" style="display: flex; flex-direction: column; gap: 6px; font-size: 11px;">
+                    <!-- Dynamically populated -->
+                  </div>
+                </div>
+
+                <!-- Tactical Replacement & Squad Synergy -->
+                <div style="background: rgba(229,0,125,0.06); border: 1px solid rgba(229,0,125,0.25); border-radius: 8px; padding: 12px 14px;">
+                  <div style="font-size: 11px; font-weight: 800; color: var(--rr-pink); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                    <span>🎯</span> <span>RR Squad Synergy Impact</span>
+                  </div>
+                  <div id="sim-synergy-text" style="font-size: 11px; color: #CBD5E1; line-height: 1.45;">
+                    Upgrades RR bowling unit from rank #13 (Jofra Archer) to #1 in high pressure; directly addresses RR squad deficit where 13 of 15 current players sit outside the Top 40.
+                  </div>
+                </div>
+
+                <!-- Dynamic Alternative Pivot (Shows when in Overpay Zone) -->
+                <div id="sim-pivot-box" style="display: none; background: rgba(239,68,68,0.1); border: 1px dashed rgba(239,68,68,0.4); border-radius: 8px; padding: 10px 14px;">
+                  <div style="font-size: 10.5px; font-weight: 800; color: #F87171; text-transform: uppercase; margin-bottom: 3px;">💡 Tactical War Room Pivot:</div>
+                  <div id="sim-pivot-text" style="font-size: 10.5px; color: #CBD5E1;">
+                    Walk-Away ceiling breached. Concede player to rival and pivot remaining purse to uncontracted Mohit Sharma (Fair ₹10.8 Cr) or Mitchell Santner at ~40% lower cost.
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- 3 REFINED GOOGLE MATERIAL STATUS CARDS -->
@@ -6948,6 +7144,13 @@ function openPlayerProfile(pname) {
     ${whiskerHtml}
 
     ${tacticalSplitHtml}
+
+    <!-- AUCTION VALUATION QUICK LAUNCH -->
+    <div style="margin-top: 14px;">
+      <button type="button" onclick="closeProfileDrawer(); openAuctionValuationForPlayer('${escapeHtml(p.name)}');" style="width: 100%; background: linear-gradient(135deg, rgba(229,0,125,0.22), rgba(56,189,248,0.22)); border: 1px solid var(--rr-pink); color: #FF85C0; padding: 10px 14px; font-size: 11.5px; font-weight: 800; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.04em; box-shadow: 0 4px 12px rgba(229,0,125,0.2);">
+        <span>💰</span> <span>Simulate Auction Valuation</span>
+      </button>
+    </div>
   `;
 
   if (bodyEl) bodyEl.scrollTop = 0;
@@ -9037,7 +9240,386 @@ function filterRRSquadTable(role, btn) {
   renderRRSquadAuditTable(role);
 }
 
+
+// ==========================================
+// PART D0: RAJASTHAN ROYALS AUCTION WAR ROOM ENGINE
+// ==========================================
+let currentSimPlayer = null;
+let currentSimBasePrice = 2.0;
+let currentSimFairValue = 19.71;
+let currentSimWalkAway = 22.21;
+let currentSimBid = 14.0;
+let isAuctionSimulatorInitialized = false;
+
+function initAuctionSimulator() {
+  const selectEl = document.getElementById('warroom-all-player-select');
+  if (!selectEl) return;
+  
+  if (!isAuctionSimulatorInitialized) {
+    const players = (APP_DATA.adjusted_all_players || []).slice().sort((a, b) => a.name.localeCompare(b.name));
+    selectEl.innerHTML = '';
+    players.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.name;
+      const roleStr = p.role === 'bowl' ? 'Bowl' : 'Bat';
+      opt.textContent = `${p.name} (#${p.adjusted_rank} ${roleStr} • ${p.nationality})`;
+      selectEl.appendChild(opt);
+    });
+    isAuctionSimulatorInitialized = true;
+  }
+  
+  if (!currentSimPlayer) {
+    selectAuctionSimulatorPlayer('Sunil Narine');
+  }
+}
+
+function selectAuctionSimulatorPlayer(pName) {
+  if (!pName) return;
+  const allP = APP_DATA.adjusted_all_players || [];
+  let p = allP.find(x => x.name.toLowerCase().trim() === pName.toLowerCase().trim());
+  if (!p) {
+    p = allP.find(x => x.name.toLowerCase().includes(pName.toLowerCase()) || pName.toLowerCase().includes(x.name.toLowerCase()));
+  }
+  if (!p) return;
+  
+  currentSimPlayer = p;
+  
+  const presetKeys = [
+    { id: 'btn-warroom-narine', name: 'Sunil Narine' },
+    { id: 'btn-warroom-surya', name: 'Suryakumar Yadav' },
+    { id: 'btn-warroom-salt', name: 'Phil Salt' },
+    { id: 'btn-warroom-santner', name: 'Mitchell Santner' },
+    { id: 'btn-warroom-mohit', name: 'Mohit Sharma' },
+    { id: 'btn-warroom-brook', name: 'Harry Brook' },
+    { id: 'btn-warroom-vaibhav', name: 'Vaibhav Sooryavanshi' },
+    { id: 'btn-warroom-duffy', name: 'Jacob Duffy' }
+  ];
+  presetKeys.forEach(pk => {
+    const btn = document.getElementById(pk.id);
+    if (btn) {
+      if (p.name.toLowerCase().includes(pk.name.toLowerCase()) || pk.name.toLowerCase().includes(p.name.toLowerCase())) {
+        btn.style.background = 'rgba(229,0,125,0.25)';
+        btn.style.borderColor = 'var(--rr-pink)';
+        btn.style.color = '#FF85C0';
+      } else {
+        btn.style.background = 'rgba(255,255,255,0.06)';
+        btn.style.borderColor = 'rgba(255,255,255,0.12)';
+        btn.style.color = '#CBD5E1';
+      }
+    }
+  });
+  
+  const selectEl = document.getElementById('warroom-all-player-select');
+  if (selectEl) selectEl.value = p.name;
+  
+  const isBowler = p.role === 'bowl';
+  const score = p.adjusted_score || 0.5;
+  const wpa = p.wpa_hp || 0;
+  
+  currentSimBasePrice = (score < 0.25 && p.adjusted_rank > 50) ? 1.00 : 2.00;
+  
+  let rawFair = currentSimBasePrice + (Math.max(0, score) * 11.5) + (Math.max(0, wpa) * 3.2);
+  currentSimFairValue = Math.min(22.0, Math.max(currentSimBasePrice, Math.round(rawFair * 100) / 100));
+  currentSimWalkAway = Math.round(currentSimFairValue * 1.15 * 100) / 100;
+  
+  const nameEl = document.getElementById('sim-player-name');
+  if (nameEl) nameEl.textContent = p.name;
+  
+  const flagEl = document.getElementById('sim-player-flag');
+  if (flagEl) flagEl.textContent = getFlag(p.nationality);
+  
+  const avatarEl = document.getElementById('sim-player-avatar');
+  if (avatarEl) {
+    avatarEl.src = getPlayerImageUrl(p.name);
+    avatarEl.onerror = function() {
+      this.onerror = null;
+      this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}&background=091A33&color=E5007D&size=128&bold=true`;
+    };
+  }
+  
+  const rankBadgeEl = document.getElementById('sim-player-rank-badge');
+  if (rankBadgeEl) rankBadgeEl.textContent = `Rank #${p.adjusted_rank} (${isBowler ? 'Bowler' : 'Batter'})`;
+  
+  const roleEl = document.getElementById('sim-player-role');
+  if (roleEl) {
+    if (p.name === 'Sunil Narine') roleEl.textContent = 'Mystery Spin / High-Pressure Ace';
+    else if (p.name === 'Suryakumar Yadav') roleEl.textContent = '360° Death Accelerator';
+    else if (p.name === 'Phil Salt') roleEl.textContent = 'Ultra-High Strike Rate Powerplay Batter';
+    else if (p.name === 'Mitchell Santner') roleEl.textContent = 'Left-Arm Orthodox Spin Chokepoint';
+    else if (p.name === 'Mohit Sharma') roleEl.textContent = 'Back-of-Hand Slower Ball Death Master';
+    else if (p.name === 'Harry Brook') roleEl.textContent = 'Pace-Dominant Middle Order Finisher';
+    else if (p.name === 'Vaibhav Sooryavanshi') roleEl.textContent = 'RR Retained Prodigy (Aggressive Opener)';
+    else if (p.name === 'Jacob Duffy') roleEl.textContent = 'Hard-Length Hit-the-Deck Pacer';
+    else roleEl.textContent = isBowler ? 'T20 High-Leverage Bowler' : 'T20 High-Leverage Batter';
+  }
+  
+  const statusEl = document.getElementById('sim-player-status');
+  if (statusEl) {
+    if (p.name === 'Vaibhav Sooryavanshi') {
+      statusEl.textContent = 'RR Retained Asset (Locked)';
+      statusEl.style.color = '#34D399';
+    } else if (p.nationality === 'Pakistan') {
+      statusEl.textContent = 'Geopolitical Exclusion (Policy)';
+      statusEl.style.color = '#F87171';
+    } else if (p.status) {
+      statusEl.textContent = p.status.length > 28 ? p.status.substring(0, 26) + '...' : p.status;
+      statusEl.style.color = '#FFB3D9';
+    } else {
+      statusEl.textContent = 'Open Auction Pool Candidate';
+      statusEl.style.color = '#CBD5E1';
+    }
+  }
+  
+  const fairEl = document.getElementById('sim-val-fair');
+  if (fairEl) fairEl.textContent = `₹${currentSimFairValue.toFixed(2)} Cr`;
+  
+  const walkawayEl = document.getElementById('sim-val-walkaway');
+  if (walkawayEl) walkawayEl.textContent = `₹${currentSimWalkAway.toFixed(2)} Cr`;
+  
+  const baseEl = document.getElementById('sim-val-base');
+  if (baseEl) baseEl.textContent = `₹${currentSimBasePrice.toFixed(2)} Cr`;
+  
+  const slider = document.getElementById('sim-bid-slider');
+  if (slider) {
+    slider.min = '0.5';
+    slider.max = Math.max(25.0, Math.ceil(currentSimWalkAway + 3)).toFixed(1);
+    currentSimBid = (p.name === 'Sunil Narine') ? 14.0 : currentSimFairValue;
+    slider.value = currentSimBid.toString();
+  }
+  
+  updateAuctionSimulator(currentSimBid);
+}
+
+function onAuctionBidSliderChange(val) {
+  const bid = parseFloat(val);
+  updateAuctionSimulator(bid);
+}
+
+function setSimulatedBid(type) {
+  let targetBid = currentSimFairValue;
+  if (type === 'base') targetBid = currentSimBasePrice;
+  else if (type === 'fair') targetBid = currentSimFairValue;
+  else if (type === 'walkaway') targetBid = currentSimWalkAway;
+  
+  const slider = document.getElementById('sim-bid-slider');
+  if (slider) slider.value = targetBid.toString();
+  updateAuctionSimulator(targetBid);
+}
+
+function stepSimulatedBid(delta) {
+  const slider = document.getElementById('sim-bid-slider');
+  if (!slider) return;
+  let newBid = Math.max(parseFloat(slider.min), Math.min(parseFloat(slider.max), currentSimBid + delta));
+  slider.value = newBid.toFixed(2);
+  updateAuctionSimulator(newBid);
+}
+
+function updateAuctionSimulator(bidVal) {
+  currentSimBid = bidVal;
+  const p = currentSimPlayer || {};
+  const isBowler = p.role === 'bowl';
+  
+  const bidDisp = document.getElementById('sim-bid-display');
+  if (bidDisp) bidDisp.textContent = `₹${bidVal.toFixed(2)} Cr`;
+  
+  const surplus = currentSimFairValue - bidVal;
+  const surplusEl = document.getElementById('sim-surplus-val');
+  const verdictCard = document.getElementById('sim-verdict-card');
+  const verdictTitle = document.getElementById('sim-verdict-title');
+  const verdictDesc = document.getElementById('sim-verdict-desc');
+  const pivotBox = document.getElementById('sim-pivot-box');
+  const pivotText = document.getElementById('sim-pivot-text');
+  
+  if (surplusEl && verdictCard && verdictTitle && verdictDesc) {
+    if (surplus > 1.0) {
+      surplusEl.textContent = `+₹${surplus.toFixed(2)} Cr Surplus`;
+      surplusEl.style.color = '#34D399';
+      verdictTitle.textContent = '🟢 STRONG BUY / HIGH SURPLUS';
+      verdictTitle.style.color = '#34D399';
+      verdictCard.style.border = '1px solid #34D399';
+      verdictCard.style.background = 'rgba(52,211,153,0.1)';
+      verdictDesc.textContent = `Outstanding marginal value per rupee. Player win-probability added under high leverage (+${(p.wpa_hp || 0.6).toFixed(2)} WPA/100) exceeds auction clearing price. Aggressively bid.`;
+      if (pivotBox) pivotBox.style.display = 'none';
+    } else if (bidVal <= currentSimWalkAway) {
+      surplusEl.textContent = `${surplus >= 0 ? '+' : ''}₹${surplus.toFixed(2)} Cr`;
+      surplusEl.style.color = '#FBBF24';
+      verdictTitle.textContent = '🟡 FAIR VALUE MARKET RANGE';
+      verdictTitle.style.color = '#FBBF24';
+      verdictCard.style.border = '1px solid #FBBF24';
+      verdictCard.style.background = 'rgba(251,191,36,0.1)';
+      verdictDesc.textContent = `Market equilibrium. Win contribution aligns with targeted purse allocation. Acceptable within targeted squad structure.`;
+      if (pivotBox) pivotBox.style.display = 'none';
+    } else {
+      const deficit = Math.abs(surplus);
+      surplusEl.textContent = `-₹${deficit.toFixed(2)} Cr Deficit`;
+      surplusEl.style.color = '#EF4444';
+      verdictTitle.textContent = '🔴 WALK AWAY / OVERPAY TRAP';
+      verdictTitle.style.color = '#EF4444';
+      verdictCard.style.border = '1px solid #EF4444';
+      verdictCard.style.background = 'rgba(239,68,68,0.12)';
+      verdictDesc.textContent = `WALK AWAY: Bid exceeds economic walk-away ceiling (₹${currentSimWalkAway.toFixed(2)} Cr). Conceding to rival drains their purse and unlocks superior value.`;
+      if (pivotBox && pivotText) {
+        pivotBox.style.display = 'block';
+        if (isBowler) {
+          pivotText.innerHTML = `Walk-Away ceiling breached at <strong>₹${bidVal.toFixed(2)} Cr</strong>. Concede player to rival and pivot remaining purse to uncontracted <strong style="color: #38BDF8;">Mohit Sharma</strong> (Fair ₹10.8 Cr) or <strong style="color: #38BDF8;">Mitchell Santner</strong> (Fair ₹13.4 Cr) at ~40% lower cost.`;
+        } else {
+          pivotText.innerHTML = `Walk-Away ceiling breached at <strong>₹${bidVal.toFixed(2)} Cr</strong>. Concede player to rival and pivot purse to uncontracted <strong style="color: #FF85C0;">Harry Brook</strong> (Fair ₹8.0 Cr) or capitalize on <strong style="color: #34D399;">Vaibhav Sooryavanshi</strong> (RR contracted) at zero incremental auction spend.`;
+        }
+      }
+    }
+  }
+  
+  const rrPurse = 42.50;
+  const pct = Math.min(100, Math.max(0, (bidVal / rrPurse) * 100));
+  const remaining = Math.max(0, rrPurse - bidVal);
+  
+  const pctEl = document.getElementById('sim-purse-percent');
+  if (pctEl) pctEl.textContent = `${pct.toFixed(1)}% of Available Purse`;
+  
+  const barEl = document.getElementById('sim-purse-bar');
+  if (barEl) {
+    barEl.style.width = `${pct}%`;
+    barEl.style.background = pct > 50 ? 'linear-gradient(90deg, #FBBF24, #EF4444)' : 'linear-gradient(90deg, #38BDF8, #E5007D)';
+  }
+  
+  const remEl = document.getElementById('sim-purse-remaining');
+  if (remEl) remEl.textContent = `Remaining: ₹${remaining.toFixed(2)} Cr`;
+  
+  const smsRatingEl = document.getElementById('sim-sms-rating');
+  const smsBarEl = document.getElementById('sim-sms-bar');
+  const smsReasonEl = document.getElementById('sim-sms-reason');
+  
+  let smsFit = 88;
+  let smsReason = '';
+  
+  if (p.name === 'Sunil Narine') {
+    smsFit = 98;
+    smsReason = '78m square boundaries and dry surface at SMS Jaipur reward mystery spin run suppression. Boundary containment rate is 2.3x more impactful at SMS than small grounds.';
+  } else if (p.name === 'Mitchell Santner' || (isBowler && p.role && p.role.toLowerCase().includes('spin'))) {
+    smsFit = 96;
+    smsReason = 'Large square boundaries at SMS Jaipur allow defensive ring containment, forcing batters into high-risk shots against orthodox spin.';
+  } else if (p.name === 'Mohit Sharma') {
+    smsFit = 94;
+    smsReason = 'SMS Jaipur surface rewards dipping knuckleballs and back-of-hand slower variations. High boundary-clearance difficulty elevates Mohit into an elite closer.';
+  } else if (p.name === 'Suryakumar Yadav' || p.name === 'Phil Salt' || p.name === 'Nicholas Pooran') {
+    smsFit = 91;
+    smsReason = '360° wagon wheel and rapid boundary clearing overcome deep SMS pockets. Converts low-probability deliveries into boundaries even in heavy Jaipur conditions.';
+  } else if (p.name === 'Vaibhav Sooryavanshi') {
+    smsFit = 89;
+    smsReason = 'Familiarity with Rajasthan Royals high-performance center and Jaipur tracks; aggressive powerplay lofted shots clear long mid-on comfortably.';
+  } else if (isBowler) {
+    smsFit = 85;
+    smsReason = 'Hard red-clay pitch at Sawai Mansingh Stadium produces consistent bounce, aiding hard-length fast bowlers against charging batters.';
+  } else {
+    smsFit = 87;
+    smsReason = 'High physical running fitness and stroke placement take advantage of expansive outfield spaces at SMS Jaipur to turn singles into twos.';
+  }
+  
+  if (smsRatingEl) smsRatingEl.textContent = `${smsFit}% Elite Fit`;
+  if (smsBarEl) smsBarEl.style.width = `${smsFit}%`;
+  if (smsReasonEl) smsReasonEl.textContent = smsReason;
+  
+  const rivalsEl = document.getElementById('sim-rivals-list');
+  if (rivalsEl) {
+    if (isBowler) {
+      rivalsEl.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.25); padding: 5px 8px; border-radius: 4px;">
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span style="color: #C084FC; font-weight: 800;">KKR</span>
+            <span style="color: #94A3B8;">Retention / RTM Priority</span>
+          </span>
+          <span style="color: #EF4444; font-weight: 800; font-size: 10px;">HIGH THREAT</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.25); padding: 5px 8px; border-radius: 4px;">
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span style="color: #FBBF24; font-weight: 800;">CSK</span>
+            <span style="color: #94A3B8;">Chepauk Spin Choke Blueprint</span>
+          </span>
+          <span style="color: #FBBF24; font-weight: 800; font-size: 10px;">MEDIUM THREAT</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.25); padding: 5px 8px; border-radius: 4px;">
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span style="color: #EF4444; font-weight: 800;">RCB</span>
+            <span style="color: #94A3B8;">Chinnaswamy Death Void & Large Purse</span>
+          </span>
+          <span style="color: #34D399; font-weight: 800; font-size: 10px;">SURPLUS DRAIN RISK</span>
+        </div>
+      `;
+    } else {
+      rivalsEl.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.25); padding: 5px 8px; border-radius: 4px;">
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span style="color: #38BDF8; font-weight: 800;">MI</span>
+            <span style="color: #94A3B8;">Wankhede Retained Captain / Core</span>
+          </span>
+          <span style="color: #EF4444; font-weight: 800; font-size: 10px;">HIGH THREAT</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.25); padding: 5px 8px; border-radius: 4px;">
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span style="color: #EF4444; font-weight: 800;">RCB</span>
+            <span style="color: #94A3B8;">Powerplay Acceleration Target</span>
+          </span>
+          <span style="color: #FBBF24; font-weight: 800; font-size: 10px;">AGGRESSIVE BIDDER</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.25); padding: 5px 8px; border-radius: 4px;">
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span style="color: #FB923C; font-weight: 800;">SRH</span>
+            <span style="color: #94A3B8;">Ultra-Aggressive Boundary Target</span>
+          </span>
+          <span style="color: #38BDF8; font-weight: 800; font-size: 10px;">BID ESCALATOR</span>
+        </div>
+      `;
+    }
+  }
+  
+  const synEl = document.getElementById('sim-synergy-text');
+  if (synEl) {
+    if (p.name === 'Sunil Narine') {
+      synEl.innerHTML = 'Upgrades RR bowling unit from rank #13 (Jofra Archer) to #1 in high pressure; directly addresses RR squad deficit where 13 of 15 current players sit outside the Top 40.';
+    } else if (p.name === 'Vaibhav Sooryavanshi') {
+      synEl.innerHTML = 'Already contracted in Rajasthan Royals 2026 setup (rank #8). Provides explosive domestic powerplay cushion without spending a single rupee of auction purse.';
+    } else if (p.name === 'Mohit Sharma') {
+      synEl.innerHTML = 'Solves Rajasthan Royals acute death-overs vulnerability (Sandeep Sharma & Prasidh Krishna support). Fits uncontracted Option B target slot with zero retention barriers.';
+    } else if (p.name === 'Mitchell Santner') {
+      synEl.innerHTML = 'Left-arm orthodox stability complements RR mystery pace. Uncontracted Option B target providing elite economy under pressure.';
+    } else if (isBowler) {
+      synEl.innerHTML = 'Adds essential high-pressure bowling depth. Enhances RR death-overs options alongside Jofra Archer (adj #13) and Sandeep Sharma.';
+    } else {
+      synEl.innerHTML = 'Strengthens RR top/middle order firepower, supporting Sanju Samson, Yashasvi Jaiswal, Riyan Parag, and Dhruv Jurel under high chase leverage.';
+    }
+  }
+}
+
+function openAuctionValuationConsole() {
+  switchTab('auction');
+  setTimeout(() => {
+    const el = document.getElementById('auction-warroom-console');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
+function openAuctionValuationForPlayer(pName) {
+  switchTab('auction');
+  setTimeout(() => {
+    initAuctionSimulator();
+    selectAuctionSimulatorPlayer(pName);
+    const el = document.getElementById('auction-warroom-console');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
+window.initAuctionSimulator = initAuctionSimulator;
+window.selectAuctionSimulatorPlayer = selectAuctionSimulatorPlayer;
+window.onAuctionBidSliderChange = onAuctionBidSliderChange;
+window.setSimulatedBid = setSimulatedBid;
+window.stepSimulatedBid = stepSimulatedBid;
+window.updateAuctionSimulator = updateAuctionSimulator;
+window.openAuctionValuationConsole = openAuctionValuationConsole;
+window.openAuctionValuationForPlayer = openAuctionValuationForPlayer;
+
+
 function renderAuctionSection() {
+  initAuctionSimulator();
   renderRRSquadAuditTable();
   const isAdj = state.view === 'adjusted';
   const optB = isAdj ? APP_DATA.adj_option_b_batters : APP_DATA.orig_option_b_batters;
