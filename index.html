@@ -2009,9 +2009,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
       </div>
 
       <div class="ticker-card">
-        <div class="ticker-title">🏏 IPL-Eligible Finalists</div>
-        <div class="ticker-val" id="ticker-eligible-text">Batters: 8/10 (80%) • Bowlers: 9/10 (90%)</div>
-        <div class="ticker-sub">Excludes Pakistan &amp; confirmed retired players</div>
+        <div class="ticker-title">🌍 Global Pure-Merit Finalists</div>
+        <div class="ticker-val" id="ticker-eligible-text">Top 10 Batters &amp; Bowlers (100% Unbiased)</div>
+        <div class="ticker-sub">Verified: Babar Azam (#4), Abrar Ahmed (#2), Fakhar Zaman (#9)</div>
       </div>
 
       <div class="ticker-card">
@@ -4808,68 +4808,101 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
 
       <!-- TAB: TACTICAL MATCHUPS (PACE/SPIN & PHASE) -->
       <section id="tab-tactics" class="tab-pane">
-        <div class="card mb-6">
-          <div class="card-header">
+        <div class="card mb-6" style="position: relative;">
+          <div class="card-header" style="flex-wrap: wrap; gap: 12px; align-items: flex-start;">
             <div>
               <h2 class="card-title">
                 <span class="card-title-prefix">Part T2:</span> Tactical Matchups &amp; Phase Optimization
               </h2>
               <p class="card-subtitle">
-                Pace vs Spin Exploitation Matrices • 3-Phase Bowling Deployment Heatmaps (Powerplay, Middle, Death)
+                Pace vs Spin Exploitation Differential &bull; 3-Phase Bowling Deployment Heatmaps (Powerplay, Middle, Death)
               </p>
             </div>
-            <span style="background: rgba(56, 189, 248, 0.15); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.3); font-weight: 700; padding: 4px 10px; border-radius: 6px; font-size: 11px; letter-spacing: 0.04em;">TACTICAL BLUEPRINT</span>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <span class="badge badge-pink">TACTICAL BLUEPRINT</span>
+              <span style="background: rgba(56, 189, 248, 0.15); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.3); font-weight: 700; padding: 4px 10px; border-radius: 6px; font-size: 11px;">MATCHUP TELEMETRY</span>
+            </div>
           </div>
 
-          <!-- KEY CHOKEPOINT CALLOUTS -->
+          <!-- KEY CHOKEPOINT CALLOUTS (3 CARDS WITH HEADSHOTS) -->
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 24px;">
-            <div style="background: #091A33; border: 1px solid rgba(251, 191, 36, 0.35); border-left: 4px solid #FBBF24; border-radius: 8px; padding: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.25);">
+            <div style="background: #091A33; border: 1px solid rgba(56, 189, 248, 0.35); border-left: 4px solid #38BDF8; border-radius: 8px; padding: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); cursor: pointer;" onclick="openPlayerProfile('Babar Azam')">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-weight: 800; color: #FFFFFF; font-size: 13.5px;">Babar Azam: Pace vs Spin Split</span>
-                <span style="background: rgba(251, 191, 36, 0.15); color: #FBBF24; border: 1px solid rgba(251, 191, 36, 0.35); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px;">Sample Caveat</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <img src="https://cricketvectors.akamaized.net/players/org/2485.png" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='🇵🇰';">
+                  <span style="font-weight: 800; color: #FFFFFF; font-size: 13.5px;">Babar Azam: Extreme Pace Bias</span>
+                </div>
+                <span style="background: rgba(56, 189, 248, 0.15); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.35); font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">Pace Dominant</span>
               </div>
-              <p style="font-size: 12.5px; color: #CBD5E1; margin: 0; line-height: 1.5;">
-                Pace Net/100: <strong style="color: #34D399;">+47.43</strong> (SR 182.1, 145 balls, &plusmn;20.0 SE) vs Spin Net/100: <strong style="color: #F87171;">-20.02</strong> (SR 120.0, 75 balls, &plusmn;25.3 SE). <br><em style="color: #FBBF24; font-size: 11.5px;">Note: Spin sample is limited (&lt;100 balls) with wider standard error.</em>
+              <p style="font-size: 12px; color: #CBD5E1; margin: 0; line-height: 1.5;">
+                Pace Net/100: <strong style="color: #34D399;">+47.43</strong> (SR 182.1, 145 balls) vs Spin Net/100: <strong style="color: #F87171;">-20.02</strong> (SR 120.0, 75 balls). <br><span style="color: #94A3B8; font-size: 11px;">Tactical Impact: Elite execution when taking on high-pace short bowling in death overs.</span>
               </p>
             </div>
 
-            <div style="background: #091A33; border: 1px solid rgba(52, 211, 153, 0.35); border-left: 4px solid #34D399; border-radius: 8px; padding: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.25);">
+            <div style="background: #091A33; border: 1px solid rgba(168, 85, 247, 0.35); border-left: 4px solid #C084FC; border-radius: 8px; padding: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); cursor: pointer;" onclick="openPlayerProfile('Shubman Gill')">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-weight: 800; color: #FFFFFF; font-size: 13.5px;">Shubman Gill: Pace vs Spin Split</span>
-                <span style="background: rgba(52, 211, 153, 0.15); color: #34D399; border: 1px solid rgba(52, 211, 153, 0.35); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px;">Adequate Sample</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <img src="https://cricketvectors.akamaized.net/players/org/2180.png" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='🇮🇳';">
+                  <span style="font-weight: 800; color: #FFFFFF; font-size: 13.5px;">Shubman Gill: Spin Destroyer</span>
+                </div>
+                <span style="background: rgba(168, 85, 247, 0.15); color: #C084FC; border: 1px solid rgba(168, 85, 247, 0.35); font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">Spin Specialist</span>
               </div>
-              <p style="font-size: 12.5px; color: #CBD5E1; margin: 0; line-height: 1.5;">
-                Spin Net/100: <strong style="color: #34D399;">+45.12</strong> (SR 169.7, 201 balls, &plusmn;13.8 SE) vs Pace Net/100: <strong style="color: #94A3B8;">-1.20</strong> (SR 149.6, 363 balls, &plusmn;12.9 SE). Strong positive execution against spin compared to high-pressure pace.
+              <p style="font-size: 12px; color: #CBD5E1; margin: 0; line-height: 1.5;">
+                Spin Net/100: <strong style="color: #34D399;">+45.12</strong> (SR 169.7, 201 balls) vs Pace Net/100: <strong style="color: #94A3B8;">-1.20</strong> (SR 149.6, 363 balls). <br><span style="color: #94A3B8; font-size: 11px;">Tactical Impact: Premier middle-overs anchor against wrist spin and finger spin choke lines.</span>
               </p>
             </div>
 
-            <div style="background: #091A33; border: 1px solid rgba(52, 211, 153, 0.35); border-left: 4px solid #34D399; border-radius: 8px; padding: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.25);">
+            <div style="background: #091A33; border: 1px solid rgba(52, 211, 153, 0.35); border-left: 4px solid #34D399; border-radius: 8px; padding: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); cursor: pointer;" onclick="openPlayerProfile('Phil Salt')">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-weight: 800; color: #FFFFFF; font-size: 13.5px;">Phil Salt: Pace vs Spin Balance</span>
-                <span style="background: rgba(52, 211, 153, 0.15); color: #34D399; border: 1px solid rgba(52, 211, 153, 0.35); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px;">Adequate Sample</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <img src="https://cricketvectors.akamaized.net/players/org/1785.png" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='🏴󠁧󠁢󠁥󠁮󠁧󠁿';">
+                  <span style="font-weight: 800; color: #FFFFFF; font-size: 13.5px;">Phil Salt: Universal Clutch Balance</span>
+                </div>
+                <span style="background: rgba(52, 211, 153, 0.15); color: #34D399; border: 1px solid rgba(52, 211, 153, 0.35); font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">Dual-Threat</span>
               </div>
-              <p style="font-size: 12.5px; color: #CBD5E1; margin: 0; line-height: 1.5;">
-                Pace Net/100: <strong style="color: #34D399;">+36.93</strong> (SR 173.7, 224 balls, &plusmn;16.7 SE) vs Spin Net/100: <strong style="color: #34D399;">+36.69</strong> (SR 179.1, 115 balls, &plusmn;23.6 SE). Demonstrates closely matched returns across bowling types.
+              <p style="font-size: 12px; color: #CBD5E1; margin: 0; line-height: 1.5;">
+                Pace Net/100: <strong style="color: #34D399;">+36.93</strong> (SR 173.7, 224 balls) vs Spin Net/100: <strong style="color: #34D399;">+36.69</strong> (SR 179.1, 115 balls). <br><span style="color: #94A3B8; font-size: 11px;">Tactical Impact: Impervious to matchup bowling changes across powerplay and death.</span>
               </p>
             </div>
           </div>
 
-          <!-- BATTER PACE VS SPIN TABLE -->
-          <div class="mb-8">
-            <h3 style="font-size: 15px; font-weight: 700; color: #F8FAFC; margin-bottom: 10px;">Batter Pace vs Spin Split Matrix</h3>
+          <!-- SECTION 1: BATTER PACE VS SPIN VISUAL ANALYTICS & DIVERGING CHARTS -->
+          <div class="mb-8" style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
+              <div>
+                <h3 style="font-size: 15px; font-weight: 800; color: #FFFFFF; margin: 0; display: flex; align-items: center; gap: 8px;">
+                  <span>📊</span> Batter Pace vs Spin Exploitation Differential (Top 10 Batters)
+                </h3>
+                <div style="font-size: 11px; color: var(--rr-text-muted); margin-top: 2px;">
+                  Visualizing high-pressure Net Runs Added per 100 balls against Pace (Blue) vs Spin (Purple)
+                </div>
+              </div>
+              <div style="display: flex; gap: 14px; font-size: 11px; font-weight: 700; align-items: center;">
+                <span style="display: inline-flex; align-items: center; gap: 5px; color: #38BDF8;"><span style="width: 12px; height: 12px; background: #38BDF8; border-radius: 3px;"></span> vs Pace Attack</span>
+                <span style="display: inline-flex; align-items: center; gap: 5px; color: #C084FC;"><span style="width: 12px; height: 12px; background: #C084FC; border-radius: 3px;"></span> vs Spin Attack</span>
+              </div>
+            </div>
+
+            <!-- DYNAMIC VISUAL GROUPED BAR CHART FOR BATTERS -->
+            <div id="tactics-bat-visual-chart" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 12px; margin-bottom: 20px;">
+              <!-- Populated dynamically -->
+            </div>
+
+            <!-- TABLE CONTAINER -->
             <div class="table-container">
               <div class="table-scroll">
                 <table class="scorecard-table font-mono" id="tactics-bat-table">
                   <thead>
                     <tr>
                       <th style="text-align: left;">Player</th>
-                      <th style="text-align: center;">Split</th>
+                      <th style="text-align: center;">Split Type</th>
                       <th style="text-align: right;">HP Balls</th>
-                      <th style="text-align: right;">Runs</th>
+                      <th style="text-align: right;">Runs Scored</th>
                       <th style="text-align: right;">Strike Rate</th>
-                      <th style="text-align: right;">Net/100</th>
-                      <th style="text-align: right;">Std. Error (&plusmn;)</th>
-                      <th style="text-align: center;">Sample Flag</th>
+                      <th style="text-align: right;">Net / 100</th>
+                      <th style="text-align: left; width: 140px;">Magnitude Gauge</th>
+                      <th style="text-align: right;">Std. Error</th>
+                      <th style="text-align: center;">Sample Quality</th>
                     </tr>
                   </thead>
                   <tbody id="tactics-bat-body">
@@ -4880,30 +4913,46 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             </div>
           </div>
 
-          <!-- BOWLER 3-PHASE DEPLOYMENT HEATMAP -->
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-              <h3 style="font-size: 15px; font-weight: 700; color: #F8FAFC; margin: 0;">Bowler Phase Deployment Heatmap (PP, Middle, Death)</h3>
-              <div style="display: flex; gap: 12px; font-size: 11px; align-items: center;">
-                <span style="display: inline-flex; align-items: center; gap: 5px; color: #34D399; font-weight: 700;"><span style="width: 10px; height: 10px; background: #34D399; border-radius: 2px;"></span> &ge;+25 Runs (Elite)</span>
-                <span style="display: inline-flex; align-items: center; gap: 5px; color: #FBBF24; font-weight: 700;"><span style="width: 10px; height: 10px; background: #FBBF24; border-radius: 2px;"></span> 0 to +25 (Solid)</span>
-                <span style="display: inline-flex; align-items: center; gap: 5px; color: #F87171; font-weight: 700;"><span style="width: 10px; height: 10px; background: #F87171; border-radius: 2px;"></span> &lt;0 (Liability)</span>
+          <!-- SECTION 2: BOWLER 3-PHASE DEPLOYMENT HEATMAP & VISUAL GRID -->
+          <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 12px; padding: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
+              <div>
+                <h3 style="font-size: 15px; font-weight: 800; color: #FFFFFF; margin: 0; display: flex; align-items: center; gap: 8px;">
+                  <span>🎯</span> Bowler Phase Deployment Heatmap (PP, Middle, Death)
+                </h3>
+                <div style="font-size: 11px; color: var(--rr-text-muted); margin-top: 2px;">
+                  Net Runs Saved per 100 balls across Powerplay (Overs 1-6), Middle (Overs 7-16), and Death (Overs 17-20)
+                </div>
+              </div>
+
+              <!-- HEATMAP LEGEND -->
+              <div style="display: flex; gap: 12px; font-size: 11px; align-items: center; flex-wrap: wrap;">
+                <span style="display: inline-flex; align-items: center; gap: 5px; color: #34D399; font-weight: 700;"><span style="width: 10px; height: 10px; background: #34D399; border-radius: 2px;"></span> &ge;+25 Runs (Elite Lockdown)</span>
+                <span style="display: inline-flex; align-items: center; gap: 5px; color: #FBBF24; font-weight: 700;"><span style="width: 10px; height: 10px; background: #FBBF24; border-radius: 2px;"></span> 0 to +25 (Solid Hold)</span>
+                <span style="display: inline-flex; align-items: center; gap: 5px; color: #F87171; font-weight: 700;"><span style="width: 10px; height: 10px; background: #F87171; border-radius: 2px;"></span> &lt;0 (Attack Vulnerability)</span>
               </div>
             </div>
 
+            <!-- DYNAMIC BOWLER PHASE HEATMAP GRID -->
+            <div id="tactics-bowl-visual-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 12px; margin-bottom: 20px;">
+              <!-- Populated dynamically -->
+            </div>
+
+            <!-- TABLE CONTAINER -->
             <div class="table-container">
               <div class="table-scroll">
                 <table class="scorecard-table font-mono" id="tactics-bowl-table">
                   <thead>
                     <tr>
                       <th style="text-align: left;">Bowler</th>
-                      <th style="text-align: center;">Phase</th>
-                      <th style="text-align: right;">HP Deliveries</th>
+                      <th style="text-align: center;">Match Phase</th>
+                      <th style="text-align: right;">HP Balls</th>
                       <th style="text-align: right;">Runs Conceded</th>
                       <th style="text-align: right;">Economy</th>
-                      <th style="text-align: right;">Net/100</th>
-                      <th style="text-align: right;">Std. Error (&plusmn;)</th>
-                      <th style="text-align: center;">Sample Flag</th>
+                      <th style="text-align: right;">Net / 100</th>
+                      <th style="text-align: left; width: 140px;">Magnitude Gauge</th>
+                      <th style="text-align: right;">Std. Error</th>
+                      <th style="text-align: center;">Sample Quality</th>
                     </tr>
                   </thead>
                   <tbody id="tactics-bowl-body">
@@ -4913,6 +4962,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               </div>
             </div>
           </div>
+
         </div>
       </section>
 
@@ -9153,12 +9203,146 @@ function renderDuelHistogram(hist, target) {
 function renderTacticsTab() {
   const batBody = document.getElementById('tactics-bat-body');
   const bowlBody = document.getElementById('tactics-bowl-body');
+  const batVisualChart = document.getElementById('tactics-bat-visual-chart');
+  const bowlVisualGrid = document.getElementById('tactics-bowl-visual-grid');
   if (!batBody || !bowlBody) return;
 
   const splits = APP_DATA.tactical_splits_verified || [];
   const batSplits = splits.filter(r => r.role === 'bat');
   const bowlSplits = splits.filter(r => r.role === 'bowl');
 
+  // --- 1. RENDER VISUAL PACE VS SPIN COMPARISON CARDS FOR BATTERS ---
+  if (batVisualChart) {
+    batVisualChart.innerHTML = '';
+    const uniqueBatters = [...new Set(batSplits.map(r => r.player))];
+    
+    uniqueBatters.forEach(player => {
+      const pRow = batSplits.find(r => r.player === player && r.split === 'Pace');
+      const sRow = batSplits.find(r => r.player === player && r.split === 'Spin');
+      const pInfo = APP_DATA.adjusted_all_players.find(p => p.name === player);
+      
+      const paceNet = pRow ? pRow.net100 : 0;
+      const spinNet = sRow ? sRow.net100 : 0;
+      const paceSR = pRow ? pRow.strike_rate_or_econ : 0;
+      const spinSR = sRow ? sRow.strike_rate_or_econ : 0;
+      
+      const diff = paceNet - spinNet;
+      let tagText = 'Dual-Threat Balanced';
+      let tagColor = '#34D399';
+      let tagBg = 'rgba(52, 211, 153, 0.15)';
+      if (diff > 20) {
+        tagText = '⚡ Pace Exploiter (+' + diff.toFixed(1) + ')';
+        tagColor = '#38BDF8';
+        tagBg = 'rgba(56, 189, 248, 0.15)';
+      } else if (diff < -20) {
+        tagText = '🌀 Spin Destroyer (' + diff.toFixed(1) + ')';
+        tagColor = '#C084FC';
+        tagBg = 'rgba(192, 132, 252, 0.15)';
+      }
+
+      // Bar widths relative to 80 max
+      const wPace = Math.min(100, Math.max(8, (Math.max(0, paceNet) / 80) * 100));
+      const wSpin = Math.min(100, Math.max(8, (Math.max(0, spinNet) / 80) * 100));
+
+      const card = document.createElement('div');
+      card.style = 'background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 12px 14px; border-radius: 8px; cursor: pointer; transition: transform 0.18s ease, border-color 0.18s ease;';
+      card.onmouseover = () => { card.style.borderColor = 'rgba(255,255,255,0.25)'; card.style.transform = 'translateY(-2px)'; };
+      card.onmouseout = () => { card.style.borderColor = 'rgba(255,255,255,0.08)'; card.style.transform = 'translateY(0)'; };
+      card.onclick = () => openPlayerProfile(player);
+
+      card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <img src="${getPlayerImageUrl(player)}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
+            <span style="font-weight: 800; font-size: 13px; color: #FFFFFF;">${player} ${pInfo ? getFlag(pInfo.nationality) : ''}</span>
+          </div>
+          <span style="font-size: 10px; font-weight: 800; color: ${tagColor}; background: ${tagBg}; padding: 2px 7px; border-radius: 4px;">${tagText}</span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 10px; font-weight: 800; color: #38BDF8; width: 38px;">PACE</span>
+            <div style="flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
+              <div style="height: 100%; width: ${wPace}%; background: linear-gradient(90deg, #0284C7 0%, #38BDF8 100%);"></div>
+            </div>
+            <span style="font-size: 11px; font-family: monospace; font-weight: 800; color: #38BDF8; width: 100px; text-align: right;">${paceNet >= 0 ? '+' : ''}${paceNet.toFixed(1)} <span style="font-size: 9.5px; color: #94A3B8; font-weight: 600;">(SR ${paceSR.toFixed(0)})</span></span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 10px; font-weight: 800; color: #C084FC; width: 38px;">SPIN</span>
+            <div style="flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
+              <div style="height: 100%; width: ${wSpin}%; background: ${spinNet >= 0 ? 'linear-gradient(90deg, #7E22CE 0%, #C084FC 100%)' : '#EF4444'};"></div>
+            </div>
+            <span style="font-size: 11px; font-family: monospace; font-weight: 800; color: ${spinNet >= 0 ? '#C084FC' : '#F87171'}; width: 100px; text-align: right;">${spinNet >= 0 ? '+' : ''}${spinNet.toFixed(1)} <span style="font-size: 9.5px; color: #94A3B8; font-weight: 600;">(SR ${spinSR.toFixed(0)})</span></span>
+          </div>
+        </div>
+      `;
+      batVisualChart.appendChild(card);
+    });
+  }
+
+  // --- 2. RENDER VISUAL 3-PHASE HEATMAP CARDS FOR BOWLERS ---
+  if (bowlVisualGrid) {
+    bowlVisualGrid.innerHTML = '';
+    const uniqueBowlers = [...new Set(bowlSplits.map(r => r.player))];
+
+    uniqueBowlers.forEach(player => {
+      const ppRow = bowlSplits.find(r => r.player === player && r.split === 'PP');
+      const midRow = bowlSplits.find(r => r.player === player && r.split === 'MID');
+      const dRow = bowlSplits.find(r => r.player === player && r.split === 'DEATH');
+      const pInfo = APP_DATA.adjusted_all_players.find(p => p.name === player);
+
+      function getPhaseStyle(r) {
+        if (!r) return { bg: 'rgba(255,255,255,0.03)', color: '#94A3B8', text: 'N/A' };
+        if (r.net100 >= 25) return { bg: 'rgba(16, 185, 129, 0.25)', color: '#34D399', border: 'rgba(52, 211, 153, 0.4)', text: `+${r.net100.toFixed(1)}` };
+        if (r.net100 >= 0) return { bg: 'rgba(245, 158, 11, 0.2)', color: '#FBBF24', border: 'rgba(251, 191, 36, 0.4)', text: `+${r.net100.toFixed(1)}` };
+        return { bg: 'rgba(239, 68, 68, 0.2)', color: '#F87171', border: 'rgba(248, 113, 113, 0.4)', text: `${r.net100.toFixed(1)}` };
+      }
+
+      const ppStyle = getPhaseStyle(ppRow);
+      const midStyle = getPhaseStyle(midRow);
+      const dStyle = getPhaseStyle(dRow);
+
+      const card = document.createElement('div');
+      card.style = 'background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 12px 14px; border-radius: 8px; cursor: pointer; transition: transform 0.18s ease, border-color 0.18s ease;';
+      card.onmouseover = () => { card.style.borderColor = 'rgba(255,255,255,0.25)'; card.style.transform = 'translateY(-2px)'; };
+      card.onmouseout = () => { card.style.borderColor = 'rgba(255,255,255,0.08)'; card.style.transform = 'translateY(0)'; };
+      card.onclick = () => openPlayerProfile(player);
+
+      card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <img src="${getPlayerImageUrl(player)}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
+            <span style="font-weight: 800; font-size: 13px; color: #FFFFFF;">${player} ${pInfo ? getFlag(pInfo.nationality) : ''}</span>
+          </div>
+          <span style="font-size: 10px; color: #94A3B8; font-weight: 700;">Rank #${pInfo?.adjusted_rank || '-'}</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;">
+          <div style="background: ${ppStyle.bg}; border: 1px solid ${ppStyle.border || 'transparent'}; border-radius: 6px; padding: 6px; text-align: center;">
+            <div style="font-size: 9px; font-weight: 800; color: #94A3B8; text-transform: uppercase;">Powerplay</div>
+            <strong style="font-size: 12px; color: ${ppStyle.color}; font-family: monospace;">${ppStyle.text}</strong>
+            <div style="font-size: 9px; color: #CBD5E1; margin-top: 2px;">Econ: ${ppRow ? ppRow.strike_rate_or_econ.toFixed(1) : '-'}</div>
+          </div>
+
+          <div style="background: ${midStyle.bg}; border: 1px solid ${midStyle.border || 'transparent'}; border-radius: 6px; padding: 6px; text-align: center;">
+            <div style="font-size: 9px; font-weight: 800; color: #94A3B8; text-transform: uppercase;">Middle</div>
+            <strong style="font-size: 12px; color: ${midStyle.color}; font-family: monospace;">${midStyle.text}</strong>
+            <div style="font-size: 9px; color: #CBD5E1; margin-top: 2px;">Econ: ${midRow ? midRow.strike_rate_or_econ.toFixed(1) : '-'}</div>
+          </div>
+
+          <div style="background: ${dStyle.bg}; border: 1px solid ${dStyle.border || 'transparent'}; border-radius: 6px; padding: 6px; text-align: center;">
+            <div style="font-size: 9px; font-weight: 800; color: #94A3B8; text-transform: uppercase;">Death</div>
+            <strong style="font-size: 12px; color: ${dStyle.color}; font-family: monospace;">${dStyle.text}</strong>
+            <div style="font-size: 9px; color: #CBD5E1; margin-top: 2px;">Econ: ${dRow ? dRow.strike_rate_or_econ.toFixed(1) : '-'}</div>
+          </div>
+        </div>
+      `;
+      bowlVisualGrid.appendChild(card);
+    });
+  }
+
+  // --- 3. RENDER BATTER DATA TABLE WITH HEADSHOTS & VISUAL METERS ---
   batBody.innerHTML = '';
   batSplits.forEach(r => {
     const tr = document.createElement('tr');
@@ -9166,9 +9350,7 @@ function renderTacticsTab() {
     tr.title = `Click to view full stats for ${r.player}`;
     tr.onclick = () => openPlayerProfile(r.player);
     const isLow = r.sample_flag && r.sample_flag.startsWith('LOW');
-    if (isLow) {
-      tr.style.opacity = '0.85';
-    }
+    if (isLow) tr.style.opacity = '0.9';
 
     const flagChip = isLow
       ? `<span style="display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; background: rgba(245, 158, 11, 0.15); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.3);">${r.sample_flag}</span>`
@@ -9179,20 +9361,36 @@ function renderTacticsTab() {
       : `<span style="display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; background: rgba(168, 85, 247, 0.15); color: #C084FC; border: 1px solid rgba(168, 85, 247, 0.3);">Spin</span>`;
 
     const netColor = r.net100 >= 0 ? '#34D399' : '#F87171';
+    const gaugeWidth = Math.min(100, Math.max(5, (Math.abs(r.net100) / 80) * 100));
+
+    const pInfo = APP_DATA.adjusted_all_players.find(p => p.name === r.player);
+    const flag = pInfo ? getFlag(pInfo.nationality) : '';
 
     tr.innerHTML = `
-      <td style="font-weight: 700; color: #FFFFFF;">${r.player}</td>
+      <td style="font-weight: 700; color: #FFFFFF;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="${getPlayerImageUrl(r.player)}" style="width: 22px; height: 22px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
+          <span>${r.player}</span>
+          <span style="font-size: 11px;">${flag}</span>
+        </div>
+      </td>
       <td style="text-align: center;">${splitChip}</td>
       <td style="text-align: right; color: #F8FAFC;">${r.hp_balls}</td>
       <td style="text-align: right; color: #F8FAFC;">${r.runs_scored_or_conceded}</td>
       <td style="text-align: right; color: #F8FAFC;">${r.strike_rate_or_econ.toFixed(1)}</td>
       <td style="text-align: right; font-weight: 800; color: ${netColor};">${r.net100 >= 0 ? '+' : ''}${r.net100.toFixed(2)}</td>
+      <td style="vertical-align: middle;">
+        <div style="height: 6px; width: 100%; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;">
+          <div style="height: 100%; width: ${gaugeWidth}%; background: ${netColor};"></div>
+        </div>
+      </td>
       <td style="text-align: right; color: #94A3B8;">&plusmn;${r.std_err.toFixed(1)}</td>
       <td style="text-align: center;">${flagChip}</td>
     `;
     batBody.appendChild(tr);
   });
 
+  // --- 4. RENDER BOWLER DATA TABLE WITH HEADSHOTS & VISUAL METERS ---
   bowlBody.innerHTML = '';
   bowlSplits.forEach(r => {
     const tr = document.createElement('tr');
@@ -9200,9 +9398,7 @@ function renderTacticsTab() {
     tr.title = `Click to view full stats for ${r.player}`;
     tr.onclick = () => openPlayerProfile(r.player);
     const isLow = r.sample_flag && r.sample_flag.startsWith('LOW');
-    if (isLow) {
-      tr.style.opacity = '0.85';
-    }
+    if (isLow) tr.style.opacity = '0.9';
 
     const flagChip = isLow
       ? `<span style="display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; background: rgba(245, 158, 11, 0.15); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.3);">${r.sample_flag}</span>`
@@ -9218,21 +9414,40 @@ function renderTacticsTab() {
     }
 
     let netBadge = '';
+    let netColor = '#34D399';
     if (r.net100 >= 25) {
       netBadge = `<span style="display: inline-block; padding: 2px 8px; border-radius: 4px; font-weight: 800; background: rgba(52, 211, 153, 0.18); color: #34D399; border: 1px solid rgba(52, 211, 153, 0.35);">+${r.net100.toFixed(2)}</span>`;
+      netColor = '#34D399';
     } else if (r.net100 >= 0) {
       netBadge = `<span style="display: inline-block; padding: 2px 8px; border-radius: 4px; font-weight: 700; background: rgba(251, 191, 36, 0.15); color: #FBBF24; border: 1px solid rgba(251, 191, 36, 0.3);">+${r.net100.toFixed(2)}</span>`;
+      netColor = '#FBBF24';
     } else {
       netBadge = `<span style="display: inline-block; padding: 2px 8px; border-radius: 4px; font-weight: 700; background: rgba(239, 68, 68, 0.15); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.3);">${r.net100.toFixed(2)}</span>`;
+      netColor = '#F87171';
     }
 
+    const gaugeWidth = Math.min(100, Math.max(5, (Math.abs(r.net100) / 100) * 100));
+    const pInfo = APP_DATA.adjusted_all_players.find(p => p.name === r.player);
+    const flag = pInfo ? getFlag(pInfo.nationality) : '';
+
     tr.innerHTML = `
-      <td style="font-weight: 700; color: #FFFFFF;">${r.player}</td>
+      <td style="font-weight: 700; color: #FFFFFF;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="${getPlayerImageUrl(r.player)}" style="width: 22px; height: 22px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
+          <span>${r.player}</span>
+          <span style="font-size: 11px;">${flag}</span>
+        </div>
+      </td>
       <td style="text-align: center;">${phaseChip}</td>
       <td style="text-align: right; color: #F8FAFC;">${r.hp_balls}</td>
       <td style="text-align: right; color: #F8FAFC;">${r.runs_scored_or_conceded}</td>
       <td style="text-align: right; color: #F8FAFC;">${r.strike_rate_or_econ.toFixed(2)}</td>
       <td style="text-align: right;">${netBadge}</td>
+      <td style="vertical-align: middle;">
+        <div style="height: 6px; width: 100%; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;">
+          <div style="height: 100%; width: ${gaugeWidth}%; background: ${netColor};"></div>
+        </div>
+      </td>
       <td style="text-align: right; color: #94A3B8;">&plusmn;${r.std_err.toFixed(1)}</td>
       <td style="text-align: center;">${flagChip}</td>
     `;
