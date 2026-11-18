@@ -1921,6 +1921,28 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
   background-color: #132E58 !important;
 }
 
+
+.btn-preset-matchup {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--rr-border);
+  color: #CBD5E1;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.btn-preset-matchup:hover {
+  background: rgba(229, 0, 125, 0.15);
+  border-color: var(--rr-pink);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
 </style>
   <!-- THREE.JS & ORBITCONTROLS 3D DATA PLAYGROUND ENGINE -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1953,6 +1975,12 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
 
         <button onclick="switchTab('tab-3d-playground')" class="btn-header-action" title="Open 3D Data Universe Playground" style="background: rgba(56, 189, 248, 0.12); border-color: rgba(56, 189, 248, 0.35); color: #7DD3FC;">
           <span>🌐 3D Universe</span>
+        </button>
+
+        
+        <button onclick="openCommandPalette()" class="btn-header-action" title="Quick Player & Model Search (Cmd+K)" style="background: rgba(229, 0, 125, 0.15); border-color: rgba(229, 0, 125, 0.4); color: #FF85C0; font-weight: 700;">
+          <span>🔍 Quick Search</span>
+          <kbd style="background: rgba(255,255,255,0.12); padding: 1px 5px; border-radius: 4px; font-size: 10px; margin-left: 4px; border: 1px solid rgba(255,255,255,0.2);">⌘K</kbd>
         </button>
 
         <button onclick="switchTab('tab-duel')" class="btn-header-action" title="Open Matchup Duel Simulator (Illustrative toy, not a model output)">
@@ -3660,6 +3688,34 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
               <span id="compare-summary-chip" style="font-size: 11px; color: #94A3B8; font-weight: 600; display: none;"></span>
               <button type="button" class="btn-toggle-collapse" id="btn-toggle-compare" onclick="toggleCompareBar(this)" title="Toggle selector bar visibility to focus on charts">
                 <span>▾ Hide Selectors</span>
+              </button>
+            </div>
+          </div>
+
+          
+          <!-- QUICK COMPARISON PRESETS BAR -->
+          <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 8px; padding: 12px 16px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+              <div style="font-size: 11.5px; font-weight: 800; color: #FFFFFF; display: flex; align-items: center; gap: 6px;">
+                <span>⚡</span> <span>Dugout Quick Comparison Presets:</span>
+              </div>
+              <span style="font-size: 10.5px; color: var(--rr-text-muted);">One-click head-to-head overlays</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <button type="button" onclick="loadComparisonPreset('Suryakumar Yadav', 'Phil Salt', '')" class="btn-preset-matchup">
+                🏏 #1 vs #2 Batters: Surya vs Salt
+              </button>
+              <button type="button" onclick="loadComparisonPreset('Sunil Narine', 'Abrar Ahmed', '')" class="btn-preset-matchup">
+                🎯 #1 vs #2 Bowlers: Narine vs Abrar
+              </button>
+              <button type="button" onclick="loadComparisonPreset('Vaibhav Sooryavanshi', 'Sanju Samson', 'Riyan Parag')" class="btn-preset-matchup" style="border-color: rgba(229,0,125,0.4); background: rgba(229,0,125,0.12); color: #FF85C0;">
+                👑 Rajasthan Royals Trio: Vaibhav vs Samson vs Parag
+              </button>
+              <button type="button" onclick="loadComparisonPreset('Jacob Duffy', 'Mohit Sharma', '')" class="btn-preset-matchup">
+                🚀 Clutch Elevators: Duffy vs Mohit
+              </button>
+              <button type="button" onclick="loadComparisonPreset('Babar Azam', 'Abhishek Sharma', '')" class="btn-preset-matchup">
+                ⚖️ Pace Anchor vs PP Enforcer: Babar vs Abhishek
               </button>
             </div>
           </div>
@@ -7969,6 +8025,41 @@ function initComparisonDropdowns() {
   sel3.value = 'Tim David';
 }
 
+
+function loadComparisonPreset(p1, p2, p3) {
+  const sel1 = document.getElementById('compare-select-1');
+  const sel2 = document.getElementById('compare-select-2');
+  const sel3 = document.getElementById('compare-select-3');
+  if (sel1) sel1.value = p1;
+  if (sel2) sel2.value = p2;
+  if (sel3) sel3.value = p3 || '';
+  updateComparison();
+}
+
+function copyComparisonScoutingNote() {
+  const sel1 = document.getElementById('compare-select-1');
+  const sel2 = document.getElementById('compare-select-2');
+  const p1 = APP_DATA.adjusted_all_players.find(x => x.name === (sel1 ? sel1.value : ''));
+  const p2 = APP_DATA.adjusted_all_players.find(x => x.name === (sel2 ? sel2.value : ''));
+  if (!p1 || !p2) return;
+
+  const note = `[Rajasthan Royals Dugout Scouting Note]
+Matchup: ${p1.name} (#${p1.adjusted_rank} ${p1.role.toUpperCase()}) vs ${p2.name} (#${p2.adjusted_rank} ${p2.role.toUpperCase()})
+• Net HP Runs/100: ${p1.name} (${p1.net_hp > 0 ? '+' : ''}${p1.net_hp.toFixed(1)}) vs ${p2.name} (${p2.net_hp > 0 ? '+' : ''}${p2.net_hp.toFixed(1)}) [Diff: ${Math.abs(p1.net_hp - p2.net_hp).toFixed(1)} runs]
+• Clutch Elevation Delta (Δ): ${p1.name} (${p1.delta > 0 ? '+' : ''}${p1.delta.toFixed(1)}) vs ${p2.name} (${p2.delta > 0 ? '+' : ''}${p2.delta.toFixed(1)})
+• Match Consistency: ${p1.name} (${(p1.cons * 100).toFixed(0)}%) vs ${p2.name} (${(p2.cons * 100).toFixed(0)}%)
+• Win Probability Added/100: ${p1.name} (${p1.wpa_hp.toFixed(2)}) vs ${p2.name} (${p2.wpa_hp.toFixed(2)})
+• Model Score: ${p1.name} (${p1.adjusted_score.toFixed(3)}) vs ${p2.name} (${p2.adjusted_score.toFixed(3)})
+Verdict: ${p1.adjusted_score >= p2.adjusted_score ? p1.name : p2.name} holds higher composite leverage execution.
+Source: Rajasthan Royals SupeRR Selector Intelligence Board (https://superrselectoranalysis.onrender.com)`;
+
+  navigator.clipboard.writeText(note).then(() => {
+    alert("Dugout Scouting Note copied to clipboard! Ready to share with team analysts.");
+  }).catch(() => {
+    prompt("Copy this scouting note:", note);
+  });
+}
+
 function updateComparison() {
   const sel1 = document.getElementById('compare-select-1');
   const sel2 = document.getElementById('compare-select-2');
@@ -7999,62 +8090,195 @@ function updateComparison() {
     radarCont.innerHTML = generateRadarSVG(datasets, 320);
   }
 
-  // Render Comparison Scorecard Table
+  // Render Comparison Scorecard Table with Headshots & Visual Magnitude Gauges
   const tableCont = document.getElementById('compare-table-container');
   if (!tableCont) return;
+
+  // Compute max values for relative comparison gauges
+  const maxScore = Math.max(...datasets.map(d => Math.abs(d.player.adjusted_score)), 1.0);
+  const maxNet = Math.max(...datasets.map(d => Math.abs(d.player.net_hp)), 40.0);
+  const maxDelta = Math.max(...datasets.map(d => Math.abs(d.player.delta)), 30.0);
+  const maxWpa = Math.max(...datasets.map(d => Math.abs(d.player.wpa_hp)), 1.0);
 
   let html = `
     <table class="scorecard-table font-mono" style="font-size: 11px;">
       <thead>
         <tr>
-          <th>Metric</th>
-          ${datasets.map(d => `<th style="color: ${d.color}; font-weight: 800; cursor: pointer; text-decoration: underline; text-underline-offset: 3px;" onclick="openPlayerProfile('${d.name.replace(/'/g, "\\'")}')" title="Click to view full stats for ${d.name}">${d.name} ↗</th>`).join('')}
+          <th style="width: 140px; text-align: left;">Metric</th>
+          ${datasets.map(d => {
+            const flag = getFlag(d.player.nationality);
+            const img = getPlayerImageUrl(d.name);
+            return `
+              <th style="color: ${d.color}; font-weight: 800; text-align: left;">
+                <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="openPlayerProfile('${d.name.replace(/'/g, "\\'")}')" title="Click to view full stats for ${d.name}">
+                  <img src="${img}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1.5px solid ${d.color};">
+                  <div>
+                    <div style="display: flex; align-items: center; gap: 4px;">
+                      <span>${d.name}</span>
+                      <span style="font-size: 12px;">${flag}</span>
+                    </div>
+                    <div style="font-size: 9.5px; color: #94A3B8; font-weight: normal;">Rank #${d.player.adjusted_rank} &bull; ${d.player.role === 'bat' ? 'BAT' : 'BOWL'}</div>
+                  </div>
+                </div>
+              </th>
+            `;
+          }).join('')}
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td style="font-weight: 700;">Role</td>
-          ${datasets.map(d => `<td>${d.player.role === 'bat' ? 'Batter' : 'Bowler'}</td>`).join('')}
+          <td style="font-weight: 700;">Composite Score</td>
+          ${datasets.map(d => {
+            const pct = Math.min(100, Math.max(5, (d.player.adjusted_score / maxScore) * 100));
+            return `
+              <td>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                  <strong style="color: ${d.color};">${d.player.adjusted_score.toFixed(3)}</strong>
+                </div>
+                <div style="height: 5px; width: 100%; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;">
+                  <div style="height: 100%; width: ${pct}%; background: ${d.color};"></div>
+                </div>
+              </td>
+            `;
+          }).join('')}
         </tr>
-        <tr>
-          <td style="font-weight: 700;">Adjusted Rank</td>
-          ${datasets.map(d => `<td><strong>#${d.player.adjusted_rank}</strong></td>`).join('')}
-        </tr>
-        <tr>
-          <td style="font-weight: 700;">Adjusted Score</td>
-          ${datasets.map(d => `<td><strong>${d.player.adjusted_score.toFixed(3)}</strong></td>`).join('')}
-        </tr>
-        <tr>
-          <td style="font-weight: 700;">HP Deliveries</td>
-          ${datasets.map(d => `<td>${d.player.n_hp}</td>`).join('')}
-        </tr>
+
         <tr>
           <td style="font-weight: 700;">Net Value / 100</td>
-          ${datasets.map(d => `<td style="color: var(--rr-pink); font-weight: 700;">${d.player.net_hp > 0 ? '+' : ''}${d.player.net_hp.toFixed(2)}</td>`).join('')}
+          ${datasets.map(d => {
+            const val = d.player.net_hp;
+            const pct = Math.min(100, Math.max(5, (Math.abs(val) / maxNet) * 100));
+            const barColor = val >= 0 ? '#34D399' : '#F87171';
+            return `
+              <td>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                  <span style="color: ${barColor}; font-weight: 700;">${val > 0 ? '+' : ''}${val.toFixed(2)}</span>
+                  <span style="font-size: 9px; color: #64748B;">/ 100b</span>
+                </div>
+                <div style="height: 5px; width: 100%; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;">
+                  <div style="height: 100%; width: ${pct}%; background: ${barColor};"></div>
+                </div>
+              </td>
+            `;
+          }).join('')}
         </tr>
+
         <tr>
           <td style="font-weight: 700;">Delta vs Baseline</td>
-          ${datasets.map(d => `<td class="${d.player.delta >= 0 ? 'delta-pos' : 'delta-neg'}">${d.player.delta > 0 ? '+' : ''}${d.player.delta.toFixed(2)}</td>`).join('')}
+          ${datasets.map(d => {
+            const val = d.player.delta;
+            const pct = Math.min(100, Math.max(5, (Math.abs(val) / maxDelta) * 100));
+            const barColor = val >= 0 ? '#34D399' : '#F87171';
+            return `
+              <td>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                  <span style="color: ${barColor}; font-weight: 700;">${val > 0 ? '+' : ''}${val.toFixed(2)}</span>
+                  <span style="font-size: 9px; color: #64748B;">${val >= 0 ? 'Clutch Rise' : 'Decline'}</span>
+                </div>
+                <div style="height: 5px; width: 100%; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;">
+                  <div style="height: 100%; width: ${pct}%; background: ${barColor};"></div>
+                </div>
+              </td>
+            `;
+          }).join('')}
         </tr>
+
         <tr>
-          <td style="font-weight: 700;">WPA / 100</td>
-          ${datasets.map(d => `<td>${d.player.wpa_hp.toFixed(3)}</td>`).join('')}
+          <td style="font-weight: 700;">WPA / 100 Balls</td>
+          ${datasets.map(d => {
+            const val = d.player.wpa_hp;
+            const pct = Math.min(100, Math.max(5, (Math.abs(val) / maxWpa) * 100));
+            return `
+              <td>
+                <div style="margin-bottom: 2px;">
+                  <span style="color: #F8FAFC; font-weight: 700;">${val.toFixed(3)}</span>
+                </div>
+                <div style="height: 5px; width: 100%; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;">
+                  <div style="height: 100%; width: ${pct}%; background: #38BDF8;"></div>
+                </div>
+              </td>
+            `;
+          }).join('')}
         </tr>
+
         <tr>
           <td style="font-weight: 700;">Consistency Hit-Rate</td>
-          ${datasets.map(d => `<td>${d.player.cons.toFixed(3)}</td>`).join('')}
+          ${datasets.map(d => {
+            const pct = Math.round(d.player.cons * 100);
+            return `
+              <td>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                  <span style="color: #F8FAFC; font-weight: 700;">${pct}%</span>
+                  <span style="font-size: 9px; color: #64748B;">${d.player.elig_m} matches</span>
+                </div>
+                <div style="height: 5px; width: 100%; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;">
+                  <div style="height: 100%; width: ${pct}%; background: #FBBF24;"></div>
+                </div>
+              </td>
+            `;
+          }).join('')}
         </tr>
+
         <tr>
           <td style="font-weight: 700;">Top 10 Stability %</td>
-          ${datasets.map(d => `<td>${d.values.p_top10_raw.toFixed(1)}%</td>`).join('')}
+          ${datasets.map(d => {
+            const pct = d.values.p_top10_raw;
+            return `
+              <td>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                  <span style="color: #F8FAFC; font-weight: 700;">${pct.toFixed(1)}%</span>
+                  <span style="font-size: 9px; color: #64748B;">Bootstrap</span>
+                </div>
+                <div style="height: 5px; width: 100%; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;">
+                  <div style="height: 100%; width: ${pct}%; background: var(--rr-pink);"></div>
+                </div>
+              </td>
+            `;
+          }).join('')}
         </tr>
+
+        <tr>
+          <td style="font-weight: 700;">HP Deliveries Faced</td>
+          ${datasets.map(d => `<td><span style="color: #F8FAFC; font-weight: 700;">${d.player.n_hp}</span> <span style="font-size: 9px; color: #64748B;">balls</span></td>`).join('')}
+        </tr>
+
         <tr>
           <td style="font-weight: 700;">2026 IPL Franchise</td>
-          ${datasets.map(d => `<td>${d.player.ipl2026 || '-'}</td>`).join('')}
+          ${datasets.map(d => `<td style="color: #CBD5E1;">${d.player.ipl2026 || 'Available / Auction Pool'}</td>`).join('')}
         </tr>
       </tbody>
     </table>
   `;
+
+  // Dynamic Dugout Analytical Verdict Card (if 2 or 3 players)
+  if (datasets.length >= 2) {
+    const pA = datasets[0].player;
+    const pB = datasets[1].player;
+    const netDiff = (pA.net_hp - pB.net_hp).toFixed(1);
+    const scoreLeader = pA.adjusted_score >= pB.adjusted_score ? pA : pB;
+    const consLeader = pA.cons >= pB.cons ? pA : pB;
+    const deltaLeader = pA.delta >= pB.delta ? pA : pB;
+
+    html += `
+      <div style="margin-top: 16px; background: #091A33; border: 1px solid var(--rr-border); border-left: 4px solid var(--rr-pink); border-radius: 8px; padding: 12px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
+          <div style="font-size: 11.5px; font-weight: 800; color: #FFFFFF; display: flex; align-items: center; gap: 6px;">
+            <span>💡</span> <span>Dugout Analytical Matchup Verdict:</span>
+          </div>
+          <button type="button" onclick="copyComparisonScoutingNote()" class="btn-preset-matchup" style="padding: 3px 8px; font-size: 10px;">
+            📋 Copy Scout Note
+          </button>
+        </div>
+        <p style="font-size: 11px; color: #CBD5E1; margin: 0; line-height: 1.5;">
+          <strong>Model Advantage:</strong> <strong style="color: var(--rr-pink);">${scoreLeader.name}</strong> leads overall composite score (${scoreLeader.adjusted_score.toFixed(3)}). 
+          <strong>Run Impact:</strong> ${Number(netDiff) >= 0 ? pA.name : pB.name} generates <strong>+${Math.abs(netDiff)}</strong> more net runs per 100 high-pressure balls.
+          <strong>Clutch Elevation:</strong> <strong style="color: #34D399;">${deltaLeader.name}</strong> exhibits the stronger elevation spike (${deltaLeader.delta > 0 ? '+' : ''}${deltaLeader.delta.toFixed(1)} Δ vs baseline).
+          <strong>Reliability:</strong> <strong>${consLeader.name}</strong> offers superior multi-match consistency (${(consLeader.cons * 100).toFixed(0)}% hit-rate across ${consLeader.elig_m} matches).
+        </p>
+      </div>
+    `;
+  }
+
   tableCont.innerHTML = html;
 
   // Update clear button for Player 3 and summary chip
@@ -8069,6 +8293,112 @@ function updateComparison() {
     summaryChip.style.display = activeNames ? 'inline-block' : 'none';
   }
 }
+
+// ============================================================================
+// COMMAND PALETTE (CMD+K) IMPLEMENTATION
+// ============================================================================
+function openCommandPalette() {
+  const backdrop = document.getElementById('cmd-palette-backdrop');
+  const input = document.getElementById('cmd-palette-input');
+  if (!backdrop || !input) return;
+  backdrop.style.display = 'flex';
+  input.value = '';
+  renderCommandPaletteResults('');
+  setTimeout(() => input.focus(), 50);
+}
+
+function closeCommandPalette() {
+  const backdrop = document.getElementById('cmd-palette-backdrop');
+  if (backdrop) backdrop.style.display = 'none';
+}
+
+function onCommandPaletteKey(e) {
+  if (e.key === 'Escape') {
+    closeCommandPalette();
+  }
+}
+
+function onCommandPaletteInput(val) {
+  renderCommandPaletteResults(val);
+}
+
+function renderCommandPaletteResults(query) {
+  const cont = document.getElementById('cmd-palette-results');
+  if (!cont) return;
+
+  const q = (query || '').toLowerCase().trim();
+  let matches = [];
+
+  if (!q) {
+    // Show top 8 recommended players if query is empty
+    matches = APP_DATA.adjusted_all_players.slice(0, 8);
+  } else {
+    matches = APP_DATA.adjusted_all_players.filter(p => {
+      const nameMatch = p.name.toLowerCase().includes(q);
+      const teamMatch = (p.ipl2026 || '').toLowerCase().includes(q);
+      const natMatch = (p.nationality || '').toLowerCase().includes(q);
+      return nameMatch || teamMatch || natMatch;
+    }).slice(0, 12);
+  }
+
+  if (matches.length === 0) {
+    cont.innerHTML = `
+      <div style="padding: 24px 16px; text-align: center; color: #64748B; font-size: 12px;">
+        No qualified players matching "<strong>${query}</strong>" found. Try another name or keyword.
+      </div>
+    `;
+    return;
+  }
+
+  let html = '';
+  matches.forEach(p => {
+    const flag = getFlag(p.nationality);
+    const img = getPlayerImageUrl(p.name);
+    const roleChip = p.role === 'bat' 
+      ? '<span style="background: rgba(56, 189, 248, 0.15); color: #38BDF8; padding: 2px 6px; border-radius: 4px; font-size: 9.5px; font-weight: 700;">BAT #' + p.adjusted_rank + '</span>'
+      : '<span style="background: rgba(192, 132, 252, 0.15); color: #C084FC; padding: 2px 6px; border-radius: 4px; font-size: 9.5px; font-weight: 700;">BOWL #' + p.adjusted_rank + '</span>';
+
+    html += `
+      <div onclick="closeCommandPalette(); openPlayerProfile('${p.name.replace(/'/g, "\\'")}')" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--rr-border); border-radius: 6px; cursor: pointer; transition: all 0.15s ease;" onmouseenter="this.style.background='rgba(229,0,125,0.12)'; this.style.borderColor='var(--rr-pink)'" onmouseleave="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='var(--rr-border)'">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <img src="${img}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
+          <div>
+            <div style="font-weight: 700; color: #FFFFFF; font-size: 12px; display: flex; align-items: center; gap: 6px;">
+              <span>${p.name}</span>
+              <span style="font-size: 12px;">${flag}</span>
+              ${roleChip}
+            </div>
+            <div style="font-size: 10px; color: #94A3B8;">${p.ipl2026 ? p.ipl2026 : 'Auction Pool'} &bull; ${p.n_hp} HP balls &bull; Score: ${p.adjusted_score.toFixed(3)}</div>
+          </div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 11px; font-weight: 800; color: ${p.net_hp >= 0 ? '#34D399' : '#F87171'}; font-family: monospace;">
+            ${p.net_hp >= 0 ? '+' : ''}${p.net_hp.toFixed(1)} Net
+          </div>
+          <div style="font-size: 9.5px; color: #64748B;">Δ ${p.delta >= 0 ? '+' : ''}${p.delta.toFixed(1)}</div>
+        </div>
+      </div>
+    `;
+  });
+
+  cont.innerHTML = html;
+}
+
+// Global Keyboard Shortcut for Command Palette (Cmd+K / Ctrl+K)
+document.addEventListener('keydown', function(e) {
+  if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
+    e.preventDefault();
+    const backdrop = document.getElementById('cmd-palette-backdrop');
+    if (backdrop && backdrop.style.display === 'flex') {
+      closeCommandPalette();
+    } else {
+      openCommandPalette();
+    }
+  } else if (e.key === 'Escape') {
+    closeCommandPalette();
+  }
+});
+
 
 function clearPlayer3() {
   const sel3 = document.getElementById('compare-select-3');
@@ -9607,5 +9937,33 @@ document.addEventListener('DOMContentLoaded', () => {
       <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-audit')"><span>🔍</span> Audit Console</button>
     </div>
   </div>
+
+  <!-- COMMAND PALETTE MODAL (CMD+K) -->
+  <div id="cmd-palette-backdrop" class="modal-backdrop" style="display: none; position: fixed; inset: 0; background: rgba(3, 7, 18, 0.78); backdrop-filter: blur(8px); z-index: 9999; align-items: flex-start; justify-content: center; padding-top: 10vh;" onclick="if(event.target === this) closeCommandPalette()">
+    <div style="background: #091A33; border: 1.5px solid rgba(229, 0, 125, 0.5); border-radius: 12px; width: 100%; max-width: 620px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); overflow: hidden; display: flex; flex-direction: column; max-height: 75vh;">
+      <!-- Search Input Header -->
+      <div style="display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--rr-border); background: #08162B;">
+        <span style="font-size: 18px; color: var(--rr-pink);">🔍</span>
+        <input type="text" id="cmd-palette-input" placeholder="Search any player (e.g., Surya, Salt, Narine, Vaibhav) or jump to tab..." style="flex: 1; background: transparent; border: none; color: #FFFFFF; font-size: 14px; font-weight: 600; outline: none;" oninput="onCommandPaletteInput(this.value)" onkeydown="onCommandPaletteKey(event)">
+        <kbd style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #94A3B8; font-size: 10.5px; padding: 2px 7px; border-radius: 4px; cursor: pointer;" onclick="closeCommandPalette()">ESC</kbd>
+      </div>
+
+      <!-- Quick Shortcuts Row -->
+      <div style="display: flex; gap: 8px; padding: 8px 18px; background: rgba(0,0,0,0.25); border-bottom: 1px solid rgba(255,255,255,0.05); overflow-x: auto; font-size: 11px;">
+        <span style="color: #64748B; font-weight: 700; display: inline-flex; align-items: center;">Jump:</span>
+        <button type="button" onclick="closeCommandPalette(); switchTab('tab-leaderboards')" style="background: rgba(255,255,255,0.06); border: 1px solid var(--rr-border); color: #CBD5E1; border-radius: 4px; padding: 3px 8px; cursor: pointer;">🏆 Top 10</button>
+        <button type="button" onclick="closeCommandPalette(); switchTab('tab-3d-playground')" style="background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.3); color: #7DD3FC; border-radius: 4px; padding: 3px 8px; cursor: pointer;">🌐 3D Universe</button>
+        <button type="button" onclick="closeCommandPalette(); switchTab('tab-tactics')" style="background: rgba(192,132,252,0.12); border: 1px solid rgba(192,132,252,0.3); color: #D8B4FE; border-radius: 4px; padding: 3px 8px; cursor: pointer;">📊 Tactics</button>
+        <button type="button" onclick="closeCommandPalette(); switchTab('tab-compare')" style="background: rgba(229,0,125,0.15); border: 1px solid rgba(229,0,125,0.4); color: #FF85C0; border-radius: 4px; padding: 3px 8px; cursor: pointer;">👥 Compare</button>
+        <button type="button" onclick="closeCommandPalette(); switchTab('tab-duel')" style="background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.3); color: #FDE047; border-radius: 4px; padding: 3px 8px; cursor: pointer;">⚔️ Duel Sim</button>
+      </div>
+
+      <!-- Results List -->
+      <div id="cmd-palette-results" style="flex: 1; overflow-y: auto; padding: 10px 14px; display: flex; flex-direction: column; gap: 4px;">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
