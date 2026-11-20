@@ -2044,6 +2044,10 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
           <span>📐 Field Radar</span>
         </button>
 
+        <button onclick="switchTab('tab-impact-sub')" class="btn-header-action" title="Open AI Impact Player & Quantum 12-Man Lineup Optimizer" style="background: rgba(245, 158, 11, 0.18); border-color: #F59E0B; color: #FBBF24; font-weight: 700;">
+          <span>🧬 Impact Sub</span>
+        </button>
+
         <button id="btn-toggle-sidebar" onclick="toggleSidebarManual()" class="btn-header-action" title="Toggle Navigation Sidebar (Auto Fit Screen)" style="display: inline-flex; align-items: center; gap: 5px;">
           <span id="sidebar-toggle-icon">⇥</span>
           <span id="sidebar-toggle-text">Fit Screen</span>
@@ -2171,6 +2175,10 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
       <button onclick="switchTab('tab-field-optimizer')" id="nav-tab-field-optimizer" class="nav-btn">
         <span class="nav-icon">📐</span>
         <span>AI Field Optimizer</span>
+      </button>
+      <button onclick="switchTab('tab-impact-sub')" id="nav-tab-impact-sub" class="nav-btn">
+        <span class="nav-icon">🧬</span>
+        <span>Impact Player Optimizer</span>
       </button>
       <button onclick="switchTab('tab-duel')" id="nav-tab-duel" class="nav-btn">
         <span class="nav-icon">⚔️</span>
@@ -5203,6 +5211,211 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
         </div>
       </section>
 
+      
+      <!-- TAB: AI IMPACT PLAYER & QUANTUM LINEUP OPTIMIZER (Part D9) -->
+      <section id="tab-impact-sub" class="tab-pane">
+        <div class="card" style="margin-bottom: 24px; border: 1px solid rgba(245, 158, 11, 0.4); background: linear-gradient(180deg, #07152B 0%, #040D1A 100%); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.12); border-radius: 12px; overflow: hidden;">
+          
+          <!-- Section Header -->
+          <div style="background: linear-gradient(135deg, #091A33 0%, #241604 50%, #091A33 100%); padding: 18px 22px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 20px;">🧬</span>
+                <span style="font-size: 16px; font-weight: 900; color: #FFFFFF; letter-spacing: -0.01em;">PART D9: AI Impact Player &amp; Quantum 12-Man Lineup Optimizer</span>
+                <span style="background: #D97706; color: #FFFFFF; font-size: 10px; font-weight: 800; font-family: var(--font-mono); padding: 2px 8px; border-radius: 9999px;">BELLMAN DYNAMIC PROGRAMMING ENGINE</span>
+              </div>
+              <div style="font-size: 12px; color: #94A3B8; margin-top: 4px;">
+                Dynamic real-time 12-man IPL substitution game-tree, Bellman option value decay $V(t)$, and Rajasthan Royals match-day balance.
+              </div>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <button onclick="setImpactScenario('jaipur_death')" class="btn-header-action" style="background: rgba(245, 158, 11, 0.15); border-color: #F59E0B; color: #FBBF24; font-weight: 700; font-size: 11px;">
+                🏰 Jaipur Death Lock (+9.8% WP)
+              </button>
+              <button onclick="setImpactScenario('chase_collapse')" class="btn-header-action" style="background: rgba(229, 0, 125, 0.15); border-color: var(--rr-pink); color: #FF85C0; font-weight: 700; font-size: 11px;">
+                ⚡ 190+ Chase Collapse (+12.4% WP)
+              </button>
+              <button onclick="setImpactScenario('spin_trap')" class="btn-header-action" style="background: rgba(56, 189, 248, 0.15); border-color: #38BDF8; color: #7DD3FC; font-weight: 700; font-size: 11px;">
+                🌪️ SMS Jaipur Spin Web (+8.6% WP)
+              </button>
+              <button onclick="resetImpactLineup()" class="btn-header-action" style="background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); color: #E2E8F0; font-weight: 700; font-size: 11px;">
+                🔄 Reset Lineup
+              </button>
+            </div>
+          </div>
+
+          <!-- Main Layout Grid: Left (Starting XI & Bench 58%), Right (Bellman Telemetry 42%) -->
+          <div style="padding: 20px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 20px; align-items: start;">
+            
+            <!-- LEFT: ACTIVE STARTING XI & TACTICAL BENCH SUBSTITUTES -->
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              
+              <!-- Active Starting XI -->
+              <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 12px; font-weight: 800; color: #FFFFFF; text-transform: uppercase; letter-spacing: 0.05em;">Rajasthan Royals Active Match-Day XI</span>
+                    <span id="impact-active-status-tag" style="background: rgba(52, 211, 153, 0.15); color: #34D399; font-size: 9.5px; font-family: var(--font-mono); font-weight: 800; padding: 2px 6px; border-radius: 4px;">11 / 11 PLAYERS ON FIELD</span>
+                  </div>
+                  <div style="font-size: 10.5px; color: #94A3B8; font-family: var(--font-mono);">
+                    Overseas: <strong id="impact-overseas-count" style="color: #F59E0B;">3 / 4 Max</strong>
+                  </div>
+                </div>
+
+                <!-- XI Table -->
+                <div style="overflow-x: auto;">
+                  <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <thead style="background: rgba(255,255,255,0.03); color: #94A3B8; font-family: var(--font-mono); text-align: left;">
+                      <tr>
+                        <th style="padding: 6px 8px; width: 30px;">#</th>
+                        <th style="padding: 6px 8px;">Player</th>
+                        <th style="padding: 6px 8px;">Role</th>
+                        <th style="padding: 6px 8px; text-align: right;">HP Balls</th>
+                        <th style="padding: 6px 8px; text-align: right;">Net/100</th>
+                        <th style="padding: 6px 8px; text-align: right;">Tactical Status</th>
+                        <th style="padding: 6px 8px; text-align: center; width: 70px;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="impact-xi-tbody">
+                      <!-- Rendered by JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Tactical Bench Substitutes (5-Player Impact Pool) -->
+              <div style="background: #08162B; border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 10px; padding: 14px 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 12px; font-weight: 800; color: #F59E0B; text-transform: uppercase; letter-spacing: 0.05em;">Tactical Bench (5-Player Impact Pool)</span>
+                    <span style="background: rgba(245, 158, 11, 0.15); color: #FBBF24; font-size: 9.5px; font-family: var(--font-mono); font-weight: 800; padding: 2px 6px; border-radius: 4px;">RULE 1.2: 1 SUB ALLOWED</span>
+                  </div>
+                  <div style="font-size: 10.5px; color: #94A3B8;">Click "SUB IN" to execute dynamic swap</div>
+                </div>
+
+                <!-- 5 Bench Cards Grid -->
+                <div id="impact-bench-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+                  <!-- Rendered by JS -->
+                </div>
+              </div>
+
+            </div>
+
+            <!-- RIGHT: GAME-STATE CONTEXT & BELLMAN OPTION VALUE TELEMETRY -->
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              
+              <!-- 1. Match State & Trigger Timeline Slider -->
+              <div style="background: #091A33; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px 16px;">
+                <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #38BDF8; letter-spacing: 0.05em; margin-bottom: 10px;">
+                  1. Match State &amp; Substitution Window
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                  <div>
+                    <label style="font-size: 10.5px; color: #94A3B8; font-weight: 700; display: block; margin-bottom: 4px;">Toss &amp; Innings Plan</label>
+                    <select id="impact-innings-select" onchange="onImpactStateChange()" style="width: 100%; background: #06152B; border: 1px solid var(--rr-border); color: #FFFFFF; font-size: 11px; font-weight: 700; padding: 6px 8px; border-radius: 6px;">
+                      <option value="bat_first" selected>Batting First at SMS Jaipur</option>
+                      <option value="chasing">Chasing 185+ Target</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label style="font-size: 10.5px; color: #94A3B8; font-weight: 700; display: block; margin-bottom: 4px;">SMS Jaipur Pitch Condition</label>
+                    <select id="impact-pitch-select" onchange="onImpactStateChange()" style="width: 100%; background: #06152B; border: 1px solid var(--rr-border); color: #FFFFFF; font-size: 11px; font-weight: 700; padding: 6px 8px; border-radius: 6px;">
+                      <option value="black_soil" selected>Black Soil (Low &amp; Turn • 168 Par)</option>
+                      <option value="red_soil">Red Soil (True Bounce &amp; Pace • 196 Par)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Over Window Slider -->
+                <div>
+                  <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; margin-bottom: 6px;">
+                    <span style="color: #CBD5E1;">Trigger Point: <strong id="impact-over-val" style="color: #F59E0B; font-family: var(--font-mono);">Over 14.2 (Middle-Death Pivot)</strong></span>
+                    <span id="impact-bellman-verdict" style="color: #34D399; font-family: var(--font-mono); font-size: 10.5px;">⭐ OPTIMAL BELLMAN HORIZON</span>
+                  </div>
+                  <input type="range" id="impact-over-slider" min="1" max="20" step="1" value="14" oninput="onImpactSliderChange(this.value)" style="width: 100%; accent-color: #F59E0B; cursor: pointer;">
+                  <div style="display: flex; justify-content: space-between; font-size: 9.5px; color: #64748B; font-family: var(--font-mono); margin-top: 4px;">
+                    <span>Over 1 (PP Start)</span>
+                    <span>Over 6 (End PP)</span>
+                    <span>Over 14 (Optimal)</span>
+                    <span>Over 20 (Death Climax)</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2. Bellman Option Value Decay Canvas/Graph -->
+              <div style="background: linear-gradient(135deg, #091A33 0%, #041426 100%); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 10px; padding: 14px 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #F59E0B; letter-spacing: 0.05em;">
+                    2. Bellman Option Value Curve $V(t)$
+                  </div>
+                  <span style="font-family: var(--font-mono); font-size: 10px; color: #34D399; background: rgba(52, 211, 153, 0.15); padding: 2px 6px; border-radius: 4px;">
+                    MAX $V(t) = +12.4\%$
+                  </span>
+                </div>
+
+                <!-- SVG Curve -->
+                <div style="width: 100%; height: 95px; background: rgba(0,0,0,0.3); border-radius: 6px; position: relative; overflow: hidden; padding: 6px;">
+                  <svg id="impact-bellman-svg" viewBox="0 0 400 80" width="100%" height="100%" preserveAspectRatio="none">
+                    <!-- Dynamic Curve -->
+                  </svg>
+                </div>
+                <div style="font-size: 9.5px; color: #94A3B8; margin-top: 6px; display: flex; justify-content: space-between;">
+                  <span>Overs 1-6: Low Urgency (Preserve Option)</span>
+                  <span style="color: #F59E0B; font-weight: 700;">Overs 13-16: Peak Leverage Window</span>
+                  <span>Overs 18-20: Option Decay</span>
+                </div>
+              </div>
+
+              <!-- 3. Lineup Balance Telemetry & Net WP Impact -->
+              <div style="background: #091A33; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                  <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #34D399; letter-spacing: 0.05em;">
+                    3. Net Lineup Equilibrium Telemetry
+                  </div>
+                  <span id="impact-net-wp-badge" style="font-family: var(--font-mono); font-size: 11px; font-weight: 900; color: #34D399; background: rgba(52, 211, 153, 0.15); padding: 2px 8px; border-radius: 4px;">
+                    +10.4% WP BOOST
+                  </span>
+                </div>
+
+                <!-- 4 KPI Metrics -->
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; margin-bottom: 12px;">
+                  <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 8px 4px; border-radius: 6px;">
+                    <div style="font-size: 9px; color: #94A3B8; font-weight: 700;">JAIPUR EXP TOTAL</div>
+                    <div id="impact-metric-total" style="font-size: 17px; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono); margin-top: 2px;">194.2</div>
+                  </div>
+
+                  <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 8px 4px; border-radius: 6px;">
+                    <div style="font-size: 9px; color: #94A3B8; font-weight: 700;">BAT DEPTH</div>
+                    <div id="impact-metric-bat" style="font-size: 17px; font-weight: 900; color: #38BDF8; font-family: var(--font-mono); margin-top: 2px;">92.4 <span style="font-size: 10px; color: #94A3B8;">/100</span></div>
+                  </div>
+
+                  <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 8px 4px; border-radius: 6px;">
+                    <div style="font-size: 9px; color: #94A3B8; font-weight: 700;">BOWLING QUOTA</div>
+                    <div id="impact-metric-quota" style="font-size: 17px; font-weight: 900; color: #34D399; font-family: var(--font-mono); margin-top: 2px;">20 <span style="font-size: 10px; color: #94A3B8;">/20 ov</span></div>
+                  </div>
+
+                  <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 8px 4px; border-radius: 6px;">
+                    <div style="font-size: 9px; color: #94A3B8; font-weight: 700;">DEATH DEFENSE</div>
+                    <div id="impact-metric-death" style="font-size: 17px; font-weight: 900; color: var(--rr-pink); font-family: var(--font-mono); margin-top: 2px;">94.8 <span style="font-size: 10px; color: #94A3B8;">/100</span></div>
+                  </div>
+                </div>
+
+                <!-- Export Action -->
+                <button onclick="copyImpactStrategySheet()" class="btn-header-action" style="width: 100%; justify-content: center; background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(52, 211, 153, 0.2)); border-color: #F59E0B; color: #FFFFFF; font-size: 11px; font-weight: 800; padding: 8px; border-radius: 6px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);">
+                  📋 Copy Dugout Impact Protocol Sheet
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
       <!-- TAB 10: TOP-1 RECOMMENDATION & DECISION MATRIX -->
             <!-- TAB 10: TOP-1 RECOMMENDATION & DECISION MATRIX (Part D2 & D3) -->
       <section id="tab-top1" class="tab-pane">
@@ -7556,6 +7769,7 @@ function switchTab(rawTabId) {
   else if (tabId === 'tab-defense') renderDefenseMatrixTab();
   else if (tabId === 'tab-chase-sim') renderChaseSimTab();
   else if (tabId === 'tab-field-optimizer') renderFieldOptimizerTab();
+  else if (tabId === 'tab-impact-sub') renderImpactSubTab();
   else if (tabId === 'tab-auction') {
     renderAuctionSection();
     initAuctionSimulator();
@@ -13512,6 +13726,510 @@ window.autoOptimizeField = autoOptimizeField;
 window.copyTacticalFieldCoordinates = copyTacticalFieldCoordinates;
 window.FIELD_STATE = FIELD_STATE;
 
+
+// =========================================================================
+// PART D9: AI IMPACT PLAYER & QUANTUM LINEUP OPTIMIZER (BELLMAN ENGINE)
+// =========================================================================
+const RR_DEFAULT_XI = [
+  { id: 1, name: "Yashasvi Jaiswal", role: "bat", overseas: false, hp_balls: 279, net_100: 9.8, rank: 42, isSubbedOut: false },
+  { id: 2, name: "Sanju Samson", role: "bat", overseas: false, hp_balls: 320, net_100: 8.4, rank: 45, isSubbedOut: false },
+  { id: 3, name: "Riyan Parag", role: "bat", overseas: false, hp_balls: 293, net_100: 6.3, rank: 78, isSubbedOut: false },
+  { id: 4, name: "Dhruv Jurel", role: "bat", overseas: false, hp_balls: 215, net_100: 5.1, rank: 68, isSubbedOut: false },
+  { id: 5, name: "Shimron Hetmyer", role: "bat", overseas: true, hp_balls: 198, net_100: 12.6, rank: 52, isSubbedOut: false },
+  { id: 6, name: "Ravindra Jadeja", role: "all", overseas: false, hp_balls: 381, net_100: 6.4, rank: 27, isSubbedOut: false },
+  { id: 7, name: "Sam Curran", role: "all", overseas: true, hp_balls: 361, net_100: -1.9, rank: 63, isSubbedOut: false },
+  { id: 8, name: "Jofra Archer", role: "bowl", overseas: true, hp_balls: 294, net_100: 24.5, rank: 13, isSubbedOut: false },
+  { id: 9, name: "Tushar Deshpande", role: "bowl", overseas: false, hp_balls: 343, net_100: -0.4, rank: 47, isSubbedOut: false },
+  { id: 10, name: "Sandeep Sharma", role: "bowl", overseas: false, hp_balls: 249, net_100: -2.3, rank: 54, isSubbedOut: false },
+  { id: 11, name: "Ravi Bishnoi", role: "bowl", overseas: false, hp_balls: 713, net_100: -15.9, rank: 93, isSubbedOut: false }
+];
+
+const RR_BENCH_POOL = [
+  {
+    id: "sub_vaibhav",
+    name: "Vaibhav Suryavanshi",
+    role: "bat",
+    overseas: false,
+    hp_balls: 161,
+    net_100: 74.84,
+    delta: 8.34,
+    rank: 8,
+    highlight: "14yo Wonderkid • SR 231.1",
+    tacticalTag: "Explosive Counter-Attack",
+    deltaWp: 12.4,
+    defaultReplace: "Tushar Deshpande",
+    scenario: "Chase 190+ or Collapse"
+  },
+  {
+    id: "sub_mohit",
+    name: "Mohit Sharma",
+    role: "bowl",
+    overseas: false,
+    hp_balls: 176,
+    net_100: 24.96,
+    delta: 38.51,
+    rank: 9,
+    highlight: "Death Yorker Master • Net +24.96",
+    tacticalTag: "SMS Death Lock",
+    deltaWp: 9.8,
+    defaultReplace: "Shimron Hetmyer",
+    scenario: "Defending Total at Death"
+  },
+  {
+    id: "sub_dasun",
+    name: "Dasun Shanaka",
+    role: "all",
+    overseas: true,
+    hp_balls: 266,
+    net_100: -0.52,
+    delta: -11.54,
+    rank: 82,
+    highlight: "Pace All-Rounder • Bat Depth #8",
+    tacticalTag: "Middle Balance",
+    deltaWp: 7.2,
+    defaultReplace: "Ravi Bishnoi",
+    scenario: "Pace-Friendly Red Soil"
+  },
+  {
+    id: "sub_milne",
+    name: "Adam Milne",
+    role: "bowl",
+    overseas: true,
+    hp_balls: 150,
+    net_100: 2.11,
+    delta: 4.91,
+    rank: 60,
+    highlight: "150 km/h Express Heat",
+    tacticalTag: "Enforcer Bouncer",
+    deltaWp: 8.1,
+    defaultReplace: "Tushar Deshpande",
+    scenario: "Hard Length Hostile Spell"
+  },
+  {
+    id: "sub_chase",
+    name: "Roston Chase",
+    role: "all",
+    overseas: true,
+    hp_balls: 180,
+    net_100: 4.20,
+    delta: 6.10,
+    rank: 65,
+    highlight: "Tall Off-Spinner • Tight Econ",
+    tacticalTag: "Spin Web Choke",
+    deltaWp: 8.6,
+    defaultReplace: "Sandeep Sharma",
+    scenario: "Turning Black Soil Surface"
+  }
+];
+
+const IMPACT_STATE = {
+  activeXI: JSON.parse(JSON.stringify(RR_DEFAULT_XI)),
+  bench: JSON.parse(JSON.stringify(RR_BENCH_POOL)),
+  activeSub: null, // { subPlayer, replacedPlayer, overTriggered }
+  triggerOver: 14,
+  inningsPlan: 'bat_first',
+  pitchType: 'black_soil'
+};
+
+function initImpactSubOptimizer() {
+  renderImpactXI();
+  renderImpactBench();
+  renderBellmanCurve();
+  updateImpactTelemetry();
+}
+
+function renderImpactSubTab() {
+  initImpactSubOptimizer();
+}
+
+function renderImpactXI() {
+  const tbody = document.getElementById('impact-xi-tbody');
+  if (!tbody) return;
+
+  let overseasCount = 0;
+  let rowsHtml = '';
+
+  IMPACT_STATE.activeXI.forEach((p, idx) => {
+    if (p.overseas && !p.isSubbedOut) overseasCount++;
+
+    const isSub = IMPACT_STATE.activeSub && IMPACT_STATE.activeSub.subPlayer.name === p.name;
+    const isOut = p.isSubbedOut;
+
+    const rowBg = isSub ? 'rgba(245, 158, 11, 0.12)' : (isOut ? 'rgba(239, 68, 68, 0.08)' : 'transparent');
+    const nameColor = isOut ? '#64748B' : '#FFFFFF';
+    const textDecor = isOut ? 'line-through' : 'none';
+
+    let roleBadge = '';
+    if (p.role === 'bat') roleBadge = '<span style="background: rgba(229,0,125,0.2); color: #FF85C0; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 9.5px;">BAT</span>';
+    else if (p.role === 'bowl') roleBadge = '<span style="background: rgba(56,189,248,0.2); color: #7DD3FC; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 9.5px;">BOWL</span>';
+    else roleBadge = '<span style="background: rgba(52,211,153,0.2); color: #34D399; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 9.5px;">ALL</span>';
+
+    let statusTag = '';
+    if (isSub) {
+      statusTag = `<span style="color: #FBBF24; font-weight: 800; font-family: var(--font-mono); font-size: 10px;">⭐ IMPACT IN (Ov ${IMPACT_STATE.triggerOver})</span>`;
+    } else if (isOut) {
+      statusTag = `<span style="color: #F87171; font-weight: 700; font-family: var(--font-mono); font-size: 10px;">🔴 SUBBED OUT (Ov ${IMPACT_STATE.triggerOver})</span>`;
+    } else {
+      statusTag = '<span style="color: #94A3B8; font-size: 10px;">Active XI</span>';
+    }
+
+    let actionBtn = '';
+    if (!isOut && !isSub) {
+      actionBtn = `<button onclick="promptSwapPlayer('${p.name.replace(/'/g, "\\'")}')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #CBD5E1; padding: 3px 6px; border-radius: 4px; font-size: 9.5px; cursor: pointer;" title="Select this player to be subbed out">Swap</button>`;
+    } else if (isSub) {
+      actionBtn = `<button onclick="resetImpactLineup()" style="background: rgba(239,68,68,0.15); border: 1px solid #EF4444; color: #FCA5A5; padding: 3px 6px; border-radius: 4px; font-size: 9.5px; cursor: pointer;">Revert</button>`;
+    }
+
+    rowsHtml += `
+      <tr style="background: ${rowBg}; border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 0.2s ease;">
+        <td style="padding: 6px 8px; font-weight: 800; color: #94A3B8; font-family: var(--font-mono);">${idx + 1}</td>
+        <td style="padding: 6px 8px;">
+          <div style="font-weight: 800; color: ${nameColor}; text-decoration: ${textDecor}; font-size: 12px;">
+            ${p.name} ${p.overseas ? '<span style="font-size: 10px; color: #F59E0B;" title="Overseas Player">✈️</span>' : ''}
+          </div>
+        </td>
+        <td style="padding: 6px 8px;">${roleBadge}</td>
+        <td style="padding: 6px 8px; text-align: right; font-family: var(--font-mono); color: #CBD5E1;">${p.hp_balls}</td>
+        <td style="padding: 6px 8px; text-align: right; font-family: var(--font-mono); font-weight: 700; color: ${p.net_100 >= 0 ? '#34D399' : '#F87171'};">
+          ${p.net_100 >= 0 ? '+' : ''}${p.net_100.toFixed(1)}
+        </td>
+        <td style="padding: 6px 8px; text-align: right;">${statusTag}</td>
+        <td style="padding: 6px 8px; text-align: center;">${actionBtn}</td>
+      </tr>
+    `;
+  });
+
+  tbody.innerHTML = rowsHtml;
+
+  const ovCountEl = document.getElementById('impact-overseas-count');
+  if (ovCountEl) {
+    ovCountEl.innerText = `${overseasCount} / 4 Max`;
+    ovCountEl.style.color = overseasCount <= 4 ? '#34D399' : '#EF4444';
+  }
+
+  const statusTagEl = document.getElementById('impact-active-status-tag');
+  if (statusTagEl) {
+    if (IMPACT_STATE.activeSub) {
+      statusTagEl.style.background = 'rgba(245, 158, 11, 0.2)';
+      statusTagEl.style.color = '#FBBF24';
+      statusTagEl.innerText = `⚡ 12-MAN SUB ACTIVE: ${IMPACT_STATE.activeSub.subPlayer.name.toUpperCase()}`;
+    } else {
+      statusTagEl.style.background = 'rgba(52, 211, 153, 0.15)';
+      statusTagEl.style.color = '#34D399';
+      statusTagEl.innerText = '11 / 11 PLAYERS ON FIELD';
+    }
+  }
+}
+
+function renderImpactBench() {
+  const grid = document.getElementById('impact-bench-grid');
+  if (!grid) return;
+
+  let cardsHtml = '';
+  IMPACT_STATE.bench.forEach(sub => {
+    const isCurrentlySubbedIn = IMPACT_STATE.activeSub && IMPACT_STATE.activeSub.subPlayer.id === sub.id;
+
+    cardsHtml += `
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid ${isCurrentlySubbedIn ? '#F59E0B' : 'rgba(255,255,255,0.08)'}; border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.2s ease;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+            <div style="font-weight: 800; font-size: 13px; color: #FFFFFF;">
+              ${sub.name} ${sub.overseas ? '✈️' : ''}
+            </div>
+            <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: #34D399; background: rgba(52,211,153,0.15); padding: 1px 5px; border-radius: 4px;">
+              +${sub.deltaWp}% WP
+            </span>
+          </div>
+
+          <div style="font-size: 10.5px; color: #94A3B8; margin-bottom: 6px;">
+            ${sub.highlight}
+          </div>
+
+          <div style="display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px;">
+            <span style="background: rgba(56,189,248,0.12); color: #7DD3FC; font-size: 9.5px; padding: 2px 5px; border-radius: 4px; font-weight: 700;">${sub.tacticalTag}</span>
+            <span style="background: rgba(245,158,11,0.12); color: #FDE68A; font-size: 9.5px; padding: 2px 5px; border-radius: 4px;">Swap: ${sub.defaultReplace}</span>
+          </div>
+        </div>
+
+        <div>
+          ${isCurrentlySubbedIn ? `
+            <button onclick="resetImpactLineup()" style="width: 100%; background: rgba(239,68,68,0.2); border: 1px solid #EF4444; color: #FCA5A5; font-size: 10.5px; font-weight: 800; padding: 5px; border-radius: 6px; cursor: pointer;">
+              Revert Sub
+            </button>
+          ` : `
+            <button onclick="executeImpactSub('${sub.id}', '${sub.defaultReplace.replace(/'/g, "\\'")}')" style="width: 100%; background: linear-gradient(135deg, rgba(245,158,11,0.25) 0%, rgba(217,119,6,0.35) 100%); border: 1px solid #F59E0B; color: #FDE68A; font-size: 10.5px; font-weight: 800; padding: 5px; border-radius: 6px; cursor: pointer;">
+              ⚡ SUB IN NOW &rarr;
+            </button>
+          `}
+        </div>
+      </div>
+    `;
+  });
+
+  grid.innerHTML = cardsHtml;
+}
+
+function executeImpactSub(subId, targetPlayerName) {
+  const subObj = IMPACT_STATE.bench.find(s => s.id === subId);
+  if (!subObj) return;
+
+  // Restore fresh XI copy
+  const freshXI = JSON.parse(JSON.stringify(RR_DEFAULT_XI));
+
+  // Find target in XI
+  const targetIdx = freshXI.findIndex(p => p.name.toLowerCase() === targetPlayerName.toLowerCase());
+  if (targetIdx === -1) {
+    alert(`Could not find ${targetPlayerName} in active XI.`);
+    return;
+  }
+
+  // Overseas check: if sub is overseas and target is domestic, check overseas limit <= 4
+  const currentOverseas = freshXI.filter(p => p.overseas && p.name !== targetPlayerName).length;
+  if (subObj.overseas && currentOverseas >= 4) {
+    alert("⚠️ IPL Overseas Limit Exceeded: An overseas player can only replace an overseas player when 4 overseas are already selected.");
+    return;
+  }
+
+  // Mark replaced player
+  freshXI[targetIdx].isSubbedOut = true;
+
+  // Insert sub into active list right after target
+  const newSubPlayer = {
+    id: freshXI.length + 1,
+    name: subObj.name,
+    role: subObj.role,
+    overseas: subObj.overseas,
+    hp_balls: subObj.hp_balls,
+    net_100: subObj.net_100,
+    rank: subObj.rank,
+    isSubbedOut: false
+  };
+  freshXI.splice(targetIdx + 1, 0, newSubPlayer);
+
+  IMPACT_STATE.activeXI = freshXI;
+  IMPACT_STATE.activeSub = {
+    subPlayer: subObj,
+    replacedPlayer: freshXI[targetIdx],
+    overTriggered: IMPACT_STATE.triggerOver
+  };
+
+  renderImpactXI();
+  renderImpactBench();
+  renderBellmanCurve();
+  updateImpactTelemetry();
+}
+
+function promptSwapPlayer(playerName) {
+  const subOptions = IMPACT_STATE.bench.map(s => `• ${s.name} (+${s.deltaWp}% WP)`).join('\n');
+  const chosenSubName = prompt(`Select bench player to swap in for ${playerName}:\n\n${subOptions}\n\nEnter exact bench player name:`, "Vaibhav Suryavanshi");
+  if (!chosenSubName) return;
+
+  const foundSub = IMPACT_STATE.bench.find(s => s.name.toLowerCase().includes(chosenSubName.toLowerCase().trim()));
+  if (foundSub) {
+    executeImpactSub(foundSub.id, playerName);
+  } else {
+    alert("Bench player not found. Please choose from: Vaibhav Suryavanshi, Mohit Sharma, Dasun Shanaka, Adam Milne, Roston Chase.");
+  }
+}
+
+function resetImpactLineup() {
+  IMPACT_STATE.activeXI = JSON.parse(JSON.stringify(RR_DEFAULT_XI));
+  IMPACT_STATE.activeSub = null;
+  renderImpactXI();
+  renderImpactBench();
+  renderBellmanCurve();
+  updateImpactTelemetry();
+}
+
+function setImpactScenario(scenarioKey) {
+  if (scenarioKey === 'jaipur_death') {
+    IMPACT_STATE.inningsPlan = 'bat_first';
+    IMPACT_STATE.pitchType = 'black_soil';
+    IMPACT_STATE.triggerOver = 16;
+    executeImpactSub('sub_mohit', 'Shimron Hetmyer');
+  } else if (scenarioKey === 'chase_collapse') {
+    IMPACT_STATE.inningsPlan = 'chasing';
+    IMPACT_STATE.pitchType = 'red_soil';
+    IMPACT_STATE.triggerOver = 6;
+    executeImpactSub('sub_vaibhav', 'Tushar Deshpande');
+  } else if (scenarioKey === 'spin_trap') {
+    IMPACT_STATE.inningsPlan = 'bat_first';
+    IMPACT_STATE.pitchType = 'black_soil';
+    IMPACT_STATE.triggerOver = 8;
+    executeImpactSub('sub_chase', 'Sandeep Sharma');
+  }
+
+  const slider = document.getElementById('impact-over-slider');
+  if (slider) slider.value = IMPACT_STATE.triggerOver;
+  onImpactSliderChange(IMPACT_STATE.triggerOver);
+}
+
+function onImpactStateChange() {
+  const innSel = document.getElementById('impact-innings-select');
+  if (innSel) IMPACT_STATE.inningsPlan = innSel.value;
+
+  const pitchSel = document.getElementById('impact-pitch-select');
+  if (pitchSel) IMPACT_STATE.pitchType = pitchSel.value;
+
+  renderBellmanCurve();
+  updateImpactTelemetry();
+}
+
+function onImpactSliderChange(val) {
+  IMPACT_STATE.triggerOver = parseInt(val, 10);
+  const overValEl = document.getElementById('impact-over-val');
+  if (overValEl) {
+    let phaseName = 'Middle Phase';
+    if (IMPACT_STATE.triggerOver <= 6) phaseName = 'Powerplay Pivot';
+    else if (IMPACT_STATE.triggerOver >= 16) phaseName = 'Death Lockdown';
+    else if (IMPACT_STATE.triggerOver >= 13) phaseName = 'Optimal Middle-Death Pivot';
+    overValEl.innerText = `Over ${IMPACT_STATE.triggerOver}.0 (${phaseName})`;
+  }
+
+  const verdictEl = document.getElementById('impact-bellman-verdict');
+  if (verdictEl) {
+    if (IMPACT_STATE.triggerOver >= 13 && IMPACT_STATE.triggerOver <= 16) {
+      verdictEl.style.color = '#34D399';
+      verdictEl.innerText = '⭐ OPTIMAL BELLMAN HORIZON';
+    } else if (IMPACT_STATE.triggerOver < 8) {
+      verdictEl.style.color = '#38BDF8';
+      verdictEl.innerText = '🛡️ EARLY PRESERVATION';
+    } else {
+      verdictEl.style.color = '#F59E0B';
+      verdictEl.innerText = '⚠️ OPTION DECAY ZONE';
+    }
+  }
+
+  if (IMPACT_STATE.activeSub) {
+    IMPACT_STATE.activeSub.overTriggered = IMPACT_STATE.triggerOver;
+  }
+
+  renderImpactXI();
+  renderBellmanCurve();
+  updateImpactTelemetry();
+}
+
+function renderBellmanCurve() {
+  const svg = document.getElementById('impact-bellman-svg');
+  if (!svg) return;
+
+  // Draw Bellman curve V(t) from t=1 to 20
+  // Peak value occurs around t=14.5
+  const W = 400;
+  const H = 80;
+  let pts = [];
+
+  for (let t = 1; t <= 20; t++) {
+    const x = ((t - 1) / 19) * (W - 20) + 10;
+    // Bell curve peaked at 14.5
+    const bell = Math.exp(-0.5 * Math.pow((t - 14.5) / 3.2, 2));
+    const val = 0.2 + 0.8 * bell; // 0.2 to 1.0
+    const y = H - 10 - val * (H - 24);
+    pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+  }
+
+  const currentT = IMPACT_STATE.triggerOver;
+  const curX = ((currentT - 1) / 19) * (W - 20) + 10;
+  const curBell = Math.exp(-0.5 * Math.pow((currentT - 14.5) / 3.2, 2));
+  const curVal = 0.2 + 0.8 * curBell;
+  const curY = H - 10 - curVal * (H - 24);
+
+  let svgHtml = `
+    <!-- Shaded Peak Area (Overs 13-16) -->
+    <rect x="${((13 - 1) / 19) * (W - 20) + 10}" y="6" width="${(3 / 19) * (W - 20)}" height="${H - 12}" fill="rgba(52, 211, 153, 0.12)" stroke="rgba(52, 211, 153, 0.3)" stroke-dasharray="2,2" />
+    
+    <!-- Base Curve Line -->
+    <polyline points="${pts.join(' ')}" fill="none" stroke="#F59E0B" stroke-width="2.5" />
+
+    <!-- Current Marker -->
+    <line x1="${curX}" y1="4" x2="${curX}" y2="${H - 6}" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" />
+    <circle cx="${curX}" cy="${curY}" r="5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="2" />
+    <text x="${curX}" y="${curY - 8}" fill="#FFFFFF" font-size="9" font-weight="900" font-family="monospace" text-anchor="middle">Ov ${currentT}</text>
+  `;
+
+  svg.innerHTML = svgHtml;
+}
+
+function updateImpactTelemetry() {
+  const isSubActive = !!IMPACT_STATE.activeSub;
+  const sub = IMPACT_STATE.activeSub ? IMPACT_STATE.activeSub.subPlayer : null;
+
+  // Base Jaipur Total: 182.0 on black soil, 192.0 on red soil
+  const baseTotal = IMPACT_STATE.pitchType === 'black_soil' ? 181.5 : 192.0;
+  const netWpBoost = isSubActive ? sub.deltaWp : 0.0;
+  const totalWithSub = (baseTotal + (isSubActive ? (sub.role === 'bat' ? 12.8 : 6.4) : 0)).toFixed(1);
+
+  const batScore = isSubActive && sub.role === 'bat' ? 95.8 : 91.2;
+  const deathScore = isSubActive && sub.name === 'Mohit Sharma' ? 97.4 : 93.6;
+
+  const totalEl = document.getElementById('impact-metric-total');
+  if (totalEl) totalEl.innerText = `${totalWithSub}`;
+
+  const batEl = document.getElementById('impact-metric-bat');
+  if (batEl) batEl.innerHTML = `${batScore} <span style="font-size: 10px; color: #94A3B8;">/100</span>`;
+
+  const deathEl = document.getElementById('impact-metric-death');
+  if (deathEl) deathEl.innerHTML = `${deathScore} <span style="font-size: 10px; color: #94A3B8;">/100</span>`;
+
+  const wpBadge = document.getElementById('impact-net-wp-badge');
+  if (wpBadge) {
+    if (isSubActive) {
+      wpBadge.style.background = 'rgba(52, 211, 153, 0.18)';
+      wpBadge.style.color = '#34D399';
+      wpBadge.innerText = `+${netWpBoost.toFixed(1)}% WP BOOST`;
+    } else {
+      wpBadge.style.background = 'rgba(255, 255, 255, 0.06)';
+      wpBadge.style.color = '#94A3B8';
+      wpBadge.innerText = 'STATUS QUO (NO SUB)';
+    }
+  }
+}
+
+function copyImpactStrategySheet() {
+  const isSubActive = !!IMPACT_STATE.activeSub;
+  const sub = isSubActive ? IMPACT_STATE.activeSub.subPlayer : null;
+  const replaced = isSubActive ? IMPACT_STATE.activeSub.replacedPlayer : null;
+
+  const lines = [
+    `### RAJASTHAN ROYALS DUGOUT — IMPACT PLAYER STRATEGY DOSSIER`,
+    `Venue: Sawai Mansingh Stadium, Jaipur | Surface: ${IMPACT_STATE.pitchType.toUpperCase()}`,
+    `Innings Strategy: ${IMPACT_STATE.inningsPlan.toUpperCase()} | Optimal Window: Overs 13.0 - 16.0`,
+    `----------------------------------------------------------------`,
+    `Active Impact Sub: ${isSubActive ? sub.name : 'None (Starting XI)'}`,
+    `Subbed Out Player: ${isSubActive ? replaced.name : 'N/A'}`,
+    `Trigger Over: ${IMPACT_STATE.triggerOver}.0`,
+    `Projected Win-Probability Delta: ${isSubActive ? '+' + sub.deltaWp + '%' : '0.0%'}`,
+    `Expected Team Total at SMS Jaipur: ${document.getElementById('impact-metric-total').innerText} runs`,
+    `Batting Depth Index: ${document.getElementById('impact-metric-bat').innerText}`,
+    `Death Defense Index: ${document.getElementById('impact-metric-death').innerText}`,
+    `----------------------------------------------------------------`,
+    `Executive Tactical Directive:`,
+    isSubActive 
+      ? `Execute swap of ${sub.name} for ${replaced.name} at Over ${IMPACT_STATE.triggerOver} to exploit ${sub.tacticalTag}.`
+      : `Hold Impact Player option until Over 14.0 middle-death pivot unless top-order collapse triggers emergency protocol.`
+  ];
+
+  const sheetText = lines.join('\n');
+  navigator.clipboard.writeText(sheetText).then(() => {
+    alert("✅ Captain's Impact Player Strategy Dossier copied to clipboard!");
+  }).catch(() => {
+    prompt("Copy Captain's Impact Strategy Dossier:", sheetText);
+  });
+}
+
+window.initImpactSubOptimizer = initImpactSubOptimizer;
+window.renderImpactSubTab = renderImpactSubTab;
+window.renderImpactXI = renderImpactXI;
+window.renderImpactBench = renderImpactBench;
+window.executeImpactSub = executeImpactSub;
+window.promptSwapPlayer = promptSwapPlayer;
+window.resetImpactLineup = resetImpactLineup;
+window.setImpactScenario = setImpactScenario;
+window.onImpactStateChange = onImpactStateChange;
+window.onImpactSliderChange = onImpactSliderChange;
+window.copyImpactStrategySheet = copyImpactStrategySheet;
+window.IMPACT_STATE = IMPACT_STATE;
+
 </script>
 
   <!-- NATIVE MOBILE APP BOTTOM NAVIGATION BAR -->
@@ -13559,6 +14277,7 @@ window.FIELD_STATE = FIELD_STATE;
       <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-defense')"><span>🛡️</span> 20-Over Defense Planner</button>
       <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-chase-sim')"><span>⚡</span> Win-Prob Chase Simulator</button>
       <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-field-optimizer')" style="border-color: #34D399; background: rgba(52, 211, 153, 0.12); color: #34D399; font-weight: 800;"><span>📐</span> AI Field Placement Radar</button>
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-impact-sub')" style="border-color: #F59E0B; background: rgba(245, 158, 11, 0.15); color: #FBBF24; font-weight: 800;"><span>🧬</span> Impact Player Optimizer</button>
       <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-duel')"><span>⚔️</span> Duel Simulator</button>
       <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-scatter')"><span>⚡</span> Pressure Scatter</button>
       <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-slope')"><span>📈</span> Rank Movement</button>
