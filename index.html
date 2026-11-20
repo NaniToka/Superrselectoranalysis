@@ -9555,6 +9555,177 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
 
         </div>
 
+      
+        <!-- SECTION 6: DYNAMIC 20-OVER BOWLING ALLOCATION & CHOKE OPTIMIZER (Part T6) -->
+        <div class="card mb-6" id="tactics-bowling-allocation-card" style="margin-top: 28px; position: relative; border: 1px solid rgba(56, 189, 248, 0.35); background: linear-gradient(180deg, #07152B 0%, #040D1A 100%); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.1); border-radius: 12px; overflow: hidden;">
+          
+          <!-- Top Header -->
+          <div style="background: linear-gradient(135deg, #091A33 0%, #0B2545 50%, #091A33 100%); padding: 18px 22px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 20px;">🎯</span>
+                <div style="font-size: 16px; font-weight: 900; color: #FFFFFF; letter-spacing: -0.01em;">
+                  <span style="color: #38BDF8;">Part T6:</span> Dynamic 20-Over Bowling Allocation &amp; Choke Optimizer
+                </div>
+                <span class="pill-competition" style="background: rgba(56,189,248,0.2); color: #7DD3FC; border-color: #38BDF8; font-size: 9.5px;">CAPTAINCY DEPLOYMENT ENGINE</span>
+              </div>
+              <div style="font-size: 11px; color: #94A3B8; margin-top: 3px;">
+                Over-by-Over Phase Quota Allocation &bull; Continuous Leverage Index ($LI$) Weighting &bull; Minimum-Runs Defense Optimization (Sawai Mansingh Stadium, Jaipur)
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <button type="button" onclick="copyBowlingAllocationDossier()" style="background: rgba(229,0,125,0.18); border: 1px solid var(--rr-pink); color: #FF85C0; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                📋 Copy Captain's Dossier
+              </button>
+            </div>
+          </div>
+
+          <!-- LIVE TELEMETRY HUD (4 CARDS) -->
+          <div style="padding: 20px 22px 10px 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px;">
+            
+            <!-- HUD Card 1: Target Defense & Projected Total -->
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-left: 4px solid #38BDF8; border-radius: 8px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-size: 11px; font-weight: 800; color: #38BDF8; text-transform: uppercase;">Target Defense Matrix</span>
+                <div style="display: flex; align-items: center; gap: 4px; font-size: 10px;">
+                  <span style="color: #94A3B8;">Target:</span>
+                  <input type="number" id="alloc-target-input" value="175" min="120" max="250" onchange="onTargetScoreChange(this.value)" style="width: 48px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); color: #F8FAFC; font-weight: 800; font-family: var(--font-mono); font-size: 10px; border-radius: 3px; padding: 1px 4px; text-align: center;">
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                <div>
+                  <div style="font-size: 20px; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono);" id="alloc-proj-total">147.2</div>
+                  <div style="font-size: 10px; color: #94A3B8;">Projected Conceded (20.0 Ov)</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 14px; font-weight: 900; color: #34D399; font-family: var(--font-mono);" id="alloc-win-prob">78.4% Win</div>
+                  <div style="font-size: 10px; color: #34D399;" id="alloc-margin">+27.8 Run Buffer</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- HUD Card 2: 3-Phase Economy Progression -->
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-left: 4px solid #C084FC; border-radius: 8px; padding: 14px;">
+              <div style="font-size: 11px; font-weight: 800; color: #C084FC; text-transform: uppercase; margin-bottom: 6px;">Phase Economy Progression</div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; font-size: 10px; font-family: var(--font-mono); text-align: center;">
+                <div style="background: rgba(56,189,248,0.12); padding: 5px 3px; border-radius: 4px; border: 1px solid rgba(56,189,248,0.25);">
+                  <div style="color: #38BDF8; font-weight: 800;">PP (1-6)</div>
+                  <div style="color: #FFFFFF; font-weight: 700; margin-top: 1px;" id="alloc-pp-econ">6.72</div>
+                </div>
+                <div style="background: rgba(168,85,247,0.12); padding: 5px 3px; border-radius: 4px; border: 1px solid rgba(168,85,247,0.25);">
+                  <div style="color: #C084FC; font-weight: 800;">MID (7-15)</div>
+                  <div style="color: #FFFFFF; font-weight: 700; margin-top: 1px;" id="alloc-mid-econ">6.84</div>
+                </div>
+                <div style="background: rgba(255,46,147,0.12); padding: 5px 3px; border-radius: 4px; border: 1px solid rgba(255,46,147,0.25);">
+                  <div style="color: #FF85C0; font-weight: 800;">DEATH (16-20)</div>
+                  <div style="color: #FFFFFF; font-weight: 700; margin-top: 1px;" id="alloc-death-econ">8.82</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- HUD Card 3: Dot Ball Choke Pressure -->
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-left: 4px solid #34D399; border-radius: 8px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-size: 11px; font-weight: 800; color: #34D399; text-transform: uppercase;">Dot Ball Choke Pressure</span>
+                <span style="font-size: 9.5px; background: rgba(52,211,153,0.15); color: #34D399; padding: 1px 5px; border-radius: 3px; font-weight: 800;">ELITE CHOKE</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                <div>
+                  <div style="font-size: 20px; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono);" id="alloc-dot-total">58.4 Dots</div>
+                  <div style="font-size: 10px; color: #94A3B8;">Out of 120 Deliveries</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 14px; font-weight: 900; color: #34D399; font-family: var(--font-mono);" id="alloc-dot-pct">48.7%</div>
+                  <div style="font-size: 10px; color: #94A3B8;">Dot Frequency</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- HUD Card 4: Wicket Threat & Dismissal Expectancy -->
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-left: 4px solid var(--rr-pink); border-radius: 8px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-size: 11px; font-weight: 800; color: var(--rr-pink); text-transform: uppercase;">Wicket Expectancy (xW)</span>
+                <span style="font-size: 9.5px; background: rgba(229,0,125,0.18); color: #FF85C0; padding: 1px 5px; border-radius: 3px; font-weight: 800;">PEAK: OV 16-19</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                <div>
+                  <div style="font-size: 20px; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono);" id="alloc-xw-total">6.8 Wkts</div>
+                  <div style="font-size: 10px; color: #94A3B8;">Projected Breakthroughs</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 14px; font-weight: 900; color: #38BDF8; font-family: var(--font-mono);" id="alloc-pp-wkts">2.1 in PP</div>
+                  <div style="font-size: 10px; color: #94A3B8;">New Ball Strike</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- BOWLER QUOTA TRACKER STRIP -->
+          <div style="padding: 10px 22px 6px 22px;">
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 8px; padding: 12px 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 11px; font-weight: 800; color: #F8FAFC; text-transform: uppercase;">Bowler Quota Enforcement (Max 4 Overs per Bowler):</span>
+                  <span id="alloc-quota-status" style="font-size: 10px; font-family: var(--font-mono); font-weight: 800; color: #34D399; background: rgba(52,211,153,0.15); padding: 2px 7px; border-radius: 4px;">
+                    ✅ 20 / 20 Overs Allocated
+                  </span>
+                </div>
+                <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+                  <span style="font-size: 10.5px; color: #64748B; font-weight: 700;">Tactical Presets:</span>
+                  <button type="button" class="btn-alloc-preset active" id="alloc-preset-sms" onclick="applyBowlingPreset('sms_fortress')" style="background: rgba(56,189,248,0.2); border: 1px solid #38BDF8; color: #7DD3FC; font-size: 10.5px; font-weight: 800; padding: 3px 8px; border-radius: 4px; cursor: pointer;">
+                    🏰 SMS Jaipur Fortress
+                  </button>
+                  <button type="button" class="btn-alloc-preset" id="alloc-preset-pp" onclick="applyBowlingPreset('pp_assault')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #CBD5E1; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 4px; cursor: pointer;">
+                    ⚡ PP Wicket-Hunt
+                  </button>
+                  <button type="button" class="btn-alloc-preset" id="alloc-preset-death" onclick="applyBowlingPreset('death_lockdown')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #FF85C0; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 4px; cursor: pointer;">
+                    🛡️ Death Lockdown
+                  </button>
+                  <button type="button" class="btn-alloc-preset" id="alloc-preset-spin" onclick="applyBowlingPreset('spin_choke')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #C084FC; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 4px; cursor: pointer;">
+                    🌀 8-Over Spin Choke
+                  </button>
+                </div>
+              </div>
+              <div id="alloc-quota-pills" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <!-- Dynamically populated quota progress badges -->
+              </div>
+            </div>
+          </div>
+
+          <!-- OVER-BY-OVER VISUAL FLOW CHART (SVG) -->
+          <div style="padding: 10px 22px 6px 22px;">
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 8px; padding: 14px 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 800; color: #F8FAFC; text-transform: uppercase;">Over-by-Over Projected Runs &amp; Continuous Leverage Curve ($LI$)</span>
+                <div style="display: flex; gap: 12px; font-size: 10px; font-family: var(--font-mono);">
+                  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; background: #38BDF8; border-radius: 2px;"></span> PP (1-6)</span>
+                  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; background: #C084FC; border-radius: 2px;"></span> MID (7-15)</span>
+                  <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; background: #FF2E93; border-radius: 2px;"></span> DEATH (16-20)</span>
+                  <span style="display: flex; align-items: center; gap: 4px; color: #FBBF24;">── Leverage Index ($LI$)</span>
+                </div>
+              </div>
+              <div id="alloc-svg-container" style="width: 100%; height: 115px;">
+                <!-- Dynamically rendered SVG chart -->
+              </div>
+            </div>
+          </div>
+
+          <!-- 20-OVER INTERACTIVE DEPLOYMENT BOARD -->
+          <div style="padding: 10px 22px 22px 22px;">
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
+              <div style="font-size: 12px; font-weight: 800; color: #FFFFFF; text-transform: uppercase; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <span>Tactical Over Allocation Board (Click Dropdown to Reassign Bowler)</span>
+                <span style="font-size: 10px; color: #94A3B8; font-weight: normal;">Phase-Calibrated Economy &bull; Dot% &bull; Wicket Threat</span>
+              </div>
+              <div id="alloc-overs-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px;">
+                <!-- Dynamically populated 20 over cards -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+
       </section>
 
       
@@ -16402,6 +16573,9 @@ function renderTacticsTab() {
 
   // Render Role Elasticity (Part T5)
   renderRoleElasticityConsole();
+
+  // Render Bowling Allocation Optimizer (Part T6)
+  renderBowlingAllocationOptimizer();
 }
 
 
@@ -17118,6 +17292,498 @@ function filterRoleElasticity(mode) {
 function onRoleElasticitySearch(val) {
   currentElastQuery = val || '';
   renderRoleElasticityConsole();
+}
+
+
+// =========================================================================
+// PART T6: DYNAMIC 20-OVER BOWLING ALLOCATION & CHOKE OPTIMIZER CONTROLLER
+// =========================================================================
+const BOWLING_DEPLOYMENT_PROFILES = {
+  'Jofra Archer': {
+    name: 'Jofra Archer',
+    role: 'Express Pace Enforcer',
+    country: 'England',
+    flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+    img: 'https://cricketvectors.akamaized.net/players/org/D9.png',
+    pp: { econ: 6.82, dots: 52.4, xw: 0.28, net_100: 26.1 },
+    mid: { econ: 7.20, dots: 44.8, xw: 0.22, net_100: 22.4 },
+    death: { econ: 9.10, dots: 42.1, xw: 0.35, net_100: 28.3 },
+    overall_net: 25.7,
+    specialty: 'High-pace bounce across all phases; premier tie-breaker asset.'
+  },
+  'Jacob Duffy': {
+    name: 'Jacob Duffy',
+    role: 'Option B Seam Enforcer',
+    country: 'New Zealand',
+    flag: '🇳🇿',
+    img: 'https://cricketvectors.akamaized.net/players/org/4X4.png',
+    pp: { econ: 6.12, dots: 54.8, xw: 0.32, net_100: 42.1 },
+    mid: { econ: 6.95, dots: 46.2, xw: 0.25, net_100: 34.6 },
+    death: { econ: 8.42, dots: 47.0, xw: 0.38, net_100: 52.1 },
+    overall_net: 93.5,
+    specialty: 'Deadly hard lengths; astronomical +93.5 Net/100 vs RHB.'
+  },
+  'Mitchell Santner': {
+    name: 'Mitchell Santner',
+    role: 'Left-Arm Orthodox Choke',
+    country: 'New Zealand',
+    flag: '🇳🇿',
+    img: 'https://cricketvectors.akamaized.net/players/org/BR.png',
+    pp: { econ: 7.08, dots: 44.0, xw: 0.18, net_100: 12.3 },
+    mid: { econ: 6.42, dots: 51.5, xw: 0.26, net_100: 37.5 },
+    death: { econ: 8.85, dots: 38.0, xw: 0.21, net_100: 6.8 },
+    overall_net: 37.5,
+    specialty: 'Stifling left-arm drift; turns Jaipur 78m boundaries into a prison.'
+  },
+  'Mohit Sharma': {
+    name: 'Mohit Sharma',
+    role: 'Back-of-Hand Slower Specialist',
+    country: 'India',
+    flag: '🇮🇳',
+    img: 'https://cricketvectors.akamaized.net/players/org/AA.png',
+    pp: { econ: 8.24, dots: 38.2, xw: 0.19, net_100: -4.2 },
+    mid: { econ: 7.42, dots: 43.1, xw: 0.24, net_100: 18.6 },
+    death: { econ: 8.51, dots: 46.2, xw: 0.36, net_100: 38.5 },
+    overall_net: 25.0,
+    specialty: 'Elite change of pace; +38.5 Net/100 surge in death overs.'
+  },
+  'Sandeep Sharma': {
+    name: 'Sandeep Sharma',
+    role: 'Swing & Wide Yorker Specialist',
+    country: 'India',
+    flag: '🇮🇳',
+    img: 'https://cricketvectors.akamaized.net/players/org/9N.png',
+    pp: { econ: 7.55, dots: 48.6, xw: 0.24, net_100: 8.4 },
+    mid: { econ: 8.12, dots: 36.2, xw: 0.16, net_100: -8.6 },
+    death: { econ: 9.40, dots: 40.5, xw: 0.31, net_100: 14.2 },
+    overall_net: -2.3,
+    specialty: 'New ball shape + pinpoint wide yorkers outside off stump.'
+  },
+  'Sunil Narine': {
+    name: 'Sunil Narine',
+    role: 'Mystery Spin Lockdown',
+    country: 'West Indies',
+    flag: '🏝️',
+    img: 'https://cricketvectors.akamaized.net/players/org/1E.png',
+    pp: { econ: 6.45, dots: 52.0, xw: 0.25, net_100: 28.0 },
+    mid: { econ: 5.85, dots: 55.4, xw: 0.29, net_100: 44.3 },
+    death: { econ: 7.80, dots: 45.0, xw: 0.32, net_100: 36.2 },
+    overall_net: 44.3,
+    specialty: 'Sub-6.0 economy in middle overs; immune to batter handedness.'
+  },
+  'Abrar Ahmed': {
+    name: 'Abrar Ahmed',
+    role: 'Attacking Mystery Wrist Spinner',
+    country: 'Pakistan',
+    flag: '🇵🇰',
+    img: 'https://cricketvectors.akamaized.net/players/org/3E2.png',
+    pp: { econ: 7.50, dots: 42.0, xw: 0.22, net_100: 15.3 },
+    mid: { econ: 5.62, dots: 54.0, xw: 0.31, net_100: 53.5 },
+    death: { econ: 9.80, dots: 32.0, xw: 0.26, net_100: -12.4 },
+    overall_net: 38.1,
+    specialty: 'Deceptive carrom and googly; dominant +53.5 Net/100 vs RHB.'
+  },
+  'Taskin Ahmed': {
+    name: 'Taskin Ahmed',
+    role: 'Hit-the-Deck Fast Bowler',
+    country: 'Bangladesh',
+    flag: '🇧🇩',
+    img: 'https://cricketvectors.akamaized.net/players/org/5S.png',
+    pp: { econ: 6.91, dots: 51.2, xw: 0.29, net_100: 28.0 },
+    mid: { econ: 7.60, dots: 41.5, xw: 0.21, net_100: 16.4 },
+    death: { econ: 9.55, dots: 39.0, xw: 0.33, net_100: 12.1 },
+    overall_net: 34.7,
+    specialty: 'High-release steep bounce; generates top edges under pressure.'
+  }
+};
+
+const OVER_LEVERAGE_INDEX = [
+  0.92, 0.98, 1.05, 1.12, 1.20, 1.34,
+  1.15, 1.18, 1.22, 1.28, 1.35, 1.42, 1.55, 1.68, 1.85,
+  2.15, 2.48, 2.85, 3.25, 3.53
+];
+
+const BOWLING_ALLOC_PRESETS = {
+  sms_fortress: [
+    'Jofra Archer', 'Sandeep Sharma', 'Jacob Duffy', 'Jofra Archer', 'Sandeep Sharma', 'Jacob Duffy',
+    'Mitchell Santner', 'Mohit Sharma', 'Mitchell Santner', 'Jacob Duffy', 'Mitchell Santner', 'Mohit Sharma', 'Mitchell Santner', 'Sandeep Sharma', 'Jofra Archer',
+    'Mohit Sharma', 'Jacob Duffy', 'Sandeep Sharma', 'Jofra Archer', 'Mohit Sharma'
+  ],
+  pp_assault: [
+    'Jofra Archer', 'Jacob Duffy', 'Jofra Archer', 'Jacob Duffy', 'Jofra Archer', 'Sandeep Sharma',
+    'Mitchell Santner', 'Mohit Sharma', 'Mitchell Santner', 'Mohit Sharma', 'Mitchell Santner', 'Sandeep Sharma', 'Mitchell Santner', 'Mohit Sharma', 'Jacob Duffy',
+    'Sandeep Sharma', 'Jacob Duffy', 'Mohit Sharma', 'Jofra Archer', 'Sandeep Sharma'
+  ],
+  death_lockdown: [
+    'Sandeep Sharma', 'Mitchell Santner', 'Jacob Duffy', 'Mitchell Santner', 'Sandeep Sharma', 'Mitchell Santner',
+    'Mitchell Santner', 'Mohit Sharma', 'Sandeep Sharma', 'Mohit Sharma', 'Sandeep Sharma', 'Mohit Sharma', 'Jacob Duffy', 'Mohit Sharma', 'Jofra Archer',
+    'Jacob Duffy', 'Jofra Archer', 'Jacob Duffy', 'Jofra Archer', 'Jofra Archer'
+  ],
+  spin_choke: [
+    'Jofra Archer', 'Jacob Duffy', 'Jofra Archer', 'Jacob Duffy', 'Sandeep Sharma', 'Jacob Duffy',
+    'Mitchell Santner', 'Sunil Narine', 'Mitchell Santner', 'Sunil Narine', 'Mitchell Santner', 'Sunil Narine', 'Mitchell Santner', 'Sunil Narine', 'Sandeep Sharma',
+    'Mohit Sharma', 'Jacob Duffy', 'Sandeep Sharma', 'Jofra Archer', 'Mohit Sharma'
+  ]
+};
+
+let currentBowlingAllocation = [...BOWLING_ALLOC_PRESETS.sms_fortress];
+let currentTargetToDefend = 175;
+let currentAllocPreset = 'sms_fortress';
+
+function getOverPhase(overIdx) {
+  if (overIdx < 6) return 'pp';
+  if (overIdx < 15) return 'mid';
+  return 'death';
+}
+
+function getOverPhaseDetails(overIdx) {
+  if (overIdx < 6) return { code: 'PP', name: 'Powerplay (1-6)', color: '#38BDF8', bg: 'rgba(56,189,248,0.15)', border: 'rgba(56,189,248,0.35)' };
+  if (overIdx < 15) return { code: 'MID', name: 'Middle (7-15)', color: '#C084FC', bg: 'rgba(168,85,247,0.15)', border: 'rgba(168,85,247,0.35)' };
+  return { code: 'DEATH', name: 'Death (16-20)', color: '#FF85C0', bg: 'rgba(229,0,125,0.18)', border: 'rgba(229,0,125,0.35)' };
+}
+
+function renderBowlingAllocationOptimizer() {
+  const gridEl = document.getElementById('alloc-overs-grid');
+  const quotaPillsEl = document.getElementById('alloc-quota-pills');
+  const svgCont = document.getElementById('alloc-svg-container');
+  if (!gridEl || !quotaPillsEl) return;
+
+  // 1. Calculate Over-by-Over Projections
+  const overDetails = [];
+  let totalRuns = 0;
+  let totalDots = 0;
+  let totalXw = 0;
+  let ppRuns = 0;
+  let midRuns = 0;
+  let deathRuns = 0;
+  let ppWkts = 0;
+
+  const bowlerCounts = {};
+  Object.keys(BOWLING_DEPLOYMENT_PROFILES).forEach(k => { bowlerCounts[k] = 0; });
+
+  for (let i = 0; i < 20; i++) {
+    const bowlerName = currentBowlingAllocation[i] || 'Jofra Archer';
+    bowlerCounts[bowlerName] = (bowlerCounts[bowlerName] || 0) + 1;
+
+    const profile = BOWLING_DEPLOYMENT_PROFILES[bowlerName] || BOWLING_DEPLOYMENT_PROFILES['Jofra Archer'];
+    const phase = getOverPhase(i);
+    const stat = profile[phase];
+    const li = OVER_LEVERAGE_INDEX[i];
+
+    const runs = stat.econ; // 1 over = econ
+    const dots = (stat.dots / 100) * 6;
+    const xw = stat.xw;
+
+    totalRuns += runs;
+    totalDots += dots;
+    totalXw += xw;
+
+    if (phase === 'pp') {
+      ppRuns += runs;
+      ppWkts += xw;
+    } else if (phase === 'mid') {
+      midRuns += runs;
+    } else {
+      deathRuns += runs;
+    }
+
+    overDetails.push({
+      overNum: i + 1,
+      bowler: bowlerName,
+      profile,
+      phase,
+      phaseObj: getOverPhaseDetails(i),
+      stat,
+      li,
+      runs,
+      dots,
+      xw
+    });
+  }
+
+  // 2. Update HUD Metrics
+  const projTotalEl = document.getElementById('alloc-proj-total');
+  const winProbEl = document.getElementById('alloc-win-prob');
+  const marginEl = document.getElementById('alloc-margin');
+  const ppEconEl = document.getElementById('alloc-pp-econ');
+  const midEconEl = document.getElementById('alloc-mid-econ');
+  const deathEconEl = document.getElementById('alloc-death-econ');
+  const dotTotalEl = document.getElementById('alloc-dot-total');
+  const dotPctEl = document.getElementById('alloc-dot-pct');
+  const xwTotalEl = document.getElementById('alloc-xw-total');
+  const ppWktsEl = document.getElementById('alloc-pp-wkts');
+
+  if (projTotalEl) projTotalEl.textContent = totalRuns.toFixed(1);
+  const margin = currentTargetToDefend - totalRuns;
+  const winProb = Math.min(99.0, Math.max(1.0, 50 + (margin / 25) * 35));
+
+  if (winProbEl) {
+    winProbEl.textContent = `${winProb.toFixed(1)}% Win`;
+    winProbEl.style.color = winProb >= 60 ? '#34D399' : (winProb >= 45 ? '#FBBF24' : '#F87171');
+  }
+  if (marginEl) {
+    marginEl.textContent = `${margin >= 0 ? '+' : ''}${margin.toFixed(1)} Run Buffer`;
+    marginEl.style.color = margin >= 0 ? '#34D399' : '#F87171';
+  }
+  if (ppEconEl) ppEconEl.textContent = (ppRuns / 6).toFixed(2);
+  if (midEconEl) midEconEl.textContent = (midRuns / 9).toFixed(2);
+  if (deathEconEl) deathEconEl.textContent = (deathRuns / 5).toFixed(2);
+
+  if (dotTotalEl) dotTotalEl.textContent = `${totalDots.toFixed(1)} Dots`;
+  if (dotPctEl) dotPctEl.textContent = `${((totalDots / 120) * 100).toFixed(1)}%`;
+  if (xwTotalEl) xwTotalEl.textContent = `${totalXw.toFixed(1)} Wkts`;
+  if (ppWktsEl) ppWktsEl.textContent = `${ppWkts.toFixed(1)} in PP`;
+
+  // 3. Render Quota Pills & Validation
+  quotaPillsEl.innerHTML = '';
+  let hasQuotaViolation = false;
+  let activeBowlerCount = 0;
+
+  Object.keys(bowlerCounts).forEach(bName => {
+    const count = bowlerCounts[bName];
+    if (count > 0) activeBowlerCount++;
+    if (count > 4) hasQuotaViolation = true;
+
+    if (count > 0) {
+      const prof = BOWLING_DEPLOYMENT_PROFILES[bName];
+      const pill = document.createElement('div');
+      let borderColor = 'rgba(255,255,255,0.15)';
+      let badgeBg = 'rgba(255,255,255,0.06)';
+      let textColor = '#CBD5E1';
+      let tagText = `${count}/4 Ov`;
+
+      if (count > 4) {
+        borderColor = 'rgba(239, 68, 68, 0.6)';
+        badgeBg = 'rgba(239, 68, 68, 0.2)';
+        textColor = '#F87171';
+        tagText = `⚠️ ${count}/4 (MAX 4 EXCEEDED)`;
+      } else if (count === 4) {
+        borderColor = 'rgba(56, 189, 248, 0.5)';
+        badgeBg = 'rgba(56, 189, 248, 0.15)';
+        textColor = '#38BDF8';
+        tagText = `4/4 Ov [MAX]`;
+      }
+
+      pill.style.cssText = `background: #091A33; border: 1px solid ${borderColor}; border-radius: 6px; padding: 4px 8px; display: flex; align-items: center; gap: 6px; font-size: 11px; font-family: var(--font-mono);`;
+      pill.innerHTML = `
+        <img src="${prof.img}" style="width: 18px; height: 18px; border-radius: 50%; object-fit: contain; background: #08162B;">
+        <span style="color: #F8FAFC; font-weight: 700;">${bName}</span>
+        <span style="background: ${badgeBg}; color: ${textColor}; padding: 1px 5px; border-radius: 3px; font-weight: 800; font-size: 10px;">${tagText}</span>
+      `;
+      quotaPillsEl.appendChild(pill);
+    }
+  });
+
+  const quotaStatusEl = document.getElementById('alloc-quota-status');
+  if (quotaStatusEl) {
+    if (hasQuotaViolation) {
+      quotaStatusEl.style.background = 'rgba(239, 68, 68, 0.2)';
+      quotaStatusEl.style.color = '#F87171';
+      quotaStatusEl.textContent = '❌ Quota Violation: Bowler Exceeds 4 Overs Limit';
+    } else {
+      quotaStatusEl.style.background = 'rgba(52, 211, 153, 0.15)';
+      quotaStatusEl.style.color = '#34D399';
+      quotaStatusEl.textContent = `✅ 20 / 20 Overs Legal (${activeBowlerCount} Bowlers Used)`;
+    }
+  }
+
+  // 4. Render SVG Over-by-Over Flow Chart
+  if (svgCont) {
+    const w = 920;
+    const h = 105;
+    const padL = 36;
+    const padR = 20;
+    const padT = 16;
+    const padB = 24;
+    const chartW = w - padL - padR;
+    const chartH = h - padT - padB;
+
+    const barW = (chartW / 20) - 6;
+    const maxRuns = 12.0;
+
+    let barsHtml = '';
+    let linePts = [];
+
+    overDetails.forEach((ov, idx) => {
+      const x = padL + idx * (chartW / 20) + 3;
+      const barH = Math.max(8, (ov.runs / maxRuns) * chartH);
+      const y = h - padB - barH;
+      const barColor = ov.phaseObj.color;
+
+      barsHtml += `
+        <rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="3" fill="${barColor}" fill-opacity="0.8">
+          <title>Over ${ov.overNum} (${ov.phaseObj.code}) - ${ov.bowler}: ${ov.runs.toFixed(1)} runs, ${ov.dots.toFixed(1)} dots, LI ${ov.li.toFixed(2)}</title>
+        </rect>
+        <text x="${x + barW / 2}" y="${h - 8}" fill="#94A3B8" font-size="8.5" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, monospace">${ov.overNum}</text>
+        <text x="${x + barW / 2}" y="${y - 4}" fill="#F8FAFC" font-size="8.5" font-weight="800" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, monospace">${ov.runs.toFixed(1)}</text>
+      `;
+
+      // Leverage curve line coordinates (LI ranges from 0.8 to 3.8)
+      const normLi = Math.min(1.0, Math.max(0, (ov.li - 0.8) / 3.0));
+      const lineY = h - padB - normLi * chartH;
+      linePts.push(`${x + barW / 2},${lineY}`);
+    });
+
+    const polyline = `<polyline points="${linePts.join(' ')}" fill="none" stroke="#FBBF24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />`;
+
+    svgCont.innerHTML = `
+      <svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" style="overflow: visible;">
+        <!-- Grid lines -->
+        <line x1="${padL}" y1="${h - padB}" x2="${w - padR}" y2="${h - padB}" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+        <!-- Bars -->
+        ${barsHtml}
+        <!-- Leverage Line -->
+        ${polyline}
+      </svg>
+    `;
+  }
+
+  // 5. Render 20 Over Cards in Grid
+  gridEl.innerHTML = '';
+  const bowlerNames = Object.keys(BOWLING_DEPLOYMENT_PROFILES);
+
+  overDetails.forEach((ov, idx) => {
+    const card = document.createElement('div');
+    card.style.cssText = `background: #091A33; border: 1px solid ${ov.phaseObj.border}; border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.25);`;
+
+    const selectOptions = bowlerNames.map(b => {
+      const selected = b === ov.bowler ? 'selected' : '';
+      const count = bowlerCounts[b] || 0;
+      return `<option value="${b}" ${selected} style="background: #08162B; color: #F8FAFC;">${b} (${count}/4 Ov)</option>`;
+    }).join('');
+
+    card.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span style="font-size: 13px; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono);">Ov ${ov.overNum}</span>
+          <span style="font-size: 9.5px; font-weight: 800; color: ${ov.phaseObj.color}; background: ${ov.phaseObj.bg}; padding: 1px 5px; border-radius: 3px;">${ov.phaseObj.code}</span>
+        </div>
+        <span style="font-size: 9.5px; font-family: var(--font-mono); color: #FBBF24; font-weight: 700;">LI ${ov.li.toFixed(2)}</span>
+      </div>
+
+      <div>
+        <select onchange="onBowlerOverChange(${idx}, this.value)" style="width: 100%; background: #08162B; border: 1px solid rgba(255,255,255,0.18); color: #F8FAFC; font-weight: 700; font-size: 11px; padding: 5px 8px; border-radius: 5px; outline: none; cursor: pointer;">
+          ${selectOptions}
+        </select>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: var(--font-mono); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px;">
+        <div style="display: flex; align-items: center; gap: 5px;">
+          <img src="${ov.profile.img}" style="width: 18px; height: 18px; border-radius: 50%; object-fit: contain; background: #08162B;">
+          <span style="color: #CBD5E1;">${ov.profile.flag}</span>
+        </div>
+        <div style="text-align: right;">
+          <span style="color: #38BDF8; font-weight: 800;">${ov.runs.toFixed(1)}r</span> &bull; 
+          <span style="color: #34D399;">${ov.dots.toFixed(1)} dots</span> &bull; 
+          <span style="color: #FF85C0;">${ov.xw.toFixed(2)} xW</span>
+        </div>
+      </div>
+    `;
+
+    gridEl.appendChild(card);
+  });
+}
+
+function onBowlerOverChange(overIdx, newBowler) {
+  if (overIdx >= 0 && overIdx < 20 && newBowler) {
+    currentBowlingAllocation[overIdx] = newBowler;
+    renderBowlingAllocationOptimizer();
+  }
+}
+
+function onTargetScoreChange(val) {
+  const num = parseInt(val, 10);
+  if (!isNaN(num) && num > 0) {
+    currentTargetToDefend = num;
+    renderBowlingAllocationOptimizer();
+  }
+}
+
+function applyBowlingPreset(presetKey) {
+  if (BOWLING_ALLOC_PRESETS[presetKey]) {
+    currentAllocPreset = presetKey;
+    currentBowlingAllocation = [...BOWLING_ALLOC_PRESETS[presetKey]];
+
+    document.querySelectorAll('.btn-alloc-preset').forEach(b => {
+      b.classList.remove('active');
+      b.style.background = 'rgba(255,255,255,0.06)';
+      b.style.borderColor = 'rgba(255,255,255,0.12)';
+      b.style.color = '#CBD5E1';
+    });
+
+    const activeBtn = document.getElementById(`alloc-preset-${presetKey.replace('_', '-')}`) || 
+                      document.getElementById(`alloc-preset-${presetKey}`);
+    if (activeBtn) {
+      activeBtn.classList.add('active');
+      activeBtn.style.background = 'rgba(56,189,248,0.2)';
+      activeBtn.style.borderColor = '#38BDF8';
+      activeBtn.style.color = '#7DD3FC';
+    }
+
+    renderBowlingAllocationOptimizer();
+  }
+}
+
+function copyBowlingAllocationDossier() {
+  let totalRuns = 0;
+  let totalDots = 0;
+  let totalXw = 0;
+  const bowlerCounts = {};
+
+  currentBowlingAllocation.forEach((b, i) => {
+    bowlerCounts[b] = (bowlerCounts[b] || 0) + 1;
+    const prof = BOWLING_DEPLOYMENT_PROFILES[b];
+    const phase = getOverPhase(i);
+    const stat = prof ? prof[phase] : { econ: 7.5, dots: 45, xw: 0.25 };
+    totalRuns += stat.econ;
+    totalDots += (stat.dots / 100) * 6;
+    totalXw += stat.xw;
+  });
+
+  const margin = currentTargetToDefend - totalRuns;
+  const winProb = Math.min(99.0, Math.max(1.0, 50 + (margin / 25) * 35));
+
+  let md = `### RAJASTHAN ROYALS DUGOUT — 20-OVER DEFENSE ALLOCATION DOSSIER\n`;
+  md += `Venue: Sawai Mansingh Stadium, Jaipur | Target Defending: ${currentTargetToDefend}\n`;
+  md += `Tactical Strategy Preset: ${currentAllocPreset.toUpperCase().replace('_', ' ')}\n`;
+  md += `Projected Total Conceded: ${totalRuns.toFixed(1)} / 20.0 Overs (Econ ${(totalRuns / 20).toFixed(2)})\n`;
+  md += `Projected Defense Win Probability: ${winProb.toFixed(1)}% (${margin >= 0 ? '+' : ''}${margin.toFixed(1)} Run Buffer)\n`;
+  md += `Dot Ball Frequency: ${((totalDots / 120) * 100).toFixed(1)}% (${totalDots.toFixed(1)} Dots) | Total Wickets Expected: ${totalXw.toFixed(1)} xW\n\n`;
+
+  md += `==================== OVER-BY-OVER TACTICAL BLUEPRINT ====================\n`;
+  md += `• POWERPLAY (Overs 1-6):\n`;
+  for (let i = 0; i < 6; i++) {
+    const b = currentBowlingAllocation[i];
+    const p = BOWLING_DEPLOYMENT_PROFILES[b];
+    md += `  - Ov ${i + 1} (LI ${OVER_LEVERAGE_INDEX[i].toFixed(2)}): ${b} (${p ? p.role : ''}) → Proj ${p ? p.pp.econ.toFixed(1) : '-'}r, ${p ? p.pp.dots.toFixed(0) : '-'}% dots\n`;
+  }
+  md += `• MIDDLE CHOKE (Overs 7-15):\n`;
+  for (let i = 6; i < 15; i++) {
+    const b = currentBowlingAllocation[i];
+    const p = BOWLING_DEPLOYMENT_PROFILES[b];
+    md += `  - Ov ${i + 1} (LI ${OVER_LEVERAGE_INDEX[i].toFixed(2)}): ${b} (${p ? p.role : ''}) → Proj ${p ? p.mid.econ.toFixed(1) : '-'}r, ${p ? p.mid.dots.toFixed(0) : '-'}% dots\n`;
+  }
+  md += `• DEATH LOCKDOWN (Overs 16-20):\n`;
+  for (let i = 15; i < 20; i++) {
+    const b = currentBowlingAllocation[i];
+    const p = BOWLING_DEPLOYMENT_PROFILES[b];
+    md += `  - Ov ${i + 1} (LI ${OVER_LEVERAGE_INDEX[i].toFixed(2)}): ${b} (${p ? p.role : ''}) → Proj ${p ? p.death.econ.toFixed(1) : '-'}r, ${p ? p.death.dots.toFixed(0) : '-'}% dots\n`;
+  }
+
+  md += `\n==================== BOWLER ALLOCATION QUOTAS ====================\n`;
+  Object.keys(bowlerCounts).forEach(b => {
+    md += `• ${b}: ${bowlerCounts[b]}.0 Overs (${bowlerCounts[b] <= 4 ? 'LEGAL QUOTA' : '⚠️ EXCEEDS 4 OVERS'})\n`;
+  });
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(md).then(() => {
+      alert("✅ Captain's 20-Over Defense Dossier copied to clipboard!");
+    }).catch(() => {
+      alert("✅ Dossier generated:\n\n" + md.slice(0, 500) + "...");
+    });
+  } else {
+    alert("✅ Dossier generated:\n\n" + md.slice(0, 500) + "...");
+  }
 }
 
 function renderSubmissionTab() {
