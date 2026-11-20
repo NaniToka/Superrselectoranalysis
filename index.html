@@ -720,7 +720,10 @@ body.scroll-locked {
 }
 @media (max-width: 767px) {
   .header-menu-hamburger-btn {
-    display: none !important;
+    display: inline-flex !important;
+    padding: 6px 10px !important;
+    font-size: 11px !important;
+    border-radius: 7px !important;
   }
 }
 
@@ -1727,6 +1730,96 @@ div[style*="border: 1px solid #CBD5E1"] {
   color: #FFFFFF;
 }
 
+/* TACTICAL TWO-COLUMN RESPONSIVE LAYOUT (Part D8, D9, D10) */
+.tactical-two-col-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 20px;
+  align-items: start;
+  padding: 20px;
+}
+
+@media (max-width: 900px) {
+  .tactical-two-col-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    padding: 12px 8px !important;
+  }
+}
+
+/* MOBILE SHEET SECTION LABELS & ENHANCED TACTICAL CARDS */
+.mobile-sheet-section-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #94A3B8;
+  padding: 12px 6px 4px;
+  margin-top: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobile-sheet-item.tactical-highlight {
+  background: rgba(10, 24, 46, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 10px 12px !important;
+  border-radius: 10px !important;
+}
+
+.mobile-sheet-item.tactical-highlight:hover,
+.mobile-sheet-item.tactical-highlight:active {
+  background: rgba(229, 0, 125, 0.18) !important;
+  border-color: var(--rr-pink) !important;
+}
+
+.mob-item-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mob-item-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.mob-item-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mob-item-desc {
+  font-size: 10.5px;
+  color: #94A3B8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+.badge-mini {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38BDF8;
+  font-size: 8.5px;
+  font-family: var(--font-mono);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 800;
+}
+
 /* =========================================================================
    MOBILE APPLICATION ARCHITECTURE (PWA & SMARTPHONE OPTIMIZATION)
    ========================================================================= */
@@ -1872,6 +1965,22 @@ div[style*="border: 1px solid #CBD5E1"] {
     height: 420px !important;
     max-height: 55vh !important;
     max-height: 55dvh !important;
+  }
+  #p3d-player-card {
+    top: auto !important;
+    bottom: 64px !important;
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    max-width: calc(100% - 20px) !important;
+  }
+  #cmd-palette-backdrop {
+    padding-top: 20px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+  #cmd-palette-backdrop > div {
+    max-height: 85vh !important;
   }
 
   /* Swipeable Data Tables with Smooth Touch */
@@ -2667,7 +2776,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
         </div>
 
         <!-- EXECUTIVE PODIUM SPOTLIGHT (TOP 3 BATTERS & TOP 3 BOWLERS) -->
-        <div class="dugout-podium-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px; margin-bottom: 22px;">
+        <div class="dugout-podium-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 22px;">
           <!-- BATTERS PODIUM -->
           <div style="background: linear-gradient(135deg, #091A33 0%, #0D2447 100%); border: 1px solid rgba(229, 0, 125, 0.3); border-radius: 12px; padding: 18px 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.3);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
@@ -5473,7 +5582,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
           </div>
 
           <!-- Main Layout Grid: Canvas Left (60%), Telemetry Right (40%) -->
-          <div style="padding: 20px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 20px; align-items: start;">
+          <div class="tactical-two-col-grid">
             
             <!-- LEFT: FIELD ARENA & INTERACTIVE SVG -->
             <div style="background: #040E1E; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; padding: 16px; position: relative; overflow: hidden; box-shadow: inset 0 0 40px rgba(0,0,0,0.6);">
@@ -5668,7 +5777,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
           </div>
 
           <!-- Main Layout Grid: Left (Starting XI & Bench 58%), Right (Bellman Telemetry 42%) -->
-          <div style="padding: 20px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 20px; align-items: start;">
+          <div class="tactical-two-col-grid">
             
             <!-- LEFT: ACTIVE STARTING XI & TACTICAL BENCH SUBSTITUTES -->
             <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -5873,7 +5982,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
           </div>
 
           <!-- Main Layout Grid: Left (10-Team Standings & 14 Fixture Switchboard 58%), Right (Playoff Gauges & NRR Density 42%) -->
-          <div style="padding: 20px; display: grid; grid-template-columns: 1.18fr 0.82fr; gap: 20px; align-items: start;">
+          <div class="tactical-two-col-grid">
             
             <!-- LEFT: 10-TEAM STANDINGS & 14-MATCH SWITCHBOARD -->
             <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -7855,6 +7964,36 @@ function setup3DRaycaster(container) {
       focus3DPlayer(p.name);
     }
   });
+
+  let touchStartX = 0, touchStartY = 0, touchStartTime = 0;
+  container.addEventListener('touchstart', e => {
+    if (e.touches && e.touches.length === 1) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchStartTime = Date.now();
+    }
+  }, { passive: true });
+
+  container.addEventListener('touchend', e => {
+    if (e.changedTouches && e.changedTouches.length === 1) {
+      const dx = Math.abs(e.changedTouches[0].clientX - touchStartX);
+      const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+      const dt = Date.now() - touchStartTime;
+      if (dx < 10 && dy < 10 && dt < 350) {
+        const rect = container.getBoundingClientRect();
+        mouse.x = ((e.changedTouches[0].clientX - rect.left) / container.clientWidth) * 2 - 1;
+        mouse.y = -((e.changedTouches[0].clientY - rect.top) / container.clientHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, P3D.camera);
+        const intersects = raycaster.intersectObjects(P3D.playerMeshes.filter(m => m.visible));
+        if (intersects.length > 0) {
+          const hit = intersects[0].object;
+          const p = hit.userData.player;
+          focus3DPlayer(p.name);
+          show3DPlayerCard(p);
+        }
+      }
+    }
+  }, { passive: true });
 }
 
 function onP3DResize() {
@@ -8001,6 +8140,10 @@ let isSidebarUserPinned = false;
 let isSidebarManuallyCollapsed = false;
 
 function toggleSidebarManual() {
+  if (window.innerWidth < 768) {
+    toggleMobileSheet();
+    return;
+  }
   const layout = document.querySelector('.app-layout');
   if (!layout) return;
   const isCollapsed = layout.classList.contains('sidebar-collapsed') || layout.classList.contains('auto-fit-screen');
@@ -8024,8 +8167,13 @@ function updateSidebarToggleUI(collapsed) {
   const icon = document.getElementById('sidebar-toggle-icon');
   const text = document.getElementById('sidebar-toggle-text');
   if (icon && text) {
-    icon.textContent = collapsed ? '⇤' : '⇥';
-    text.textContent = collapsed ? 'Show Menu' : 'Fit Screen';
+    if (window.innerWidth < 768) {
+      icon.textContent = '☰';
+      text.textContent = 'Menu';
+    } else {
+      icon.textContent = collapsed ? '⇤' : '⇥';
+      text.textContent = collapsed ? 'Show Menu' : 'Fit Screen';
+    }
   }
   const pill = document.getElementById('floating-sidebar-pill');
   if (pill && window.innerWidth >= 768) {
@@ -8044,6 +8192,10 @@ function toggleTacticalDropdown(e) {
     e.stopPropagation();
     e.preventDefault();
   }
+  if (window.innerWidth < 768) {
+    openMobileTacticalSheet();
+    return;
+  }
   const menu = document.getElementById('tactical-dropdown-menu');
   const btn = document.getElementById('btn-tactical-suite');
   if (!menu || !btn) return;
@@ -8055,6 +8207,16 @@ function toggleTacticalDropdown(e) {
     btn.classList.add('active');
     btn.setAttribute('aria-expanded', 'true');
   }
+}
+
+function openMobileTacticalSheet() {
+  const sheet = document.getElementById('mobile-nav-sheet');
+  if (!sheet) return;
+  toggleMobileSheet(true);
+  setTimeout(() => {
+    const sec = document.getElementById('mobile-tactical-section');
+    if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 80);
 }
 
 function closeTacticalDropdown() {
@@ -8412,7 +8574,13 @@ function switchTab(rawTabId) {
 
   // Sync mobile bottom navigation bar
   document.querySelectorAll('.mobile-tab-btn').forEach(btn => btn.classList.remove('active'));
-  const mobBtn = document.getElementById('mob-' + tabId) || document.getElementById('mob-' + rawTabId);
+  let mobBtn = document.getElementById('mob-' + tabId) || document.getElementById('mob-' + rawTabId);
+  if (!mobBtn && (tabId === 'tab-3d-playground' || rawTabId === '3d-playground')) {
+    mobBtn = document.getElementById('mob-tab-3d');
+  }
+  if (!mobBtn && ['tab-field-optimizer', 'tab-impact-sub', 'tab-season-sim', 'tab-auction', 'tab-defense', 'tab-chase-sim', 'tab-duel', 'tab-tactics'].includes(tabId)) {
+    mobBtn = document.getElementById('mob-tab-tactical');
+  }
   if (mobBtn) mobBtn.classList.add('active');
 
   // Smooth scroll to top
@@ -13650,7 +13818,13 @@ function mobileSwitchTab(tabId) {
   switchTab(tabId);
   toggleMobileSheet(false);
   document.querySelectorAll('.mobile-tab-btn').forEach(btn => btn.classList.remove('active'));
-  const targetMobBtn = document.getElementById('mob-' + tabId);
+  let targetMobBtn = document.getElementById('mob-' + tabId);
+  if (!targetMobBtn && (tabId === 'tab-3d-playground' || tabId === '3d-playground')) {
+    targetMobBtn = document.getElementById('mob-tab-3d');
+  }
+  if (!targetMobBtn && ['tab-field-optimizer', 'tab-impact-sub', 'tab-season-sim', 'tab-auction', 'tab-defense', 'tab-chase-sim', 'tab-duel', 'tab-tactics'].includes(tabId)) {
+    targetMobBtn = document.getElementById('mob-tab-tactical');
+  }
   if (targetMobBtn) {
     targetMobBtn.classList.add('active');
   }
@@ -15347,13 +15521,13 @@ window.SEASON_SIM_STATE = SEASON_SIM_STATE;
       <span class="mob-icon">🏆</span>
       <span class="mob-label">Top 10</span>
     </button>
-    <button class="mobile-tab-btn" id="mob-tab-tactics" onclick="mobileSwitchTab('tab-tactics')">
-      <span class="mob-icon">🎯</span>
-      <span class="mob-label">Tactics</span>
+    <button class="mobile-tab-btn" id="mob-tab-tactical" onclick="openMobileTacticalSheet()">
+      <span class="mob-icon">⚡</span>
+      <span class="mob-label">Tactical</span>
     </button>
-    <button class="mobile-tab-btn" id="mob-tab-auction" onclick="mobileSwitchTab('tab-auction')">
-      <span class="mob-icon">🏰</span>
-      <span class="mob-label">RR Squad</span>
+    <button class="mobile-tab-btn" id="mob-tab-3d" onclick="mobileSwitchTab('tab-3d-playground')">
+      <span class="mob-icon">🌐</span>
+      <span class="mob-label">3D Space</span>
     </button>
     <button class="mobile-tab-btn" id="mob-tab-menu" onclick="toggleMobileSheet()">
       <span class="mob-icon">☰</span>
@@ -15366,36 +15540,158 @@ window.SEASON_SIM_STATE = SEASON_SIM_STATE;
   <div class="mobile-sheet" id="mobile-nav-sheet">
     <div class="mobile-sheet-header">
       <div class="mobile-sheet-handle"></div>
-      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 6px;">
-        <span style="font-weight: 800; font-size: 15px; color: #FFFFFF;">All Analysis Modules</span>
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 4px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="rr-logo-box" style="width: 26px; height: 26px; font-size: 13px; border-radius: 6px;">RR</div>
+          <span style="font-weight: 800; font-size: 15px; color: #FFFFFF;">Dugout Navigation Hub</span>
+        </div>
         <button onclick="toggleMobileSheet(false)" style="background: rgba(255,255,255,0.12); border: none; color: #FFF; width: 28px; height: 28px; border-radius: 50%; font-size: 14px; cursor: pointer;">✕</button>
       </div>
-    </div>
-    <div class="mobile-sheet-grid">
-      <button class="mobile-sheet-item" onclick="openSelectorsSheet(); toggleMobileSheet(false);" style="border-color: var(--rr-pink); background: rgba(229, 0, 125, 0.15); color: #FF85C0; font-weight: 800;"><span>📄</span> Executive Selector's Sheet</button>
-      <button class="mobile-sheet-item" onclick="openShortlistDrawer(); toggleMobileSheet(false);" style="border-color: #F59E0B; background: rgba(245, 158, 11, 0.15); color: #FDE68A; font-weight: 800;"><span>★</span> Rajasthan Royals Shortlist</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-3d-playground')" style="border-color: #38BDF8; background: rgba(56, 189, 248, 0.15); color: #38BDF8; font-weight: 800;"><span>🌐</span> 3D Data Universe</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-summary')"><span>📊</span> Overview</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-leaderboards')"><span>🏆</span> Top 10 Leaderboards</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-tactics')"><span>🎯</span> Pace/Spin &amp; Phase</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-auction')"><span>🏰</span> RR Squad Pressure</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-defense')"><span>🛡️</span> 20-Over Defense Planner</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-chase-sim')"><span>⚡</span> Win-Prob Chase Simulator</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-field-optimizer')" style="border-color: #34D399; background: rgba(52, 211, 153, 0.12); color: #34D399; font-weight: 800;"><span>📐</span> AI Field Placement Radar</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-impact-sub')" style="border-color: #F59E0B; background: rgba(245, 158, 11, 0.15); color: #FBBF24; font-weight: 800;"><span>🧬</span> Impact Player Optimizer</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-season-sim')" style="border-color: #F59E0B; background: rgba(245, 158, 11, 0.18); color: #FDE68A; font-weight: 800;"><span>🏆</span> IPL Season &amp; Playoff Sim</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-duel')"><span>⚔️</span> Duel Simulator</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-scatter')"><span>⚡</span> Pressure Scatter</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-slope')"><span>📈</span> Rank Movement</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-stability')"><span>🎲</span> Stability (Bootstrap)</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-leverage')"><span>⚖️</span> Leverage Curves</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-weights')"><span>🎛️</span> Weight Sensitivity</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-compare')"><span>👥</span> Player Compare</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-top1')"><span>🎯</span> Top-1 Target</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-notable')"><span>⭐</span> Notable Stars</button>
 
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-limitations')"><span>⚠️</span> Limitations</button>
-      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-audit')"><span>🔍</span> Audit Console</button>
+      <!-- Quick Search Bar inside Sheet -->
+      <div style="width: 100%; margin-top: 10px;">
+        <button onclick="toggleMobileSheet(false); openCommandPalette();" style="width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; padding: 10px 14px; color: #94A3B8; font-size: 12.5px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+          <span style="display: flex; align-items: center; gap: 8px;">
+            <span>🔍</span>
+            <span>Search players, stats, rules...</span>
+          </span>
+          <kbd style="background: rgba(255,255,255,0.1); padding: 1px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 10px; color: #CBD5E1;">⌘K</kbd>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-sheet-grid" style="padding-bottom: 30px;">
+      
+      <!-- SECTION: TACTICAL ENGINES -->
+      <div id="mobile-tactical-section" class="mobile-sheet-section-title" style="color: var(--rr-pink); border-color: rgba(229,0,125,0.3);">
+        ⚡ TACTICAL COMPUTATION ENGINES (7)
+      </div>
+
+      <button class="mobile-sheet-item tactical-highlight" onclick="mobileSwitchTab('tab-field-optimizer')">
+        <div class="mob-item-icon" style="background: rgba(52, 211, 153, 0.15); color: #34D399;">📐</div>
+        <div class="mob-item-text">
+          <div class="mob-item-title">SMS Field Radar Holodeck <span class="badge-mini">NEW</span></div>
+          <div class="mob-item-desc">78m vs 66m Asymmetric Jaipur Physics &amp; xR Shot Engine</div>
+        </div>
+      </button>
+
+      <button class="mobile-sheet-item tactical-highlight" onclick="mobileSwitchTab('tab-impact-sub')">
+        <div class="mob-item-icon" style="background: rgba(245, 158, 11, 0.15); color: #FBBF24;">🧬</div>
+        <div class="mob-item-text">
+          <div class="mob-item-title">Quantum Impact Player Sim <span class="badge-mini">NEW</span></div>
+          <div class="mob-item-desc">Bellman Dynamic V(t) &amp; Option Value Decay Curve</div>
+        </div>
+      </button>
+
+      <button class="mobile-sheet-item tactical-highlight" onclick="mobileSwitchTab('tab-season-sim')">
+        <div class="mob-item-icon" style="background: rgba(245, 158, 11, 0.15); color: #FBBF24;">🏆</div>
+        <div class="mob-item-text">
+          <div class="mob-item-title">10,000-Sim Playoff Multi-Universe <span class="badge-mini">NEW</span></div>
+          <div class="mob-item-desc">Vectorized Monte Carlo in &lt;15ms &amp; NRR Distribution</div>
+        </div>
+      </button>
+
+      <button class="mobile-sheet-item tactical-highlight" onclick="openAuctionValuationConsole(); toggleMobileSheet(false);">
+        <div class="mob-item-icon" style="background: rgba(229, 0, 125, 0.15); color: #FF85C0;">💰</div>
+        <div class="mob-item-text">
+          <div class="mob-item-title">Auction War Room &amp; Valuation Console</div>
+          <div class="mob-item-desc">Reserve Price &amp; Walk-Away Valuation Matrix</div>
+        </div>
+      </button>
+
+      <button class="mobile-sheet-item tactical-highlight" onclick="mobileSwitchTab('tab-defense')">
+        <div class="mob-item-icon" style="background: rgba(56, 189, 248, 0.15); color: #7DD3FC;">🛡️</div>
+        <div class="mob-item-text">
+          <div class="mob-item-title">20-Over Defense &amp; Phase Planner</div>
+          <div class="mob-item-desc">Powerplay, Middle, Death Phase Resource Allocation</div>
+        </div>
+      </button>
+
+      <button class="mobile-sheet-item tactical-highlight" onclick="mobileSwitchTab('tab-chase-sim')">
+        <div class="mob-item-icon" style="background: rgba(229, 0, 125, 0.15); color: #FF85C0;">⚡</div>
+        <div class="mob-item-text">
+          <div class="mob-item-title">Win-Probability Chase Sim</div>
+          <div class="mob-item-desc">In-Play Leverage &amp; Ball-by-Ball Win Curves</div>
+        </div>
+      </button>
+
+      <button class="mobile-sheet-item tactical-highlight" onclick="mobileSwitchTab('tab-duel')">
+        <div class="mob-item-icon" style="background: rgba(168, 85, 247, 0.15); color: #C084FC;">⚔️</div>
+        <div class="mob-item-text">
+          <div class="mob-item-title">Matchup Duel Simulator</div>
+          <div class="mob-item-desc">Illustrative toy, not a model output</div>
+        </div>
+      </button>
+
+      <!-- SECTION: EXECUTIVE UTILITIES -->
+      <div class="mobile-sheet-section-title">
+        🛠️ EXECUTIVE UTILITIES
+      </div>
+
+      <button class="mobile-sheet-item" onclick="openSelectorsSheet(); toggleMobileSheet(false);" style="border-color: rgba(255,255,255,0.18);">
+        <span style="font-size: 16px;">📄</span>
+        <span>Executive Selector's Sheet</span>
+      </button>
+
+      <button class="mobile-sheet-item" onclick="openShortlistDrawer(); toggleMobileSheet(false);" style="border-color: rgba(229,0,125,0.3); color: #FFB3D9;">
+        <span style="font-size: 16px;">★</span>
+        <span>Rajasthan Royals Shortlist Drawer (20)</span>
+      </button>
+
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-3d-playground')" style="border-color: rgba(56,189,248,0.3); color: #7DD3FC;">
+        <span style="font-size: 16px;">🌐</span>
+        <span>3D Aerospace Data Universe</span>
+      </button>
+
+      <!-- SECTION: CORE EVALUATION -->
+      <div class="mobile-sheet-section-title">
+        📊 CORE PERFORMANCE EVALUATION
+      </div>
+
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-summary')">
+        <span>📊</span> <span>Overview &amp; Executive Summary</span>
+      </button>
+
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-leaderboards')">
+        <span>🏆</span> <span>Top 10 Leaderboards (Bat &amp; Bowl)</span>
+      </button>
+
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-tactics')">
+        <span>🎯</span> <span>Pace/Spin &amp; Phase Tactical Splits</span>
+      </button>
+
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-scatter')">
+        <span>⚡</span> <span>High-Leverage Pressure Scatter</span>
+      </button>
+
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-slope')">
+        <span>📈</span> <span>Rank Movement &amp; Trajectory</span>
+      </button>
+
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-compare')">
+        <span>👥</span> <span>Head-to-Head Player Comparison</span>
+      </button>
+
+      <!-- SECTION: MODEL & GOVERNANCE -->
+      <div class="mobile-sheet-section-title">
+        ⚖️ MODEL &amp; GOVERNANCE
+      </div>
+
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-stability')">
+        <span>🎲</span> <span>Stability (200 Bootstraps)</span>
+      </button>
+
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-leverage')">
+        <span>⚖️</span> <span>Leverage &amp; Calibration Curves</span>
+      </button>
+
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-weights')">
+        <span>🎛️</span> <span>Weight Sensitivity Lab</span>
+      </button>
+
+      <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-audit')">
+        <span>🔍</span> <span>Source Audit Console (174 Records Verified)</span>
+      </button>
     </div>
   </div>
 
