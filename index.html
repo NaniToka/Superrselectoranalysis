@@ -89,23 +89,23 @@ body.scroll-locked {
 .tabular { font-variant-numeric: tabular-nums; }
 .font-mono { font-family: var(--font-mono); }
 
-/* TOP BROADCAST HEADER (Rajasthan Royals Dugout Identity) */
+/* TOP BROADCAST HEADER (Rajasthan Royals Bespoke Dugout Identity) */
 .broadcast-header {
-  background: rgba(4, 17, 38, 0.96);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(4, 11, 23, 0.94);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   color: #FFFFFF;
-  border-bottom: 2px solid var(--rr-pink);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5), inset 0 -1px 0 rgba(229, 0, 125, 0.2);
 }
 
 .header-inner {
-  max-width: 1680px;
+  max-width: 1720px;
   margin: 0 auto;
-  padding: 10px 20px;
+  padding: 8px 20px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -120,59 +120,84 @@ body.scroll-locked {
 }
 
 .rr-logo-box {
-  width: 42px;
-  height: 42px;
-  background: linear-gradient(135deg, var(--rr-pink) 0%, #C4006A 100%);
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--rr-pink) 0%, #8A004B 100%);
+  border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 900;
-  font-size: 20px;
+  font-size: 19px;
   color: #FFFFFF;
   letter-spacing: -0.5px;
-  box-shadow: 0 4px 16px rgba(229, 0, 125, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 20px rgba(229, 0, 125, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   flex-shrink: 0;
 }
 
 .brand-text h1 {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 800;
   color: #FFFFFF;
   letter-spacing: -0.01em;
   display: flex;
   align-items: center;
   gap: 8px;
+  line-height: 1.2;
 }
 
 .brand-pills {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 
 .pill-competition {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: rgba(229, 0, 125, 0.25);
+  background: rgba(229, 0, 125, 0.18);
   color: #FFB3D9;
-  border: 1px solid rgba(229, 0, 125, 0.45);
-  padding: 2px 8px;
+  border: 1px solid rgba(229, 0, 125, 0.4);
+  padding: 1.5px 7px;
   border-radius: 4px;
+}
+
+.pill-terminal-status {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: rgba(16, 185, 129, 0.12);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 1.5px 7px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.terminal-dot-live {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 6px #10B981;
 }
 
 .pill-round {
   font-family: var(--font-mono);
-  font-size: 10px;
-  background: rgba(255, 255, 255, 0.1);
+  font-size: 9.5px;
+  background: rgba(255, 255, 255, 0.08);
   color: #CBD5E1;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 2px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 1.5px 7px;
   border-radius: 4px;
   font-weight: 600;
 }
@@ -180,35 +205,349 @@ body.scroll-locked {
 .header-controls {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
+/* SEGMENTED MODEL SWITCHER */
 .toggle-group {
   display: flex;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.5);
   padding: 3px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .toggle-btn {
   background: transparent;
   border: none;
   color: #94A3B8;
-  padding: 6px 14px;
+  padding: 6px 12px;
   font-size: 11.5px;
   font-weight: 700;
   font-family: var(--font-sans);
   border-radius: 6px;
   cursor: pointer;
-  transition: all 180ms ease;
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.toggle-btn:hover {
+  color: #FFFFFF;
 }
 
 .toggle-btn.active {
+  background: linear-gradient(135deg, var(--rr-pink) 0%, #B80064 100%);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(229, 0, 125, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* TACTICAL SUITE EXECUTIVE DROPDOWN */
+.tactical-suite-container {
+  position: relative;
+  display: inline-block;
+}
+
+.btn-tactical-trigger {
+  background: linear-gradient(135deg, rgba(229, 0, 125, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+  border: 1px solid rgba(229, 0, 125, 0.35);
+  color: #FFFFFF;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 180ms ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.btn-tactical-trigger:hover,
+.btn-tactical-trigger.active {
+  background: linear-gradient(135deg, rgba(229, 0, 125, 0.22) 0%, rgba(56, 189, 248, 0.16) 100%);
+  border-color: var(--rr-pink);
+  color: #FFFFFF;
+  box-shadow: 0 0 14px rgba(229, 0, 125, 0.3);
+}
+
+.tactical-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--rr-pink);
+  display: inline-block;
+  box-shadow: 0 0 6px var(--rr-pink);
+  animation: pulse-pink 2s infinite ease-in-out;
+}
+
+@keyframes pulse-pink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
+}
+
+.tactical-chevron {
+  font-size: 10px;
+  color: #94A3B8;
+  transition: transform 0.2s ease;
+}
+
+.btn-tactical-trigger.active .tactical-chevron {
+  transform: rotate(180deg);
+}
+
+.tactical-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 440px;
+  max-width: 95vw;
+  background: rgba(6, 14, 28, 0.98);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tactical-dropdown-menu.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 6px;
+}
+
+.dropdown-header-title {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #94A3B8;
+}
+
+.dropdown-header-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  color: #34D399;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.dropdown-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 140ms ease;
+  border: 1px solid transparent;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dropdown-item-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.dropdown-item-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #F8FAFC;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.engine-badge-new {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38BDF8;
+  font-size: 8px;
+  font-family: var(--font-mono);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: 800;
+}
+
+.dropdown-item-desc {
+  font-size: 10.5px;
+  color: #94A3B8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+/* HEADER SEARCH & UTILITY PILLS */
+.btn-header-search {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94A3B8;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 160ms ease;
+}
+
+.btn-header-search:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.24);
+  color: #F8FAFC;
+}
+
+.search-kbd {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: #CBD5E1;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.btn-header-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #E2E8F0;
+  padding: 6px 11px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 160ms ease;
+  white-space: nowrap;
+}
+
+.btn-header-pill:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #FFFFFF;
+}
+
+.btn-pill-3d {
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.25);
+  color: #BAE6FD;
+}
+
+.btn-pill-3d:hover {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: #38BDF8;
+  color: #FFFFFF;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.3);
+}
+
+.pill-dot-cyan {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #38BDF8;
+  box-shadow: 0 0 6px #38BDF8;
+  display: inline-block;
+}
+
+.btn-pill-shortlist {
+  background: rgba(229, 0, 125, 0.12);
+  border-color: rgba(229, 0, 125, 0.35);
+  color: #FFB3D9;
+}
+
+.btn-pill-shortlist:hover {
+  background: rgba(229, 0, 125, 0.22);
+  border-color: var(--rr-pink);
+  color: #FFFFFF;
+  box-shadow: 0 0 14px rgba(229, 0, 125, 0.3);
+}
+
+.shortlist-counter-badge {
+  font-family: var(--font-mono);
   background: var(--rr-pink);
   color: #FFFFFF;
-  box-shadow: 0 2px 10px rgba(229, 0, 125, 0.45);
+  padding: 1px 6px;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(229, 0, 125, 0.4);
+}
+
+.btn-header-icon {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #CBD5E1;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 160ms ease;
+}
+
+.btn-header-icon:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
 }
 
 .btn-field-line {
@@ -230,11 +569,11 @@ body.scroll-locked {
 }
 
 .btn-header-action {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   color: #F8FAFC;
-  padding: 7px 13px;
-  border-radius: 6px;
+  padding: 6px 11px;
+  border-radius: 8px;
   font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 700;
@@ -246,30 +585,30 @@ body.scroll-locked {
 }
 
 .btn-header-action:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.26);
   color: #FFFFFF;
 }
 
 .btn-shortlist-counter {
-  background: rgba(229, 0, 125, 0.2);
-  border-color: rgba(229, 0, 125, 0.45);
+  background: rgba(229, 0, 125, 0.18);
+  border-color: rgba(229, 0, 125, 0.4);
   color: #FFB3D9;
 }
 
 .btn-shortlist-counter:hover {
-  background: rgba(229, 0, 125, 0.3);
+  background: rgba(229, 0, 125, 0.28);
 }
 
 /* TOP BROADCAST SCOREBOARD TICKER (4-Column Balanced Grid) */
 .scoreboard-ticker {
-  background: #06152B;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(4, 11, 23, 0.88);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   padding: 10px 20px;
 }
 
 .ticker-grid {
-  max-width: 1680px;
+  max-width: 1720px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -277,42 +616,50 @@ body.scroll-locked {
 }
 
 .ticker-card {
-  background: #091A33;
+  background: linear-gradient(180deg, rgba(10, 22, 40, 0.75) 0%, rgba(5, 13, 25, 0.85) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  padding: 10px 14px;
+  border-radius: 10px;
+  padding: 12px 16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-  transition: transform 0.15s ease, border-color 0.15s ease;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .ticker-card:hover {
-  transform: translateY(-1px);
-  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .ticker-card::before {
   content: "";
   position: absolute;
-  top: 0; left: 0; bottom: 0;
-  width: 4px;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  transition: height 0.2s ease;
 }
 
-.ticker-card:nth-child(1)::before { background: #38BDF8; }
-.ticker-card:nth-child(2)::before { background: var(--rr-pink); }
-.ticker-card:nth-child(3)::before { background: #10B981; }
-.ticker-card:nth-child(4)::before { background: #F59E0B; }
+.ticker-card:hover::before {
+  height: 3px;
+}
+
+.ticker-card:nth-child(1)::before { background: linear-gradient(90deg, #38BDF8 0%, rgba(56, 189, 248, 0.1) 100%); }
+.ticker-card:nth-child(2)::before { background: linear-gradient(90deg, var(--rr-pink) 0%, rgba(229, 0, 125, 0.1) 100%); }
+.ticker-card:nth-child(3)::before { background: linear-gradient(90deg, #10B981 0%, rgba(16, 185, 129, 0.1) 100%); }
+.ticker-card:nth-child(4)::before { background: linear-gradient(90deg, #F59E0B 0%, rgba(245, 158, 11, 0.1) 100%); }
 
 .ticker-title {
   font-family: var(--font-mono);
   font-size: 10px;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: #94A3B8;
   display: flex;
   align-items: center;
@@ -321,21 +668,23 @@ body.scroll-locked {
 
 .ticker-val {
   font-size: 13.5px;
-  font-weight: 800;
+  font-weight: 700;
   color: #FFFFFF;
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+
+.ticker-sub {
+  font-size: 11px;
+  color: #64748B;
   margin-top: 3px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.ticker-sub {
-  font-size: 10.5px;
-  color: #94A3B8;
-  margin-top: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-family: var(--font-mono);
 }
 
 /* MAIN APP WRAPPER */
@@ -400,53 +749,64 @@ body.scroll-locked {
 }
 
 .nav-section-label {
-  font-size: 9px;
-  font-weight: 800;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #94A3B8;
-  padding: 10px 10px 4px;
+  letter-spacing: 0.12em;
+  color: #64748B;
+  padding: 12px 10px 4px;
 }
 
 .nav-btn {
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 9px 12px;
-  border-radius: 7px;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
   font-size: 12px;
   font-weight: 600;
   color: #94A3B8;
   background: transparent;
   border: none;
+  border-left: 3px solid transparent;
   cursor: pointer;
   text-align: left;
-  transition: all 150ms ease;
+  transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
   width: 100%;
-  line-height: 1.2;
+  line-height: 1.25;
+  position: relative;
 }
 
 .nav-btn:hover {
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.04);
   color: #FFFFFF;
+  border-left-color: rgba(255, 255, 255, 0.25);
 }
 
 .nav-btn.active {
-  background: var(--rr-pink);
+  background: linear-gradient(90deg, rgba(229, 0, 125, 0.14) 0%, rgba(229, 0, 125, 0.02) 100%);
   color: #FFFFFF;
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(229, 0, 125, 0.35);
+  border-left: 3px solid var(--rr-pink);
+  box-shadow: inset 0 0 14px rgba(229, 0, 125, 0.08);
 }
 
 .nav-icon {
   width: 16px;
   height: 16px;
   flex-shrink: 0;
-  opacity: 0.85;
+  opacity: 0.8;
+  transition: opacity 0.15s ease, filter 0.15s ease;
+}
+
+.nav-btn:hover .nav-icon {
+  opacity: 1;
 }
 
 .nav-btn.active .nav-icon {
   opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(229, 0, 125, 0.6));
 }
 
 /* MAIN CONTENT CANVAS (Responsive fluid width) */
@@ -1991,105 +2351,159 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
 </head>
 <body>
 
-  <!-- TOP BROADCAST HEADER -->
+  <!-- TOP BROADCAST HEADER (Executive Dugout Intelligence Suite) -->
   <header class="broadcast-header no-print">
     <div class="header-inner">
       <div class="brand-badge">
         <button id="btn-sidebar-hamburger" onclick="toggleSidebarManual()" class="header-menu-hamburger-btn no-print" title="Toggle Navigation Sidebar / Fit Screen">
-          <span style="font-size: 16px; line-height: 1;">☰</span>
+          <span style="font-size: 15px; line-height: 1;">☰</span>
           <span style="font-size: 11px; font-weight: 700;">Menu</span>
         </button>
         <div class="rr-logo-box">RR</div>
         <div class="brand-text">
           <div class="brand-pills">
             <span class="pill-competition">SupeRR Selector Season 2</span>
+            <span class="pill-terminal-status"><span class="terminal-dot-live"></span> OPERATIONAL</span>
           </div>
           <h1>Rajasthan Royals Dugout Intelligence Board</h1>
         </div>
       </div>
 
       <div class="header-controls">
-        <div class="toggle-group" id="toggle-container">
-          <button id="btn-toggle-adj" class="toggle-btn active" onclick="setView('adjusted')">⚡ Opposition-Adjusted</button>
-          <button id="btn-toggle-orig" class="toggle-btn" onclick="setView('original')">📊 Original Model</button>
+        <!-- PRIMARY MODEL SEGMENTED CONTROL -->
+        <div class="toggle-group" id="toggle-container" role="radiogroup" aria-label="Model Architecture">
+          <button id="btn-toggle-adj" class="toggle-btn active" onclick="setView('adjusted')" role="radio" aria-checked="true">
+            <span style="color: var(--rr-pink);">⚡</span>
+            <span>Opposition-Adjusted</span>
+          </button>
+          <button id="btn-toggle-orig" class="toggle-btn" onclick="setView('original')" role="radio" aria-checked="false">
+            <span style="color: #38BDF8;">📊</span>
+            <span>Original Model</span>
+          </button>
         </div>
 
-        <button onclick="switchTab('tab-3d-playground')" class="btn-header-action" title="Open 3D Data Universe Playground" style="background: rgba(56, 189, 248, 0.12); border-color: rgba(56, 189, 248, 0.35); color: #7DD3FC;">
-          <span>🌐 3D Universe</span>
+        <!-- TACTICAL ENGINES EXECUTIVE DROPDOWN -->
+        <div class="tactical-suite-container" id="tactical-suite-container">
+          <button id="btn-tactical-suite" class="btn-tactical-trigger" onclick="toggleTacticalDropdown(event)" aria-expanded="false" aria-haspopup="true" title="Open Dugout Tactical Suite &amp; Simulation Engines">
+            <span class="tactical-pulse-dot"></span>
+            <span>Tactical Suite</span>
+            <span class="tactical-chevron">▾</span>
+          </button>
+          <div id="tactical-dropdown-menu" class="tactical-dropdown-menu" onclick="event.stopPropagation()">
+            <div class="dropdown-header">
+              <span class="dropdown-header-title">// TACTICAL COMPUTATION SUITE</span>
+              <span class="dropdown-header-tag">7 ENGINES READY</span>
+            </div>
+            <div class="dropdown-grid">
+              <a href="javascript:void(0)" onclick="switchTab('tab-field-optimizer'); closeTacticalDropdown();" class="dropdown-item">
+                <div class="dropdown-item-icon" style="background: rgba(52, 211, 153, 0.15); color: #34D399;">📐</div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">SMS Field Radar Holodeck <span class="engine-badge-new">NEW</span></div>
+                  <div class="dropdown-item-desc">78m vs 66m Asymmetric Jaipur Physics &amp; xR Shot Engine</div>
+                </div>
+              </a>
+              <a href="javascript:void(0)" onclick="switchTab('tab-impact-sub'); closeTacticalDropdown();" class="dropdown-item">
+                <div class="dropdown-item-icon" style="background: rgba(245, 158, 11, 0.15); color: #FBBF24;">🧬</div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Quantum Impact Player Sim <span class="engine-badge-new">NEW</span></div>
+                  <div class="dropdown-item-desc">Bellman Dynamic V(t) &amp; Option Value Decay Curve</div>
+                </div>
+              </a>
+              <a href="javascript:void(0)" onclick="switchTab('tab-season-sim'); closeTacticalDropdown();" class="dropdown-item">
+                <div class="dropdown-item-icon" style="background: rgba(245, 158, 11, 0.15); color: #FBBF24;">🏆</div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">10,000-Sim Playoff Multi-Universe <span class="engine-badge-new">NEW</span></div>
+                  <div class="dropdown-item-desc">Vectorized Monte Carlo in &lt;15ms &amp; NRR Distribution</div>
+                </div>
+              </a>
+              <a href="javascript:void(0)" onclick="openAuctionValuationConsole(); closeTacticalDropdown();" class="dropdown-item">
+                <div class="dropdown-item-icon" style="background: rgba(229, 0, 125, 0.15); color: #FF85C0;">💰</div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Auction War Room &amp; Valuation Console</div>
+                  <div class="dropdown-item-desc">Reserve Price &amp; Walk-Away Valuation Matrix</div>
+                </div>
+              </a>
+              <a href="javascript:void(0)" onclick="switchTab('tab-defense'); closeTacticalDropdown();" class="dropdown-item">
+                <div class="dropdown-item-icon" style="background: rgba(56, 189, 248, 0.15); color: #7DD3FC;">🛡️</div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">20-Over Defense &amp; Phase Planner</div>
+                  <div class="dropdown-item-desc">Powerplay, Middle, Death Phase Resource Allocation</div>
+                </div>
+              </a>
+              <a href="javascript:void(0)" onclick="switchTab('tab-chase-sim'); closeTacticalDropdown();" class="dropdown-item">
+                <div class="dropdown-item-icon" style="background: rgba(229, 0, 125, 0.15); color: #FF85C0;">⚡</div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Win-Probability Chase Sim</div>
+                  <div class="dropdown-item-desc">In-Play Leverage &amp; Ball-by-Ball Win Curves</div>
+                </div>
+              </a>
+              <a href="javascript:void(0)" onclick="switchTab('tab-duel'); closeTacticalDropdown();" class="dropdown-item">
+                <div class="dropdown-item-icon" style="background: rgba(168, 85, 247, 0.15); color: #C084FC;">⚔️</div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Matchup Duel Simulator</div>
+                  <div class="dropdown-item-desc">Illustrative toy, not a model output</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEARCH TRIGGER -->
+        <button onclick="openCommandPalette()" class="btn-header-search" title="Quick Player &amp; Model Search (Cmd+K)">
+          <span style="font-size: 11px; opacity: 0.8;">🔍</span>
+          <span class="search-label">Quick Search</span>
+          <kbd class="search-kbd">⌘K</kbd>
         </button>
 
-        
-        <button onclick="openCommandPalette()" class="btn-header-action" title="Quick Player & Model Search (Cmd+K)" style="background: rgba(229, 0, 125, 0.15); border-color: rgba(229, 0, 125, 0.4); color: #FF85C0; font-weight: 700;">
-          <span>🔍 Quick Search</span>
-          <kbd style="background: rgba(255,255,255,0.12); padding: 1px 5px; border-radius: 4px; font-size: 10px; margin-left: 4px; border: 1px solid rgba(255,255,255,0.2);">⌘K</kbd>
+        <!-- 3D DATA UNIVERSE PILL -->
+        <button onclick="switchTab('tab-3d-playground')" class="btn-header-pill btn-pill-3d" title="Open 3D Aerospace State-Space Universe">
+          <span class="pill-dot-cyan"></span>
+          <span>3D Universe</span>
         </button>
 
-        <button onclick="switchTab('tab-duel')" class="btn-header-action" title="Open Matchup Duel Simulator (Illustrative toy, not a model output)">
-          <span>⚔️ Duel Sim</span>
+        <!-- SHORTLIST COUNTER -->
+        <button onclick="openShortlistDrawer()" class="btn-header-pill btn-pill-shortlist" title="Open RR Shortlist Drawer">
+          <span style="color: #FFB3D9; font-size: 11px;">★</span>
+          <span>Shortlist</span>
+          <span id="shortlist-badge-count" class="shortlist-counter-badge">20</span>
         </button>
 
-        <button onclick="openAuctionValuationConsole()" class="btn-header-action" title="Open IPL 2027 Auction War Room & Walk-Away Valuation Simulator" style="background: rgba(229, 0, 125, 0.18); border-color: var(--rr-pink); color: #FF85C0; font-weight: 700;">
-          <span>💰 War Room</span>
+        <!-- SELECTORS SHEET -->
+        <button onclick="openSelectorsSheet()" class="btn-header-pill" title="View Executive Selector's Sheet">
+          <span style="font-size: 11px;">📄</span>
+          <span>Sheet</span>
         </button>
 
-        <button onclick="switchTab('tab-defense')" class="btn-header-action" title="Open RR 20-Over Match-Day Defense & Pressure Planner" style="background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.4); color: #7DD3FC; font-weight: 700;">
-          <span>🛡️ Defense 20</span>
-        </button>
-
-        <button onclick="switchTab('tab-chase-sim')" class="btn-header-action" title="Open In-Play Win-Probability & Chase Climax Simulator" style="background: rgba(229, 0, 125, 0.18); border-color: var(--rr-pink); color: #FF85C0; font-weight: 700;">
-          <span>⚡ Chase Sim</span>
-        </button>
-
-        <button onclick="switchTab('tab-field-optimizer')" class="btn-header-action" title="Open AI Field Placement & SMS Jaipur Boundary Radar Holodeck" style="background: rgba(52, 211, 153, 0.18); border-color: #34D399; color: #34D399; font-weight: 700;">
-          <span>📐 Field Radar</span>
-        </button>
-
-        <button onclick="switchTab('tab-impact-sub')" class="btn-header-action" title="Open AI Impact Player & Quantum 12-Man Lineup Optimizer" style="background: rgba(245, 158, 11, 0.18); border-color: #F59E0B; color: #FBBF24; font-weight: 700;">
-          <span>🧬 Impact Sub</span>
-        </button>
-
-        <button onclick="switchTab('tab-season-sim')" class="btn-header-action" title="Open 10,000-Sim IPL Season & Playoff Multi-Universe Engine" style="background: rgba(245, 158, 11, 0.18); border-color: #F59E0B; color: #FBBF24; font-weight: 700;">
-          <span>🏆 Season 10K</span>
-        </button>
-
-        <button id="btn-toggle-sidebar" onclick="toggleSidebarManual()" class="btn-header-action" title="Toggle Navigation Sidebar (Auto Fit Screen)" style="display: inline-flex; align-items: center; gap: 5px;">
+        <!-- CANVAS EXPANSION (FIT SCREEN) -->
+        <button id="btn-toggle-sidebar" onclick="toggleSidebarManual()" class="btn-header-icon" title="Toggle Navigation Sidebar (Auto Fit Screen)">
           <span id="sidebar-toggle-icon">⇥</span>
-          <span id="sidebar-toggle-text">Fit Screen</span>
+          <span id="sidebar-toggle-text" class="btn-label-desktop">Fit Screen</span>
         </button>
 
-
-
-        <button onclick="openSelectorsSheet()" class="btn-header-action" title="View Executive Selector's Sheet">
-          <span>📄 Sheet</span>
-        </button>
-
-        <button onclick="openShortlistDrawer()" class="btn-header-action btn-shortlist-counter" title="Open RR Shortlist Drawer">
-          <span>★ Shortlist</span>
-          <span id="shortlist-badge-count" class="font-mono bg-white text-rrPink px-1.5 py-0.5 rounded text-[10px] font-black">20</span>
-        </button>
-
-        <button onclick="window.print()" class="btn-header-action" title="Export PDF / Print View" style="padding: 7px 10px;">
-          <span>🖨️</span>
+        <!-- PDF EXPORT -->
+        <button onclick="window.print()" class="btn-header-icon" title="Export PDF / Print View">
+          <span style="font-size: 12px;">🖨️</span>
         </button>
       </div>
     </div>
   </header>
 
-    <!-- GOOGLE-GRADE DATA TELEMETRY BAR -->
-    <div class="google-telemetry-bar no-print" style="background: rgba(4, 17, 38, 0.95); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 6px 20px; font-size: 11px; color: #94A3B8; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
-      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-        <span style="display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.15); color: #34D399; padding: 2px 8px; border-radius: 9999px; font-weight: 700; font-size: 10px; border: 1px solid rgba(16, 185, 129, 0.3);">
-          <span style="width: 6px; height: 6px; background: #10B981; border-radius: 50%; display: inline-block;"></span>
-          LIVE PIPELINE: 136 CHECKS PASSING (EXIT 0)
-        </span>
-        <span><strong>DATASET:</strong> 197,100 Deliveries &bull; 851 Matches &bull; 958 Total Players (2022&ndash;2026 IPL &amp; T20I)</span>
-        <span><strong>WIN-PROB GBDT:</strong> AUC 0.89 (Chase) | 0.68 (1st Inn) &bull; Brier 0.137</span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <span style="color: var(--rr-pink); font-weight: 700;">VOLATILITY:</span> 0.62 &rarr; 3.73 pts/ball (6.0&times; surge)
-        <span style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 10px; color: #E2E8F0;">LEVERAGE LI &ge; 1.32</span>
-      </div>
+  <!-- GOOGLE-GRADE DATA TELEMETRY BAR -->
+  <div class="google-telemetry-bar no-print">
+    <div class="telemetry-item-group">
+      <span class="telemetry-badge-verified">
+        <span class="telemetry-dot-pulse"></span>
+        LIVE PIPELINE: 136 CHECKS PASSING (EXIT 0)
+      </span>
+      <span><strong>DATASET:</strong> <span class="telemetry-val">197,100</span> Deliveries &bull; <span class="telemetry-val">851</span> Matches &bull; <span class="telemetry-val">958</span> Total Players (2022&ndash;2026 IPL &amp; T20I)</span>
+      <span class="telemetry-divider"></span>
+      <span><strong>WIN-PROB GBDT:</strong> <span class="telemetry-val">AUC 0.89</span> (Chase) | <span class="telemetry-val">0.68</span> (1st Inn) &bull; <span class="telemetry-val">Brier 0.137</span></span>
     </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="color: var(--rr-pink); font-weight: 700;">VOLATILITY:</span> <span class="telemetry-val">0.62 &rarr; 3.73</span> pts/ball (6.0&times; surge)
+      <span class="telemetry-tag-pill">LEVERAGE LI &ge; 1.32</span>
+    </div>
+  </div>
 
 
   <!-- TOP BROADCAST SCOREBOARD TICKER -->
@@ -2127,12 +2541,12 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
     <!-- LEFT NAVIGATION RAIL -->
     <aside class="nav-rail no-print">
       <div class="nav-rail-topbar" style="display: flex; justify-content: space-between; align-items: center; padding: 2px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 8px;">
-        <span style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.08em;">Navigation</span>
+        <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.1em;">// TERMINAL NAV</span>
         <button onclick="toggleSidebarManual()" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.16); color: #E2E8F0; border-radius: 6px; padding: 4px 8px; font-size: 11px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s;" onmouseover="this.style.background='rgba(229,0,125,0.2)'; this.style.borderColor='var(--rr-pink)';" onmouseout="this.style.background='rgba(255,255,255,0.08)'; this.style.borderColor='rgba(255,255,255,0.16)';" title="Collapse sidebar to expand tables to 100% full screen width">
           <span>⇤ Fit Screen</span>
         </button>
       </div>
-      <div class="nav-section-label">Evaluation</div>
+      <div class="nav-section-label">// 01 CORE EVALUATION</div>
       <button onclick="switchTab('tab-summary')" id="nav-tab-summary" class="nav-btn active">
         <span class="nav-icon">📊</span>
         <span>Executive Summary</span>
@@ -2149,7 +2563,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
         </span>
       </button>
 
-      <div class="nav-section-label">Tactical Splits</div>
+      <div class="nav-section-label">// 02 TACTICAL SPLITS</div>
       <button onclick="switchTab('tab-tactics')" id="nav-tab-tactics" class="nav-btn">
         <span class="nav-icon">🎯</span>
         <span>Pace/Spin &amp; Phases</span>
@@ -2163,18 +2577,10 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
         <span>Rank Movement</span>
       </button>
 
-      <div class="nav-section-label">Dugout War Room</div>
+      <div class="nav-section-label">// 03 TACTICAL WAR ROOM</div>
       <button onclick="openAuctionValuationConsole()" id="nav-tab-auction" class="nav-btn">
         <span class="nav-icon">🏰</span>
         <span>Auction War Room &amp; RR</span>
-      </button>
-      <button onclick="switchTab('tab-defense')" id="nav-tab-defense" class="nav-btn">
-        <span class="nav-icon">🛡️</span>
-        <span>20-Over Defense Planner</span>
-      </button>
-      <button onclick="switchTab('tab-chase-sim')" id="nav-tab-chase-sim" class="nav-btn">
-        <span class="nav-icon">⚡</span>
-        <span>Win-Prob Chase Sim</span>
       </button>
       <button onclick="switchTab('tab-field-optimizer')" id="nav-tab-field-optimizer" class="nav-btn">
         <span class="nav-icon">📐</span>
@@ -2188,6 +2594,14 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
         <span class="nav-icon">🏆</span>
         <span>IPL Season &amp; Playoff Sim</span>
       </button>
+      <button onclick="switchTab('tab-defense')" id="nav-tab-defense" class="nav-btn">
+        <span class="nav-icon">🛡️</span>
+        <span>20-Over Defense Planner</span>
+      </button>
+      <button onclick="switchTab('tab-chase-sim')" id="nav-tab-chase-sim" class="nav-btn">
+        <span class="nav-icon">⚡</span>
+        <span>Win-Prob Chase Sim</span>
+      </button>
       <button onclick="switchTab('tab-duel')" id="nav-tab-duel" class="nav-btn">
         <span class="nav-icon">⚔️</span>
         <span>Matchup Duel Sim</span>
@@ -2197,7 +2611,7 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
         <span>Player Comparison</span>
       </button>
 
-      <div class="nav-section-label">Model &amp; Audit</div>
+      <div class="nav-section-label">// 04 MODEL &amp; GOVERNANCE</div>
       <button onclick="switchTab('tab-stability')" id="nav-tab-stability" class="nav-btn">
         <span class="nav-icon">🎲</span>
         <span>Stability (Bootstraps)</span>
@@ -2234,20 +2648,20 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
             Rajasthan Royals High-Pressure Command Center
           </h2>
           <p class="dugout-hero-sub">
-            Dugout Clutch Analytics
+            Continuous win-probability-gradient state space across 851 matches (2022&ndash;2026). Engineered specifically for Rajasthan Royals leadership (Kumar Sangakkara, Rahul Dravid, Jake Lush McCrum) to quantify clutch leverage, decision stability, and opposition-adjusted impact.
           </p>
           <div class="dugout-hero-btns">
-            <button class="btn-hero-primary" onclick="switchTab('tab-3d-playground')" style="background: linear-gradient(135deg, var(--rr-pink) 0%, #38BDF8 100%); box-shadow: 0 4px 16px rgba(56, 189, 248, 0.4);">
-              🌐 Launch 3D Data Universe
+            <button class="btn-hero-primary" onclick="switchTab('tab-3d-playground')">
+              <span>🌐 Launch 3D Data Universe</span>
             </button>
             <button class="btn-hero-secondary" onclick="switchTab('tab-leaderboards')">
-              🏆 View Verified Top 10 Leaderboards
+              <span>🏆 View Verified Top 10 Leaderboards</span>
             </button>
             <button class="btn-hero-secondary" onclick="switchTab('tab-tactics')">
-              🎯 Dugout Tactical Splits
+              <span>🎯 Dugout Tactical Splits</span>
             </button>
-            <button class="btn-hero-secondary" onclick="switchTab('tab-auction')">
-              🏰 RR Squad Pressure Audit
+            <button class="btn-hero-secondary" onclick="openAuctionValuationConsole()">
+              <span>🏰 RR Squad Pressure Audit</span>
             </button>
           </div>
         </div>
@@ -7623,6 +8037,50 @@ function updateSidebarToggleUI(collapsed) {
     hamBtn.style.borderColor = collapsed ? 'var(--rr-pink)' : 'rgba(255, 255, 255, 0.16)';
   }
 }
+
+// TACTICAL SUITE DROPDOWN CONTROLLER
+function toggleTacticalDropdown(e) {
+  if (e) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+  const menu = document.getElementById('tactical-dropdown-menu');
+  const btn = document.getElementById('btn-tactical-suite');
+  if (!menu || !btn) return;
+  const isOpen = menu.classList.contains('open');
+  if (isOpen) {
+    closeTacticalDropdown();
+  } else {
+    menu.classList.add('open');
+    btn.classList.add('active');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
+
+function closeTacticalDropdown() {
+  const menu = document.getElementById('tactical-dropdown-menu');
+  const btn = document.getElementById('btn-tactical-suite');
+  if (menu) menu.classList.remove('open');
+  if (btn) {
+    btn.classList.remove('active');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+}
+
+// Global click-outside listener to dismiss tactical dropdown
+document.addEventListener('click', (e) => {
+  const container = document.getElementById('tactical-suite-container');
+  if (container && !container.contains(e.target)) {
+    closeTacticalDropdown();
+  }
+});
+
+// ESC key listener to dismiss dropdowns
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeTacticalDropdown();
+  }
+});
 
 // Automatically fit screen when scrolling down on desktop
 window.addEventListener('scroll', () => {
