@@ -10552,11 +10552,11 @@ function getPlayerPercentiles(playerObj) {
 function generateRadarSVG(datasets, size = 300) {
   const cx = size / 2;
   const cy = size / 2;
-  const r = size * 0.38;
-  const axes = ['Net HP', 'WPA HP', 'Delta', 'Consistency', 'Stability'];
+  const r = size * 0.285;
+  const axes = ['Net HP', 'WPA', 'Delta', 'Consistency', 'Stability'];
   const numAxes = axes.length;
 
-  let svg = `<svg viewBox="0 0 ${size} ${size}" width="100%" height="100%">`;
+  let svg = `<svg viewBox="0 0 ${size} ${size}" width="100%" height="100%" style="overflow: visible;">`;
 
   // Concentric background pentagons (20%, 40%, 60%, 80%, 100%)
   for (let p of [0.2, 0.4, 0.6, 0.8, 1.0]) {
@@ -10576,11 +10576,12 @@ function generateRadarSVG(datasets, size = 300) {
     const ay = cy + r * Math.sin(angle);
     svg += `<line x1="${cx}" y1="${cy}" x2="${ax}" y2="${ay}" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1" stroke-dasharray="2,2" />`;
 
-    // Label position
-    const lx = cx + (r + 18) * Math.cos(angle);
-    const ly = cy + (r + 14) * Math.sin(angle);
+    // Label position - generous margins ensure labels like 'Stability' never clip
+    const labelDist = r + (i === 0 ? 16 : 14);
+    const lx = cx + labelDist * Math.cos(angle);
+    const ly = cy + labelDist * Math.sin(angle);
     const anchor = Math.abs(Math.cos(angle)) < 0.1 ? 'middle' : (Math.cos(angle) > 0 ? 'start' : 'end');
-    svg += `<text x="${lx}" y="${ly}" font-size="10" font-weight="700" fill="#CBD5E1" text-anchor="${anchor}" dominant-baseline="middle">${axes[i]}</text>`;
+    svg += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#CBD5E1" text-anchor="${anchor}" dominant-baseline="middle">${axes[i]}</text>`;
   }
 
   // Plot datasets (each dataset: { name, color, values: [pct1, pct2, pct3, pct4, pct5] })
@@ -10837,7 +10838,7 @@ function openPlayerProfile(pname) {
     </div>
 
     <!-- RADAR CHART -->
-    <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px; text-align: center;">
+    <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px; text-align: center; overflow: visible;">
       <div style="font-size: 12px; font-weight: 800; color: #F8FAFC; margin-bottom: 4px;" class="has-tooltip">
         Percentile Radar Rank
         <span class="tooltip-box">Computed percentile among same-role qualified players using formula: (count(x &lt; x_i) + 0.5 * count(x == x_i)) / N * 100</span>
@@ -10845,7 +10846,7 @@ function openPlayerProfile(pname) {
       <div style="font-size: 10px; color: var(--rr-text-muted); margin-bottom: 10px;">
         Percentiles computed, formula in tooltip • 5 Key Dimensions
       </div>
-      <div style="width: 280px; height: 280px; margin: 0 auto;">
+      <div style="width: 280px; height: 260px; margin: 0 auto; overflow: visible;">
         ${radarSvg}
       </div>
     </div>
