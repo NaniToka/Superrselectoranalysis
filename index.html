@@ -2998,13 +2998,13 @@ body {
 .main-canvas {
   background: var(--surface-0) !important;
   max-width: calc(100% - 210px) !important;
-  padding: 18px 22px !important;
+  padding: 18px 22px 100px 22px !important;
 }
 
 .app-layout.auto-fit-screen .main-canvas,
 .app-layout.sidebar-collapsed .main-canvas {
   max-width: 100% !important;
-  padding: 18px 28px !important;
+  padding: 18px 28px 100px 28px !important;
 }
 
 .app-layout.auto-fit-screen .nav-rail,
@@ -3079,14 +3079,15 @@ body {
 
 .scorecard-table th {
   background: var(--surface-2) !important;
-  color: var(--text-tertiary) !important;
+  color: #CBD5E1 !important;
   font-family: var(--font-mono) !important;
-  font-size: 8.5px !important;
+  font-size: 10.5px !important;
   font-weight: 800 !important;
-  letter-spacing: 0.1em !important;
+  letter-spacing: 0.05em !important;
   text-transform: uppercase !important;
-  padding: 9px 12px !important;
+  padding: 10px 12px !important;
   border-bottom: 1px solid var(--border-mid) !important;
+  white-space: nowrap !important;
 }
 
 .scorecard-table td {
@@ -3125,6 +3126,8 @@ body {
   background-color: var(--surface-1) !important;
   color: var(--text-data) !important;
   box-shadow: 3px 0 8px rgba(0,0,0,0.3) !important;
+  white-space: nowrap !important;
+  min-width: 185px !important;
 }
 .scorecard-table tbody tr:nth-child(even) .sticky-col-player {
   background-color: rgba(255,255,255,0.012) !important;
@@ -3136,7 +3139,10 @@ body {
 .scorecard-table th.sticky-col-rank,
 .scorecard-table th.sticky-col-player {
   background-color: var(--surface-2) !important;
-  color: var(--text-tertiary) !important;
+  color: #CBD5E1 !important;
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
   z-index: 11 !important;
 }
 
@@ -9225,12 +9231,12 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                   <table class="scorecard-table font-mono" id="chase-asymmetry-table" style="font-size: 11.5px;">
                     <thead>
                       <tr>
-                        <th style="text-align: left; min-width: 170px;">Player</th>
-                        <th style="text-align: center; width: 70px;">Role</th>
-                        <th style="text-align: center; width: 95px;">Base Rank</th>
-                        <th style="text-align: center; width: 100px;">Chase Rank</th>
-                        <th style="text-align: center; width: 90px;">&Delta; Rank</th>
-                        <th style="text-align: left; width: 130px;">Asymmetry Vector</th>
+                        <th style="text-align: left; min-width: 185px; white-space: nowrap;">Player</th>
+                        <th style="text-align: center; width: 70px; white-space: nowrap;">Role</th>
+                        <th style="text-align: center; width: 95px; white-space: nowrap;">Base Rank</th>
+                        <th style="text-align: center; width: 100px; white-space: nowrap;">Chase Rank</th>
+                        <th style="text-align: center; width: 90px; white-space: nowrap;">&Delta; Rank</th>
+                        <th style="text-align: left; width: 130px; white-space: nowrap;">Asymmetry Vector</th>
                         <th style="text-align: left; min-width: 170px;">Tactical Archetype</th>
                         <th style="text-align: left; min-width: 260px;">Dugout Action Directive</th>
                       </tr>
@@ -9525,13 +9531,13 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                   <table class="scorecard-table font-mono" id="role-elasticity-table" style="font-size: 11.5px;">
                     <thead>
                       <tr>
-                        <th style="text-align: left; min-width: 170px;">Batter</th>
-                        <th style="text-align: left; min-width: 160px;">Tactical Archetype</th>
-                        <th style="text-align: center; width: 95px;">Elasticity</th>
-                        <th style="text-align: right; width: 95px;">PP Net/100</th>
-                        <th style="text-align: right; width: 80px;">PP SR</th>
-                        <th style="text-align: right; width: 95px;">Mid Net/100</th>
-                        <th style="text-align: right; width: 80px;">Mid SR</th>
+                        <th style="text-align: left; min-width: 185px; white-space: nowrap;">Batter</th>
+                        <th style="text-align: left; min-width: 160px; white-space: nowrap;">Tactical Archetype</th>
+                        <th style="text-align: center; width: 95px; white-space: nowrap;">Elasticity</th>
+                        <th style="text-align: right; width: 95px; white-space: nowrap;">PP Net/100</th>
+                        <th style="text-align: right; width: 80px; white-space: nowrap;">PP SR</th>
+                        <th style="text-align: right; width: 95px; white-space: nowrap;">Mid Net/100</th>
+                        <th style="text-align: right; width: 80px; white-space: nowrap;">Mid SR</th>
                         <th style="text-align: right; width: 95px;">Death Net/100</th>
                         <th style="text-align: right; width: 80px;">Death SR</th>
                         <th style="text-align: left; min-width: 250px;">Dugout Batting Order Directive</th>
@@ -11291,8 +11297,8 @@ function generateRadarSVG(datasets, size = 300) {
   const r = size * 0.28;
   const axes = ['Net HP', 'WPA', 'Delta', 'Consistency', 'Stability'];
   const numAxes = axes.length;
-  const padX = 56;
-  const padY = 24;
+  const padX = 72;
+  const padY = 28;
 
   let svg = `<svg viewBox="-${padX} -${padY} ${size + padX * 2} ${size + padY * 2}" width="100%" height="100%" style="overflow: visible; display: block;">`;
 
@@ -11319,7 +11325,7 @@ function generateRadarSVG(datasets, size = 300) {
     const lx = cx + labelDist * Math.cos(angle);
     const ly = cy + labelDist * Math.sin(angle);
     const anchor = Math.abs(Math.cos(angle)) < 0.1 ? 'middle' : (Math.cos(angle) > 0 ? 'start' : 'end');
-    svg += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#CBD5E1" text-anchor="${anchor}" dominant-baseline="middle">${axes[i]}</text>`;
+    svg += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" font-family="'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" font-weight="700" fill="#CBD5E1" text-anchor="${anchor}" dominant-baseline="middle">${axes[i]}</text>`;
   }
 
   // Plot datasets (each dataset: { name, color, values: [pct1, pct2, pct3, pct4, pct5] })
@@ -16638,7 +16644,6 @@ function renderChaseAsymmetryConsole() {
   filtered.forEach(p => {
     const tr = document.createElement('tr');
     tr.style.cursor = 'pointer';
-    tr.title = `Click to view full player profile for ${p.name}`;
     tr.onclick = () => openPlayerProfile(p.name);
 
     const meta = CHASE_ASYMMETRY_META[p.name] || {
@@ -16694,10 +16699,10 @@ function renderChaseAsymmetryConsole() {
       : `<span style="background: rgba(56,189,248,0.18); color: #38BDF8; border: 1px solid rgba(56,189,248,0.35); padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800;">BOWL</span>`;
 
     tr.innerHTML = `
-      <td style="font-weight: 700; color: #FFFFFF;">
-        <div style="display: flex; align-items: center; gap: 8px;">
+      <td style="font-weight: 700; color: #FFFFFF; white-space: nowrap; min-width: 185px;">
+        <div style="display: flex; align-items: center; gap: 8px; white-space: nowrap;">
           <img src="${imgUrl}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='${flag}';">
-          <span>${p.name}</span>
+          <span style="white-space: nowrap;">${p.name}</span>
           <span style="font-size: 11px;">${flag}</span>
         </div>
       </td>
@@ -16804,15 +16809,15 @@ function renderHandednessMatchupConsole() {
   if (currentHandFilter === 'bowl' || currentHandFilter === 'extreme') {
     // Bowler Table Headers
     thead.innerHTML = `
-      <th style="text-align: left; min-width: 170px;">Bowler</th>
-      <th style="text-align: right; width: 85px;">vs LHB Balls</th>
-      <th style="text-align: right; width: 80px;">LHB Econ</th>
-      <th style="text-align: right; width: 95px;">LHB Net/100</th>
-      <th style="text-align: right; width: 85px;">vs RHB Balls</th>
-      <th style="text-align: right; width: 80px;">RHB Econ</th>
-      <th style="text-align: right; width: 95px;">RHB Net/100</th>
-      <th style="text-align: center; width: 100px;">RHB Advantage</th>
-      <th style="text-align: left; width: 120px;">Matchup Vector</th>
+      <th style="text-align: left; min-width: 185px; white-space: nowrap;">Bowler</th>
+      <th style="text-align: right; width: 85px; white-space: nowrap;">vs LHB Balls</th>
+      <th style="text-align: right; width: 80px; white-space: nowrap;">LHB Econ</th>
+      <th style="text-align: right; width: 95px; white-space: nowrap;">LHB Net/100</th>
+      <th style="text-align: right; width: 85px; white-space: nowrap;">vs RHB Balls</th>
+      <th style="text-align: right; width: 80px; white-space: nowrap;">RHB Econ</th>
+      <th style="text-align: right; width: 95px; white-space: nowrap;">RHB Net/100</th>
+      <th style="text-align: center; width: 100px; white-space: nowrap;">RHB Advantage</th>
+      <th style="text-align: left; width: 120px; white-space: nowrap;">Matchup Vector</th>
       <th style="text-align: left; min-width: 250px;">Dugout Matchup Directive</th>
     `;
 
@@ -16830,7 +16835,6 @@ function renderHandednessMatchupConsole() {
     bowlers.forEach(b => {
       const tr = document.createElement('tr');
       tr.style.cursor = 'pointer';
-      tr.title = `Click to view profile for ${b.name}`;
       tr.onclick = () => openPlayerProfile(b.name);
 
       const pInfo = APP_DATA.adjusted_all_players.find(x => x.name === b.name);
@@ -16872,10 +16876,10 @@ function renderHandednessMatchupConsole() {
       const directive = HANDEDNESS_TACTICAL_DIRECTIVES[b.name] || 'Empirical matchup distribution against batter handedness.';
 
       tr.innerHTML = `
-        <td style="font-weight: 700; color: #FFFFFF;">
-          <div style="display: flex; align-items: center; gap: 8px;">
+        <td style="font-weight: 700; color: #FFFFFF; white-space: nowrap; min-width: 185px;">
+          <div style="display: flex; align-items: center; gap: 8px; white-space: nowrap;">
             <img src="${imgUrl}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='${flag}';">
-            <span>${b.name}</span>
+            <span style="white-space: nowrap;">${b.name}</span>
             <span style="font-size: 11px;">${flag}</span>
           </div>
         </td>
@@ -16895,15 +16899,15 @@ function renderHandednessMatchupConsole() {
   } else {
     // Batter Table Headers (vs Left-Arm vs Right-Arm Bowling)
     thead.innerHTML = `
-      <th style="text-align: left; min-width: 170px;">Batter</th>
-      <th style="text-align: right; width: 85px;">vs Left Balls</th>
-      <th style="text-align: right; width: 80px;">Left SR</th>
-      <th style="text-align: right; width: 95px;">Left Net/100</th>
-      <th style="text-align: right; width: 85px;">vs Right Balls</th>
-      <th style="text-align: right; width: 80px;">Right SR</th>
-      <th style="text-align: right; width: 95px;">Right Net/100</th>
-      <th style="text-align: center; width: 100px;">Right Advantage</th>
-      <th style="text-align: left; width: 120px;">Matchup Vector</th>
+      <th style="text-align: left; min-width: 185px; white-space: nowrap;">Batter</th>
+      <th style="text-align: right; width: 85px; white-space: nowrap;">vs Left Balls</th>
+      <th style="text-align: right; width: 80px; white-space: nowrap;">Left SR</th>
+      <th style="text-align: right; width: 95px; white-space: nowrap;">Left Net/100</th>
+      <th style="text-align: right; width: 85px; white-space: nowrap;">vs Right Balls</th>
+      <th style="text-align: right; width: 80px; white-space: nowrap;">Right SR</th>
+      <th style="text-align: right; width: 95px; white-space: nowrap;">Right Net/100</th>
+      <th style="text-align: center; width: 100px; white-space: nowrap;">Right Advantage</th>
+      <th style="text-align: left; width: 120px; white-space: nowrap;">Matchup Vector</th>
       <th style="text-align: left; min-width: 250px;">Dugout Matchup Directive</th>
     `;
 
@@ -16917,7 +16921,6 @@ function renderHandednessMatchupConsole() {
     batters.forEach(b => {
       const tr = document.createElement('tr');
       tr.style.cursor = 'pointer';
-      tr.title = `Click to view profile for ${b.name}`;
       tr.onclick = () => openPlayerProfile(b.name);
 
       const pInfo = APP_DATA.adjusted_all_players.find(x => x.name === b.name);
@@ -16958,10 +16961,10 @@ function renderHandednessMatchupConsole() {
       const directive = HANDEDNESS_TACTICAL_DIRECTIVES[b.name] || 'Empirical matchup performance against bowler bowling arm.';
 
       tr.innerHTML = `
-        <td style="font-weight: 700; color: #FFFFFF;">
-          <div style="display: flex; align-items: center; gap: 8px;">
+        <td style="font-weight: 700; color: #FFFFFF; white-space: nowrap; min-width: 185px;">
+          <div style="display: flex; align-items: center; gap: 8px; white-space: nowrap;">
             <img src="${imgUrl}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='${flag}';">
-            <span>${b.name}</span>
+            <span style="white-space: nowrap;">${b.name}</span>
             <span style="font-size: 11px;">${flag}</span>
           </div>
         </td>
@@ -17046,7 +17049,6 @@ function renderRoleElasticityConsole() {
   filtered.forEach(b => {
     const tr = document.createElement('tr');
     tr.style.cursor = 'pointer';
-    tr.title = `Click to view profile for ${b.name}`;
     tr.onclick = () => openPlayerProfile(b.name);
 
     const pInfo = APP_DATA.adjusted_all_players.find(x => x.name === b.name);
@@ -17067,10 +17069,10 @@ function renderRoleElasticityConsole() {
     }
 
     tr.innerHTML = `
-      <td style="font-weight: 700; color: #FFFFFF;">
-        <div style="display: flex; align-items: center; gap: 8px;">
+      <td style="font-weight: 700; color: #FFFFFF; white-space: nowrap; min-width: 185px;">
+        <div style="display: flex; align-items: center; gap: 8px; white-space: nowrap;">
           <img src="${imgUrl}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='${flag}';">
-          <span>${b.name}</span>
+          <span style="white-space: nowrap;">${b.name}</span>
           <span style="font-size: 11px;">${flag}</span>
         </div>
       </td>
