@@ -3094,7 +3094,7 @@ body {
   padding: 9px 12px !important;
   border-bottom: 1px solid var(--border-hair) !important;
   font-size: 12px !important;
-  color: var(--text-data) !important;
+  color: var(--text-data);
 }
 
 .scorecard-table tbody tr {
@@ -3483,15 +3483,19 @@ select:focus, input:focus {
 }
 
 /* ── DELTA INDICATORS ── */
-.delta-pos { color: var(--accent-emerald) !important; }
-.delta-neg { color: var(--text-tertiary) !important; }
+.delta-pos { color: #34D399 !important; font-weight: 800 !important; }
+.delta-neg { color: #F87171 !important; font-weight: 800 !important; }
 
 /* ── SCORE CHIP ── */
 .score-chip {
-  background: var(--surface-3) !important;
-  border-radius: 2px !important;
-  font-size: 10.5px !important;
-  color: var(--text-data) !important;
+  background: rgba(229, 0, 125, 0.18) !important;
+  border: 1px solid rgba(229, 0, 125, 0.35) !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  color: #FF85C0 !important;
+  padding: 2px 7px !important;
+  display: inline-block !important;
 }
 
 /* ── STAR BUTTON ── */
@@ -11343,7 +11347,6 @@ function renderLeaderboards() {
   batters.forEach(p => {
     const tr = document.createElement('tr');
     tr.style.cursor = 'pointer';
-    tr.title = `Click to view full stats for ${p.player}`;
     tr.onclick = (e) => {
       if (e.target.closest('.star-btn')) return;
       openPlayerProfile(p.player);
@@ -11352,24 +11355,40 @@ function renderLeaderboards() {
     const isStarred = state.shortlist.includes(p.player);
     const origTag = (isAdj && p.orig_rank !== p.rank) ? `<span style="font-size: 10px; color: var(--rr-text-muted); font-weight: normal; margin-left: 4px;">(Orig #${p.orig_rank})</span>` : '';
     const chipClass = p.rank === 1 ? 'top1' : (p.rank <= 3 ? 'top3' : '');
+    const imgUrl = getPlayerImageUrl(p.player);
+    const pInfo = APP_DATA.adjusted_all_players.find(x => x.name.toLowerCase() === p.player.toLowerCase());
+    const flag = pInfo ? getFlag(pInfo.nationality) : '';
+
+    const netColor = p.net_100 >= 25 ? '#34D399' : (p.net_100 >= 10 ? '#4ADE80' : '#FBBF24');
+    let deltaBadge = '';
+    if (p.delta > 0) {
+      deltaBadge = `<span style="background: rgba(52,211,153,0.18); color: #34D399; border: 1px solid rgba(52,211,153,0.35); padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10.5px; white-space: nowrap;">+${p.delta.toFixed(2)} ▲</span>`;
+    } else if (p.delta < 0) {
+      deltaBadge = `<span style="background: rgba(239,68,68,0.15); color: #F87171; border: 1px solid rgba(239,68,68,0.3); padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10.5px; white-space: nowrap;">${p.delta.toFixed(2)} ▼</span>`;
+    } else {
+      deltaBadge = `<span style="background: rgba(255,255,255,0.06); color: #94A3B8; border: 1px solid rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 10.5px; white-space: nowrap;">0.00 •</span>`;
+    }
 
     tr.innerHTML = `
       <td class="sticky-col-rank">
         <span class="rank-chip ${chipClass}">${p.rank}</span>
       </td>
-      <td class="sticky-col-player">
-        <span style="color: #F8FAFC; font-weight: 700;">${p.player}</span>${origTag}
+      <td class="sticky-col-player" style="white-space: nowrap; min-width: 185px;">
+        <div style="display: flex; align-items: center; gap: 8px; white-space: nowrap;">
+          <img src="${imgUrl}" style="width: 22px; height: 22px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='${flag}';">
+          <span style="color: #F8FAFC; font-weight: 700; white-space: nowrap;">${p.player}</span>${origTag}
+        </div>
       </td>
-      <td class="tabular" style="text-align: right;">${p.hp_balls}</td>
-      <td class="tabular" style="text-align: right;">${p.hp_runs}</td>
-      <td class="tabular" style="text-align: right;">${p.outs}</td>
-      <td class="tabular" style="text-align: right;">${p.sr}</td>
-      <td class="tabular font-bold" style="text-align: right; color: var(--rr-pink);">${p.net_100 > 0 ? '+' : ''}${p.net_100.toFixed(2)}</td>
-      <td class="tabular ${p.delta >= 0 ? 'delta-pos' : 'delta-neg'}" style="text-align: right;">${p.delta > 0 ? '+' : ''}${p.delta.toFixed(2)}</td>
-      <td class="tabular" style="text-align: right;">${p.wpa_100.toFixed(3)}</td>
-      <td class="tabular" style="text-align: right;">${p.consistency.toFixed(3)}</td>
-      <td class="tabular" style="text-align: right;"><span class="score-chip">${p.score.toFixed(3)}</span></td>
-      <td class="tabular" style="text-align: right; font-weight: 600;">${p.boot_top10.toFixed(1)}%</td>
+      <td class="tabular" style="text-align: right;"><span style="color: #CBD5E1; font-weight: 700;">${p.hp_balls}</span></td>
+      <td class="tabular" style="text-align: right;"><span style="color: #F8FAFC; font-weight: 700;">${p.hp_runs}</span></td>
+      <td class="tabular" style="text-align: right;"><span style="color: #94A3B8;">${p.outs}</span></td>
+      <td class="tabular" style="text-align: right;"><span style="color: #38BDF8; font-weight: 800;">${p.sr}</span></td>
+      <td class="tabular font-bold" style="text-align: right;"><span style="color: ${netColor}; font-weight: 800;">${p.net_100 > 0 ? '+' : ''}${p.net_100.toFixed(2)}</span></td>
+      <td class="tabular" style="text-align: center;">${deltaBadge}</td>
+      <td class="tabular" style="text-align: right;"><span style="color: #38BDF8; font-weight: 800;">${p.wpa_100.toFixed(3)}</span></td>
+      <td class="tabular" style="text-align: right;"><span style="color: #C084FC; font-weight: 700;">${p.consistency.toFixed(3)}</span></td>
+      <td class="tabular" style="text-align: center;"><span class="score-chip">${p.score.toFixed(3)}</span></td>
+      <td class="tabular" style="text-align: right;"><span style="font-weight: 800; color: #34D399;">${p.boot_top10.toFixed(1)}%</span></td>
       <td class="tabular" style="text-align: right; color: var(--rr-text-muted);">${p.boot_top5.toFixed(1)}%</td>
       <td style="text-align: center;">
         <button class="star-btn ${isStarred ? 'starred' : ''}" onclick="toggleShortlist('${p.player.replace("'", "\\'")}')">★</button>
@@ -11384,7 +11403,6 @@ function renderLeaderboards() {
   bowlers.forEach(p => {
     const tr = document.createElement('tr');
     tr.style.cursor = 'pointer';
-    tr.title = `Click to view full stats for ${p.player}`;
     tr.onclick = (e) => {
       if (e.target.closest('.star-btn')) return;
       openPlayerProfile(p.player);
@@ -11396,26 +11414,44 @@ function renderLeaderboards() {
     const chipClass = p.rank === 1 ? 'top1' : (p.rank <= 3 ? 'top3' : '');
     const dotText = p.dot_pct !== 'n/a' ? `${Number(p.dot_pct).toFixed(1)}%` : 'n/a';
     const econText = p.econ !== 'n/a' ? Number(p.econ).toFixed(2) : 'n/a';
+    const imgUrl = getPlayerImageUrl(p.player);
+    const pInfo = APP_DATA.adjusted_all_players.find(x => x.name.toLowerCase() === p.player.toLowerCase());
+    const flag = pInfo ? getFlag(pInfo.nationality) : '';
+
+    const netColor = p.net_100 >= 25 ? '#34D399' : (p.net_100 >= 10 ? '#4ADE80' : '#FBBF24');
+    let deltaBadge = '';
+    if (p.delta > 0) {
+      deltaBadge = `<span style="background: rgba(52,211,153,0.18); color: #34D399; border: 1px solid rgba(52,211,153,0.35); padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10.5px; white-space: nowrap;">+${p.delta.toFixed(2)} ▲</span>`;
+    } else if (p.delta < 0) {
+      deltaBadge = `<span style="background: rgba(239,68,68,0.15); color: #F87171; border: 1px solid rgba(239,68,68,0.3); padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10.5px; white-space: nowrap;">${p.delta.toFixed(2)} ▼</span>`;
+    } else {
+      deltaBadge = `<span style="background: rgba(255,255,255,0.06); color: #94A3B8; border: 1px solid rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 10.5px; white-space: nowrap;">0.00 •</span>`;
+    }
 
     tr.innerHTML = `
       <td class="sticky-col-rank">
         <span class="rank-chip ${chipClass}">${p.rank}</span>
       </td>
-      <td class="sticky-col-player">
-        <div style="color: #F8FAFC; font-weight: 700;">${p.player}${origTag}</div>
-        ${noteTag}
+      <td class="sticky-col-player" style="white-space: nowrap; min-width: 185px;">
+        <div style="display: flex; align-items: center; gap: 8px; white-space: nowrap;">
+          <img src="${imgUrl}" style="width: 22px; height: 22px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='${flag}';">
+          <div>
+            <div style="color: #F8FAFC; font-weight: 700; white-space: nowrap;">${p.player}${origTag}</div>
+            ${noteTag}
+          </div>
+        </div>
       </td>
-      <td class="tabular" style="text-align: right;">${p.hp_balls}</td>
-      <td class="tabular" style="text-align: right;">${p.legal_balls}</td>
-      <td class="tabular" style="text-align: right;">${p.wkts}</td>
-      <td class="tabular" style="text-align: right;">${econText}</td>
-      <td class="tabular" style="text-align: right;">${dotText}</td>
-      <td class="tabular font-bold" style="text-align: right; color: var(--rr-pink);" title="Runs saved above expected per 100 HP deliveries (wickets included)">${p.net_100 > 0 ? '+' : ''}${p.net_100.toFixed(2)}</td>
-      <td class="tabular ${p.delta >= 0 ? 'delta-pos' : 'delta-neg'}" style="text-align: right;">${p.delta > 0 ? '+' : ''}${p.delta.toFixed(2)}</td>
-      <td class="tabular" style="text-align: right;">${p.wpa_100.toFixed(3)}</td>
-      <td class="tabular" style="text-align: right;">${p.consistency.toFixed(3)}</td>
-      <td class="tabular" style="text-align: right;"><span class="score-chip">${p.score.toFixed(3)}</span></td>
-      <td class="tabular" style="text-align: right; font-weight: 600;">${p.boot_top10.toFixed(1)}%</td>
+      <td class="tabular" style="text-align: right;"><span style="color: #CBD5E1; font-weight: 700;">${p.hp_balls}</span></td>
+      <td class="tabular" style="text-align: right;"><span style="color: #94A3B8;">${p.legal_balls}</span></td>
+      <td class="tabular" style="text-align: right;"><span style="color: #F8FAFC; font-weight: 700;">${p.wkts}</span></td>
+      <td class="tabular" style="text-align: right;"><span style="color: #38BDF8; font-weight: 800;">${econText}</span></td>
+      <td class="tabular" style="text-align: right;"><span style="color: #34D399; font-weight: 800;">${dotText}</span></td>
+      <td class="tabular font-bold" style="text-align: right;" title="Runs saved above expected per 100 HP deliveries (wickets included)"><span style="color: ${netColor}; font-weight: 800;">${p.net_100 > 0 ? '+' : ''}${p.net_100.toFixed(2)}</span></td>
+      <td class="tabular" style="text-align: center;">${deltaBadge}</td>
+      <td class="tabular" style="text-align: right;"><span style="color: #38BDF8; font-weight: 800;">${p.wpa_100.toFixed(3)}</span></td>
+      <td class="tabular" style="text-align: right;"><span style="color: #C084FC; font-weight: 700;">${p.consistency.toFixed(3)}</span></td>
+      <td class="tabular" style="text-align: center;"><span class="score-chip">${p.score.toFixed(3)}</span></td>
+      <td class="tabular" style="text-align: right;"><span style="font-weight: 800; color: #34D399;">${p.boot_top10.toFixed(1)}%</span></td>
       <td class="tabular" style="text-align: right; color: var(--rr-text-muted);">${p.boot_top5.toFixed(1)}%</td>
       <td style="text-align: center;">
         <button class="star-btn ${isStarred ? 'starred' : ''}" onclick="toggleShortlist('${p.player.replace("'", "\\'")}')">★</button>
@@ -15793,21 +15829,81 @@ function renderExplorerTable() {
   } else {
     rowsHtml = list.map(p => {
       const isStarred = state.shortlist.includes(p.name);
-      const roleColor = p.role === 'bat' ? 'var(--rr-pink)' : '#38BDF8';
       const safeName = p.name.replace(/'/g, "\\'");
+      const flag = getFlag(p.nationality);
+      const imgUrl = getPlayerImageUrl(p.name);
+
+      // 1. Role Badge
+      const roleBadge = p.role === 'bat'
+        ? `<span style="background: rgba(229,0,125,0.18); color: #FF85C0; border: 1px solid rgba(229,0,125,0.35); padding: 2px 7px; border-radius: 4px; font-weight: 800; font-size: 10px; display: inline-block;">BAT</span>`
+        : `<span style="background: rgba(56,189,248,0.18); color: #38BDF8; border: 1px solid rgba(56,189,248,0.35); padding: 2px 7px; border-radius: 4px; font-weight: 800; font-size: 10px; display: inline-block;">BOWL</span>`;
+
+      // 2. Net HP Color
+      let netColor = '#CBD5E1';
+      if (p.net_hp >= 35) netColor = '#34D399';
+      else if (p.net_hp >= 20) netColor = '#4ADE80';
+      else if (p.net_hp >= 0) netColor = '#FBBF24';
+      else netColor = '#F87171';
+
+      // 3. Delta Badge
+      let deltaBadge = '';
+      if (p.delta > 0) {
+        deltaBadge = `<span style="background: rgba(52,211,153,0.18); color: #34D399; border: 1px solid rgba(52,211,153,0.35); padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10.5px; white-space: nowrap;">+${p.delta.toFixed(2)} ▲</span>`;
+      } else if (p.delta < 0) {
+        deltaBadge = `<span style="background: rgba(239,68,68,0.15); color: #F87171; border: 1px solid rgba(239,68,68,0.3); padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10.5px; white-space: nowrap;">${p.delta.toFixed(2)} ▼</span>`;
+      } else {
+        deltaBadge = `<span style="background: rgba(255,255,255,0.06); color: #94A3B8; border: 1px solid rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 10.5px; white-space: nowrap;">0.00 •</span>`;
+      }
+
+      // 4. Franchise Badge
+      let franchiseBadge = '';
+      const ipl = p.ipl2026 || 'Direct Pool Target';
+      if (!p.ipl2026 || p.ipl2026.includes('Direct Pool') || (p.status && p.status.includes('Not in an IPL'))) {
+        franchiseBadge = `<span style="background: rgba(52,211,153,0.12); color: #34D399; border: 1px solid rgba(52,211,153,0.25); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 700;">🎯 Direct Pool Target</span>`;
+      } else if (ipl.includes('Mumbai Indians')) {
+        franchiseBadge = `<span style="background: rgba(0,75,160,0.2); color: #7DD3FC; border: 1px solid rgba(56,189,248,0.3); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 700;">Mumbai Indians</span>`;
+      } else if (ipl.includes('Kolkata Knight')) {
+        franchiseBadge = `<span style="background: rgba(100,50,150,0.25); color: #D8B4FE; border: 1px solid rgba(168,85,247,0.3); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 700;">Kolkata Knight Riders</span>`;
+      } else if (ipl.includes('Royal Challengers')) {
+        franchiseBadge = `<span style="background: rgba(220,38,38,0.18); color: #FCA5A5; border: 1px solid rgba(239,68,68,0.3); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 700;">Royal Challengers Bengaluru</span>`;
+      } else if (ipl.includes('Rajasthan Royals')) {
+        franchiseBadge = `<span style="background: rgba(229,0,125,0.2); color: #FF85C0; border: 1px solid rgba(229,0,125,0.4); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 800;">👑 Rajasthan Royals</span>`;
+      } else if (ipl.includes('Gujarat Titans')) {
+        franchiseBadge = `<span style="background: rgba(27,62,105,0.25); color: #93C5FD; border: 1px solid rgba(147,197,253,0.3); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 700;">Gujarat Titans</span>`;
+      } else if (ipl.includes('Lucknow Super')) {
+        franchiseBadge = `<span style="background: rgba(56,189,248,0.15); color: #38BDF8; border: 1px solid rgba(56,189,248,0.3); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 700;">Lucknow Super Giants</span>`;
+      } else if (ipl.includes('Sunrisers Hyderabad')) {
+        franchiseBadge = `<span style="background: rgba(249,115,22,0.18); color: #FDBA74; border: 1px solid rgba(249,115,22,0.3); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 700;">Sunrisers Hyderabad</span>`;
+      } else if (ipl.includes('Punjab Kings')) {
+        franchiseBadge = `<span style="background: rgba(239,68,68,0.18); color: #FCA5A5; border: 1px solid rgba(239,68,68,0.3); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 700;">Punjab Kings</span>`;
+      } else if (ipl.includes('Chennai Super')) {
+        franchiseBadge = `<span style="background: rgba(245,158,11,0.2); color: #FDE047; border: 1px solid rgba(245,158,11,0.35); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 700;">Chennai Super Kings</span>`;
+      } else if (ipl.includes('Delhi Capitals')) {
+        franchiseBadge = `<span style="background: rgba(30,58,138,0.25); color: #93C5FD; border: 1px solid rgba(59,130,246,0.3); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 700;">Delhi Capitals</span>`;
+      } else {
+        franchiseBadge = `<span style="background: rgba(255,255,255,0.06); color: #CBD5E1; border: 1px solid rgba(255,255,255,0.12); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 600;">${ipl}</span>`;
+      }
+
       return `
         <tr onclick="openPlayerProfile('${safeName}')" style="cursor: pointer;">
           <td class="sticky-col-rank"><span class="rank-chip ${p.adjusted_rank <= 3 ? 'top3' : ''}">${p.adjusted_rank}</span></td>
-          <td class="sticky-col-player" style="font-weight: 700; color: #FFFFFF;">${p.name}</td>
-          <td style="text-transform: uppercase; color: ${roleColor}; font-weight: 700;">${p.role}</td>
-          <td>${getFlag(p.nationality)} ${p.nationality}</td>
-          <td class="tabular" style="text-align: right;">${p.n_hp}</td>
-          <td class="tabular font-bold" style="text-align: right; color: var(--rr-pink);">${p.net_hp > 0 ? '+' : ''}${p.net_hp.toFixed(2)}</td>
-          <td class="tabular ${p.delta >= 0 ? 'delta-pos' : 'delta-neg'}" style="text-align: right;">${p.delta > 0 ? '+' : ''}${p.delta.toFixed(2)}</td>
-          <td class="tabular" style="text-align: right;">${p.wpa_hp.toFixed(3)}</td>
-          <td class="tabular" style="text-align: right;">${p.cons.toFixed(3)}</td>
-          <td class="tabular font-bold" style="text-align: right; color: #34D399;">${p.adjusted_score.toFixed(3)}</td>
-          <td style="font-size: 11px; color: #CBD5E1;">${p.ipl2026 || 'Direct Pool Target'}</td>
+          <td class="sticky-col-player" style="font-weight: 700; color: #FFFFFF; white-space: nowrap; min-width: 185px;">
+            <div style="display: flex; align-items: center; gap: 8px; white-space: nowrap;">
+              <img src="${imgUrl}" style="width: 22px; height: 22px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='${flag}';">
+              <span style="white-space: nowrap;">${p.name}</span>
+            </div>
+          </td>
+          <td style="text-align: center;">${roleBadge}</td>
+          <td style="white-space: nowrap; color: #CBD5E1;">${flag} ${p.nationality}</td>
+          <td class="tabular" style="text-align: right;"><span style="color: #94A3B8; font-weight: 700;">${p.n_hp}</span></td>
+          <td class="tabular font-bold" style="text-align: right;"><span style="color: ${netColor}; font-weight: 800;">${p.net_hp > 0 ? '+' : ''}${p.net_hp.toFixed(2)}</span></td>
+          <td class="tabular" style="text-align: center;">${deltaBadge}</td>
+          <td class="tabular" style="text-align: right;"><span style="color: #38BDF8; font-weight: 800;">${p.wpa_hp > 0 ? '+' : ''}${p.wpa_hp.toFixed(3)}</span></td>
+          <td class="tabular" style="text-align: right;"><span style="color: #C084FC; font-weight: 700;">${p.cons.toFixed(3)}</span></td>
+          <td class="tabular" style="text-align: center;">
+            <span class="score-chip">${p.adjusted_score.toFixed(3)}</span>
+          </td>
+          <td style="white-space: nowrap;">${franchiseBadge}</td>
           <td style="text-align: center;">
             <button class="star-btn ${isStarred ? 'starred' : ''}" data-player="${safeName}" onclick="event.stopPropagation(); toggleShortlist(this.dataset.player)">★</button>
           </td>
@@ -17018,6 +17114,29 @@ function renderHandednessMatchupConsole() {
       const lhbNetColor = b.lhb_net_100 >= 20 ? '#34D399' : (b.lhb_net_100 >= 0 ? '#FBBF24' : '#F87171');
       const rhbNetColor = b.rhb_net_100 >= 20 ? '#34D399' : (b.rhb_net_100 >= 0 ? '#FBBF24' : '#F87171');
 
+      // Semantic Badges for Net/100
+      let lhbNetBadge = '';
+      if (b.lhb_net_100 >= 20) {
+        lhbNetBadge = `<span style="background: rgba(52,211,153,0.18); color: #34D399; border: 1px solid rgba(52,211,153,0.35); padding: 2px 7px; border-radius: 4px; font-weight: 800; display: inline-block;">+${b.lhb_net_100.toFixed(1)}</span>`;
+      } else if (b.lhb_net_100 >= 0) {
+        lhbNetBadge = `<span style="background: rgba(251,191,36,0.15); color: #FBBF24; border: 1px solid rgba(251,191,36,0.3); padding: 2px 7px; border-radius: 4px; font-weight: 800; display: inline-block;">+${b.lhb_net_100.toFixed(1)}</span>`;
+      } else {
+        lhbNetBadge = `<span style="background: rgba(239,68,68,0.15); color: #F87171; border: 1px solid rgba(239,68,68,0.3); padding: 2px 7px; border-radius: 4px; font-weight: 800; display: inline-block;">${b.lhb_net_100.toFixed(1)}</span>`;
+      }
+
+      let rhbNetBadge = '';
+      if (b.rhb_net_100 >= 20) {
+        rhbNetBadge = `<span style="background: rgba(52,211,153,0.18); color: #34D399; border: 1px solid rgba(52,211,153,0.35); padding: 2px 7px; border-radius: 4px; font-weight: 800; display: inline-block;">+${b.rhb_net_100.toFixed(1)}</span>`;
+      } else if (b.rhb_net_100 >= 0) {
+        rhbNetBadge = `<span style="background: rgba(251,191,36,0.15); color: #FBBF24; border: 1px solid rgba(251,191,36,0.3); padding: 2px 7px; border-radius: 4px; font-weight: 800; display: inline-block;">+${b.rhb_net_100.toFixed(1)}</span>`;
+      } else {
+        rhbNetBadge = `<span style="background: rgba(239,68,68,0.15); color: #F87171; border: 1px solid rgba(239,68,68,0.3); padding: 2px 7px; border-radius: 4px; font-weight: 800; display: inline-block;">${b.rhb_net_100.toFixed(1)}</span>`;
+      }
+
+      // Economy Colors
+      const lhbEconColor = b.lhb_econ < 7.20 ? '#34D399' : (b.lhb_econ <= 8.50 ? '#FBBF24' : '#F87171');
+      const rhbEconColor = b.rhb_econ < 7.20 ? '#34D399' : (b.rhb_econ <= 8.50 ? '#FBBF24' : '#F87171');
+
       let advBadge = '';
       if (b.rhb_advantage >= 30) {
         advBadge = `<span style="background: rgba(56,189,248,0.18); color: #38BDF8; border: 1px solid rgba(56,189,248,0.35); padding: 2px 7px; border-radius: 4px; font-weight: 800;">+${b.rhb_advantage.toFixed(1)} RHB</span>`;
@@ -17057,12 +17176,12 @@ function renderHandednessMatchupConsole() {
             <span style="font-size: 11px;">${flag}</span>
           </div>
         </td>
-        <td style="text-align: right; color: #CBD5E1;">${b.lhb_balls}</td>
-        <td style="text-align: right; color: #F8FAFC;">${b.lhb_econ.toFixed(2)}</td>
-        <td style="text-align: right; font-weight: 800; color: ${lhbNetColor};">${b.lhb_net_100 >= 0 ? '+' : ''}${b.lhb_net_100.toFixed(1)}</td>
-        <td style="text-align: right; color: #CBD5E1;">${b.rhb_balls}</td>
-        <td style="text-align: right; color: #F8FAFC;">${b.rhb_econ.toFixed(2)}</td>
-        <td style="text-align: right; font-weight: 800; color: ${rhbNetColor};">${b.rhb_net_100 >= 0 ? '+' : ''}${b.rhb_net_100.toFixed(1)}</td>
+        <td style="text-align: right;"><span style="color: #94A3B8; font-weight: 600;">${b.lhb_balls}</span></td>
+        <td style="text-align: right;"><span style="color: ${lhbEconColor}; font-weight: 800;">${b.lhb_econ.toFixed(2)}</span></td>
+        <td style="text-align: center;">${lhbNetBadge}</td>
+        <td style="text-align: right;"><span style="color: #94A3B8; font-weight: 600;">${b.rhb_balls}</span></td>
+        <td style="text-align: right;"><span style="color: ${rhbEconColor}; font-weight: 800;">${b.rhb_econ.toFixed(2)}</span></td>
+        <td style="text-align: center;">${rhbNetBadge}</td>
         <td style="text-align: center;">${advBadge}</td>
         <td style="vertical-align: middle;">${vectorBar}</td>
         <td style="font-size: 11px; color: #CBD5E1; line-height: 1.4;">${directive}</td>
@@ -17104,6 +17223,29 @@ function renderHandednessMatchupConsole() {
       const laNetColor = b.la_net_100 >= 20 ? '#34D399' : (b.la_net_100 >= 0 ? '#FBBF24' : '#F87171');
       const raNetColor = b.ra_net_100 >= 20 ? '#34D399' : (b.ra_net_100 >= 0 ? '#FBBF24' : '#F87171');
 
+      // Semantic Badges for Net/100
+      let laNetBadge = '';
+      if (b.la_net_100 >= 20) {
+        laNetBadge = `<span style="background: rgba(52,211,153,0.18); color: #34D399; border: 1px solid rgba(52,211,153,0.35); padding: 2px 7px; border-radius: 4px; font-weight: 800; display: inline-block;">+${b.la_net_100.toFixed(1)}</span>`;
+      } else if (b.la_net_100 >= 0) {
+        laNetBadge = `<span style="background: rgba(251,191,36,0.15); color: #FBBF24; border: 1px solid rgba(251,191,36,0.3); padding: 2px 7px; border-radius: 4px; font-weight: 800; display: inline-block;">+${b.la_net_100.toFixed(1)}</span>`;
+      } else {
+        laNetBadge = `<span style="background: rgba(239,68,68,0.15); color: #F87171; border: 1px solid rgba(239,68,68,0.3); padding: 2px 7px; border-radius: 4px; font-weight: 800; display: inline-block;">${b.la_net_100.toFixed(1)}</span>`;
+      }
+
+      let raNetBadge = '';
+      if (b.ra_net_100 >= 20) {
+        raNetBadge = `<span style="background: rgba(52,211,153,0.18); color: #34D399; border: 1px solid rgba(52,211,153,0.35); padding: 2px 7px; border-radius: 4px; font-weight: 800; display: inline-block;">+${b.ra_net_100.toFixed(1)}</span>`;
+      } else if (b.ra_net_100 >= 0) {
+        raNetBadge = `<span style="background: rgba(251,191,36,0.15); color: #FBBF24; border: 1px solid rgba(251,191,36,0.3); padding: 2px 7px; border-radius: 4px; font-weight: 800; display: inline-block;">+${b.ra_net_100.toFixed(1)}</span>`;
+      } else {
+        raNetBadge = `<span style="background: rgba(239,68,68,0.15); color: #F87171; border: 1px solid rgba(239,68,68,0.3); padding: 2px 7px; border-radius: 4px; font-weight: 800; display: inline-block;">${b.ra_net_100.toFixed(1)}</span>`;
+      }
+
+      // Strike Rate Colors
+      const laSrColor = b.la_sr >= 165 ? '#38BDF8' : (b.la_sr >= 140 ? '#CBD5E1' : '#F87171');
+      const raSrColor = b.ra_sr >= 165 ? '#38BDF8' : (b.ra_sr >= 140 ? '#CBD5E1' : '#F87171');
+
       let advBadge = '';
       if (b.ra_advantage >= 25) {
         advBadge = `<span style="background: rgba(56,189,248,0.18); color: #38BDF8; border: 1px solid rgba(56,189,248,0.35); padding: 2px 7px; border-radius: 4px; font-weight: 800;">+${b.ra_advantage.toFixed(1)} vs RA</span>`;
@@ -17142,12 +17284,12 @@ function renderHandednessMatchupConsole() {
             <span style="font-size: 11px;">${flag}</span>
           </div>
         </td>
-        <td style="text-align: right; color: #CBD5E1;">${b.la_balls}</td>
-        <td style="text-align: right; color: #F8FAFC;">${b.la_sr.toFixed(1)}</td>
-        <td style="text-align: right; font-weight: 800; color: ${laNetColor};">${b.la_net_100 >= 0 ? '+' : ''}${b.la_net_100.toFixed(1)}</td>
-        <td style="text-align: right; color: #CBD5E1;">${b.ra_balls}</td>
-        <td style="text-align: right; color: #F8FAFC;">${b.ra_sr.toFixed(1)}</td>
-        <td style="text-align: right; font-weight: 800; color: ${raNetColor};">${b.ra_net_100 >= 0 ? '+' : ''}${b.ra_net_100.toFixed(1)}</td>
+        <td style="text-align: right;"><span style="color: #94A3B8; font-weight: 600;">${b.la_balls}</span></td>
+        <td style="text-align: right;"><span style="color: ${laSrColor}; font-weight: 800;">${b.la_sr.toFixed(1)}</span></td>
+        <td style="text-align: center;">${laNetBadge}</td>
+        <td style="text-align: right;"><span style="color: #94A3B8; font-weight: 600;">${b.ra_balls}</span></td>
+        <td style="text-align: right;"><span style="color: ${raSrColor}; font-weight: 800;">${b.ra_sr.toFixed(1)}</span></td>
+        <td style="text-align: center;">${raNetBadge}</td>
         <td style="text-align: center;">${advBadge}</td>
         <td style="vertical-align: middle;">${vectorBar}</td>
         <td style="font-size: 11px; color: #CBD5E1; line-height: 1.4;">${directive}</td>
@@ -17256,12 +17398,24 @@ function renderRoleElasticityConsole() {
         </span>
       </td>
       <td style="text-align: center;">${elastBadge}</td>
-      <td style="text-align: right; font-weight: 800; color: ${ppColor};">${b.pp_balls > 0 ? (b.pp_net_100 >= 0 ? '+' : '') + b.pp_net_100.toFixed(1) : '-'}</td>
-      <td style="text-align: right; color: #CBD5E1;">${b.pp_balls > 0 ? b.pp_sr.toFixed(0) : '-'}</td>
-      <td style="text-align: right; font-weight: 800; color: ${midColor};">${b.mid_balls > 0 ? (b.mid_net_100 >= 0 ? '+' : '') + b.mid_net_100.toFixed(1) : '-'}</td>
-      <td style="text-align: right; color: #CBD5E1;">${b.mid_balls > 0 ? b.mid_sr.toFixed(0) : '-'}</td>
-      <td style="text-align: right; font-weight: 800; color: ${deathColor};">${b.death_balls > 0 ? (b.death_net_100 >= 0 ? '+' : '') + b.death_net_100.toFixed(1) : '-'}</td>
-      <td style="text-align: right; color: #CBD5E1;">${b.death_balls > 0 ? b.death_sr.toFixed(0) : '-'}</td>
+      <td style="text-align: center;">
+        ${b.pp_balls > 0 ? `<span style="color: ${ppColor}; font-weight: 800;">${b.pp_net_100 >= 0 ? '+' : ''}${b.pp_net_100.toFixed(1)}</span>` : '<span style="color: #64748B;">-</span>'}
+      </td>
+      <td style="text-align: right;">
+        ${b.pp_balls > 0 ? `<span style="color: ${b.pp_sr >= 160 ? '#38BDF8' : '#CBD5E1'}; font-weight: 700;">${b.pp_sr.toFixed(0)}</span>` : '<span style="color: #64748B;">-</span>'}
+      </td>
+      <td style="text-align: center;">
+        ${b.mid_balls > 0 ? `<span style="color: ${midColor}; font-weight: 800;">${b.mid_net_100 >= 0 ? '+' : ''}${b.mid_net_100.toFixed(1)}</span>` : '<span style="color: #64748B;">-</span>'}
+      </td>
+      <td style="text-align: right;">
+        ${b.mid_balls > 0 ? `<span style="color: ${b.mid_sr >= 160 ? '#38BDF8' : '#CBD5E1'}; font-weight: 700;">${b.mid_sr.toFixed(0)}</span>` : '<span style="color: #64748B;">-</span>'}
+      </td>
+      <td style="text-align: center;">
+        ${b.death_balls > 0 ? `<span style="color: ${deathColor}; font-weight: 800;">${b.death_net_100 >= 0 ? '+' : ''}${b.death_net_100.toFixed(1)}</span>` : '<span style="color: #64748B;">-</span>'}
+      </td>
+      <td style="text-align: right;">
+        ${b.death_balls > 0 ? `<span style="color: ${b.death_sr >= 175 ? '#FF85C0' : (b.death_sr >= 150 ? '#38BDF8' : '#CBD5E1')}; font-weight: 800;">${b.death_sr.toFixed(0)}</span>` : '<span style="color: #64748B;">-</span>'}
+      </td>
       <td style="font-size: 11px; color: #CBD5E1; line-height: 1.4;">${b.directive}</td>
     `;
     tbody.appendChild(tr);
