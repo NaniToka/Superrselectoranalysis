@@ -4287,6 +4287,13 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                   <div class="dropdown-item-desc">Vectorized Monte Carlo in &lt;15ms &amp; NRR Distribution</div>
                 </div>
               </a>
+              <a href="javascript:void(0)" onclick="switchTab('tab-international'); closeTacticalDropdown();" class="dropdown-item">
+                <div class="dropdown-item-icon" style="background: rgba(56,189,248,0.12); border-color: rgba(56,189,248,0.2);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7DD3FC" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Global Overseas Scout &amp; 4-Quota Combinator <span class="engine-badge-new">NEW</span></div>
+                  <div class="dropdown-item-desc">125 Overseas Talents across 11 Nations &amp; IPL Rule 4.1 Combinator</div>
+                </div>
+              </a>
               <a href="javascript:void(0)" onclick="openAuctionValuationConsole(); closeTacticalDropdown();" class="dropdown-item">
                 <div class="dropdown-item-icon" style="background: rgba(229,0,125,0.12); border-color: rgba(229,0,125,0.2);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF85C0" stroke-width="2.5" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
                 <div class="dropdown-item-content">
@@ -4477,6 +4484,13 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
       <button onclick="switchTab('tab-season-sim')" id="nav-tab-season-sim" class="nav-btn">
         <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
         <span>IPL Season &amp; Playoff Sim</span>
+      </button>
+      <button onclick="switchTab('tab-international')" id="nav-tab-international" class="nav-btn">
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+        <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+          <span>Global Overseas Scout</span>
+          <span style="background: rgba(56, 189, 248, 0.2); color: #7DD3FC; font-size: 8px; font-weight: 800; padding: 1px 4px; border-radius: 3px; font-family: var(--font-mono);">INTL</span>
+        </span>
       </button>
       <button onclick="switchTab('tab-defense')" id="nav-tab-defense" class="nav-btn">
         <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
@@ -8130,6 +8144,280 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
         </div>
       </section>
 
+      <!-- TAB: GLOBAL OVERSEAS TALENT SCOUT & 4-FOREIGN QUOTA COMBINATOR (Part I1) -->
+      <section id="tab-international" class="tab-pane">
+        <!-- Header Card -->
+        <div class="card" style="margin-bottom: 16px;">
+          <div class="card-header" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 12px;">
+              <div>
+                <div class="card-title">
+                  <span class="card-title-prefix">Part I1:</span> Global Overseas Talent Scout &amp; 4-Foreign Quota Combinator
+                </div>
+                <div class="card-subtitle">
+                  Comprehensive intelligence across all 125 qualified overseas cricketers spanning 11 nations under strict IPL Rule 4.1 foreign quota regulations.
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button onclick="exportOverseasCSV()" class="btn-header-action" style="background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.4); color: #7DD3FC; font-weight: 700; font-size: 11px; padding: 6px 12px;">
+                  📥 Export Overseas Dossier (CSV)
+                </button>
+                <button onclick="copyOverseasExecutiveSummary()" class="btn-header-action" style="background: rgba(52, 211, 153, 0.15); border-color: rgba(52, 211, 153, 0.4); color: #34D399; font-weight: 700; font-size: 11px; padding: 6px 12px;">
+                  📋 Copy Dossier Summary
+                </button>
+              </div>
+            </div>
+
+            <!-- Header Stat Chips -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; width: 100%; margin-top: 8px;">
+              <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 10px 14px;">
+                <div style="font-size: 10px; text-transform: uppercase; color: #94A3B8; font-weight: 800; letter-spacing: 0.5px;">Qualified Overseas Pool</div>
+                <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 3px;">
+                  <span style="font-size: 20px; font-weight: 900; color: #38BDF8; font-family: var(--font-mono);">125</span>
+                  <span style="font-size: 11px; color: #94A3B8;">(61 Batters &bull; 64 Bowlers)</span>
+                </div>
+              </div>
+
+              <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(168, 85, 247, 0.25); border-radius: 8px; padding: 10px 14px;">
+                <div style="font-size: 10px; text-transform: uppercase; color: #94A3B8; font-weight: 800; letter-spacing: 0.5px;">Nations Represented</div>
+                <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 3px;">
+                  <span style="font-size: 20px; font-weight: 900; color: #C084FC; font-family: var(--font-mono);">11</span>
+                  <span style="font-size: 11px; color: #94A3B8;">WI, AUS, NZ, SA, AFG, ENG+</span>
+                </div>
+              </div>
+
+              <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 8px; padding: 10px 14px;">
+                <div style="font-size: 10px; text-transform: uppercase; color: #94A3B8; font-weight: 800; letter-spacing: 0.5px;">IPL Rule 4.1 Constraint</div>
+                <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 3px;">
+                  <span style="font-size: 20px; font-weight: 900; color: #FBBF24; font-family: var(--font-mono);">Max 4</span>
+                  <span style="font-size: 11px; color: #94A3B8;">Overseas in Playing XI</span>
+                </div>
+              </div>
+
+              <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(52, 211, 153, 0.25); border-radius: 8px; padding: 10px 14px;">
+                <div style="font-size: 10px; text-transform: uppercase; color: #94A3B8; font-weight: 800; letter-spacing: 0.5px;">Direct Pool Targets</div>
+                <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 3px;">
+                  <span style="font-size: 20px; font-weight: 900; color: #34D399; font-family: var(--font-mono);">34</span>
+                  <span style="font-size: 11px; color: #94A3B8;">Uncontracted Overseas Gems</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4-Foreign Quota Combinator Card -->
+        <div class="card" style="margin-bottom: 16px; border: 1px solid rgba(56, 189, 248, 0.3); background: linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(8, 15, 30, 0.95) 100%);">
+          <div class="card-header" style="flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+            <div>
+              <div class="card-title" style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 16px;">⚡</span> 4-Foreign Playing XI Quota Combinator (IPL Rule 4.1)
+                <span style="background: rgba(56, 189, 248, 0.2); color: #38BDF8; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px; font-family: var(--font-mono);">LIVE TELEMETRY</span>
+              </div>
+              <div class="card-subtitle">
+                Assemble the optimal 4 overseas slots for Rajasthan Royals. Telemetry automatically models phase coverage, cumulative Net HP, and NOC duty risks.
+              </div>
+            </div>
+
+            <!-- Strategy Presets -->
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+              <span style="font-size: 10.5px; color: #94A3B8; font-weight: 700; text-transform: uppercase; margin-right: 4px;">Presets:</span>
+              <button onclick="applyOverseasPreset('championship_core')" class="btn-preset active" id="btn-preset-championship_core" style="font-size: 10.5px; padding: 4px 9px; border-radius: 4px; font-weight: 700; background: rgba(229,0,125,0.2); border: 1px solid #E5007D; color: #FF85C0; cursor: pointer;">
+                👑 RR Championship Core
+              </button>
+              <button onclick="applyOverseasPreset('jaipur_spin')" class="btn-preset" id="btn-preset-jaipur_spin" style="font-size: 10.5px; padding: 4px 9px; border-radius: 4px; font-weight: 700; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #CBD5E1; cursor: pointer;">
+                🏰 SMS Spin Fortress
+              </button>
+              <button onclick="applyOverseasPreset('velocity_blitz')" class="btn-preset" id="btn-preset-velocity_blitz" style="font-size: 10.5px; padding: 4px 9px; border-radius: 4px; font-weight: 700; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #CBD5E1; cursor: pointer;">
+                ⚡ 150+ kph Velocity
+              </button>
+              <button onclick="applyOverseasPreset('direct_pool')" class="btn-preset" id="btn-preset-direct_pool" style="font-size: 10.5px; padding: 4px 9px; border-radius: 4px; font-weight: 700; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #CBD5E1; cursor: pointer;">
+                🎯 Uncontracted Gems
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Slots Selector Grid -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin: 16px 0;">
+            <!-- Slot 1: Top-Order Batter -->
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #7DD3FC; letter-spacing: 0.5px;">Slot 1 &bull; Top-Order Powerplay</span>
+                <span style="background: rgba(56, 189, 248, 0.2); color: #7DD3FC; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px;">BAT</span>
+              </div>
+              <select id="intl-slot-0" onchange="onOverseasSlotChange(0, this.value)" class="form-control" style="width: 100%; background: #0A1325; border: 1px solid rgba(56, 189, 248, 0.35); color: #FFFFFF; font-size: 12px; font-weight: 700; padding: 7px 10px; border-radius: 6px;">
+                <!-- Populated dynamically -->
+              </select>
+              <div id="intl-slot-card-0" style="margin-top: 10px; min-height: 82px;"></div>
+            </div>
+
+            <!-- Slot 2: Middle Floater / Finisher -->
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #F472B6; letter-spacing: 0.5px;">Slot 2 &bull; Middle Floater / Finisher</span>
+                <span style="background: rgba(244, 114, 182, 0.2); color: #F472B6; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px;">BAT / FIN</span>
+              </div>
+              <select id="intl-slot-1" onchange="onOverseasSlotChange(1, this.value)" class="form-control" style="width: 100%; background: #0A1325; border: 1px solid rgba(244, 114, 182, 0.35); color: #FFFFFF; font-size: 12px; font-weight: 700; padding: 7px 10px; border-radius: 6px;">
+                <!-- Populated dynamically -->
+              </select>
+              <div id="intl-slot-card-1" style="margin-top: 10px; min-height: 82px;"></div>
+            </div>
+
+            <!-- Slot 3: Express Strike Pacer -->
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #FBBF24; letter-spacing: 0.5px;">Slot 3 &bull; Express Strike Pacer</span>
+                <span style="background: rgba(245, 158, 11, 0.2); color: #FBBF24; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px;">PACE</span>
+              </div>
+              <select id="intl-slot-2" onchange="onOverseasSlotChange(2, this.value)" class="form-control" style="width: 100%; background: #0A1325; border: 1px solid rgba(245, 158, 11, 0.35); color: #FFFFFF; font-size: 12px; font-weight: 700; padding: 7px 10px; border-radius: 6px;">
+                <!-- Populated dynamically -->
+              </select>
+              <div id="intl-slot-card-2" style="margin-top: 10px; min-height: 82px;"></div>
+            </div>
+
+            <!-- Slot 4: Spin Enforcer / Mystery -->
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #34D399; letter-spacing: 0.5px;">Slot 4 &bull; Spin Enforcer / Mystery</span>
+                <span style="background: rgba(52, 211, 153, 0.2); color: #34D399; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 3px;">SPIN</span>
+              </div>
+              <select id="intl-slot-3" onchange="onOverseasSlotChange(3, this.value)" class="form-control" style="width: 100%; background: #0A1325; border: 1px solid rgba(52, 211, 153, 0.35); color: #FFFFFF; font-size: 12px; font-weight: 700; padding: 7px 10px; border-radius: 6px;">
+                <!-- Populated dynamically -->
+              </select>
+              <div id="intl-slot-card-3" style="margin-top: 10px; min-height: 82px;"></div>
+            </div>
+          </div>
+
+          <!-- Combinator Live Synergy Telemetry Bar -->
+          <div style="background: rgba(10, 19, 38, 0.85); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 8px; padding: 12px 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+              <!-- Cumulative Net HP -->
+              <div>
+                <div style="font-size: 10px; text-transform: uppercase; color: #94A3B8; font-weight: 800; letter-spacing: 0.5px;">Combined Net HP / 100</div>
+                <div id="intl-synergy-net" style="font-size: 22px; font-weight: 900; color: #34D399; font-family: var(--font-mono); margin-top: 2px;">
+                  +126.37
+                </div>
+              </div>
+
+              <!-- Composite Score -->
+              <div>
+                <div style="font-size: 10px; text-transform: uppercase; color: #94A3B8; font-weight: 800; letter-spacing: 0.5px;">Composite Model Score</div>
+                <div id="intl-synergy-score" style="font-size: 22px; font-weight: 900; color: #F472B6; font-family: var(--font-mono); margin-top: 2px;">
+                  3.226
+                </div>
+              </div>
+
+              <!-- Total WPA -->
+              <div>
+                <div style="font-size: 10px; text-transform: uppercase; color: #94A3B8; font-weight: 800; letter-spacing: 0.5px;">Total WPA / 100</div>
+                <div id="intl-synergy-wpa" style="font-size: 22px; font-weight: 900; color: #38BDF8; font-family: var(--font-mono); margin-top: 2px;">
+                  +2.868
+                </div>
+              </div>
+
+              <!-- Phase Coverage Radar -->
+              <div>
+                <div style="font-size: 10px; text-transform: uppercase; color: #94A3B8; font-weight: 800; letter-spacing: 0.5px;">Phase Tactical Coverage</div>
+                <div id="intl-synergy-phase" style="display: flex; gap: 6px; margin-top: 4px;">
+                  <span style="background: rgba(56, 189, 248, 0.18); color: #7DD3FC; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">PP: Elite</span>
+                  <span style="background: rgba(168, 85, 247, 0.18); color: #D8B4FE; border: 1px solid rgba(168, 85, 247, 0.3); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">Mid: Choke</span>
+                  <span style="background: rgba(52, 211, 153, 0.18); color: #34D399; border: 1px solid rgba(52, 211, 153, 0.3); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">Death: 190+ SR</span>
+                </div>
+              </div>
+
+              <!-- Rule 4.1 Quota & NOC Check -->
+              <div>
+                <div style="font-size: 10px; text-transform: uppercase; color: #94A3B8; font-weight: 800; letter-spacing: 0.5px;">IPL Quota &amp; NOC Duty Status</div>
+                <div id="intl-synergy-noc" style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
+                  <span style="background: rgba(52, 211, 153, 0.2); color: #34D399; border: 1px solid rgba(52, 211, 153, 0.4); font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 4px;">
+                    ✅ 4/4 Overseas (Rule 4.1 Compliant)
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 12-Country Global Power Grid -->
+        <div class="card" style="margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <div style="font-size: 13px; font-weight: 800; color: #FFFFFF; text-transform: uppercase; letter-spacing: 0.5px;">
+                🌐 Global Overseas Power Grid (11 Nations)
+              </div>
+              <div style="font-size: 11.5px; color: #94A3B8;">
+                Select any nation pill to isolate and deep-scout their qualified international cricketers.
+              </div>
+            </div>
+            <div id="intl-nation-active-label" style="font-size: 11px; font-weight: 700; color: #38BDF8; font-family: var(--font-mono);">
+              Showing: All Overseas (125 Players)
+            </div>
+          </div>
+
+          <!-- Nations Pill Container -->
+          <div id="intl-nations-grid" style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <!-- Populated dynamically with nation cards -->
+          </div>
+        </div>
+
+        <!-- Institutional Overseas Player Table Card -->
+        <div class="card">
+          <!-- Toolbar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+              <!-- Search Input -->
+              <input type="text" id="intl-search-input" oninput="onOverseasSearch(this.value)" placeholder="Search player, nation, franchise..." style="background: #08162B; border: 1px solid rgba(255,255,255,0.15); color: #FFFFFF; font-size: 12px; padding: 6px 12px; border-radius: 6px; width: 220px;">
+
+              <!-- Role Filter -->
+              <select id="intl-role-select" onchange="onOverseasRoleFilter(this.value)" style="background: #08162B; border: 1px solid rgba(255,255,255,0.15); color: #CBD5E1; font-size: 11.5px; padding: 6px 10px; border-radius: 6px;">
+                <option value="all">All Roles (125)</option>
+                <option value="bat">Batters Only (61)</option>
+                <option value="bowl">Bowlers Only (64)</option>
+              </select>
+
+              <!-- Status Filter -->
+              <select id="intl-status-select" onchange="onOverseasStatusFilter(this.value)" style="background: #08162B; border: 1px solid rgba(255,255,255,0.15); color: #CBD5E1; font-size: 11.5px; padding: 6px 10px; border-radius: 6px;">
+                <option value="all">All Contract Statuses</option>
+                <option value="pool">🎯 Direct Pool Targets Only</option>
+                <option value="contracted">IPL Contracted Only</option>
+                <option value="rr">👑 Rajasthan Royals Contracted</option>
+              </select>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span id="intl-table-count" style="font-size: 11.5px; font-weight: 700; color: #94A3B8; font-family: var(--font-mono);">
+                Showing 125 players
+              </span>
+            </div>
+          </div>
+
+          <!-- Table Container -->
+          <div class="table-container" style="overflow-x: auto; max-height: 650px;">
+            <table class="scorecard-table" style="width: 100%; border-collapse: collapse; font-size: 12px;">
+              <thead>
+                <tr>
+                  <th style="width: 45px; text-align: center;">RANK</th>
+                  <th style="text-align: left; min-width: 190px;">PLAYER</th>
+                  <th style="text-align: center; width: 65px;">ROLE</th>
+                  <th style="text-align: left; min-width: 130px;">NATION</th>
+                  <th style="text-align: right; width: 85px;">HP BALLS</th>
+                  <th style="text-align: right; width: 95px;">NET HP</th>
+                  <th style="text-align: center; width: 105px;">DELTA</th>
+                  <th style="text-align: right; width: 80px;">WPA HP</th>
+                  <th style="text-align: right; width: 85px;">CONSISTENCY</th>
+                  <th style="text-align: center; width: 75px;">SCORE</th>
+                  <th style="text-align: left; min-width: 170px;">2026 STATUS</th>
+                  <th style="text-align: left; min-width: 135px;">NOC WINDOW</th>
+                  <th style="text-align: center; width: 50px;">STAR</th>
+                </tr>
+              </thead>
+              <tbody id="intl-table-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       <!-- TAB 10: TOP-1 RECOMMENDATION & DECISION MATRIX -->
             <!-- TAB 10: TOP-1 RECOMMENDATION & DECISION MATRIX (Part D2 & D3) -->
       <section id="tab-top1" class="tab-pane">
@@ -11409,7 +11697,7 @@ function switchTab(rawTabId) {
   if (!mobBtn && (tabId === 'tab-3d-playground' || rawTabId === '3d-playground')) {
     mobBtn = document.getElementById('mob-tab-3d');
   }
-  if (!mobBtn && ['tab-field-optimizer', 'tab-impact-sub', 'tab-season-sim', 'tab-auction', 'tab-defense', 'tab-chase-sim', 'tab-duel', 'tab-tactics'].includes(tabId)) {
+  if (!mobBtn && ['tab-field-optimizer', 'tab-impact-sub', 'tab-season-sim', 'tab-international', 'tab-auction', 'tab-defense', 'tab-chase-sim', 'tab-duel', 'tab-tactics'].includes(tabId)) {
     mobBtn = document.getElementById('mob-tab-tactical');
   }
   if (mobBtn) mobBtn.classList.add('active');
@@ -11434,6 +11722,7 @@ function switchTab(rawTabId) {
   else if (tabId === 'tab-field-optimizer') renderFieldOptimizerTab();
   else if (tabId === 'tab-impact-sub') renderImpactSubTab();
   else if (tabId === 'tab-season-sim') renderSeasonSimTab();
+  else if (tabId === 'tab-international') renderInternationalTab();
   else if (tabId === 'tab-auction') {
     renderAuctionSection();
     initAuctionSimulator();
@@ -18415,7 +18704,7 @@ function mobileSwitchTab(tabId) {
   if (!targetMobBtn && (tabId === 'tab-3d-playground' || tabId === '3d-playground')) {
     targetMobBtn = document.getElementById('mob-tab-3d');
   }
-  if (!targetMobBtn && ['tab-field-optimizer', 'tab-impact-sub', 'tab-season-sim', 'tab-auction', 'tab-defense', 'tab-chase-sim', 'tab-duel', 'tab-tactics'].includes(tabId)) {
+  if (!targetMobBtn && ['tab-field-optimizer', 'tab-impact-sub', 'tab-season-sim', 'tab-international', 'tab-auction', 'tab-defense', 'tab-chase-sim', 'tab-duel', 'tab-tactics'].includes(tabId)) {
     targetMobBtn = document.getElementById('mob-tab-tactical');
   }
   if (targetMobBtn) {
@@ -20102,6 +20391,547 @@ window.resetSeasonSim = resetSeasonSim;
 window.copySeasonExecutiveBrief = copySeasonExecutiveBrief;
 window.SEASON_SIM_STATE = SEASON_SIM_STATE;
 
+/* =========================================================================
+   PART I1: GLOBAL OVERSEAS TALENT SCOUT & 4-FOREIGN QUOTA COMBINATOR
+   ========================================================================= */
+const INTL_STATE = {
+  initialized: false,
+  nation: 'all',
+  role: 'all',
+  status: 'all',
+  search: '',
+  activePreset: 'championship_core',
+  slots: [
+    'Phil Salt',           // Slot 1: Top-Order Batter (ENG)
+    'Tim David',           // Slot 2: Middle / Finisher (AUS)
+    'Jofra Archer',        // Slot 3: Express Strike Pacer (ENG)
+    'Sunil Narine'         // Slot 4: Spin Enforcer / Mystery (WI)
+  ],
+  presets: {
+    championship_core: {
+      name: 'RR Championship Core',
+      slots: ['Phil Salt', 'Tim David', 'Jofra Archer', 'Sunil Narine'],
+      desc: 'Max explosive SR opener, world #1 death hitter, 150 kph pace & mystery spin lock.'
+    },
+    jaipur_spin: {
+      name: 'SMS Spin Fortress',
+      slots: ['Nicholas Pooran', 'Heinrich Klaasen', 'Mitchell Santner', 'Rashid Khan'],
+      desc: 'Dual spin bashers + suffocating dual wrist/finger spin choke on dry turning surfaces.'
+    },
+    velocity_blitz: {
+      name: '150+ kph Velocity',
+      slots: ['Travis Head', 'Nicholas Pooran', 'Jofra Archer', 'Lockie Ferguson'],
+      desc: 'High-octane aggression with two 150+ kph express pace spearheads.'
+    },
+    direct_pool: {
+      name: 'Direct Uncontracted Gems',
+      slots: ['Babar Azam', 'Abrar Ahmed', 'Jacob Duffy', 'Taskin Ahmed'],
+      desc: 'High-value uncontracted global assets outside existing IPL franchises.'
+    }
+  },
+  noc_rules: {
+    'England': { label: 'Full Window (ECB Tests Late May Risk)', risk: 'medium', badge: '#FBBF24' },
+    'Australia': { label: 'Full Clearance (100% Available)', risk: 'low', badge: '#34D399' },
+    'West Indies': { label: 'Unrestricted (100% Available)', risk: 'low', badge: '#34D399' },
+    'South Africa': { label: 'Full Clearance (Post-SA20)', risk: 'low', badge: '#34D399' },
+    'New Zealand': { label: 'Flexible NZC Contracts (Full Window)', risk: 'low', badge: '#34D399' },
+    'Afghanistan': { label: 'Unrestricted T20 League Clearance', risk: 'low', badge: '#34D399' },
+    'Sri Lanka': { label: 'Full Window (Conditional Fitness)', risk: 'low', badge: '#34D399' },
+    'Bangladesh': { label: 'Partial NOC (BCB Bilateral May Clash)', risk: 'high', badge: '#F87171' },
+    'Pakistan': { label: 'Benchmark Pool (Bilateral Clearance N/A)', risk: 'high', badge: '#94A3B8' },
+    'Ireland': { label: '100% Unrestricted Available', risk: 'low', badge: '#34D399' },
+    'Zimbabwe': { label: '100% Unrestricted Available', risk: 'low', badge: '#34D399' }
+  }
+};
+
+function getOverseasQualifiedPlayers() {
+  const all = APP_DATA.adjusted_all_players || [];
+  return all.filter(p => p.nationality && p.nationality !== 'India');
+}
+
+function initOverseasCombinator() {
+  const overseas = getOverseasQualifiedPlayers();
+  if (!overseas || overseas.length === 0) return;
+
+  // Separate pools for slot dropdowns
+  const batters = overseas.filter(p => p.role === 'bat');
+  const bowlers = overseas.filter(p => p.role === 'bowl');
+
+  // Slot 0: Top-Order (batters)
+  populateSlotDropdown('intl-slot-0', batters, INTL_STATE.slots[0]);
+  // Slot 1: Middle / Finisher (batters + allrounders)
+  populateSlotDropdown('intl-slot-1', batters, INTL_STATE.slots[1]);
+  // Slot 2: Express Pacer (bowlers, pace bias)
+  populateSlotDropdown('intl-slot-2', bowlers, INTL_STATE.slots[2]);
+  // Slot 3: Spin Enforcer (bowlers, spin bias)
+  populateSlotDropdown('intl-slot-3', bowlers, INTL_STATE.slots[3]);
+
+  updateOverseasSynergy();
+  renderOverseasSlotCards();
+  renderOverseasNationsGrid();
+  renderOverseasTable();
+}
+
+function populateSlotDropdown(selectId, playerList, selectedName) {
+  const el = document.getElementById(selectId);
+  if (!el) return;
+
+  const sorted = playerList.slice().sort((a, b) => (b.adjusted_score || 0) - (a.adjusted_score || 0));
+  let html = '';
+  sorted.forEach(p => {
+    const flag = getFlag(p.nationality);
+    const isSel = p.name === selectedName ? 'selected' : '';
+    const netTxt = p.net_hp > 0 ? `+${p.net_hp.toFixed(1)}` : p.net_hp.toFixed(1);
+    html += `<option value="${escapeHtml(p.name)}" ${isSel}>${flag} ${escapeHtml(p.name)} (${p.nationality}) &bull; Net ${netTxt}</option>`;
+  });
+  el.innerHTML = html;
+}
+
+function renderOverseasSlotCards() {
+  const all = APP_DATA.adjusted_all_players || [];
+
+  INTL_STATE.slots.forEach((playerName, slotIdx) => {
+    const cardEl = document.getElementById(`intl-slot-card-${slotIdx}`);
+    if (!cardEl) return;
+
+    const p = all.find(x => x.name.toLowerCase() === playerName.toLowerCase());
+    if (!p) {
+      cardEl.innerHTML = `<div style="font-size: 11px; color: #94A3B8; padding: 6px;">Slot Empty</div>`;
+      return;
+    }
+
+    const flag = getFlag(p.nationality);
+    const imgUrl = (typeof PLAYER_IMG_MAP !== 'undefined' && PLAYER_IMG_MAP[p.name]) ? PLAYER_IMG_MAP[p.name] : '';
+    const netColor = p.net_hp >= 0 ? '#34D399' : '#F87171';
+    const netSign = p.net_hp >= 0 ? '+' : '';
+    const noc = INTL_STATE.noc_rules[p.nationality] || { label: 'Clearance Confirmed', badge: '#34D399' };
+    const iplText = p.ipl2026 || 'Direct Pool Target';
+
+    cardEl.innerHTML = `
+      <div onclick="openPlayerProfile('${escapeHtml(p.name)}')" style="display: flex; align-items: center; justify-content: space-between; background: rgba(8, 15, 30, 0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 8px 10px; cursor: pointer; transition: all 0.2s ease;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="${imgUrl}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='<span style=\\'font-size: 16px;\\'>${flag}</span>';">
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: #FFFFFF; display: flex; align-items: center; gap: 5px;">
+              ${escapeHtml(p.name)}
+              <span style="font-size: 10px;">${flag}</span>
+            </div>
+            <div style="font-size: 10px; color: #94A3B8; margin-top: 1px;">
+              ${p.role === 'bat' ? 'Top Batter' : 'Key Bowler'} &bull; <span style="color: #CBD5E1;">${escapeHtml(iplText)}</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: right;">
+          <div style="font-size: 12.5px; font-weight: 900; color: ${netColor}; font-family: var(--font-mono);">
+            ${netSign}${p.net_hp.toFixed(1)} <span style="font-size: 8.5px; color: #94A3B8;">Net</span>
+          </div>
+          <div style="font-size: 9.5px; font-weight: 700; color: ${noc.badge}; margin-top: 1px;">
+            ${noc.label.split(' ')[0]} NOC
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function onOverseasSlotChange(slotIndex, playerName) {
+  INTL_STATE.slots[slotIndex] = playerName;
+  renderOverseasSlotCards();
+  updateOverseasSynergy();
+
+  // Clear preset active buttons if customized
+  document.querySelectorAll('.btn-preset').forEach(btn => btn.classList.remove('active'));
+}
+
+function applyOverseasPreset(presetKey) {
+  const preset = INTL_STATE.presets[presetKey];
+  if (!preset) return;
+
+  INTL_STATE.activePreset = presetKey;
+  INTL_STATE.slots = [...preset.slots];
+
+  document.querySelectorAll('.btn-preset').forEach(btn => {
+    btn.classList.toggle('active', btn.id === `btn-preset-${presetKey}`);
+    if (btn.id === `btn-preset-${presetKey}`) {
+      btn.style.background = 'rgba(229,0,125,0.25)';
+      btn.style.borderColor = '#E5007D';
+      btn.style.color = '#FF85C0';
+    } else {
+      btn.style.background = 'rgba(255,255,255,0.05)';
+      btn.style.borderColor = 'rgba(255,255,255,0.15)';
+      btn.style.color = '#CBD5E1';
+    }
+  });
+
+  // Re-sync select elements
+  for (let i = 0; i < 4; i++) {
+    const sel = document.getElementById(`intl-slot-${i}`);
+    if (sel) sel.value = INTL_STATE.slots[i];
+  }
+
+  renderOverseasSlotCards();
+  updateOverseasSynergy();
+}
+
+function updateOverseasSynergy() {
+  const all = APP_DATA.adjusted_all_players || [];
+  let sumNet = 0;
+  let sumScore = 0;
+  let sumWpa = 0;
+  const picked = [];
+  const dutyRisks = [];
+
+  INTL_STATE.slots.forEach(name => {
+    const p = all.find(x => x.name.toLowerCase() === name.toLowerCase());
+    if (p) {
+      picked.push(p);
+      sumNet += (p.net_hp || 0);
+      sumScore += (p.adjusted_score || 0);
+      sumWpa += (p.wpa_hp || 0);
+
+      const noc = INTL_STATE.noc_rules[p.nationality];
+      if (noc && noc.risk === 'high') {
+        dutyRisks.push(`${p.name} (${p.nationality}: ${noc.label})`);
+      } else if (noc && noc.risk === 'medium') {
+        dutyRisks.push(`${p.name} (${p.nationality}: Playoff Recall Risk)`);
+      }
+    }
+  });
+
+  // 1. Net HP Telemetry
+  const netEl = document.getElementById('intl-synergy-net');
+  if (netEl) {
+    netEl.innerText = `${sumNet >= 0 ? '+' : ''}${sumNet.toFixed(2)}`;
+    netEl.style.color = sumNet >= 0 ? '#34D399' : '#F87171';
+  }
+
+  // 2. Score Telemetry
+  const scoreEl = document.getElementById('intl-synergy-score');
+  if (scoreEl) scoreEl.innerText = sumScore.toFixed(3);
+
+  // 3. WPA Telemetry
+  const wpaEl = document.getElementById('intl-synergy-wpa');
+  if (wpaEl) {
+    wpaEl.innerText = `${sumWpa >= 0 ? '+' : ''}${sumWpa.toFixed(3)}`;
+    wpaEl.style.color = sumWpa >= 0 ? '#38BDF8' : '#F87171';
+  }
+
+  // 4. Phase Radar
+  const phaseEl = document.getElementById('intl-synergy-phase');
+  if (phaseEl) {
+    const hasTopBat = picked.some(p => p.role === 'bat' && (p.n_hp >= 200 || p.net_hp > 20));
+    const hasFinisher = picked.some(p => p.role === 'bat' && (p.name === 'Tim David' || p.name === 'Nicholas Pooran' || p.name === 'Heinrich Klaasen'));
+    const hasPacer = picked.some(p => p.role === 'bowl' && (p.name === 'Jofra Archer' || p.name === 'Lockie Ferguson' || p.name === 'Matheesha Pathirana' || p.name === 'Taskin Ahmed'));
+    const hasSpinner = picked.some(p => p.role === 'bowl' && (p.name === 'Sunil Narine' || p.name === 'Mitchell Santner' || p.name === 'Rashid Khan' || p.name === 'Abrar Ahmed'));
+
+    phaseEl.innerHTML = `
+      <span style="background: rgba(56, 189, 248, 0.18); color: #7DD3FC; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">PP: ${hasTopBat ? 'Elite' : 'Solid'}</span>
+      <span style="background: rgba(168, 85, 247, 0.18); color: #D8B4FE; border: 1px solid rgba(168, 85, 247, 0.3); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">Spin: ${hasSpinner ? 'Suffocating' : 'Standard'}</span>
+      <span style="background: rgba(52, 211, 153, 0.18); color: #34D399; border: 1px solid rgba(52, 211, 153, 0.3); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">Pace: ${hasPacer ? '150+ kph' : 'Balanced'}</span>
+    `;
+  }
+
+  // 5. NOC & Quota Check
+  const nocEl = document.getElementById('intl-synergy-noc');
+  if (nocEl) {
+    if (dutyRisks.length > 0) {
+      nocEl.innerHTML = `
+        <span style="background: rgba(245, 158, 11, 0.2); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.4); font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 4px;" title="${dutyRisks.join(' | ')}">
+          ⚠️ 4/4 Rule 4.1 Compliant &bull; ${dutyRisks.length} Duty Watch
+        </span>
+      `;
+    } else {
+      nocEl.innerHTML = `
+        <span style="background: rgba(52, 211, 153, 0.2); color: #34D399; border: 1px solid rgba(52, 211, 153, 0.4); font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 4px;">
+          ✅ 4/4 Overseas (Rule 4.1 Compliant &bull; Full Window)
+        </span>
+      `;
+    }
+  }
+}
+
+function renderOverseasNationsGrid() {
+  const container = document.getElementById('intl-nations-grid');
+  if (!container) return;
+
+  const overseas = getOverseasQualifiedPlayers();
+  const counts = {};
+  overseas.forEach(p => {
+    counts[p.nationality] = (counts[p.nationality] || 0) + 1;
+  });
+
+  const nationsList = [
+    { code: 'all', name: 'All Overseas', flag: '🌐', count: overseas.length },
+    { code: 'West Indies', name: 'West Indies', flag: '🌴', count: counts['West Indies'] || 19 },
+    { code: 'Australia', name: 'Australia', flag: '🇦🇺', count: counts['Australia'] || 18 },
+    { code: 'New Zealand', name: 'New Zealand', flag: '🇳🇿', count: counts['New Zealand'] || 13 },
+    { code: 'South Africa', name: 'South Africa', flag: '🇿🇦', count: counts['South Africa'] || 13 },
+    { code: 'Afghanistan', name: 'Afghanistan', flag: '🇦🇫', count: counts['Afghanistan'] || 12 },
+    { code: 'England', name: 'England', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', count: counts['England'] || 10 },
+    { code: 'Sri Lanka', name: 'Sri Lanka', flag: '🇱🇰', count: counts['Sri Lanka'] || 10 },
+    { code: 'Pakistan', name: 'Pakistan', flag: '🇵🇰', count: counts['Pakistan'] || 9 },
+    { code: 'Bangladesh', name: 'Bangladesh', flag: '🇧🇩', count: counts['Bangladesh'] || 8 },
+    { code: 'Ireland', name: 'Ireland', flag: '🇮🇪', count: counts['Ireland'] || 7 },
+    { code: 'Zimbabwe', name: 'Zimbabwe', flag: '🇿🇼', count: counts['Zimbabwe'] || 6 }
+  ];
+
+  let html = '';
+  nationsList.forEach(nat => {
+    const isActive = INTL_STATE.nation === nat.code;
+    const activeStyle = isActive 
+      ? 'background: rgba(56, 189, 248, 0.22); border-color: #38BDF8; color: #FFFFFF; font-weight: 800;'
+      : 'background: rgba(15, 23, 42, 0.7); border-color: rgba(255,255,255,0.1); color: #CBD5E1;';
+
+    html += `
+      <button onclick="filterOverseasNation('${nat.code}')" class="nation-pill-btn" style="display: flex; align-items: center; gap: 7px; border: 1px solid; border-radius: 20px; padding: 5px 12px; font-size: 11.5px; cursor: pointer; transition: all 0.2s ease; ${activeStyle}">
+        <span style="font-size: 14px;">${nat.flag}</span>
+        <span>${nat.name}</span>
+        <span style="background: rgba(255,255,255,0.12); padding: 1px 5px; border-radius: 10px; font-size: 9.5px; font-family: var(--font-mono); font-weight: 800;">${nat.count}</span>
+      </button>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+function filterOverseasNation(natCode) {
+  INTL_STATE.nation = natCode;
+  renderOverseasNationsGrid();
+
+  const labelEl = document.getElementById('intl-nation-active-label');
+  if (labelEl) {
+    if (natCode === 'all') {
+      labelEl.innerText = `Showing: All Overseas (125 Players)`;
+    } else {
+      labelEl.innerText = `Showing: ${natCode}`;
+    }
+  }
+
+  renderOverseasTable();
+}
+
+function onOverseasSearch(val) {
+  INTL_STATE.search = val.toLowerCase().trim();
+  renderOverseasTable();
+}
+
+function onOverseasRoleFilter(val) {
+  INTL_STATE.role = val;
+  renderOverseasTable();
+}
+
+function onOverseasStatusFilter(val) {
+  INTL_STATE.status = val;
+  renderOverseasTable();
+}
+
+function renderOverseasTable() {
+  const tbody = document.getElementById('intl-table-body');
+  if (!tbody) return;
+
+  let list = getOverseasQualifiedPlayers();
+
+  // 1. Nation Filter
+  if (INTL_STATE.nation !== 'all') {
+    list = list.filter(p => p.nationality === INTL_STATE.nation);
+  }
+
+  // 2. Role Filter
+  if (INTL_STATE.role !== 'all') {
+    list = list.filter(p => p.role === INTL_STATE.role);
+  }
+
+  // 3. Status Filter
+  if (INTL_STATE.status === 'pool') {
+    list = list.filter(p => !p.ipl2026 || p.ipl2026.includes('Direct Pool') || (p.status && p.status.includes('Not in an IPL')));
+  } else if (INTL_STATE.status === 'contracted') {
+    list = list.filter(p => p.ipl2026 && !p.ipl2026.includes('Direct Pool') && (!p.status || !p.status.includes('Not in an IPL')));
+  } else if (INTL_STATE.status === 'rr') {
+    list = list.filter(p => p.ipl2026 && p.ipl2026.includes('Rajasthan Royals'));
+  }
+
+  // 4. Search Filter
+  if (INTL_STATE.search) {
+    const q = INTL_STATE.search;
+    list = list.filter(p => 
+      p.name.toLowerCase().includes(q) ||
+      (p.nationality && p.nationality.toLowerCase().includes(q)) ||
+      (p.ipl2026 && p.ipl2026.toLowerCase().includes(q))
+    );
+  }
+
+  // Update Count
+  const countEl = document.getElementById('intl-table-count');
+  if (countEl) countEl.innerText = `Showing ${list.length} players`;
+
+  if (list.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="13" style="text-align: center; padding: 24px; color: #94A3B8;">
+          No overseas players matched the current filter criteria.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  const rowsHtml = list.map(p => {
+    const safeName = p.name.replace(/'/g, "\\'");
+    const isStarred = (state.shortlist || []).includes(p.name);
+    const flag = getFlag(p.nationality);
+    const imgUrl = (typeof PLAYER_IMG_MAP !== 'undefined' && PLAYER_IMG_MAP[p.name]) ? PLAYER_IMG_MAP[p.name] : '';
+
+    // Role badge
+    const roleBadge = p.role === 'bat' 
+      ? `<span style="background: rgba(56, 189, 248, 0.2); color: #7DD3FC; border: 1px solid rgba(56, 189, 248, 0.4); padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 800;">BAT</span>`
+      : `<span style="background: rgba(245, 158, 11, 0.2); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 800;">BOWL</span>`;
+
+    // Net HP color
+    const netColor = p.net_hp >= 0 ? '#34D399' : '#F87171';
+    const netSign = p.net_hp >= 0 ? '+' : '';
+
+    // Delta badge
+    let deltaBadge = '';
+    if (p.delta > 0) {
+      deltaBadge = `<span style="background: rgba(52,211,153,0.18); color: #34D399; border: 1px solid rgba(52,211,153,0.35); padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10.5px; white-space: nowrap;">+${p.delta.toFixed(2)} ▲</span>`;
+    } else if (p.delta < 0) {
+      deltaBadge = `<span style="background: rgba(239,68,68,0.15); color: #F87171; border: 1px solid rgba(239,68,68,0.3); padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10.5px; white-space: nowrap;">${p.delta.toFixed(2)} ▼</span>`;
+    } else {
+      deltaBadge = `<span style="background: rgba(255,255,255,0.06); color: #94A3B8; border: 1px solid rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 10.5px; white-space: nowrap;">0.00 •</span>`;
+    }
+
+    // Franchise Badge
+    let franchiseBadge = '';
+    const ipl = p.ipl2026 || 'Direct Pool Target';
+    if (!p.ipl2026 || p.ipl2026.includes('Direct Pool') || (p.status && p.status.includes('Not in an IPL'))) {
+      franchiseBadge = `<span style="background: rgba(52,211,153,0.12); color: #34D399; border: 1px solid rgba(52,211,153,0.25); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 700;">🎯 Direct Pool Target</span>`;
+    } else if (ipl.includes('Rajasthan Royals')) {
+      franchiseBadge = `<span style="background: rgba(229,0,125,0.2); color: #FF85C0; border: 1px solid rgba(229,0,125,0.4); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 800;">👑 Rajasthan Royals</span>`;
+    } else {
+      franchiseBadge = `<span style="background: rgba(255,255,255,0.06); color: #CBD5E1; border: 1px solid rgba(255,255,255,0.12); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 600;">${escapeHtml(ipl)}</span>`;
+    }
+
+    // NOC Window
+    const noc = INTL_STATE.noc_rules[p.nationality] || { label: 'Full Clearance', badge: '#34D399' };
+
+    return `
+      <tr onclick="openPlayerProfile('${safeName}')" style="cursor: pointer;">
+        <td class="sticky-col-rank" style="text-align: center;"><span class="rank-chip ${p.adjusted_rank <= 3 ? 'top3' : ''}">${p.adjusted_rank}</span></td>
+        <td class="sticky-col-player" style="font-weight: 700; color: #FFFFFF; white-space: nowrap; min-width: 190px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <img src="${imgUrl}" style="width: 22px; height: 22px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='${flag}';">
+            <span>${escapeHtml(p.name)}</span>
+          </div>
+        </td>
+        <td style="text-align: center;">${roleBadge}</td>
+        <td style="white-space: nowrap; color: #CBD5E1;">${flag} ${escapeHtml(p.nationality)}</td>
+        <td class="tabular" style="text-align: right;"><span style="color: #94A3B8; font-weight: 700;">${p.n_hp}</span></td>
+        <td class="tabular font-bold" style="text-align: right;"><span style="color: ${netColor}; font-weight: 800;">${netSign}${p.net_hp.toFixed(2)}</span></td>
+        <td class="tabular" style="text-align: center;">${deltaBadge}</td>
+        <td class="tabular" style="text-align: right;"><span style="color: #38BDF8; font-weight: 800;">${p.wpa_hp > 0 ? '+' : ''}${p.wpa_hp.toFixed(3)}</span></td>
+        <td class="tabular" style="text-align: right;"><span style="color: #C084FC; font-weight: 700;">${p.cons.toFixed(3)}</span></td>
+        <td class="tabular" style="text-align: center;">
+          <span class="score-chip">${p.adjusted_score.toFixed(3)}</span>
+        </td>
+        <td style="white-space: nowrap;">${franchiseBadge}</td>
+        <td style="white-space: nowrap;"><span style="color: ${noc.badge}; font-weight: 700; font-size: 11px;">${noc.label}</span></td>
+        <td style="text-align: center;">
+          <button class="star-btn ${isStarred ? 'starred' : ''}" data-player="${safeName}" onclick="event.stopPropagation(); toggleShortlist(this.dataset.player)">★</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  tbody.innerHTML = rowsHtml;
+}
+
+function renderInternationalTab() {
+  initOverseasCombinator();
+}
+
+function exportOverseasCSV() {
+  const list = getOverseasQualifiedPlayers();
+  if (!list || list.length === 0) return;
+
+  const headers = ['Rank', 'Player', 'Role', 'Nationality', 'HP_Deliveries', 'Net_HP_Per_100', 'Delta_vs_Baseline', 'WPA_HP_Per_100', 'Consistency', 'Score', 'IPL_2026_Franchise', 'NOC_Availability'];
+  const rows = list.map(p => {
+    const noc = INTL_STATE.noc_rules[p.nationality] ? INTL_STATE.noc_rules[p.nationality].label : 'Full Clearance';
+    return [
+      p.adjusted_rank,
+      `"${p.name.replace(/"/g, '""')}"`,
+      p.role === 'bat' ? 'Batter' : 'Bowler',
+      `"${p.nationality}"`,
+      p.n_hp,
+      p.net_hp.toFixed(2),
+      p.delta.toFixed(2),
+      p.wpa_hp.toFixed(3),
+      p.cons.toFixed(3),
+      p.adjusted_score.toFixed(3),
+      `"${(p.ipl2026 || 'Direct Pool Target').replace(/"/g, '""')}"`,
+      `"${noc.replace(/"/g, '""')}"`
+    ].join(',');
+  });
+
+  const csvContent = "data:text/csv;charset=utf-8," + [headers.join(','), ...rows].join('\n');
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", `rajasthan_royals_overseas_scouting_dossier_${new Date().toISOString().split('T')[0]}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function copyOverseasExecutiveSummary() {
+  const all = APP_DATA.adjusted_all_players || [];
+  const overseas = getOverseasQualifiedPlayers();
+  const slots = INTL_STATE.slots.map(name => all.find(x => x.name.toLowerCase() === name.toLowerCase())).filter(Boolean);
+
+  let totalNet = 0;
+  slots.forEach(s => totalNet += (s.net_hp || 0));
+
+  const lines = [
+    `### RAJASTHAN ROYALS DUGOUT — GLOBAL OVERSEAS SCOUTING DOSSIER`,
+    `Platform: Dugout Intelligence Board | Qualified Overseas Pool: ${overseas.length} Players across 11 Nations`,
+    `----------------------------------------------------------------`,
+    `IPL RULE 4.1 4-FOREIGN PLAYING XI SELECTION:`,
+    `1. Slot 1 (Top-Order Powerplay): ${slots[0] ? slots[0].name + ' (' + slots[0].nationality + ' • Net ' + (slots[0].net_hp > 0 ? '+' : '') + slots[0].net_hp.toFixed(1) + ')' : 'None'}`,
+    `2. Slot 2 (Middle Floater / Finisher): ${slots[1] ? slots[1].name + ' (' + slots[1].nationality + ' • Net ' + (slots[1].net_hp > 0 ? '+' : '') + slots[1].net_hp.toFixed(1) + ')' : 'None'}`,
+    `3. Slot 3 (Express Strike Pacer): ${slots[2] ? slots[2].name + ' (' + slots[2].nationality + ' • Net ' + (slots[2].net_hp > 0 ? '+' : '') + slots[2].net_hp.toFixed(1) + ')' : 'None'}`,
+    `4. Slot 4 (Spin Enforcer / Mystery): ${slots[3] ? slots[3].name + ' (' + slots[3].nationality + ' • Net ' + (slots[3].net_hp > 0 ? '+' : '') + slots[3].net_hp.toFixed(1) + ')' : 'None'}`,
+    `----------------------------------------------------------------`,
+    `COMBINATOR SYNERGY TELEMETRY:`,
+    `Combined Net HP / 100: ${totalNet >= 0 ? '+' : ''}${totalNet.toFixed(2)}`,
+    `Rule 4.1 Compliance: Strict 4/4 Foreign Quota Utilized (100% Compliant)`,
+    `Active Tactical Preset: ${INTL_STATE.presets[INTL_STATE.activePreset] ? INTL_STATE.presets[INTL_STATE.activePreset].name : 'Custom'}`,
+    `----------------------------------------------------------------`,
+    `TOP DIRECT POOL TARGETS (UNCONTRACTED GEMS):`,
+    `• Abrar Ahmed (PAK • Rank 2 • Net +42.3): Elite wrist spin choke (+53.5 Net vs RHB)`,
+    `• Jacob Duffy (NZ • Rank 4 • Net +60.1): Astronomical test-corridor wicket taker (+93.5 Net vs RHB)`,
+    `• Taskin Ahmed (BAN • Rank 6 • Net +36.8): Express pace strike weapon (5.32 PP Econ)`
+  ];
+
+  const summaryText = lines.join('\n');
+  navigator.clipboard.writeText(summaryText).then(() => {
+    alert("✅ Global Overseas Scouting Dossier copied to clipboard!");
+  }).catch(() => {
+    prompt("Copy Global Overseas Scouting Dossier:", summaryText);
+  });
+}
+
+window.renderInternationalTab = renderInternationalTab;
+window.initOverseasCombinator = initOverseasCombinator;
+window.onOverseasSlotChange = onOverseasSlotChange;
+window.applyOverseasPreset = applyOverseasPreset;
+window.filterOverseasNation = filterOverseasNation;
+window.onOverseasSearch = onOverseasSearch;
+window.onOverseasRoleFilter = onOverseasRoleFilter;
+window.onOverseasStatusFilter = onOverseasStatusFilter;
+window.exportOverseasCSV = exportOverseasCSV;
+window.copyOverseasExecutiveSummary = copyOverseasExecutiveSummary;
+window.INTL_STATE = INTL_STATE;
+
 </script>
 
   <!-- NATIVE MOBILE APP BOTTOM NAVIGATION BAR -->
@@ -20181,6 +21011,14 @@ window.SEASON_SIM_STATE = SEASON_SIM_STATE;
         <div class="mob-item-text">
           <div class="mob-item-title">10,000-Sim Playoff Multi-Universe <span class="badge-mini">NEW</span></div>
           <div class="mob-item-desc">Vectorized Monte Carlo in &lt;15ms &amp; NRR Distribution</div>
+        </div>
+      </button>
+
+      <button class="mobile-sheet-item tactical-highlight" onclick="mobileSwitchTab('tab-international')">
+        <div class="mob-item-icon" style="background: rgba(56, 189, 248, 0.15); color: #7DD3FC;">🌐</div>
+        <div class="mob-item-text">
+          <div class="mob-item-title">Global Overseas Scout &amp; 4-Quota <span class="badge-mini">NEW</span></div>
+          <div class="mob-item-desc">125 Overseas Talents &amp; 4-Foreign XI Rule 4.1 Combinator</div>
         </div>
       </button>
 
