@@ -7137,7 +7137,10 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                 🏰 Preset 4: SMS Jaipur Heavy Outfield (22 off 12 balls)
               </button>
             </div>
-            <div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <button type="button" onclick="switchTab('tab-tactics'); setTimeout(() => { const el = document.getElementById('tactics-chase-asymmetry-card'); if (el) el.scrollIntoView({behavior: 'smooth'}); }, 100);" style="background: rgba(229,0,125,0.15); border: 1px solid var(--rr-pink); color: #FF85C0; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                <span>⚖️</span> <span>Target Chase Asymmetry (Part T3)</span>
+              </button>
               <button type="button" onclick="runMonteCarloChaseSim()" style="background: linear-gradient(135deg, #E5007D 0%, #0284C7 100%); border: none; color: #FFFFFF; font-size: 11px; font-weight: 900; padding: 6px 14px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(229,0,125,0.3);">
                 <span>⚡</span> <span>Rerun 1,000 Sims</span>
               </button>
@@ -8817,6 +8820,226 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
           </div>
 
         </div>
+      
+        <!-- SECTION 3: TARGET CHASE VS 1ST INNINGS PAR LEVERAGE ASYMMETRY ENGINE (Part T3) -->
+        <div class="card mb-6" id="tactics-chase-asymmetry-card" style="margin-top: 28px; position: relative; border: 1px solid rgba(229,0,125,0.35); background: linear-gradient(180deg, #07152B 0%, #040D1A 100%); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(229, 0, 125, 0.12); border-radius: 12px; overflow: hidden;">
+          
+          <!-- Top Header -->
+          <div style="background: linear-gradient(135deg, #091A33 0%, #1A0726 50%, #091A33 100%); padding: 18px 22px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 20px;">⚖️</span>
+                <div style="font-size: 16px; font-weight: 900; color: #FFFFFF; letter-spacing: -0.01em;">
+                  <span style="color: var(--rr-pink);">Part T3:</span> Target Chase vs 1st Innings Par Leverage Asymmetry Engine
+                </div>
+                <span class="pill-competition" style="background: rgba(229,0,125,0.2); color: #FF85C0; border-color: var(--rr-pink); font-size: 9.5px;">DUGOUT ASYMMETRY CONSOLE</span>
+              </div>
+              <div style="font-size: 11.5px; color: #94A3B8; margin-top: 4px;">
+                Bifurcating Static Par Accumulation (1st Innings, AUC 0.68) vs Required Run Rate Win Probability Chasing (2nd Innings, AUC 0.89)
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <span style="font-size: 10.5px; font-family: var(--font-mono); color: #34D399; background: rgba(52,211,153,0.12); padding: 5px 10px; border-radius: 5px; border: 1px solid rgba(52,211,153,0.3);">
+                🎯 Chase Model AUC: 0.89 (Brier: 0.137)
+              </span>
+              <span style="font-size: 10.5px; font-family: var(--font-mono); color: #38BDF8; background: rgba(56,189,248,0.12); padding: 5px 10px; border-radius: 5px; border: 1px solid rgba(56,189,248,0.25);">
+                📊 1st Inn Par AUC: 0.68
+              </span>
+              <span style="font-size: 10.5px; font-family: var(--font-mono); color: #FF85C0; background: rgba(229,0,125,0.15); padding: 5px 10px; border-radius: 5px; border: 1px solid rgba(229,0,125,0.35);">
+                ⚡ Death Pressure Surge: 24.9% → 38.5%
+              </span>
+            </div>
+          </div>
+
+          <!-- STRATEGIC DUGOUT CARDS (3 High-Impact Realities) -->
+          <div style="padding: 20px 22px 10px 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;">
+            
+            <!-- Card 1: Chasing Accelerators -->
+            <div style="background: #091A33; border: 1px solid rgba(52, 211, 153, 0.35); border-left: 4px solid #34D399; border-radius: 8px; padding: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.25);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <img src="https://cricketvectors.akamaized.net/players/org/84U.png" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='🇮🇳';">
+                  <img src="https://cricketvectors.akamaized.net/players/org/19E.png" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2); margin-left: -12px;" onerror="this.outerHTML='🇦🇺';">
+                  <span style="font-weight: 800; color: #FFFFFF; font-size: 13.5px;">The Velocity Chasers: Sooryavanshi &amp; David</span>
+                </div>
+                <span style="background: rgba(52, 211, 153, 0.15); color: #34D399; border: 1px solid rgba(52, 211, 153, 0.35); font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">Surge Specialists</span>
+              </div>
+              <p style="font-size: 11.5px; color: #CBD5E1; margin: 0; line-height: 1.5;">
+                <strong style="color: #34D399;">Vaibhav Sooryavanshi surges to #1 in Chases</strong> (Base #8 → Chase #1, +7 ranks) with extreme high-pressure SR of 231.1. <br>
+                <strong style="color: #38BDF8;">Tim David rises to #2 in Chases</strong> (Base #3 → Chase #2) with an elite +0.847 WPA/100, extinguishing RRR compounding during death chases.
+              </p>
+            </div>
+
+            <!-- Card 2: 1st Inn Anchor Trap -->
+            <div style="background: #091A33; border: 1px solid rgba(248, 113, 113, 0.35); border-left: 4px solid #F87171; border-radius: 8px; padding: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.25);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <img src="https://cricketvectors.akamaized.net/players/org/2485.png" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='🇵🇰';">
+                  <img src="https://cricketvectors.akamaized.net/players/org/2179.png" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2); margin-left: -12px;" onerror="this.outerHTML='🇮🇳';">
+                  <span style="font-weight: 800; color: #FFFFFF; font-size: 13.5px;">The 1st-Inn Anchor Trap: Babar &amp; Abhishek</span>
+                </div>
+                <span style="background: rgba(248, 113, 113, 0.15); color: #F87171; border: 1px solid rgba(248, 113, 113, 0.35); font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">Chase Vulnerability</span>
+              </div>
+              <p style="font-size: 11.5px; color: #CBD5E1; margin: 0; line-height: 1.5;">
+                <strong style="color: #F87171;">Babar Azam drops -28 ranks</strong> in Chases (Base #4 → Chase #32). While SR 160.9 establishes solid 1st-inn par, dot balls cause exponential RRR spikes in chases. <br>
+                <strong style="color: #FBBF24;">Abhishek Sharma drops -33 ranks</strong> (Base #7 → Chase #40) due to high-risk early dismissal vulnerability under fixed scoreboard pressure.
+              </p>
+            </div>
+
+            <!-- Card 3: Defensive Lockdown -->
+            <div style="background: #091A33; border: 1px solid rgba(56, 189, 248, 0.35); border-left: 4px solid #38BDF8; border-radius: 8px; padding: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.25);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <img src="https://cricketvectors.akamaized.net/players/org/4X4.png" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='🇳🇿';">
+                  <img src="https://cricketvectors.akamaized.net/players/org/CW.png" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2); margin-left: -12px;" onerror="this.outerHTML='🇮🇳';">
+                  <span style="font-weight: 800; color: #FFFFFF; font-size: 13.5px;">The Total Defenders: Duffy &amp; Krunal</span>
+                </div>
+                <span style="background: rgba(56, 189, 248, 0.15); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.35); font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">Lockdown Elite</span>
+              </div>
+              <p style="font-size: 11.5px; color: #CBD5E1; margin: 0; line-height: 1.5;">
+                <strong style="color: #38BDF8;">Jacob Duffy becomes #1 in Chase Defense</strong> (Base #4 → Chase #1, +3 ranks) with 45.6% dot balls suffocating opposition run-rates. <br>
+                <strong style="color: #34D399;">Krunal Pandya surges into the Top 5</strong> (Base #10 → Chase #5, +5 ranks) through an ultra-tight 6.22 economy choke on middle-overs chases.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- EMPIRICAL PRESSURE DISTRIBUTION STRIP (1st Innings vs 2nd Innings) -->
+          <div style="padding: 10px 22px 18px 22px;">
+            <div style="background: #08162B; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 14px 18px;">
+              <div style="font-size: 12px; font-weight: 800; color: #F8FAFC; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                <span>📈 Empirical High-Pressure Ball Distribution (LI &ge; 1.32 by Innings &amp; Phase)</span>
+                <span style="font-size: 10.5px; font-family: var(--font-mono); color: #94A3B8;">Source: data/hp_mix.csv (197,100 balls)</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px;">
+                
+                <!-- Powerplay Split -->
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; color: #38BDF8; margin-bottom: 8px;">
+                    <span>Powerplay (Overs 1–6)</span>
+                    <span style="color: #34D399;">+4.1% Chase Leverage</span>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 6px; font-size: 10.5px; font-family: var(--font-mono);">
+                    <div style="display: flex; justify-content: space-between; color: #94A3B8;">
+                      <span>1st Innings Par:</span> <span>15.1% HP balls</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
+                      <div style="width: 15.1%; height: 100%; background: #38BDF8;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; color: #CBD5E1;">
+                      <span>2nd Innings Chase:</span> <span style="font-weight: 800; color: #38BDF8;">19.2% HP balls</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
+                      <div style="width: 19.2%; height: 100%; background: #0284C7;"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Middle Overs Split -->
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; color: #FBBF24; margin-bottom: 8px;">
+                    <span>Middle Overs (Overs 7–16)</span>
+                    <span style="color: #34D399;">+9.4% Chase Leverage</span>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 6px; font-size: 10.5px; font-family: var(--font-mono);">
+                    <div style="display: flex; justify-content: space-between; color: #94A3B8;">
+                      <span>1st Innings Par:</span> <span>18.4% HP balls</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
+                      <div style="width: 18.4%; height: 100%; background: #FBBF24;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; color: #CBD5E1;">
+                      <span>2nd Innings Chase:</span> <span style="font-weight: 800; color: #FBBF24;">27.8% HP balls</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
+                      <div style="width: 27.8%; height: 100%; background: #D97706;"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Death Overs Split -->
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(229,0,125,0.25); border-radius: 8px; padding: 12px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; color: var(--rr-pink); margin-bottom: 8px;">
+                    <span>Death Overs (Overs 17–20)</span>
+                    <span style="color: #FF85C0; font-weight: 800;">+13.6% Surge!</span>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 6px; font-size: 10.5px; font-family: var(--font-mono);">
+                    <div style="display: flex; justify-content: space-between; color: #94A3B8;">
+                      <span>1st Innings Par:</span> <span>24.9% HP balls</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
+                      <div style="width: 24.9%; height: 100%; background: #94A3B8;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; color: #CBD5E1;">
+                      <span>2nd Innings Chase:</span> <span style="font-weight: 800; color: var(--rr-pink);">38.5% HP balls</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; overflow: hidden;">
+                      <div style="width: 38.5%; height: 100%; background: linear-gradient(90deg, #E5007D 0%, #FF85C0 100%);"></div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- INTERACTIVE DIVERGING ASYMMETRY TABLE & CONTROLS -->
+          <div style="padding: 0 22px 22px 22px;">
+            <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 10px; padding: 16px;">
+              
+              <!-- Toolbar -->
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 14px;">
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-size: 11px; font-weight: 800; color: #64748B; text-transform: uppercase;">Filter Pool:</span>
+                  <button type="button" class="btn-asym-filter active" id="asym-btn-all" onclick="filterChaseAsymmetry('all')" style="background: rgba(229,0,125,0.2); border: 1px solid var(--rr-pink); color: #FF85C0; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 5px; cursor: pointer;">
+                    All (30 Players)
+                  </button>
+                  <button type="button" class="btn-asym-filter" id="asym-btn-bat" onclick="filterChaseAsymmetry('bat')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #CBD5E1; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 5px; cursor: pointer;">
+                    🏏 Batters (15)
+                  </button>
+                  <button type="button" class="btn-asym-filter" id="asym-btn-bowl" onclick="filterChaseAsymmetry('bowl')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #CBD5E1; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 5px; cursor: pointer;">
+                    🎯 Bowlers (15)
+                  </button>
+                  <button type="button" class="btn-asym-filter" id="asym-btn-surges" onclick="filterChaseAsymmetry('surges')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #34D399; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 5px; cursor: pointer;">
+                    ▲ Chase Specialists (+&Delta;)
+                  </button>
+                  <button type="button" class="btn-asym-filter" id="asym-btn-drops" onclick="filterChaseAsymmetry('drops')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #F87171; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 5px; cursor: pointer;">
+                    ▼ 1st Inn Anchors (-&Delta;)
+                  </button>
+                </div>
+                <div>
+                  <input type="text" id="asym-search-input" oninput="onChaseAsymmetrySearch(this.value)" placeholder="Search player name..." style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); color: #F8FAFC; font-size: 11px; padding: 5px 10px; border-radius: 5px; outline: none; width: 170px;">
+                </div>
+              </div>
+
+              <!-- Table -->
+              <div class="table-container">
+                <div class="table-scroll">
+                  <table class="scorecard-table font-mono" id="chase-asymmetry-table" style="font-size: 11.5px;">
+                    <thead>
+                      <tr>
+                        <th style="text-align: left; min-width: 170px;">Player</th>
+                        <th style="text-align: center; width: 70px;">Role</th>
+                        <th style="text-align: center; width: 95px;">Base Rank</th>
+                        <th style="text-align: center; width: 100px;">Chase Rank</th>
+                        <th style="text-align: center; width: 90px;">&Delta; Rank</th>
+                        <th style="text-align: left; width: 130px;">Asymmetry Vector</th>
+                        <th style="text-align: left; min-width: 170px;">Tactical Archetype</th>
+                        <th style="text-align: left; min-width: 260px;">Dugout Action Directive</th>
+                      </tr>
+                    </thead>
+                    <tbody id="chase-asymmetry-body">
+                      <!-- Populated dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
       </section>
 
       
@@ -10037,6 +10260,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initUserInputs();
   renderSubmissionTab();
   initDuelSimulator();
+  renderTacticsTab();
 });
 
 function initUserInputs() {
@@ -10552,11 +10776,13 @@ function getPlayerPercentiles(playerObj) {
 function generateRadarSVG(datasets, size = 300) {
   const cx = size / 2;
   const cy = size / 2;
-  const r = size * 0.285;
+  const r = size * 0.28;
   const axes = ['Net HP', 'WPA', 'Delta', 'Consistency', 'Stability'];
   const numAxes = axes.length;
+  const padX = 56;
+  const padY = 24;
 
-  let svg = `<svg viewBox="0 0 ${size} ${size}" width="100%" height="100%" style="overflow: visible;">`;
+  let svg = `<svg viewBox="-${padX} -${padY} ${size + padX * 2} ${size + padY * 2}" width="100%" height="100%" style="overflow: visible; display: block;">`;
 
   // Concentric background pentagons (20%, 40%, 60%, 80%, 100%)
   for (let p of [0.2, 0.4, 0.6, 0.8, 1.0]) {
@@ -10846,7 +11072,7 @@ function openPlayerProfile(pname) {
       <div style="font-size: 10px; color: var(--rr-text-muted); margin-bottom: 10px;">
         Percentiles computed, formula in tooltip • 5 Key Dimensions
       </div>
-      <div style="width: 280px; height: 260px; margin: 0 auto; overflow: visible;">
+      <div style="width: 100%; max-width: 320px; height: 260px; margin: 0 auto; overflow: visible;">
         ${radarSvg}
       </div>
     </div>
@@ -15531,6 +15757,356 @@ function renderTacticsTab() {
     `;
     bowlBody.appendChild(tr);
   });
+
+  // Render Chase Asymmetry Console (Part T3)
+  renderChaseAsymmetryConsole();
+}
+
+
+// =========================================================================
+// PART T3: TARGET CHASE VS 1ST INNINGS PAR LEVERAGE ASYMMETRY CONTROLLER
+// =========================================================================
+let currentChaseAsymFilter = 'all';
+let currentChaseAsymQuery = '';
+
+const CHASE_ASYMMETRY_META = {
+  // Batters
+  'Suryakumar Yadav': {
+    archetype: 'Universal 360° Master',
+    tagColor: '#38BDF8',
+    tagBg: 'rgba(56, 189, 248, 0.15)',
+    directive: 'Unfazed across both innings; 360° boundary access neutralizes high-RRR choke points.'
+  },
+  'Phil Salt': {
+    archetype: 'Velocity Powerplay Chaser',
+    tagColor: '#38BDF8',
+    tagBg: 'rgba(56, 189, 248, 0.15)',
+    directive: 'High-tempo attack forces early boundary clusters in chases; sustained +37.4 Net/100.'
+  },
+  'Tim David': {
+    archetype: 'Hyper-Velocity Death Finisher',
+    tagColor: '#FF85C0',
+    tagBg: 'rgba(229, 0, 125, 0.2)',
+    directive: 'Rises to #2 in Chases (+1). Elite +0.847 WPA/100; eliminates 12+ RRR deficits effortlessly.'
+  },
+  'Babar Azam': {
+    archetype: '1st-Inn Par Accumulator (Anchor Trap)',
+    tagColor: '#F87171',
+    tagBg: 'rgba(239, 68, 68, 0.15)',
+    directive: 'Severe anchor vulnerability (-28 ranks). Low SR in chases causes exponential RRR build-up.'
+  },
+  'Shubman Gill': {
+    archetype: 'Classical Platform Anchor',
+    tagColor: '#FBBF24',
+    tagBg: 'rgba(251, 191, 36, 0.15)',
+    directive: 'Premier 1st-inn par builder; vulnerable (-15 ranks) when immediate escalation is forced.'
+  },
+  'Nicholas Pooran': {
+    archetype: 'High-Leverage Counter-Puncher',
+    tagColor: '#38BDF8',
+    tagBg: 'rgba(56, 189, 248, 0.15)',
+    directive: 'Top 10 in Chases (#9); lethal against spin choke fields in middle-overs recoveries.'
+  },
+  'Abhishek Sharma': {
+    archetype: 'Powerplay High-Variance Slogger',
+    tagColor: '#F87171',
+    tagBg: 'rgba(239, 68, 68, 0.15)',
+    directive: 'Plummets -33 ranks in Chases (#7 → #40) due to high dismissal risk against targeted chase fields.'
+  },
+  'Vaibhav Sooryavanshi': {
+    archetype: '#1 Global Chase Accelerant',
+    tagColor: '#34D399',
+    tagBg: 'rgba(52, 211, 153, 0.2)',
+    directive: 'Surges to #1 globally (+7 ranks)! High-pressure SR 231.1 & Net +74.84; collapses deficits immediately.'
+  },
+  'Fakhar Zaman': {
+    archetype: '1st-Inn Momentum Builder',
+    tagColor: '#F87171',
+    tagBg: 'rgba(239, 68, 68, 0.15)',
+    directive: 'Drops -30 ranks in Chases (#9 → #39) as dot-ball frequency compounds required run-rate pressure.'
+  },
+  'Harry Brook': {
+    archetype: '360° Pace & Death Finisher',
+    tagColor: '#34D399',
+    tagBg: 'rgba(52, 211, 153, 0.15)',
+    directive: 'Surges into Top 8 in Chases (#10 → #8); punishing execution against express pace death lines.'
+  },
+  'Tim Seifert': {
+    archetype: 'Top-Order Transition Hitter',
+    tagColor: '#CBD5E1',
+    tagBg: 'rgba(255, 255, 255, 0.08)',
+    directive: 'Consistent boundary finding, but moderate drop in deep chases against top-tier pace.'
+  },
+  'Shreyas Iyer': {
+    archetype: 'Middle-Overs Stabilizer',
+    tagColor: '#38BDF8',
+    tagBg: 'rgba(56, 189, 248, 0.15)',
+    directive: 'Rock-solid rank stability (Base #12 → Chase #12); controls middle spin phases.'
+  },
+  'Dinesh Karthik': {
+    archetype: 'Specialized 1st-Inn Death Booster',
+    tagColor: '#F87171',
+    tagBg: 'rgba(239, 68, 68, 0.15)',
+    directive: 'Extreme 1st-inn par booster; high variance (-41 ranks) under fixed second-innings chase targets.'
+  },
+  'Prabhsimran Singh': {
+    archetype: 'Fast-Start Powerplay Enforcer',
+    tagColor: '#38BDF8',
+    tagBg: 'rgba(56, 189, 248, 0.15)',
+    directive: 'Maintains neutral rank (Base #14 → Chase #14); aggressive intent sets early chase tempo.'
+  },
+  'Kamindu Mendis': {
+    archetype: 'Flexible Middle-Overs Chaser',
+    tagColor: '#34D399',
+    tagBg: 'rgba(52, 211, 153, 0.15)',
+    directive: 'Huge surge into Top 7 (+8 ranks, Base #15 → Chase #7); elite adaptability under rising pressure.'
+  },
+
+  // Bowlers
+  'Jacob Duffy': {
+    archetype: '#1 Global Total Defender',
+    tagColor: '#34D399',
+    tagBg: 'rgba(52, 211, 153, 0.2)',
+    directive: 'Vaults to #1 in Chase Defense (+3 ranks)! 45.6% dot balls suffocate batting units under RRR pressure.'
+  },
+  'Sunil Narine': {
+    archetype: 'Unconditional Lockdown Fortress',
+    tagColor: '#38BDF8',
+    tagBg: 'rgba(56, 189, 248, 0.15)',
+    directive: 'Virtually unbreakable (#1 Base → #2 Chase); 6.51 economy suffocates both innings.'
+  },
+  'Abrar Ahmed': {
+    archetype: 'Mystery Spin Board-Squeezer',
+    tagColor: '#38BDF8',
+    tagBg: 'rgba(56, 189, 248, 0.15)',
+    directive: 'Ultra-elite #3 in Chases; 6.14 economy choke prevents middle-overs release shots.'
+  },
+  'Taskin Ahmed': {
+    archetype: 'Express Length Wicket-Taker',
+    tagColor: '#34D399',
+    tagBg: 'rgba(52, 211, 153, 0.15)',
+    directive: 'Surges into Top 4 in Chases (+3 ranks); heavy hit-the-deck pace shatters chase partnerships.'
+  },
+  'Krunal Pandya': {
+    archetype: 'Suffocating Chase Squeeze',
+    tagColor: '#34D399',
+    tagBg: 'rgba(52, 211, 153, 0.2)',
+    directive: 'Surges into Top 5 (+5 ranks, Base #10 → Chase #5); defensive angle yields 6.22 chase economy.'
+  },
+  'Josh Hazlewood': {
+    archetype: 'Metronomic Test-Length Defender',
+    tagColor: '#38BDF8',
+    tagBg: 'rgba(56, 189, 248, 0.15)',
+    directive: 'Rises to #7 in Chases (+1); relentless top-of-off repeatability chokes off boundaries.'
+  },
+  'Matheesha Pathirana': {
+    archetype: 'Extreme Searing Slinger',
+    tagColor: '#FBBF24',
+    tagBg: 'rgba(251, 191, 36, 0.15)',
+    directive: 'Lethal yorkers; minor drop (#5 → #8) due to wide penalties in steep run-rate environments.'
+  },
+  'Mitchell Santner': {
+    archetype: 'Flat Drift Stifle Specialist',
+    tagColor: '#FBBF24',
+    tagBg: 'rgba(251, 191, 36, 0.15)',
+    directive: 'Steady control, but slightly less attacking leverage when defending low totals (#3 → #9).'
+  },
+  'Lockie Ferguson': {
+    archetype: '150kph High-Pace Enforcer',
+    tagColor: '#FBBF24',
+    tagBg: 'rgba(251, 191, 36, 0.15)',
+    directive: 'Express pace; drop (#6 → #13) when batters use pace behind square in small boundary chases.'
+  },
+  'Mohit Sharma': {
+    archetype: 'Back-of-Hand Slower Ball Artist',
+    tagColor: '#F87171',
+    tagBg: 'rgba(239, 68, 68, 0.15)',
+    directive: 'Sharp drop (-15 ranks, Base #9 → Chase #24); slower variations are read easier in chases.'
+  },
+  'Axar Patel': {
+    archetype: 'Darts & Stumps Middle Controller',
+    tagColor: '#FBBF24',
+    tagBg: 'rgba(251, 191, 36, 0.15)',
+    directive: 'Tidy execution, but moderate rank drop (-5) when defending modest scores.'
+  },
+  'Varun Chakravarthy': {
+    archetype: 'Carrom-Ball Wicket Striker',
+    tagColor: '#FBBF24',
+    tagBg: 'rgba(251, 191, 36, 0.15)',
+    directive: 'Attacking mystery option; drops from #12 to #20 in chase-defense control.'
+  },
+  'Mohsin Khan': {
+    archetype: 'Tall Left-Arm Death Angle',
+    tagColor: '#38BDF8',
+    tagBg: 'rgba(56, 189, 248, 0.15)',
+    directive: 'Solid chase hold (#15 → #17); steep bounce protects boundary ropes.'
+  },
+  'Mark Adair': {
+    archetype: 'New-Ball Movement Specialist',
+    tagColor: '#FBBF24',
+    tagBg: 'rgba(251, 191, 36, 0.15)',
+    directive: 'Reliable powerplay swing, but drops in middle/death chase defense.'
+  },
+  'Jofra Archer': {
+    archetype: 'Express Strike Pace',
+    tagColor: '#FBBF24',
+    tagBg: 'rgba(251, 191, 36, 0.15)',
+    directive: 'High ceiling, but drops from #13 to #23 in chase-defense economy.'
+  }
+};
+
+function renderChaseAsymmetryConsole() {
+  const tbody = document.getElementById('chase-asymmetry-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  const rawList = APP_DATA.robustness_variants || [];
+  let filtered = rawList.map(item => {
+    const baseRank = Number(item.adjusted_rank) || 0;
+    const chaseRank = (item.rank_chase_only !== undefined && item.rank_chase_only !== null) ? Number(item.rank_chase_only) : baseRank;
+    const delta = baseRank - chaseRank; // positive = surged up in rank, negative = dropped
+    return {
+      ...item,
+      baseRank,
+      chaseRank,
+      delta
+    };
+  });
+
+  // Filter role
+  if (currentChaseAsymFilter === 'bat') {
+    filtered = filtered.filter(p => p.role === 'bat');
+  } else if (currentChaseAsymFilter === 'bowl') {
+    filtered = filtered.filter(p => p.role === 'bowl');
+  } else if (currentChaseAsymFilter === 'surges') {
+    filtered = filtered.filter(p => p.delta > 0);
+  } else if (currentChaseAsymFilter === 'drops') {
+    filtered = filtered.filter(p => p.delta < 0);
+  }
+
+  // Filter search
+  if (currentChaseAsymQuery) {
+    const q = currentChaseAsymQuery.toLowerCase().trim();
+    filtered = filtered.filter(p => p.name.toLowerCase().includes(q));
+  }
+
+  // Sort: prioritize largest absolute delta for surges/drops, else baseRank
+  if (currentChaseAsymFilter === 'surges') {
+    filtered.sort((a, b) => b.delta - a.delta);
+  } else if (currentChaseAsymFilter === 'drops') {
+    filtered.sort((a, b) => a.delta - b.delta);
+  } else {
+    filtered.sort((a, b) => a.baseRank - b.baseRank);
+  }
+
+  filtered.forEach(p => {
+    const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.title = `Click to view full player profile for ${p.name}`;
+    tr.onclick = () => openPlayerProfile(p.name);
+
+    const meta = CHASE_ASYMMETRY_META[p.name] || {
+      archetype: p.role === 'bat' ? 'Middle-Order Striker' : 'Seam Controller',
+      tagColor: '#CBD5E1',
+      tagBg: 'rgba(255, 255, 255, 0.08)',
+      directive: 'Tactical role evaluated across composite high-pressure metrics.'
+    };
+
+    const pInfo = APP_DATA.adjusted_all_players.find(x => x.name === p.name);
+    const flag = pInfo ? getFlag(pInfo.nationality) : '';
+    const imgUrl = getPlayerImageUrl(p.name);
+
+    // Delta Badge
+    let deltaBadge = '';
+    if (p.delta > 0) {
+      deltaBadge = `<span style="display: inline-block; padding: 2px 7px; border-radius: 4px; font-weight: 800; background: rgba(52, 211, 153, 0.18); color: #34D399; border: 1px solid rgba(52, 211, 153, 0.35);">+${p.delta} ▲</span>`;
+    } else if (p.delta < 0) {
+      deltaBadge = `<span style="display: inline-block; padding: 2px 7px; border-radius: 4px; font-weight: 800; background: rgba(239, 68, 68, 0.15); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.3);">${p.delta} ▼</span>`;
+    } else {
+      deltaBadge = `<span style="display: inline-block; padding: 2px 7px; border-radius: 4px; font-weight: 700; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.1);">0 •</span>`;
+    }
+
+    // Visual Vector (Dual-Sided Diverging Gauge)
+    let vectorBar = '';
+    const maxScale = 35.0;
+    if (p.delta > 0) {
+      const pct = Math.min(100, (p.delta / 10.0) * 100);
+      vectorBar = `
+        <div style="display: flex; align-items: center; width: 100%; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; position: relative;">
+          <div style="position: absolute; left: 50%; width: 1px; height: 100%; background: rgba(255,255,255,0.3); z-index: 2;"></div>
+          <div style="position: absolute; left: 50%; width: ${pct / 2}%; height: 100%; background: linear-gradient(90deg, #34D399 0%, #10B981 100%); border-radius: 0 4px 4px 0;"></div>
+        </div>
+      `;
+    } else if (p.delta < 0) {
+      const pct = Math.min(100, (Math.abs(p.delta) / maxScale) * 100);
+      vectorBar = `
+        <div style="display: flex; align-items: center; width: 100%; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; position: relative;">
+          <div style="position: absolute; left: 50%; width: 1px; height: 100%; background: rgba(255,255,255,0.3); z-index: 2;"></div>
+          <div style="position: absolute; right: 50%; width: ${pct / 2}%; height: 100%; background: linear-gradient(270deg, #F87171 0%, #EF4444 100%); border-radius: 4px 0 0 4px;"></div>
+        </div>
+      `;
+    } else {
+      vectorBar = `
+        <div style="display: flex; align-items: center; width: 100%; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; position: relative;">
+          <div style="position: absolute; left: 50%; width: 2px; height: 100%; background: #94A3B8; transform: translateX(-50%);"></div>
+        </div>
+      `;
+    }
+
+    const roleChip = p.role === 'bat'
+      ? `<span style="background: rgba(229,0,125,0.18); color: #FF85C0; border: 1px solid rgba(229,0,125,0.35); padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800;">BAT</span>`
+      : `<span style="background: rgba(56,189,248,0.18); color: #38BDF8; border: 1px solid rgba(56,189,248,0.35); padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800;">BOWL</span>`;
+
+    tr.innerHTML = `
+      <td style="font-weight: 700; color: #FFFFFF;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="${imgUrl}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);" onerror="this.outerHTML='${flag}';">
+          <span>${p.name}</span>
+          <span style="font-size: 11px;">${flag}</span>
+        </div>
+      </td>
+      <td style="text-align: center;">${roleChip}</td>
+      <td style="text-align: center; font-weight: 700; color: #CBD5E1;">#${p.baseRank}</td>
+      <td style="text-align: center; font-weight: 800; color: #F8FAFC;">#${p.chaseRank}</td>
+      <td style="text-align: center;">${deltaBadge}</td>
+      <td style="vertical-align: middle;">${vectorBar}</td>
+      <td>
+        <span style="font-size: 10px; font-weight: 800; color: ${meta.tagColor}; background: ${meta.tagBg}; padding: 2px 7px; border-radius: 4px; display: inline-block;">
+          ${meta.archetype}
+        </span>
+      </td>
+      <td style="font-size: 11px; color: #CBD5E1; line-height: 1.4;">
+        ${meta.directive}
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function filterChaseAsymmetry(filterMode) {
+  currentChaseAsymFilter = filterMode;
+  ['all', 'bat', 'bowl', 'surges', 'drops'].forEach(f => {
+    const btn = document.getElementById('asym-btn-' + f);
+    if (btn) {
+      if (f === filterMode) {
+        btn.classList.add('active');
+        btn.style.background = 'rgba(229,0,125,0.2)';
+        btn.style.borderColor = 'var(--rr-pink)';
+        btn.style.color = '#FF85C0';
+      } else {
+        btn.classList.remove('active');
+        btn.style.background = 'rgba(255,255,255,0.06)';
+        btn.style.borderColor = 'rgba(255,255,255,0.12)';
+        btn.style.color = '#CBD5E1';
+      }
+    }
+  });
+  renderChaseAsymmetryConsole();
+}
+
+function onChaseAsymmetrySearch(val) {
+  currentChaseAsymQuery = val || '';
+  renderChaseAsymmetryConsole();
 }
 
 function renderSubmissionTab() {
@@ -17477,6 +18053,7 @@ window.SEASON_SIM_STATE = SEASON_SIM_STATE;
         <button type="button" onclick="closeCommandPalette(); switchTab('tab-leaderboards')" style="background: rgba(255,255,255,0.06); border: 1px solid var(--rr-border); color: #CBD5E1; border-radius: 4px; padding: 3px 8px; cursor: pointer;">🏆 Top 10</button>
         <button type="button" onclick="closeCommandPalette(); switchTab('tab-3d-playground')" style="background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.3); color: #7DD3FC; border-radius: 4px; padding: 3px 8px; cursor: pointer;">🌐 3D Universe</button>
         <button type="button" onclick="closeCommandPalette(); switchTab('tab-tactics')" style="background: rgba(192,132,252,0.12); border: 1px solid rgba(192,132,252,0.3); color: #D8B4FE; border-radius: 4px; padding: 3px 8px; cursor: pointer;">📊 Tactics</button>
+        <button type="button" onclick="closeCommandPalette(); switchTab('tab-tactics'); setTimeout(() => { const el = document.getElementById('tactics-chase-asymmetry-card'); if (el) el.scrollIntoView({behavior: 'smooth'}); }, 100);" style="background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.3); color: #6EE7B7; border-radius: 4px; padding: 3px 8px; cursor: pointer;">⚖️ Chase Asymmetry</button>
         <button type="button" onclick="closeCommandPalette(); switchTab('tab-compare')" style="background: rgba(229,0,125,0.15); border: 1px solid rgba(229,0,125,0.4); color: #FF85C0; border-radius: 4px; padding: 3px 8px; cursor: pointer;">👥 Compare</button>
         <button type="button" onclick="closeCommandPalette(); switchTab('tab-duel')" style="background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.3); color: #FDE047; border-radius: 4px; padding: 3px 8px; cursor: pointer;">⚔️ Duel Sim</button>
       </div>
