@@ -2454,8 +2454,9 @@ div[style*="background: rgba(255, 255, 255, 0.05)"] {
 }
 
 /* =========================================================================
-   ★ WORLD-CLASS INTERNATIONAL TERMINAL UI — BLOOMBERG · F1 · APPLE TIER
-   Bloomberg Terminal rigor + F1 Pit Wall precision + Apple spatial design
+   ★★★ ULTRA PRECISION DESIGN SYSTEM — TIER-1 INTERNATIONAL STANDARD ★★★
+   Bloomberg Terminal · F1 Pit Wall · Apple HIG · Muji/NTT Tokyo Precision
+   Vercel · Linear · Figma · Arc Browser · Goldman Sachs Marquee-inspired
    ========================================================================= */
 
 /* ── PREMIUM TOKEN LAYER ── */
@@ -3705,6 +3706,502 @@ section[style*="background: #F8FAFC"] {
   border-color: var(--border-mid) !important;
 }
 
+/* =========================================================================
+   ★★★ ULTRA PRECISION UPGRADE LAYER II — DEPTH & POLISH ★★★
+   ========================================================================= */
+
+/* ── RR LOGO MARK — Architectural precision mark ── */
+.rr-logo-mark {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.rr-logo-rr {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--accent-primary);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+  flex-shrink: 0;
+  box-shadow: 0 0 24px rgba(229,0,125,0.3);
+}
+
+.rr-logo-line {
+  display: none;
+}
+
+/* Keep original .rr-logo-box hidden since we now use .rr-logo-mark */
+.rr-logo-box { display: none !important; }
+
+/* ── TOGGLE BUTTON DOTS ── */
+.toggle-btn-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.dot-pink { background: var(--accent-primary); box-shadow: 0 0 5px var(--accent-primary); }
+.dot-cyan { background: var(--accent-cyan); box-shadow: 0 0 5px var(--accent-cyan); }
+
+/* ── TACTICAL CHEVRON SVG ── */
+.tactical-chevron-svg {
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--transition-fast);
+  flex-shrink: 0;
+}
+.btn-tactical-trigger.active .tactical-chevron-svg {
+  transform: rotate(180deg);
+}
+.tactical-chevron { display: none; } /* Hide old text chevron */
+
+/* ── DROPDOWN ITEM ICONS — SVG-based ── */
+.dropdown-item-icon {
+  border: 1px solid var(--border-mid) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* ── TELEMETRY RAIL — Bloomberg single-line data ── */
+.telemetry-sep {
+  color: var(--border-mid);
+  font-weight: 400;
+  margin: 0 3px;
+  user-select: none;
+}
+
+.telemetry-label {
+  font-weight: 800;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.telemetry-unit {
+  font-size: 9px;
+  color: var(--text-tertiary);
+  margin-left: 2px;
+}
+
+.telemetry-right-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* ── NAV RAIL TOPBAR — Override inline styles ── */
+.nav-rail-topbar {
+  padding: 0 4px 10px !important;
+  border-bottom: 1px solid var(--border-soft) !important;
+  margin-bottom: 8px !important;
+}
+
+.nav-rail-topbar > span {
+  font-family: var(--font-mono) !important;
+  font-size: 8px !important;
+  font-weight: 800 !important;
+  color: var(--text-tertiary) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.16em !important;
+}
+
+/* Nav fit button override */
+.nav-rail-topbar > button {
+  background: transparent !important;
+  border: 1px solid var(--border-mid) !important;
+  color: var(--text-secondary) !important;
+  border-radius: var(--radius-sm) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  padding: 3px 7px !important;
+  transition: all var(--transition-fast) !important;
+}
+
+/* ── DUGOUT PODIUM GRID — Premium player cards ── */
+.dugout-podium-grid > div {
+  background: var(--surface-2) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: none !important;
+}
+
+/* Top accent stripe on podium cards */
+.dugout-podium-grid > div:first-child {
+  border-top: 2px solid var(--accent-primary) !important;
+}
+.dugout-podium-grid > div:last-child {
+  border-top: 2px solid var(--accent-cyan) !important;
+}
+
+/* Player row items in podium */
+.dugout-podium-grid div[onclick*="openPlayerProfile"] {
+  transition: background var(--transition-fast), transform var(--transition-fast) !important;
+}
+.dugout-podium-grid div[onclick*="openPlayerProfile"]:hover {
+  transform: translateX(3px) !important;
+  border-color: var(--border-strong) !important;
+}
+
+/* ── SECTION A METHODOLOGY BULLETS — Precision info panels ── */
+.method-summary-bullet-container > div {
+  background: var(--surface-2) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: var(--radius-md) !important;
+  transition: border-color var(--transition-fast) !important;
+}
+
+.method-summary-bullet-container > div:hover {
+  border-color: var(--border-mid) !important;
+}
+
+/* Keep the left colored stripe but refine it */
+.method-summary-bullet-container > div[style*="border-left: 3px solid var(--rr-pink)"] {
+  border-left: 2px solid var(--accent-primary) !important;
+}
+.method-summary-bullet-container > div[style*="border-left: 3px solid #38BDF8"] {
+  border-left: 2px solid var(--accent-cyan) !important;
+}
+.method-summary-bullet-container > div[style*="border-left: 3px solid #F59E0B"] {
+  border-left: 2px solid var(--accent-amber) !important;
+}
+.method-summary-bullet-container > div[style*="border-left: 3px solid #10B981"] {
+  border-left: 2px solid var(--accent-emerald) !important;
+}
+.method-summary-bullet-container > div[style*="border-left: 3px solid #A855F7"] {
+  border-left: 2px solid var(--accent-violet) !important;
+}
+
+/* ── DUGOUT FLOWCHART — Architecture steps ── */
+div[style*="background: rgba(4, 17, 38, 0.9)"] {
+  background: var(--surface-2) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: var(--radius-lg) !important;
+}
+
+/* Flowchart step cells */
+div[style*="background: rgba(255,255,255,0.05)"] {
+  background: var(--surface-3) !important;
+  border: 1px solid var(--border-mid) !important;
+  border-radius: var(--radius-md) !important;
+  transition: background var(--transition-fast) !important;
+}
+div[style*="background: rgba(255,255,255,0.05)"]:hover {
+  background: var(--surface-4) !important;
+}
+
+/* ── 4 PILLARS — Precision metric panels ── */
+div[style*="background: var(--rr-pink-light)"],
+div[style*="background: rgba(56, 189, 248, 0.08)"],
+div[style*="background: rgba(168, 85, 247, 0.08)"],
+div[style*="background: var(--rr-green-bg)"] {
+  border-radius: var(--radius-md) !important;
+  border-width: 1px !important;
+  transition: transform var(--transition-fast), border-color var(--transition-fast) !important;
+}
+
+/* ── GLOBAL CONTENT TEXT REFINEMENT ── */
+p, li {
+  line-height: 1.6 !important;
+}
+
+/* Links in tables */
+.scorecard-table td a,
+.scorecard-table td span[style*="cursor: pointer"] {
+  color: var(--text-data) !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid var(--border-mid) !important;
+  transition: border-color var(--transition-fast), color var(--transition-fast) !important;
+}
+.scorecard-table td a:hover,
+.scorecard-table td span[style*="cursor: pointer"]:hover {
+  color: var(--accent-primary) !important;
+  border-bottom-color: var(--accent-primary) !important;
+}
+
+/* ── NUMBER COLUMNS — Tabular nums everywhere ── */
+.scorecard-table td:not(:nth-child(1)):not(:nth-child(2)) {
+  font-variant-numeric: tabular-nums !important;
+  font-family: var(--font-mono) !important;
+}
+
+/* ── FOCUS RING — Keyboard navigation ── */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent-primary) !important;
+  outline-offset: 2px !important;
+}
+
+/* ── SELECTION COLOR ── */
+::selection {
+  background: rgba(229,0,125,0.25);
+  color: #fff;
+}
+
+/* ── HORIZONTAL RULE / SECTION DIVIDERS ── */
+hr {
+  border: none !important;
+  border-top: 1px solid var(--border-soft) !important;
+  margin: 16px 0 !important;
+}
+
+/* ── STRONG / BOLD TEXT ── */
+strong, b {
+  color: var(--text-data) !important;
+  font-weight: 700 !important;
+}
+
+/* ── INLINE CODE ── */
+code {
+  font-family: var(--font-mono) !important;
+  font-size: 0.9em !important;
+  background: var(--surface-3) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 2px !important;
+  padding: 1px 4px !important;
+  color: var(--accent-cyan) !important;
+}
+
+/* ── CHART BOXES — Refined canvas containers ── */
+.chart-box {
+  background: var(--surface-1) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+/* ── SCORECARD TABLE — Header row extra treatment ── */
+.scorecard-table thead tr {
+  position: relative;
+}
+.scorecard-table thead::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: var(--border-mid);
+}
+
+/* ── TABLE SORT INDICATORS ── */
+.scorecard-table th[onclick] {
+  cursor: pointer;
+  user-select: none;
+}
+.scorecard-table th[onclick]:hover {
+  color: var(--text-data) !important;
+  background: var(--surface-3) !important;
+}
+
+/* ── CARD BODY — Consistent padding ── */
+.card-body {
+  padding: 16px 18px !important;
+}
+
+/* Inner content in cards with direct padding */
+.card > div:not(.card-header):not(.table-container):not(.table-scroll) {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* ── PILL COMPETITION — in card headers ── */
+.card-header .pill-competition {
+  margin-left: auto;
+}
+
+/* ── DUGOUT HERO ACTIONS — View All buttons ── */
+button[onclick*="switchTab"][style*="background: transparent"][style*="border: none"] {
+  color: var(--accent-cyan) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 9.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  opacity: 0.75 !important;
+  transition: opacity var(--transition-fast) !important;
+}
+button[onclick*="switchTab"][style*="background: transparent"][style*="border: none"]:hover {
+  opacity: 1 !important;
+  color: var(--accent-cyan) !important;
+}
+
+/* ── SHIMMER LOADING STATE ── */
+.px-loading {
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 0%,
+    var(--surface-3) 50%,
+    var(--surface-2) 100%
+  );
+  background-size: 200% 100%;
+  animation: px-shimmer 1.5s ease infinite;
+}
+
+/* ── CUSTOM SCROLLBAR — Global precision ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-mid);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+* { scrollbar-width: thin; scrollbar-color: var(--border-mid) transparent; }
+
+/* ── NAV RAIL — Remove emoji, style spans ── */
+.nav-btn .nav-icon {
+  font-size: 11px !important;
+  line-height: 1 !important;
+  opacity: 0.6 !important;
+  flex-shrink: 0 !important;
+  width: auto !important;
+  height: auto !important;
+}
+.nav-btn:hover .nav-icon,
+.nav-btn.active .nav-icon {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* ── SECTION LABEL DECORATORS ── */
+.nav-section-label::before {
+  content: none !important;
+}
+
+/* ── DUGOUT HERO HEADING — Gradient shimmer on title text ── */
+.dugout-hero-heading {
+  background: linear-gradient(
+    135deg,
+    var(--text-data) 0%,
+    rgba(240,244,252,0.7) 60%,
+    var(--text-data) 100%
+  ) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-size: 200% 200% !important;
+}
+
+/* ── SCOREBOARD TICKER — Stagger animation on cards ── */
+.ticker-card:nth-child(1) { animation: px-data-in 0.3s 0.05s ease both; }
+.ticker-card:nth-child(2) { animation: px-data-in 0.3s 0.1s ease both; }
+.ticker-card:nth-child(3) { animation: px-data-in 0.3s 0.15s ease both; }
+.ticker-card:nth-child(4) { animation: px-data-in 0.3s 0.2s ease both; }
+
+/* ── PRINT OVERRIDES ── */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000 !important;
+  }
+  .dugout-hero-heading {
+    -webkit-text-fill-color: #000 !important;
+    background: none !important;
+  }
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .dugout-hero-heading {
+    animation: none !important;
+  }
+  .ticker-card { animation: none !important; }
+}
+
+/* ── DARK INLINE OVERRIDES — deeper surface mapping ── */
+div[style*="background: rgba(9, 26, 51"],
+div[style*="background: #091A33"] {
+  background: var(--surface-2) !important;
+}
+div[style*="background: linear-gradient(135deg, #091A33"],
+div[style*="background: linear-gradient(135deg, #07152B"] {
+  background: var(--surface-2) !important;
+}
+div[style*="background: linear-gradient(135deg, #07152B 0%, #0A1E3D 100%)"] {
+  background: var(--surface-2) !important;
+  border: 1px solid var(--border-soft) !important;
+}
+
+/* Player profile row cards in podium */
+div[style*="background: rgba(245, 158, 11, 0.12)"] {
+  background: rgba(245,158,11,0.07) !important;
+  border: 1px solid rgba(245,158,11,0.18) !important;
+  border-radius: var(--radius-md) !important;
+}
+div[style*="background: rgba(255, 255, 255, 0.04)"][style*="border: 1px solid rgba(255, 255, 255, 0.08)"] {
+  background: var(--surface-3) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+/* ── FLOWCHART STEP — Final step (pink CTA) ── */
+div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
+  background: var(--accent-primary) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 0 20px rgba(229,0,125,0.3) !important;
+}
+
+/* ── MOBILE REFINEMENTS ── */
+@media (max-width: 767px) {
+  .rr-logo-rr {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 11px !important;
+  }
+
+  .brand-text h1 {
+    font-size: 11px !important;
+  }
+
+  .google-telemetry-bar {
+    font-size: 9px !important;
+    padding: 4px 10px !important;
+    gap: 8px !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    min-height: 28px !important;
+  }
+
+  .telemetry-right-group {
+    flex-shrink: 0 !important;
+    gap: 3px !important;
+  }
+
+  .ticker-card {
+    padding: 7px 10px !important;
+  }
+
+  .dugout-hero-heading {
+    font-size: 20px !important;
+    -webkit-text-fill-color: var(--text-data) !important;
+    background: none !important;
+  }
+
+  .nav-section-label {
+    font-size: 7.5px !important;
+    padding: 8px 10px 3px !important;
+  }
+}
+
 </style>
   <!-- THREE.JS & ORBITCONTROLS 3D DATA PLAYGROUND ENGINE -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -3712,21 +4209,24 @@ section[style*="background: #F8FAFC"] {
 </head>
 <body>
 
-  <!-- TOP BROADCAST HEADER (Executive Dugout Intelligence Suite) -->
+  <!-- TOP BROADCAST HEADER -->
   <header class="broadcast-header no-print">
     <div class="header-inner">
       <div class="brand-badge">
-        <button id="btn-sidebar-hamburger" onclick="toggleSidebarManual()" class="header-menu-hamburger-btn no-print" title="Toggle Navigation Sidebar / Fit Screen">
-          <span style="font-size: 15px; line-height: 1;">☰</span>
-          <span style="font-size: 11px; font-weight: 700;">Menu</span>
+        <button id="btn-sidebar-hamburger" onclick="toggleSidebarManual()" class="header-menu-hamburger-btn no-print" title="Toggle Navigation Sidebar / Fit Screen" aria-label="Toggle sidebar">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="1" y1="3.5" x2="13" y2="3.5"/><line x1="1" y1="7" x2="13" y2="7"/><line x1="1" y1="10.5" x2="13" y2="10.5"/></svg>
+          <span>Menu</span>
         </button>
-        <div class="rr-logo-box">RR</div>
+        <div class="rr-logo-mark" aria-label="Rajasthan Royals">
+          <span class="rr-logo-rr">RR</span>
+          <span class="rr-logo-line"></span>
+        </div>
         <div class="brand-text">
           <div class="brand-pills">
-            <span class="pill-competition">SupeRR Selector Season 2</span>
-            <span class="pill-terminal-status"><span class="terminal-dot-live"></span> OPERATIONAL</span>
+            <span class="pill-competition">SupeRR Selector · S2</span>
+            <span class="pill-terminal-status"><span class="terminal-dot-live"></span>OPERATIONAL</span>
           </div>
-          <h1>Rajasthan Royals Dugout Intelligence Board</h1>
+          <h1>Rajasthan Royals · Dugout Intelligence Board</h1>
         </div>
       </div>
 
@@ -3734,72 +4234,72 @@ section[style*="background: #F8FAFC"] {
         <!-- PRIMARY MODEL SEGMENTED CONTROL -->
         <div class="toggle-group" id="toggle-container" role="radiogroup" aria-label="Model Architecture">
           <button id="btn-toggle-adj" class="toggle-btn active" onclick="setView('adjusted')" role="radio" aria-checked="true">
-            <span style="color: var(--rr-pink);">⚡</span>
-            <span>Opposition-Adjusted</span>
+            <span class="toggle-btn-dot dot-pink"></span>
+            <span>OPP-ADJ</span>
           </button>
           <button id="btn-toggle-orig" class="toggle-btn" onclick="setView('original')" role="radio" aria-checked="false">
-            <span style="color: #38BDF8;">📊</span>
-            <span>Original Model</span>
+            <span class="toggle-btn-dot dot-cyan"></span>
+            <span>ORIGINAL</span>
           </button>
         </div>
 
         <!-- TACTICAL ENGINES EXECUTIVE DROPDOWN -->
         <div class="tactical-suite-container" id="tactical-suite-container">
-          <button id="btn-tactical-suite" class="btn-tactical-trigger" onclick="toggleTacticalDropdown(event)" aria-expanded="false" aria-haspopup="true" title="Open Dugout Tactical Suite &amp; Simulation Engines">
+          <button id="btn-tactical-suite" class="btn-tactical-trigger" onclick="toggleTacticalDropdown(event)" aria-expanded="false" aria-haspopup="true" title="Open Dugout Tactical Suite & Simulation Engines">
             <span class="tactical-pulse-dot"></span>
-            <span>Tactical Suite</span>
-            <span class="tactical-chevron">▾</span>
+            <span>Engines</span>
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" class="tactical-chevron-svg"><path d="M1 2.5L4 5.5L7 2.5"/></svg>
           </button>
           <div id="tactical-dropdown-menu" class="tactical-dropdown-menu" onclick="event.stopPropagation()">
             <div class="dropdown-header">
-              <span class="dropdown-header-title">// TACTICAL COMPUTATION SUITE</span>
+              <span class="dropdown-header-title">TACTICAL COMPUTATION SUITE</span>
               <span class="dropdown-header-tag">7 ENGINES READY</span>
             </div>
             <div class="dropdown-grid">
               <a href="javascript:void(0)" onclick="switchTab('tab-field-optimizer'); closeTacticalDropdown();" class="dropdown-item">
-                <div class="dropdown-item-icon" style="background: rgba(52, 211, 153, 0.15); color: #34D399;">📐</div>
+                <div class="dropdown-item-icon" style="background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.2);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="2" x2="12" y2="22"/><path d="M2 12h20"/></svg></div>
                 <div class="dropdown-item-content">
                   <div class="dropdown-item-title">SMS Field Radar Holodeck <span class="engine-badge-new">NEW</span></div>
                   <div class="dropdown-item-desc">78m vs 66m Asymmetric Jaipur Physics &amp; xR Shot Engine</div>
                 </div>
               </a>
               <a href="javascript:void(0)" onclick="switchTab('tab-impact-sub'); closeTacticalDropdown();" class="dropdown-item">
-                <div class="dropdown-item-icon" style="background: rgba(245, 158, 11, 0.15); color: #FBBF24;">🧬</div>
+                <div class="dropdown-item-icon" style="background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.2);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
                 <div class="dropdown-item-content">
                   <div class="dropdown-item-title">Quantum Impact Player Sim <span class="engine-badge-new">NEW</span></div>
                   <div class="dropdown-item-desc">Bellman Dynamic V(t) &amp; Option Value Decay Curve</div>
                 </div>
               </a>
               <a href="javascript:void(0)" onclick="switchTab('tab-season-sim'); closeTacticalDropdown();" class="dropdown-item">
-                <div class="dropdown-item-icon" style="background: rgba(245, 158, 11, 0.15); color: #FBBF24;">🏆</div>
+                <div class="dropdown-item-icon" style="background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.2);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
                 <div class="dropdown-item-content">
                   <div class="dropdown-item-title">10,000-Sim Playoff Multi-Universe <span class="engine-badge-new">NEW</span></div>
                   <div class="dropdown-item-desc">Vectorized Monte Carlo in &lt;15ms &amp; NRR Distribution</div>
                 </div>
               </a>
               <a href="javascript:void(0)" onclick="openAuctionValuationConsole(); closeTacticalDropdown();" class="dropdown-item">
-                <div class="dropdown-item-icon" style="background: rgba(229, 0, 125, 0.15); color: #FF85C0;">💰</div>
+                <div class="dropdown-item-icon" style="background: rgba(229,0,125,0.12); border-color: rgba(229,0,125,0.2);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF85C0" stroke-width="2.5" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
                 <div class="dropdown-item-content">
                   <div class="dropdown-item-title">Auction War Room &amp; Valuation Console</div>
                   <div class="dropdown-item-desc">Reserve Price &amp; Walk-Away Valuation Matrix</div>
                 </div>
               </a>
               <a href="javascript:void(0)" onclick="switchTab('tab-defense'); closeTacticalDropdown();" class="dropdown-item">
-                <div class="dropdown-item-icon" style="background: rgba(56, 189, 248, 0.15); color: #7DD3FC;">🛡️</div>
+                <div class="dropdown-item-icon" style="background: rgba(56,189,248,0.12); border-color: rgba(56,189,248,0.2);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7DD3FC" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
                 <div class="dropdown-item-content">
                   <div class="dropdown-item-title">20-Over Defense &amp; Phase Planner</div>
                   <div class="dropdown-item-desc">Powerplay, Middle, Death Phase Resource Allocation</div>
                 </div>
               </a>
               <a href="javascript:void(0)" onclick="switchTab('tab-chase-sim'); closeTacticalDropdown();" class="dropdown-item">
-                <div class="dropdown-item-icon" style="background: rgba(229, 0, 125, 0.15); color: #FF85C0;">⚡</div>
+                <div class="dropdown-item-icon" style="background: rgba(229,0,125,0.12); border-color: rgba(229,0,125,0.2);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF85C0" stroke-width="2.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
                 <div class="dropdown-item-content">
                   <div class="dropdown-item-title">Win-Probability Chase Sim</div>
                   <div class="dropdown-item-desc">In-Play Leverage &amp; Ball-by-Ball Win Curves</div>
                 </div>
               </a>
               <a href="javascript:void(0)" onclick="switchTab('tab-duel'); closeTacticalDropdown();" class="dropdown-item">
-                <div class="dropdown-item-icon" style="background: rgba(168, 85, 247, 0.15); color: #C084FC;">⚔️</div>
+                <div class="dropdown-item-icon" style="background: rgba(168,85,247,0.12); border-color: rgba(168,85,247,0.2);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C084FC" stroke-width="2.5" stroke-linecap="round"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg></div>
                 <div class="dropdown-item-content">
                   <div class="dropdown-item-title">Matchup Duel Simulator</div>
                   <div class="dropdown-item-desc">Illustrative toy, not a model output</div>
@@ -3811,8 +4311,8 @@ section[style*="background: #F8FAFC"] {
 
         <!-- SEARCH TRIGGER -->
         <button onclick="openCommandPalette()" class="btn-header-search" title="Quick Player &amp; Model Search (Cmd+K)">
-          <span style="font-size: 11px; opacity: 0.8;">🔍</span>
-          <span class="search-label">Quick Search</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span class="search-label">Search</span>
           <kbd class="search-kbd">⌘K</kbd>
         </button>
 
@@ -3824,45 +4324,58 @@ section[style*="background: #F8FAFC"] {
 
         <!-- SHORTLIST COUNTER -->
         <button onclick="openShortlistDrawer()" class="btn-header-pill btn-pill-shortlist" title="Open RR Shortlist Drawer">
-          <span style="color: #FFB3D9; font-size: 11px;">★</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
           <span>Shortlist</span>
           <span id="shortlist-badge-count" class="shortlist-counter-badge">20</span>
         </button>
 
         <!-- SELECTORS SHEET -->
         <button onclick="openSelectorsSheet()" class="btn-header-pill" title="View Executive Selector's Sheet">
-          <span style="font-size: 11px;">📄</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
           <span>Sheet</span>
         </button>
 
         <!-- CANVAS EXPANSION (FIT SCREEN) -->
         <button id="btn-toggle-sidebar" onclick="toggleSidebarManual()" class="btn-header-icon" title="Toggle Navigation Sidebar (Auto Fit Screen)">
           <span id="sidebar-toggle-icon">⇥</span>
-          <span id="sidebar-toggle-text" class="btn-label-desktop">Fit Screen</span>
+          <span id="sidebar-toggle-text" class="btn-label-desktop">Fit</span>
         </button>
 
         <!-- PDF EXPORT -->
         <button onclick="window.print()" class="btn-header-icon" title="Export PDF / Print View">
-          <span style="font-size: 12px;">🖨️</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- GOOGLE-GRADE DATA TELEMETRY BAR -->
-  <div class="google-telemetry-bar no-print">
+  <!-- BLOOMBERG-GRADE DATA TELEMETRY RAIL -->
+  <div class="google-telemetry-bar no-print" role="status" aria-label="System telemetry">
     <div class="telemetry-item-group">
       <span class="telemetry-badge-verified">
         <span class="telemetry-dot-pulse"></span>
-        LIVE PIPELINE: 136 CHECKS PASSING (EXIT 0)
+        PIPELINE · 136 CHECKS · EXIT 0
       </span>
-      <span><strong>DATASET:</strong> <span class="telemetry-val">197,100</span> Deliveries &bull; <span class="telemetry-val">851</span> Matches &bull; <span class="telemetry-val">958</span> Total Players (2022&ndash;2026 IPL &amp; T20I)</span>
-      <span class="telemetry-divider"></span>
-      <span><strong>WIN-PROB GBDT:</strong> <span class="telemetry-val">AUC 0.89</span> (Chase) | <span class="telemetry-val">0.68</span> (1st Inn) &bull; <span class="telemetry-val">Brier 0.137</span></span>
+      <span class="telemetry-sep">|</span>
+      <span class="telemetry-label">DATASET</span>
+      <span class="telemetry-val">197,100</span><span class="telemetry-unit">deliveries</span>
+      <span class="telemetry-sep">·</span>
+      <span class="telemetry-val">851</span><span class="telemetry-unit">matches</span>
+      <span class="telemetry-sep">·</span>
+      <span class="telemetry-val">958</span><span class="telemetry-unit">players</span>
+      <span class="telemetry-sep">|</span>
+      <span class="telemetry-label">GBDT AUC</span>
+      <span class="telemetry-val">0.89</span><span class="telemetry-unit">chase</span>
+      <span class="telemetry-sep">·</span>
+      <span class="telemetry-val">0.68</span><span class="telemetry-unit">1st inn</span>
+      <span class="telemetry-sep">·</span>
+      <span class="telemetry-label">BRIER</span>
+      <span class="telemetry-val">0.137</span>
     </div>
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <span style="color: var(--rr-pink); font-weight: 700;">VOLATILITY:</span> <span class="telemetry-val">0.62 &rarr; 3.73</span> pts/ball (6.0&times; surge)
-      <span class="telemetry-tag-pill">LEVERAGE LI &ge; 1.32</span>
+    <div class="telemetry-right-group">
+      <span class="telemetry-label" style="color: var(--accent-primary);">VOLATILITY</span>
+      <span class="telemetry-val">0.62→3.73</span><span class="telemetry-unit">pts/ball · 6.0× surge</span>
+      <span class="telemetry-tag-pill">LI ≥ 1.32</span>
     </div>
   </div>
 
@@ -3871,25 +4384,25 @@ section[style*="background: #F8FAFC"] {
   <section class="scoreboard-ticker no-print">
     <div class="ticker-grid">
       <div class="ticker-card">
-        <div class="ticker-title">🎯 Top-1 Model Recommendations</div>
+        <div class="ticker-title"><span class="ticker-indicator-dot dot-cyan"></span>RECOMMENDATION · TOP-1</div>
         <div class="ticker-val" id="ticker-top1-text">Overall: <span onclick="openPlayerProfile('Sunil Narine')" style="cursor: pointer; text-decoration: underline;" title="View Sunil Narine stats">Sunil Narine (#1)</span> • Bat: <span onclick="openPlayerProfile('Suryakumar Yadav')" style="cursor: pointer; text-decoration: underline;" title="View Suryakumar Yadav stats">Suryakumar Yadav (#1)</span></div>
         <div class="ticker-sub" id="ticker-top1-sub">KKR &amp; MI retention pending • Stability &ge; 50% (Rule D2)</div>
       </div>
 
       <div class="ticker-card">
-        <div class="ticker-title">🌍 Global Pure-Merit Finalists</div>
+        <div class="ticker-title"><span class="ticker-indicator-dot dot-pink"></span>GLOBAL PURE-MERIT · FINALISTS</div>
         <div class="ticker-val" id="ticker-eligible-text">Top 10 Batters &amp; Bowlers (100% Unbiased)</div>
         <div class="ticker-sub">Verified: Babar Azam (#4), Abrar Ahmed (#2), Fakhar Zaman (#9)</div>
       </div>
 
       <div class="ticker-card">
-        <div class="ticker-title">🔒 Stable Core (Top 10 Share &ge; 75%)</div>
+        <div class="ticker-title"><span class="ticker-indicator-dot dot-emerald"></span>STABLE CORE · BOOTSTRAP ≥75%</div>
         <div class="ticker-val" id="ticker-stable-text"><span onclick="openPlayerProfile('Suryakumar Yadav')" style="cursor: pointer; text-decoration: underline;" title="View Surya stats">Surya (76%)</span>, <span onclick="openPlayerProfile('Phil Salt')" style="cursor: pointer; text-decoration: underline;" title="View Phil Salt stats">Salt (82%)</span>, <span onclick="openPlayerProfile('Sunil Narine')" style="cursor: pointer; text-decoration: underline;" title="View Sunil Narine stats">Narine (93%)</span></div>
         <div class="ticker-sub" id="ticker-stable-sub">Order sensitivity tested over 200 resamples</div>
       </div>
 
       <div class="ticker-card">
-        <div class="ticker-title">⚙️ Active Model Specification</div>
+        <div class="ticker-title"><span class="ticker-indicator-dot dot-amber"></span>ACTIVE MODEL SPECIFICATION</div>
         <div class="ticker-val" id="ticker-mode-text">Opposition-Adjusted Model</div>
         <div class="ticker-sub" id="ticker-mode-sub"><span onclick="openPlayerProfile('Harry Brook')" style="cursor: pointer; text-decoration: underline;" title="View Harry Brook stats">Harry Brook (#10)</span> &amp; <span onclick="openPlayerProfile('Mohit Sharma')" style="cursor: pointer; text-decoration: underline;" title="View Mohit Sharma stats">Mohit Sharma (#9)</span> enter Top 10</div>
       </div>
@@ -3909,15 +4422,15 @@ section[style*="background: #F8FAFC"] {
       </div>
       <div class="nav-section-label">// 01 CORE EVALUATION</div>
       <button onclick="switchTab('tab-summary')" id="nav-tab-summary" class="nav-btn active">
-        <span class="nav-icon">📊</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
         <span>Executive Summary</span>
       </button>
       <button onclick="switchTab('tab-leaderboards')" id="nav-tab-leaderboards" class="nav-btn">
-        <span class="nav-icon">🏆</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M6 2h12v7a6 6 0 0 1-12 0V2z"/></svg></span>
         <span>Top 10 Leaderboards</span>
       </button>
       <button onclick="switchTab('tab-3d-playground')" id="nav-tab-3d-playground" class="nav-btn">
-        <span class="nav-icon">🌐</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span>
         <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
           <span>3D Data Universe</span>
           <span style="background: rgba(56, 189, 248, 0.2); color: #7DD3FC; font-size: 8px; font-weight: 800; padding: 1px 4px; border-radius: 3px; font-family: var(--font-mono);">3D</span>
@@ -3926,64 +4439,64 @@ section[style*="background: #F8FAFC"] {
 
       <div class="nav-section-label">// 02 TACTICAL SPLITS</div>
       <button onclick="switchTab('tab-tactics')" id="nav-tab-tactics" class="nav-btn">
-        <span class="nav-icon">🎯</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg></span>
         <span>Pace/Spin &amp; Phases</span>
       </button>
       <button onclick="switchTab('tab-scatter')" id="nav-tab-scatter" class="nav-btn">
-        <span class="nav-icon">⚡</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="1.5"/><circle cx="18.5" cy="5.5" r="1.5"/><circle cx="11.5" cy="15.5" r="1.5"/><circle cx="16.5" cy="18.5" r="1.5"/><circle cx="5.5" cy="18.5" r="1.5"/><path d="M3 21h18"/></svg></span>
         <span>Pressure Scatter</span>
       </button>
       <button onclick="switchTab('tab-slope')" id="nav-tab-slope" class="nav-btn">
-        <span class="nav-icon">📈</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
         <span>Rank Movement</span>
       </button>
 
       <div class="nav-section-label">// 03 TACTICAL WAR ROOM</div>
       <button onclick="openAuctionValuationConsole()" id="nav-tab-auction" class="nav-btn">
-        <span class="nav-icon">🏰</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></span>
         <span>Auction War Room &amp; RR</span>
       </button>
       <button onclick="switchTab('tab-field-optimizer')" id="nav-tab-field-optimizer" class="nav-btn">
-        <span class="nav-icon">📐</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="2" x2="12" y2="22"/><path d="M2 12h20"/></svg></span>
         <span>AI Field Optimizer</span>
       </button>
       <button onclick="switchTab('tab-impact-sub')" id="nav-tab-impact-sub" class="nav-btn">
-        <span class="nav-icon">🧬</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
         <span>Impact Player Optimizer</span>
       </button>
       <button onclick="switchTab('tab-season-sim')" id="nav-tab-season-sim" class="nav-btn">
-        <span class="nav-icon">🏆</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
         <span>IPL Season &amp; Playoff Sim</span>
       </button>
       <button onclick="switchTab('tab-defense')" id="nav-tab-defense" class="nav-btn">
-        <span class="nav-icon">🛡️</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
         <span>20-Over Defense Planner</span>
       </button>
       <button onclick="switchTab('tab-chase-sim')" id="nav-tab-chase-sim" class="nav-btn">
-        <span class="nav-icon">⚡</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
         <span>Win-Prob Chase Sim</span>
       </button>
       <button onclick="switchTab('tab-duel')" id="nav-tab-duel" class="nav-btn">
-        <span class="nav-icon">⚔️</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
         <span>Matchup Duel Sim</span>
       </button>
       <button onclick="switchTab('tab-compare')" id="nav-tab-compare" class="nav-btn">
-        <span class="nav-icon">👥</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
         <span>Player Comparison</span>
       </button>
 
       <div class="nav-section-label">// 04 MODEL &amp; GOVERNANCE</div>
       <button onclick="switchTab('tab-stability')" id="nav-tab-stability" class="nav-btn">
-        <span class="nav-icon">🎲</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="8.5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="8.5" cy="15.5" r="1.5"/><circle cx="15.5" cy="15.5" r="1.5"/></svg></span>
         <span>Stability (Bootstraps)</span>
       </button>
       <button onclick="switchTab('tab-leverage')" id="nav-tab-leverage" class="nav-btn">
-        <span class="nav-icon">⚖️</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="3" x2="12" y2="21"/><path d="M3 9l9-6 9 6"/><path d="M6 13l-3 6h6l-3-6"/><path d="M18 13l-3 6h6l-3-6"/></svg></span>
         <span>Leverage &amp; Calibration</span>
       </button>
 
       <button onclick="switchTab('tab-audit')" id="nav-tab-audit" class="nav-btn">
-        <span class="nav-icon">🔍</span>
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>
         <span>Source Audit Console</span>
       </button>
     </aside>
@@ -4013,16 +4526,16 @@ section[style*="background: #F8FAFC"] {
           </p>
           <div class="dugout-hero-btns">
             <button class="btn-hero-primary" onclick="switchTab('tab-3d-playground')">
-              <span>🌐 Launch 3D Data Universe</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg><span>Launch 3D Data Universe</span>
             </button>
             <button class="btn-hero-secondary" onclick="switchTab('tab-leaderboards')">
-              <span>🏆 View Verified Top 10 Leaderboards</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M6 2h12v7a6 6 0 0 1-12 0V2z"/></svg><span>Top 10 Leaderboards</span>
             </button>
             <button class="btn-hero-secondary" onclick="switchTab('tab-tactics')">
-              <span>🎯 Dugout Tactical Splits</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg><span>Tactical Splits</span>
             </button>
             <button class="btn-hero-secondary" onclick="openAuctionValuationConsole()">
-              <span>🏰 RR Squad Pressure Audit</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg><span>Squad Pressure Audit</span>
             </button>
           </div>
         </div>
@@ -4033,7 +4546,7 @@ section[style*="background: #F8FAFC"] {
           <div style="background: linear-gradient(135deg, #091A33 0%, #0D2447 100%); border: 1px solid rgba(229, 0, 125, 0.3); border-radius: 12px; padding: 18px 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.3);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
               <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 18px;">🏏</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF85C0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2l4 4-14 14-4-4L18 2z"/><line x1="15" y1="5" x2="19" y2="9"/></svg>
                 <span style="font-weight: 800; font-size: 14px; color: #FFFFFF; letter-spacing: -0.01em;">Top Pressure Batters</span>
                 <span style="background: rgba(229,0,125,0.25); color: #FFB3D9; font-size: 10px; font-family: var(--font-mono); padding: 2px 6px; border-radius: 4px; font-weight: 700;">OFFICIAL TOP 3</span>
               </div>
@@ -4088,7 +4601,7 @@ section[style*="background: #F8FAFC"] {
           <div style="background: linear-gradient(135deg, #091A33 0%, #0D2447 100%); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 18px 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.3);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
               <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 18px;">🎯</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
                 <span style="font-weight: 800; font-size: 14px; color: #FFFFFF; letter-spacing: -0.01em;">Top Pressure Bowlers</span>
                 <span style="background: rgba(56, 189, 248, 0.2); color: #7DD3FC; font-size: 10px; font-family: var(--font-mono); padding: 2px 6px; border-radius: 4px; font-weight: 700;">OFFICIAL TOP 3</span>
               </div>
@@ -16766,23 +17279,23 @@ window.SEASON_SIM_STATE = SEASON_SIM_STATE;
   <!-- NATIVE MOBILE APP BOTTOM NAVIGATION BAR -->
   <nav class="mobile-bottom-bar no-print" id="mobile-app-bottom-bar">
     <button class="mobile-tab-btn active" id="mob-tab-summary" onclick="mobileSwitchTab('tab-summary')">
-      <span class="mob-icon">📊</span>
+      <span class="mob-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
       <span class="mob-label">Overview</span>
     </button>
     <button class="mobile-tab-btn" id="mob-tab-leaderboards" onclick="mobileSwitchTab('tab-leaderboards')">
-      <span class="mob-icon">🏆</span>
+      <span class="mob-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M6 2h12v7a6 6 0 0 1-12 0V2z"/></svg></span>
       <span class="mob-label">Top 10</span>
     </button>
     <button class="mobile-tab-btn" id="mob-tab-tactical" onclick="openMobileTacticalSheet()">
-      <span class="mob-icon">⚡</span>
+      <span class="mob-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
       <span class="mob-label">Tactical</span>
     </button>
     <button class="mobile-tab-btn" id="mob-tab-3d" onclick="mobileSwitchTab('tab-3d-playground')">
-      <span class="mob-icon">🌐</span>
+      <span class="mob-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span>
       <span class="mob-label">3D Space</span>
     </button>
     <button class="mobile-tab-btn" id="mob-tab-menu" onclick="toggleMobileSheet()">
-      <span class="mob-icon">☰</span>
+      <span class="mob-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></span>
       <span class="mob-label">Modules</span>
     </button>
   </nav>
