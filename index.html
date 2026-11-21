@@ -4533,6 +4533,13 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                   <div class="dropdown-item-desc">Real-Time Win Probability (WPA) &amp; Instant Leverage Index (LI)</div>
                 </div>
               </a>
+              <a href="javascript:void(0)" onclick="switchTab('tab-super-over'); closeTacticalDropdown();" class="dropdown-item">
+                <div class="dropdown-item-icon" style="background: rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.2);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F87171" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Super Over Clutch Decider &amp; Solver <span class="engine-badge-new">NEW</span></div>
+                  <div class="dropdown-item-desc">6-Ball Tied Match Monte Carlo Engine &amp; 3-Player Nomination Solver</div>
+                </div>
+              </a>
               <a href="javascript:void(0)" onclick="openAuctionValuationConsole(); closeTacticalDropdown();" class="dropdown-item">
                 <div class="dropdown-item-icon" style="background: rgba(229,0,125,0.12); border-color: rgba(229,0,125,0.2);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF85C0" stroke-width="2.5" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
                 <div class="dropdown-item-content">
@@ -4743,6 +4750,13 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
         <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
           <span>Live In-Play Tracker</span>
           <span style="background: rgba(56, 189, 248, 0.2); color: #7DD3FC; font-size: 8px; font-weight: 800; padding: 1px 4px; border-radius: 3px; font-family: var(--font-mono);">LIVE</span>
+        </span>
+      </button>
+      <button onclick="switchTab('tab-super-over')" id="nav-tab-super-over" class="nav-btn">
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+        <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+          <span>Super Over Solver</span>
+          <span style="background: rgba(239, 68, 68, 0.2); color: #FCA5A5; font-size: 8px; font-weight: 800; padding: 1px 4px; border-radius: 3px; font-family: var(--font-mono);">SO</span>
         </span>
       </button>
       <button onclick="switchTab('tab-defense')" id="nav-tab-defense" class="nav-btn">
@@ -8736,6 +8750,33 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
         <div id="live-tracker-container"></div>
       </section>
 
+      <!-- TAB: SUPER OVER CLUTCH DECIDER & NOMINATION SOLVER (Part F3) -->
+      <section id="tab-super-over" class="tab-pane">
+        <!-- Header Card -->
+        <div class="card" style="margin-bottom: 16px;">
+          <div class="card-header" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 12px;">
+              <div>
+                <div class="card-title">
+                  <span class="card-title-prefix">Part F3:</span> Super Over Clutch Decider &amp; 3-Player Nomination Solver
+                </div>
+                <div class="card-subtitle">
+                  10,000-iteration Monte Carlo tied match simulation engine (6 balls, 2 wickets) evaluating empirical clutch distributions to solve optimal bowler and batter nominations.
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button onclick="runSuperOverSimulation()" class="btn-header-action" style="background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); color: #FCA5A5; font-weight: 700; font-size: 11px; padding: 6px 12px;">
+                  ⚡ Run 10,000 Monte Carlo Sims
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Container for Super Over Engine -->
+        <div id="super-over-container"></div>
+      </section>
+
       <!-- TAB 10: TOP-1 RECOMMENDATION & DECISION MATRIX -->
             <!-- TAB 10: TOP-1 RECOMMENDATION & DECISION MATRIX (Part D2 & D3) -->
       <section id="tab-top1" class="tab-pane">
@@ -12087,7 +12128,7 @@ function switchTab(rawTabId) {
   if (!mobBtn && (tabId === 'tab-3d-playground' || rawTabId === '3d-playground')) {
     mobBtn = document.getElementById('mob-tab-3d');
   }
-  if (!mobBtn && ['tab-field-optimizer', 'tab-impact-sub', 'tab-season-sim', 'tab-international', 'tab-clash', 'tab-live-tracker', 'tab-auction', 'tab-defense', 'tab-chase-sim', 'tab-duel', 'tab-tactics'].includes(tabId)) {
+  if (!mobBtn && ['tab-field-optimizer', 'tab-impact-sub', 'tab-season-sim', 'tab-international', 'tab-clash', 'tab-live-tracker', 'tab-super-over', 'tab-auction', 'tab-defense', 'tab-chase-sim', 'tab-duel', 'tab-tactics'].includes(tabId)) {
     mobBtn = document.getElementById('mob-tab-tactical');
   }
   if (mobBtn) mobBtn.classList.add('active');
@@ -12132,6 +12173,7 @@ function switchTab(rawTabId) {
     else if (tabId === 'tab-international') renderInternationalTab();
     else if (tabId === 'tab-clash') renderClashTab();
     else if (tabId === 'tab-live-tracker') renderLiveTrackerTab();
+    else if (tabId === 'tab-super-over') renderSuperOverTab();
     else if (tabId === 'tab-auction') {
       renderAuctionSection();
       initAuctionSimulator();
@@ -22352,6 +22394,28 @@ window.adjTrackerBall = adjTrackerBall;
 window.adjTrackerOvers = adjTrackerOvers;
 window.applyTrackerPreset = applyTrackerPreset;
 
+/* ══════════════════════════════════════════════════════════════════════════════
+   PART F3: SUPER OVER CLUTCH DECIDER & 3-PLAYER NOMINATION SOLVER
+   ══════════════════════════════════════════════════════════════════════════════ */
+function renderSuperOverTab() {
+  const container = document.getElementById('super-over-container');
+  if (!container) return;
+  if (!window.SUPER_OVER_STATE) {
+    initSuperOverEngine();
+  }
+}
+
+function initSuperOverEngine() {
+  // To be populated in next commit
+}
+
+function runSuperOverSimulation() {
+  // To be populated in next commit
+}
+
+window.renderSuperOverTab = renderSuperOverTab;
+window.initSuperOverEngine = initSuperOverEngine;
+window.runSuperOverSimulation = runSuperOverSimulation;
 
 </script>
 
@@ -22456,6 +22520,14 @@ window.applyTrackerPreset = applyTrackerPreset;
         <div class="mob-item-text">
           <div class="mob-item-title">Live In-Play Dugout Tracker <span class="badge-mini">NEW</span></div>
           <div class="mob-item-desc">Real-Time WPA &amp; Instantaneous Leverage Index (LI)</div>
+        </div>
+      </button>
+
+      <button class="mobile-sheet-item tactical-highlight" onclick="mobileSwitchTab('tab-super-over')">
+        <div class="mob-item-icon" style="background: rgba(239, 68, 68, 0.15); color: #F87171;">🎯</div>
+        <div class="mob-item-text">
+          <div class="mob-item-title">Super Over Clutch Decider <span class="badge-mini">NEW</span></div>
+          <div class="mob-item-desc">10,000-Sim Tied Match Engine &amp; 3-Player Solver</div>
         </div>
       </button>
 
