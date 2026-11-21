@@ -21927,25 +21927,209 @@ window.selectClashOpponent = selectClashOpponent;
 /* ══════════════════════════════════════════════════════════════════════════════
    PART F2: LIVE IN-PLAY DUGOUT IPAD TRACKER (WPA & LEVERAGE CONSOLE)
    ══════════════════════════════════════════════════════════════════════════════ */
+const LIVE_TRACKER_STATE = {
+  target: 185,
+  runs: 152,
+  wickets: 4,
+  overs: 17,
+  ballsInOver: 2,
+  striker: 'Sanju Samson',
+  bowler: 'Matheesha Pathirana',
+  preset: 'Tight Death Chase (18 off 12)'
+};
+
 function renderLiveTrackerTab() {
   const container = document.getElementById('live-tracker-container');
   if (!container) return;
-  if (!window.LIVE_TRACKER_STATE) {
-    initLiveTrackerEngine();
-  }
+  renderLiveTrackerEngineView();
 }
 
 function initLiveTrackerEngine() {
-  // To be populated in next commit
+  renderLiveTrackerEngineView();
 }
 
 function resetLiveTrackerState() {
-  // Stub
+  LIVE_TRACKER_STATE.target = 185;
+  LIVE_TRACKER_STATE.runs = 152;
+  LIVE_TRACKER_STATE.wickets = 4;
+  LIVE_TRACKER_STATE.overs = 17;
+  LIVE_TRACKER_STATE.ballsInOver = 2;
+  LIVE_TRACKER_STATE.striker = 'Sanju Samson';
+  LIVE_TRACKER_STATE.bowler = 'Matheesha Pathirana';
+  LIVE_TRACKER_STATE.preset = 'Tight Death Chase (18 off 12)';
+  renderLiveTrackerEngineView();
 }
 
+function adjTrackerRuns(delta) {
+  LIVE_TRACKER_STATE.runs = Math.max(0, Math.min(LIVE_TRACKER_STATE.target + 10, LIVE_TRACKER_STATE.runs + delta));
+  renderLiveTrackerEngineView();
+}
+
+function adjTrackerWickets(delta) {
+  LIVE_TRACKER_STATE.wickets = Math.max(0, Math.min(10, LIVE_TRACKER_STATE.wickets + delta));
+  renderLiveTrackerEngineView();
+}
+
+function adjTrackerBall(runsOnBall, isWicket) {
+  if (isWicket) {
+    LIVE_TRACKER_STATE.wickets = Math.min(10, LIVE_TRACKER_STATE.wickets + 1);
+  }
+  LIVE_TRACKER_STATE.runs = Math.max(0, LIVE_TRACKER_STATE.runs + runsOnBall);
+  
+  let totalBalls = LIVE_TRACKER_STATE.overs * 6 + LIVE_TRACKER_STATE.ballsInOver + 1;
+  if (totalBalls > 120) totalBalls = 120;
+  LIVE_TRACKER_STATE.overs = Math.floor(totalBalls / 6);
+  LIVE_TRACKER_STATE.ballsInOver = totalBalls % 6;
+
+  renderLiveTrackerEngineView();
+}
+
+function adjTrackerOvers(delta) {
+  LIVE_TRACKER_STATE.overs = Math.max(0, Math.min(19, LIVE_TRACKER_STATE.overs + delta));
+  renderLiveTrackerEngineView();
+}
+
+function applyTrackerPreset(preset) {
+  if (preset === 'death') {
+    LIVE_TRACKER_STATE.target = 185;
+    LIVE_TRACKER_STATE.runs = 168;
+    LIVE_TRACKER_STATE.wickets = 4;
+    LIVE_TRACKER_STATE.overs = 18;
+    LIVE_TRACKER_STATE.ballsInOver = 0;
+    LIVE_TRACKER_STATE.striker = 'Sanju Samson';
+    LIVE_TRACKER_STATE.bowler = 'Matheesha Pathirana';
+    LIVE_TRACKER_STATE.preset = 'Tight Death Chase (17 needed off 12)';
+  } else if (preset === 'middle') {
+    LIVE_TRACKER_STATE.target = 190;
+    LIVE_TRACKER_STATE.runs = 105;
+    LIVE_TRACKER_STATE.wickets = 3;
+    LIVE_TRACKER_STATE.overs = 12;
+    LIVE_TRACKER_STATE.ballsInOver = 0;
+    LIVE_TRACKER_STATE.striker = 'Riyan Parag';
+    LIVE_TRACKER_STATE.bowler = 'Sunil Narine';
+    LIVE_TRACKER_STATE.preset = 'Middle Squeeze (85 needed off 48)';
+  } else if (preset === 'powerplay') {
+    LIVE_TRACKER_STATE.target = 205;
+    LIVE_TRACKER_STATE.runs = 44;
+    LIVE_TRACKER_STATE.wickets = 1;
+    LIVE_TRACKER_STATE.overs = 4;
+    LIVE_TRACKER_STATE.ballsInOver = 3;
+    LIVE_TRACKER_STATE.striker = 'Yashasvi Jaiswal';
+    LIVE_TRACKER_STATE.bowler = 'Pat Cummins';
+    LIVE_TRACKER_STATE.preset = 'Powerplay Blitzkrieg (Chasing 205)';
+  } else if (preset === 'finalover') {
+    LIVE_TRACKER_STATE.target = 175;
+    LIVE_TRACKER_STATE.runs = 164;
+    LIVE_TRACKER_STATE.wickets = 6;
+    LIVE_TRACKER_STATE.overs = 19;
+    LIVE_TRACKER_STATE.ballsInOver = 0;
+    LIVE_TRACKER_STATE.striker = 'Shimron Hetmyer';
+    LIVE_TRACKER_STATE.bowler = 'Arshdeep Singh';
+    LIVE_TRACKER_STATE.preset = 'High-Stakes Final Over (11 needed off 6)';
+  }
+  renderLiveTrackerEngineView();
+}
+
+function renderLiveTrackerEngineView() {
+  const container = document.getElementById('live-tracker-container');
+  if (!container) return;
+
+  const totalBallsBowled = LIVE_TRACKER_STATE.overs * 6 + LIVE_TRACKER_STATE.ballsInOver;
+  const ballsRemaining = Math.max(0, 120 - totalBallsBowled);
+  const runsNeeded = Math.max(0, LIVE_TRACKER_STATE.target - LIVE_TRACKER_STATE.runs);
+  const oversCompleted = LIVE_TRACKER_STATE.overs + (LIVE_TRACKER_STATE.ballsInOver / 6);
+  const crr = oversCompleted > 0 ? (LIVE_TRACKER_STATE.runs / oversCompleted).toFixed(2) : '0.00';
+  const rrr = ballsRemaining > 0 ? ((runsNeeded / ballsRemaining) * 6).toFixed(2) : (runsNeeded === 0 ? '0.00' : '99.99');
+
+  container.innerHTML = `
+    <!-- SCENARIO PRESETS BAR -->
+    <div class="card" style="margin-bottom: 16px; padding: 12px 16px;">
+      <div style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+        <span>Quick Tactical Scenario Presets (Live Dugout Emulation)</span>
+        <span style="color: #38BDF8; font-family: var(--font-mono); font-size: 10px; font-weight: 800;">ACTIVE: ${LIVE_TRACKER_STATE.preset}</span>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button onclick="applyTrackerPreset('death')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Death') ? 'active' : ''}" style="font-size: 11px;">⚡ Death Squeeze (17 off 12)</button>
+        <button onclick="applyTrackerPreset('middle')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Middle') ? 'active' : ''}" style="font-size: 11px;">🔄 Middle Squeeze (85 off 48)</button>
+        <button onclick="applyTrackerPreset('powerplay')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Powerplay') ? 'active' : ''}" style="font-size: 11px;">🚀 Powerplay Launch (44/1)</button>
+        <button onclick="applyTrackerPreset('finalover')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Final') ? 'active' : ''}" style="font-size: 11px; border-color: var(--rr-pink); color: #FF85C0;">🔥 Final Over (11 off 6)</button>
+      </div>
+    </div>
+
+    <!-- MAIN LIVE SCOREBOARD TELEMETRY DISPLAY -->
+    <div class="card" style="margin-bottom: 16px; background: linear-gradient(135deg, #07152B 0%, #0D2347 100%); border: 1px solid rgba(56, 189, 248, 0.35);">
+      <div style="padding: 18px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08);">
+        <div>
+          <div style="font-size: 10px; font-family: var(--font-mono); color: #94A3B8; text-transform: uppercase;">CURRENT SCORE</div>
+          <div style="font-size: 32px; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono);">${LIVE_TRACKER_STATE.runs} / <span style="color: var(--rr-pink);">${LIVE_TRACKER_STATE.wickets}</span></div>
+          <div style="font-size: 11px; color: #94A3B8;">Overs: <strong style="color: #FFFFFF;">${LIVE_TRACKER_STATE.overs}.${LIVE_TRACKER_STATE.ballsInOver}</strong> (120 Max)</div>
+        </div>
+        <div>
+          <div style="font-size: 10px; font-family: var(--font-mono); color: #94A3B8; text-transform: uppercase;">TARGET SCORE</div>
+          <div style="font-size: 32px; font-weight: 900; color: #38BDF8; font-family: var(--font-mono);">${LIVE_TRACKER_STATE.target}</div>
+          <div style="font-size: 11px; color: #94A3B8;">Par Score Jaipur: <strong>182.4</strong></div>
+        </div>
+        <div>
+          <div style="font-size: 10px; font-family: var(--font-mono); color: #94A3B8; text-transform: uppercase;">RUNS NEEDED</div>
+          <div style="font-size: 32px; font-weight: 900; color: ${runsNeeded <= 20 ? '#34D399' : '#FBBF24'}; font-family: var(--font-mono);">${runsNeeded}</div>
+          <div style="font-size: 11px; color: #94A3B8;">Off <strong style="color: #FFFFFF;">${ballsRemaining}</strong> Balls</div>
+        </div>
+        <div>
+          <div style="font-size: 10px; font-family: var(--font-mono); color: #94A3B8; text-transform: uppercase;">REQ RUN RATE (RRR)</div>
+          <div style="font-size: 32px; font-weight: 900; color: ${parseFloat(rrr) > 12 ? '#EF4444' : parseFloat(rrr) > 9 ? '#FBBF24' : '#34D399'}; font-family: var(--font-mono);">${rrr}</div>
+          <div style="font-size: 11px; color: #94A3B8;">Current (CRR): <strong style="color: #FFFFFF;">${crr}</strong></div>
+        </div>
+      </div>
+
+      <!-- IN-PLAY RAPID BALL & RUN CONTROLLER (TOUCH STEPPERS) -->
+      <div style="padding: 16px 20px; background: rgba(0,0,0,0.25); display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: center;">
+        
+        <!-- BALL EVENT DISPATCHER -->
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+          <span style="font-size: 10.5px; font-weight: 800; color: #94A3B8; font-family: var(--font-mono); text-transform: uppercase;">+ Next Ball:</span>
+          <button onclick="adjTrackerBall(0, false)" class="toggle-btn" style="padding: 6px 12px; font-weight: 800; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); color: #FFFFFF;">0 (Dot)</button>
+          <button onclick="adjTrackerBall(1, false)" class="toggle-btn" style="padding: 6px 12px; font-weight: 800; background: rgba(56,189,248,0.15); border-color: #38BDF8; color: #7DD3FC;">+1</button>
+          <button onclick="adjTrackerBall(2, false)" class="toggle-btn" style="padding: 6px 12px; font-weight: 800; background: rgba(56,189,248,0.15); border-color: #38BDF8; color: #7DD3FC;">+2</button>
+          <button onclick="adjTrackerBall(4, false)" class="toggle-btn" style="padding: 6px 12px; font-weight: 800; background: rgba(52,211,153,0.15); border-color: #34D399; color: #6EE7B7;">+4 (FOUR)</button>
+          <button onclick="adjTrackerBall(6, false)" class="toggle-btn" style="padding: 6px 12px; font-weight: 800; background: rgba(245,158,11,0.15); border-color: #F59E0B; color: #FDE68A;">+6 (SIX)</button>
+          <button onclick="adjTrackerBall(0, true)" class="toggle-btn" style="padding: 6px 12px; font-weight: 800; background: rgba(239,68,68,0.18); border-color: #EF4444; color: #FCA5A5;">W (Wicket)</button>
+        </div>
+
+        <!-- FINE STEPPERS -->
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+          <div style="display: flex; align-items: center; gap: 4px; background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 2px 6px;">
+            <span style="font-size: 10px; color: #94A3B8; font-family: var(--font-mono);">RUNS:</span>
+            <button onclick="adjTrackerRuns(-1)" style="background: transparent; border: none; color: #94A3B8; cursor: pointer; padding: 2px 6px; font-weight: 800;">-</button>
+            <strong style="color: #FFF; font-family: var(--font-mono); font-size: 11px;">${LIVE_TRACKER_STATE.runs}</strong>
+            <button onclick="adjTrackerRuns(1)" style="background: transparent; border: none; color: #34D399; cursor: pointer; padding: 2px 6px; font-weight: 800;">+</button>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 4px; background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 2px 6px;">
+            <span style="font-size: 10px; color: #94A3B8; font-family: var(--font-mono);">WKTS:</span>
+            <button onclick="adjTrackerWickets(-1)" style="background: transparent; border: none; color: #94A3B8; cursor: pointer; padding: 2px 6px; font-weight: 800;">-</button>
+            <strong style="color: #FFF; font-family: var(--font-mono); font-size: 11px;">${LIVE_TRACKER_STATE.wickets}</strong>
+            <button onclick="adjTrackerWickets(1)" style="background: transparent; border: none; color: var(--rr-pink); cursor: pointer; padding: 2px 6px; font-weight: 800;">+</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WPA & LEVERAGE CONTAINER (EXPANDED IN COMMIT 7) -->
+    <div id="live-tracker-analytics-container"></div>
+  `;
+}
+
+window.LIVE_TRACKER_STATE = LIVE_TRACKER_STATE;
 window.renderLiveTrackerTab = renderLiveTrackerTab;
 window.initLiveTrackerEngine = initLiveTrackerEngine;
 window.resetLiveTrackerState = resetLiveTrackerState;
+window.adjTrackerRuns = adjTrackerRuns;
+window.adjTrackerWickets = adjTrackerWickets;
+window.adjTrackerBall = adjTrackerBall;
+window.adjTrackerOvers = adjTrackerOvers;
+window.applyTrackerPreset = applyTrackerPreset;
+
 
 </script>
 
