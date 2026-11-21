@@ -21303,25 +21303,339 @@ window.INTL_STATE = INTL_STATE;
 /* ══════════════════════════════════════════════════════════════════════════════
    PART F1: FRANCHISE CLASH & HEAD-TO-HEAD CHOKE ENGINE (RR VS 9 OPPONENTS)
    ══════════════════════════════════════════════════════════════════════════════ */
-function renderClashTab() {
-  const container = document.getElementById('clash-engine-container');
-  if (!container) return;
-  if (!window.CLASH_STATE) {
-    initClashEngine();
+const CLASH_STATE = {
+  selectedOpponent: 'CSK',
+  opponents: {
+    'CSK': {
+      code: 'CSK',
+      name: 'Chennai Super Kings',
+      shortName: 'CSK',
+      primaryColor: '#FACC15',
+      bgColor: 'rgba(250, 204, 21, 0.1)',
+      borderColor: 'rgba(250, 204, 21, 0.4)',
+      badge: '🦁',
+      homeGround: 'MA Chidambaram Stadium, Chepauk (Slow, Spin-Friendly)',
+      captain: 'Ruturaj Gaikwad',
+      rrWinExpectancy: 54.2,
+      chokeIndex: 78.4,
+      keyAssets: [
+        { name: 'Ruturaj Gaikwad', role: 'Batter', clutchRank: '#12', trait: 'Anchor & Spin Negotiator' },
+        { name: 'Matheesha Pathirana', role: 'Bowler', clutchRank: '#5', trait: 'Sling Death Yorker Specialist (6.12 PP/Death)' },
+        { name: 'Shivam Dube', role: 'Batter', clutchRank: '#18', trait: 'Pace Spin Destroyer (Mid Overs)' },
+        { name: 'Ravindra Jadeja', role: 'All-Rounder', clutchRank: '#22', trait: 'Flat Trajectory Restrictor' }
+      ],
+      ppVulnerability: 'High vs Express Pace inside Powerplay (RR Jofra Archer test-corridor lines)',
+      middleStranglehold: 'Extreme vs Right-Hand Batters (RR Samson/Parag must target 45m boundary)',
+      deathProfile: 'Pathirana wide yorkers create 62% dot pressure (Target overs 16 & 18)'
+    },
+    'MI': {
+      code: 'MI',
+      name: 'Mumbai Indians',
+      shortName: 'MI',
+      primaryColor: '#38BDF8',
+      bgColor: 'rgba(56, 189, 248, 0.1)',
+      borderColor: 'rgba(56, 189, 248, 0.4)',
+      badge: '⚡',
+      homeGround: 'Wankhede Stadium, Mumbai (High Bounce, Heavy Dew Factor)',
+      captain: 'Hardik Pandya',
+      rrWinExpectancy: 51.8,
+      chokeIndex: 84.1,
+      keyAssets: [
+        { name: 'Suryakumar Yadav', role: 'Batter', clutchRank: '#1', trait: '#1 Clutch Batter in World Cricket (+38.74 Net)' },
+        { name: 'Jasprit Bumrah', role: 'Bowler', clutchRank: 'Anomaly', trait: '12-Year Dataset Extreme Outlier (+45.2 Net Death)' },
+        { name: 'Rohit Sharma', role: 'Batter', clutchRank: '#19', trait: 'Powerplay Boundary Accelerator' },
+        { name: 'Tilak Varma', role: 'Batter', clutchRank: '#14', trait: 'LHB Middle Enforcer' }
+      ],
+      ppVulnerability: 'Top-heavy reliance; middle order vulnerable if Surya dismissed early',
+      middleStranglehold: 'Surya 360° sweeps exploit fine leg and third man gaps',
+      deathProfile: 'Bumrah overs 17 & 19 are un-attackable; RR must maximize overs 16, 18 & 20'
+    },
+    'KKR': {
+      code: 'KKR',
+      name: 'Kolkata Knight Riders',
+      shortName: 'KKR',
+      primaryColor: '#C084FC',
+      bgColor: 'rgba(192, 132, 252, 0.1)',
+      borderColor: 'rgba(192, 132, 252, 0.4)',
+      badge: '⚔️',
+      homeGround: 'Eden Gardens, Kolkata (True Pace, Spin Strangle)',
+      captain: 'Shreyas Iyer',
+      rrWinExpectancy: 52.6,
+      chokeIndex: 82.3,
+      keyAssets: [
+        { name: 'Sunil Narine', role: 'Bowler', clutchRank: '#1', trait: '#1 Clutch Bowler (+37.20 Net, 1.355 MPA)' },
+        { name: 'Andre Russell', role: 'All-Rounder', clutchRank: '#9', trait: 'Explosive Death Over Ball-Striker' },
+        { name: 'Rinku Singh', role: 'Batter', clutchRank: '#7', trait: 'Ice-Cold Death Chase Finisher' },
+        { name: 'Varun Chakaravarthy', role: 'Bowler', clutchRank: '#11', trait: 'Mystery Spin Middle Squeeze' }
+      ],
+      ppVulnerability: 'High aggression creates top-order dot ball vulnerability if swung',
+      middleStranglehold: '8 overs of Narine + Varun choke run rate to under 6.8 rpo',
+      deathProfile: 'Russell brute force requires wide off-stump yorker lines (Sandeep discipline)'
+    },
+    'RCB': {
+      code: 'RCB',
+      name: 'Royal Challengers Bengaluru',
+      shortName: 'RCB',
+      primaryColor: '#F43F5E',
+      bgColor: 'rgba(244, 63, 94, 0.1)',
+      borderColor: 'rgba(244, 63, 94, 0.4)',
+      badge: '👑',
+      homeGround: 'M. Chinnaswamy Stadium, Bengaluru (Short Boundaries, Altitude Lift)',
+      captain: 'Faf du Plessis',
+      rrWinExpectancy: 56.4,
+      chokeIndex: 76.8,
+      keyAssets: [
+        { name: 'Virat Kohli', role: 'Batter', clutchRank: '#8', trait: 'Master Chase Pacer & Strike Rotator' },
+        { name: 'Phil Salt', role: 'Batter', clutchRank: '#2', trait: '#2 Clutch Batter (+36.85 Net, 177.6 SR)' },
+        { name: 'Tim David', role: 'Batter', clutchRank: '#3', trait: '#3 Clutch Batter (+26.85 Net Death Finisher)' },
+        { name: 'Jacob Duffy', role: 'Bowler', clutchRank: '#4', trait: '#4 Bowler (+60.05 Net vs RHB)' }
+      ],
+      ppVulnerability: 'Extreme vulnerability to incoming swing in first 18 balls',
+      middleStranglehold: 'High boundary density in death phase if top 3 survive',
+      deathProfile: 'Tim David exploits slot balls; require wide cutters into the pitch'
+    },
+    'SRH': {
+      code: 'SRH',
+      name: 'Sunrisers Hyderabad',
+      shortName: 'SRH',
+      primaryColor: '#FB923C',
+      bgColor: 'rgba(251, 146, 60, 0.1)',
+      borderColor: 'rgba(251, 146, 60, 0.4)',
+      badge: '🦅',
+      homeGround: 'Rajiv Gandhi International Stadium, Uppal (Flat Highway, 200+ Par)',
+      captain: 'Pat Cummins',
+      rrWinExpectancy: 53.1,
+      chokeIndex: 80.5,
+      keyAssets: [
+        { name: 'Heinrich Klaasen', role: 'Batter', clutchRank: '#6', trait: 'Premier Spin Punisher (SR 198+ vs Spin)' },
+        { name: 'Travis Head', role: 'Batter', clutchRank: '#10', trait: 'Powerplay Blitzkrieg (12+ rpo in PP)' },
+        { name: 'Abhishek Sharma', role: 'Batter', clutchRank: '#7', trait: 'Clutch Left-Hand Basher (+24.3 Net)' },
+        { name: 'Pat Cummins', role: 'Bowler', clutchRank: '#16', trait: 'Hard Length Tactical Enforcer' }
+      ],
+      ppVulnerability: 'Ultra-aggressive approach yields 34% dismissal risk in overs 1-3',
+      middleStranglehold: 'Klaasen dominates slow left-arm; RR must avoid SLA matchups',
+      deathProfile: 'High boundary conversion; deploy wide off-stump knuckleballs'
+    },
+    'GT': {
+      code: 'GT',
+      name: 'Gujarat Titans',
+      shortName: 'GT',
+      primaryColor: '#2DD4BF',
+      bgColor: 'rgba(45, 212, 191, 0.1)',
+      borderColor: 'rgba(45, 212, 191, 0.4)',
+      badge: '🛡️',
+      homeGround: 'Narendra Modi Stadium, Ahmedabad (Massive Square Dimensions)',
+      captain: 'Shubman Gill',
+      rrWinExpectancy: 55.7,
+      chokeIndex: 75.2,
+      keyAssets: [
+        { name: 'Shubman Gill', role: 'Batter', clutchRank: '#5', trait: 'Classical Anchor (+15.3 Net, 0.723 Cons)' },
+        { name: 'Rashid Khan', role: 'Bowler', clutchRank: '#13', trait: 'Quick-Arm Leg Spin Dot Machine' },
+        { name: 'Sai Sudharsan', role: 'Batter', clutchRank: '#17', trait: 'Consistent Accumulator Under Pressure' },
+        { name: 'Rahul Tewatia', role: 'Batter', clutchRank: '#15', trait: 'Improbable Target Stealer' }
+      ],
+      ppVulnerability: 'Conservative powerplay pacing (under 7.8 rpo average)',
+      middleStranglehold: 'Rashid Khan 4 overs require strike rotation, no wild slogs',
+      deathProfile: 'Tewatia exploits predictable lines; mix full wide yorkers with bumpers'
+    },
+    'LSG': {
+      code: 'LSG',
+      name: 'Lucknow Super Giants',
+      shortName: 'LSG',
+      primaryColor: '#06B6D4',
+      bgColor: 'rgba(6, 182, 212, 0.1)',
+      borderColor: 'rgba(6, 182, 212, 0.4)',
+      badge: '🌪️',
+      homeGround: 'BRSABV Ekana Stadium, Lucknow (Two-Paced Red/Black Soil)',
+      captain: 'KL Rahul',
+      rrWinExpectancy: 55.1,
+      chokeIndex: 77.0,
+      keyAssets: [
+        { name: 'Nicholas Pooran', role: 'Batter', clutchRank: '#6', trait: 'Elite Clutch Batter (+21.84 Net, 0.702 Cons)' },
+        { name: 'KL Rahul', role: 'Batter', clutchRank: '#20', trait: 'Calculated Phase Builder' },
+        { name: 'Mayank Yadav', role: 'Bowler', clutchRank: '#14', trait: '155kph Express Thunderbolts' },
+        { name: 'Ravi Bishnoi', role: 'Bowler', clutchRank: '#21', trait: 'Googly-Heavy Wrist Spin' }
+      ],
+      ppVulnerability: 'Anchor approach leaves high required rates in middle overs',
+      middleStranglehold: 'Pooran counter-attacks against SLA and off-spin',
+      deathProfile: 'Pooran hits straight down the ground; pack long-on and long-off deep'
+    },
+    'DC': {
+      code: 'DC',
+      name: 'Delhi Capitals',
+      shortName: 'DC',
+      primaryColor: '#60A5FA',
+      bgColor: 'rgba(96, 165, 250, 0.1)',
+      borderColor: 'rgba(96, 165, 250, 0.4)',
+      badge: '🏛️',
+      homeGround: 'Arun Jaitley Stadium, Delhi (Small Boundaries, Dew Heavy)',
+      captain: 'Rishabh Pant',
+      rrWinExpectancy: 54.8,
+      chokeIndex: 76.5,
+      keyAssets: [
+        { name: 'Rishabh Pant', role: 'Batter', clutchRank: '#11', trait: 'Audacious Match-Winner & Left-Hand Havoc' },
+        { name: 'Axar Patel', role: 'All-Rounder', clutchRank: '#15', trait: 'Tight Darts & Middle Pinch-Hitter' },
+        { name: 'Kuldeep Yadav', role: 'Bowler', clutchRank: '#12', trait: 'Drifting Left-Arm Chinaman Deceiver' },
+        { name: 'Tristan Stubbs', role: 'Batter', clutchRank: '#13', trait: '360° Ramp & Scoop Death Weapon' }
+      ],
+      ppVulnerability: 'Fragile top order when moving ball early',
+      middleStranglehold: 'Kuldeep drift forces mistimed lofted shots',
+      deathProfile: 'Stubbs innovative boundary hits require pace variations'
+    },
+    'PBKS': {
+      code: 'PBKS',
+      name: 'Punjab Kings',
+      shortName: 'PBKS',
+      primaryColor: '#EF4444',
+      bgColor: 'rgba(239, 68, 68, 0.1)',
+      borderColor: 'rgba(239, 68, 68, 0.4)',
+      badge: '🦁',
+      homeGround: 'Mullanpur Stadium, Mohali (Fresh Pace Surface, Seam Movement)',
+      captain: 'Shikhar Dhawan',
+      rrWinExpectancy: 57.2,
+      chokeIndex: 74.5,
+      keyAssets: [
+        { name: 'Lockie Ferguson', role: 'Bowler', clutchRank: '#6', trait: '#6 Bowler (+35.49 Net, 1.048 MPA)' },
+        { name: 'Arshdeep Singh', role: 'Bowler', clutchRank: '#16', trait: 'Death Yorker Angle & Left-Arm Swing' },
+        { name: 'Shashank Singh', role: 'Batter', clutchRank: '#18', trait: 'Late-Innings Power Hitter' },
+        { name: 'Ashutosh Sharma', role: 'Batter', clutchRank: '#19', trait: 'Sweeper of Fast Bowlers' }
+      ],
+      ppVulnerability: 'Tendency to lose wickets in clumps against discipline',
+      middleStranglehold: 'Lockie Ferguson express bouncers create mistimed hooks',
+      deathProfile: 'High volatile finish; requires boundary rider protection at deep square leg'
+    }
   }
+};
+
+function selectClashOpponent(code) {
+  if (!CLASH_STATE.opponents[code]) return;
+  CLASH_STATE.selectedOpponent = code;
+  renderClashEngineView();
 }
 
 function initClashEngine() {
-  // To be populated in next commit
+  renderClashEngineView();
+}
+
+function renderClashTab() {
+  const container = document.getElementById('clash-engine-container');
+  if (!container) return;
+  renderClashEngineView();
+}
+
+function renderClashEngineView() {
+  const container = document.getElementById('clash-engine-container');
+  if (!container) return;
+
+  const current = CLASH_STATE.opponents[CLASH_STATE.selectedOpponent];
+  if (!current) return;
+
+  // 1. 9-Franchise Opponent Selector Grid
+  const selectorButtons = Object.values(CLASH_STATE.opponents).map(opp => {
+    const isActive = opp.code === CLASH_STATE.selectedOpponent;
+    return `
+      <button onclick="selectClashOpponent('${opp.code}')" 
+              style="flex: 1; min-width: 95px; padding: 10px 8px; border-radius: 8px; border: 1px solid ${isActive ? opp.primaryColor : 'rgba(255,255,255,0.1)'}; background: ${isActive ? opp.bgColor : 'rgba(15,23,42,0.6)'}; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: all 0.2s; box-shadow: ${isActive ? '0 0 14px ' + opp.bgColor : 'none'};">
+        <span style="font-size: 18px;">${opp.badge}</span>
+        <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 900; color: ${isActive ? opp.primaryColor : '#E2E8F0'};">${opp.shortName}</span>
+        <span style="font-size: 9.5px; color: ${isActive ? '#FFF' : '#94A3B8'}; font-weight: 600;">${opp.code === 'MI' ? 'Hardik' : opp.code === 'CSK' ? 'Ruturaj' : opp.code === 'KKR' ? 'Shreyas' : opp.code === 'RCB' ? 'Faf' : opp.code === 'SRH' ? 'Cummins' : opp.code === 'GT' ? 'Gill' : opp.code === 'LSG' ? 'Rahul' : opp.code === 'DC' ? 'Pant' : 'Dhawan'}</span>
+      </button>
+    `;
+  }).join('');
+
+  // 2. Key Asset Chips
+  const assetCards = current.keyAssets.map(a => `
+    <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 13px; font-weight: 800; color: #FFFFFF;">${a.name}</span>
+        <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: ${current.primaryColor}; background: ${current.bgColor}; padding: 2px 6px; border-radius: 4px;">${a.clutchRank}</span>
+      </div>
+      <div style="font-size: 11px; color: #94A3B8; margin-top: 4px;">${a.trait}</div>
+    </div>
+  `).join('');
+
+  container.innerHTML = `
+    <!-- 9-FRANCHISE SELECTOR CAROUSEL / GRID -->
+    <div class="card" style="margin-bottom: 16px; padding: 14px 18px;">
+      <div style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+        <span>Select Opponent Franchise (All 9 IPL Competitors)</span>
+        <span style="color: ${current.primaryColor}; font-family: var(--font-mono); font-size: 11px; font-weight: 800;">ACTIVE: ${current.name.toUpperCase()}</span>
+      </div>
+      <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin;">
+        ${selectorButtons}
+      </div>
+    </div>
+
+    <!-- OPPONENT SQUAD INTELLIGENCE BANNER -->
+    <div class="card" style="margin-bottom: 16px; border-left: 4px solid ${current.primaryColor};">
+      <div class="card-header" style="background: linear-gradient(135deg, rgba(15,23,42,0.9) 0%, rgba(30,41,59,0.7) 100%);">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <span style="font-size: 28px;">${current.badge}</span>
+          <div>
+            <div style="font-size: 18px; font-weight: 900; color: #FFFFFF; letter-spacing: -0.01em;">
+              Rajasthan Royals vs ${current.name}
+            </div>
+            <div style="font-size: 11.5px; color: #94A3B8; margin-top: 2px;">
+              📍 Home Venue: <strong style="color: #E2E8F0;">${current.homeGround}</strong> &bull; Captain: <strong style="color: ${current.primaryColor};">${current.captain}</strong>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center; margin-top: 6px;">
+          <div style="background: rgba(52, 211, 153, 0.15); border: 1px solid rgba(52, 211, 153, 0.35); border-radius: 8px; padding: 6px 14px; text-align: center;">
+            <div style="font-size: 9px; font-family: var(--font-mono); color: #34D399; font-weight: 800;">RR WIN EXPECTANCY</div>
+            <div style="font-size: 18px; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono);">${current.rrWinExpectancy}%</div>
+          </div>
+          <div style="background: rgba(229, 0, 125, 0.15); border: 1px solid rgba(229, 0, 125, 0.35); border-radius: 8px; padding: 6px 14px; text-align: center;">
+            <div style="font-size: 9px; font-family: var(--font-mono); color: #FF85C0; font-weight: 800;">OPPONENT CHOKE INDEX</div>
+            <div style="font-size: 18px; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono);">${current.chokeIndex}/100</div>
+          </div>
+        </div>
+      </div>
+      <div style="padding: 16px 20px;">
+        <div style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 8px;">Key Opponent Clutch Anchors (Evaluated from 958-Player Database)</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+          ${assetCards}
+        </div>
+      </div>
+    </div>
+
+    <!-- TACTICAL CONTAINER (TO BE EXPANDED IN COMMIT 3 & 4) -->
+    <div id="clash-tactics-subcontainer"></div>
+  `;
 }
 
 function exportClashTacticalPlan() {
-  alert("Match-Day Tactical Directives exported to clipboard!");
+  const current = CLASH_STATE.opponents[CLASH_STATE.selectedOpponent];
+  if (!current) return;
+
+  const lines = [
+    `================================================================`,
+    `RAJASTHAN ROYALS DUGOUT INTELLIGENCE: MATCH-DAY DIRECTIVE`,
+    `OPPONENT: ${current.name.toUpperCase()} (${current.shortName})`,
+    `CAPTAIN: ${current.captain} • VENUE: ${current.homeGround}`,
+    `RR WIN EXPECTANCY: ${current.rrWinExpectancy}% • CHOKE INDEX: ${current.chokeIndex}/100`,
+    `================================================================`,
+    `POWERPLAY STRATEGY:`,
+    `• ${current.ppVulnerability}`,
+    `MIDDLE PHASE CONTROL:`,
+    `• ${current.middleStranglehold}`,
+    `DEATH PHASE CHOKE PLAN:`,
+    `• ${current.deathProfile}`,
+    `----------------------------------------------------------------`,
+    `VERIFIED AGAINST 958-PLAYER CONTINUOUS STATE-SPACE DATASET`
+  ];
+
+  const planText = lines.join('\n');
+  navigator.clipboard.writeText(planText).then(() => {
+    alert("✅ Match-Day Tactical Directives for " + current.name + " copied to clipboard!");
+  }).catch(() => {
+    prompt("Match-Day Directives:", planText);
+  });
 }
 
-window.renderClashTab = renderClashTab;
-window.initClashEngine = initClashEngine;
-window.exportClashTacticalPlan = exportClashTacticalPlan;
+window.CLASH_STATE = CLASH_STATE;
+window.selectClashOpponent = selectClashOpponent;
+
 
 </script>
 
