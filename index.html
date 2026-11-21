@@ -22404,8 +22404,63 @@ const SUPER_OVER_STATE = {
   rrBatter1: 'Sanju Samson',
   rrBatter2: 'Yashasvi Jaiswal',
   rrBatter3: 'Shimron Hetmyer',
-  simResults: null
+  simResults: null,
+  liveSim: { rrBalls: [], rrScore: 0, rrWickets: 0, isFinished: false, verdict: '' }
 };
+
+function bowlNextSuperOverBall() {
+  if (!SUPER_OVER_STATE.liveSim) {
+    SUPER_OVER_STATE.liveSim = { rrBalls: [], rrScore: 0, rrWickets: 0, isFinished: false, verdict: '' };
+  }
+  const sim = SUPER_OVER_STATE.liveSim;
+  if (sim.isFinished || sim.rrBalls.length >= 6 || sim.rrWickets >= 2) {
+    replaySuperOverLiveSim();
+    return;
+  }
+
+  const outcomes = [
+    { runs: 0, isWicket: false, desc: 'Dot Ball (Wide Yorker nailed)' },
+    { runs: 1, isWicket: false, desc: 'Single to deep cover' },
+    { runs: 2, isWicket: false, desc: 'Pushed into gap for 2' },
+    { runs: 4, isWicket: false, desc: 'FOUR! Slashed through backward point' },
+    { runs: 6, isWicket: false, desc: 'SIX! Clears long-on boundary cleanly' },
+    { runs: 0, isWicket: true, desc: 'WICKET! Clean bowled by toe-crusher' }
+  ];
+
+  const rand = Math.random();
+  let selected = outcomes[0];
+  if (rand < 0.12) selected = outcomes[5]; // Wicket
+  else if (rand < 0.32) selected = outcomes[4]; // 6
+  else if (rand < 0.54) selected = outcomes[3]; // 4
+  else if (rand < 0.65) selected = outcomes[2]; // 2
+  else if (rand < 0.85) selected = outcomes[1]; // 1
+  else selected = outcomes[0]; // Dot
+
+  sim.rrBalls.push(selected);
+  sim.rrScore += selected.runs;
+  if (selected.isWicket) sim.rrWickets++;
+
+  if (sim.rrBalls.length >= 6 || sim.rrWickets >= 2) {
+    sim.isFinished = true;
+    const oppScoreTarget = Math.floor(10 + Math.random() * 8);
+    if (sim.rrScore > oppScoreTarget) {
+      sim.verdict = `🏆 RR Wins Super Over! Defended with Sandeep (+${sim.rrScore - oppScoreTarget} runs)`;
+    } else if (sim.rrScore < oppScoreTarget) {
+      sim.verdict = `Opponent chased down ${sim.rrScore} in 5.4 balls.`;
+    } else {
+      sim.verdict = `Match Tied! Proceeding to 2nd Super Over.`;
+    }
+  } else {
+    sim.verdict = `Ball ${sim.rrBalls.length}: ${selected.desc}`;
+  }
+
+  renderSuperOverEngineView();
+}
+
+function replaySuperOverLiveSim() {
+  SUPER_OVER_STATE.liveSim = { rrBalls: [], rrScore: 0, rrWickets: 0, isFinished: false, verdict: '' };
+  renderSuperOverEngineView();
+}
 
 function renderSuperOverTab() {
   const container = document.getElementById('super-over-container');
@@ -22684,8 +22739,72 @@ function renderSuperOverEngineView() {
         </div>
       </div>
 
-      <!-- LIVE 6-BALL PITCH SIMULATOR (EXPANDED IN COMMIT 12) -->
-      <div id="super-over-pitch-simulator-container"></div>
+      <!-- LIVE 6-BALL PITCH SIMULATOR -->
+      <div class="card" style="margin-bottom: 16px; border-top: 3px solid #38BDF8;">
+        <div class="card-header" style="justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <div class="card-title">
+              <span class="card-title-prefix">Live Replay:</span> 6-Ball Interactive Super Over Duel
+            </div>
+            <div class="card-subtitle">
+              Simulate delivery-by-delivery execution between RR's Trio and ${SUPER_OVER_STATE.opponentBowler}.
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button onclick="bowlNextSuperOverBall()" class="btn-header-action" style="background: rgba(56, 189, 248, 0.15); border-color: #38BDF8; color: #7DD3FC; font-weight: 800; font-size: 11px; padding: 6px 14px;">
+              ⚡ Bowl Next Ball (${SUPER_OVER_STATE.liveSim ? SUPER_OVER_STATE.liveSim.rrBalls.length + 1 : 1}/6)
+            </button>
+            <button onclick="replaySuperOverLiveSim()" class="btn-header-action" style="background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); color: #E2E8F0; font-size: 11px; padding: 6px 12px;">
+              ↺ Reset Replay
+            </button>
+          </div>
+        </div>
+
+        <div style="padding: 18px 20px;">
+          <!-- 6-BALL TRAJECTORY STRIP -->
+          <div style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 10px;">
+            Innings 1: Rajasthan Royals Batting (vs ${SUPER_OVER_STATE.opponentBowler})
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;">
+            ${[0, 1, 2, 3, 4, 5].map(i => {
+              const b = SUPER_OVER_STATE.liveSim && SUPER_OVER_STATE.liveSim.rrBalls[i];
+              if (!b) {
+                return `
+                  <div style="flex: 1; min-width: 48px; height: 58px; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.12); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <span style="font-size: 9px; font-family: var(--font-mono); color: #64748B;">B${i+1}</span>
+                    <span style="font-size: 11px; color: #475569;">—</span>
+                  </div>
+                `;
+              }
+              const isWkt = b.isWicket;
+              const isBoundary = b.runs >= 4;
+              return `
+                <div style="flex: 1; min-width: 48px; height: 58px; background: ${isWkt ? 'rgba(239,68,68,0.2)' : isBoundary ? 'rgba(52,211,153,0.2)' : 'rgba(56,189,248,0.15)'}; border: 1px solid ${isWkt ? '#EF4444' : isBoundary ? '#34D399' : '#38BDF8'}; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                  <span style="font-size: 9px; font-family: var(--font-mono); color: #94A3B8;">B${i+1}</span>
+                  <span style="font-size: 16px; font-weight: 900; color: ${isWkt ? '#F87171' : isBoundary ? '#34D399' : '#FFF'}; font-family: var(--font-mono);">${isWkt ? 'W' : '+' + b.runs}</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <!-- SUMMARY LIVE TEAMS STRIP -->
+          <div style="background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <span style="font-size: 11px; color: #94A3B8;">RR Score:</span>
+              <span style="font-size: 20px; font-weight: 900; color: #34D399; font-family: var(--font-mono); margin-left: 6px;">
+                ${SUPER_OVER_STATE.liveSim ? SUPER_OVER_STATE.liveSim.rrScore : 0} / ${SUPER_OVER_STATE.liveSim ? SUPER_OVER_STATE.liveSim.rrWickets : 0}
+              </span>
+              <span style="font-size: 11px; color: #64748B; margin-left: 4px;">(${SUPER_OVER_STATE.liveSim ? SUPER_OVER_STATE.liveSim.rrBalls.length : 0}/6 balls)</span>
+            </div>
+
+            <div style="font-size: 12px; font-weight: 800; color: ${SUPER_OVER_STATE.liveSim && SUPER_OVER_STATE.liveSim.isFinished ? '#34D399' : '#F59E0B'};">
+              ${SUPER_OVER_STATE.liveSim && SUPER_OVER_STATE.liveSim.verdict ? SUPER_OVER_STATE.liveSim.verdict : 'Click "Bowl Next Ball" to execute live simulation'}
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
   `;
 }
@@ -22694,6 +22813,8 @@ window.SUPER_OVER_STATE = SUPER_OVER_STATE;
 window.renderSuperOverTab = renderSuperOverTab;
 window.initSuperOverEngine = initSuperOverEngine;
 window.runSuperOverSimulation = runSuperOverSimulation;
+window.bowlNextSuperOverBall = bowlNextSuperOverBall;
+window.replaySuperOverLiveSim = replaySuperOverLiveSim;
 
 
 </script>
