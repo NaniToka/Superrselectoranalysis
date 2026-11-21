@@ -2994,22 +2994,24 @@ body {
   margin-bottom: 6px !important;
 }
 
-/* ── MAIN CANVAS ── */
-.main-canvas {
-  background: var(--surface-0) !important;
-  max-width: calc(100% - 210px) !important;
-  padding: 18px 22px 100px 22px !important;
-}
+/* ── MAIN CANVAS (Desktop) ── */
+@media (min-width: 768px) {
+  .main-canvas {
+    background: var(--surface-0) !important;
+    max-width: calc(100% - 210px) !important;
+    padding: 18px 22px 100px 22px !important;
+  }
 
-.app-layout.auto-fit-screen .main-canvas,
-.app-layout.sidebar-collapsed .main-canvas {
-  max-width: 100% !important;
-  padding: 18px 28px 100px 28px !important;
-}
+  .app-layout.auto-fit-screen .main-canvas,
+  .app-layout.sidebar-collapsed .main-canvas {
+    max-width: 100% !important;
+    padding: 18px 28px 100px 28px !important;
+  }
 
-.app-layout.auto-fit-screen .nav-rail,
-.app-layout.sidebar-collapsed .nav-rail {
-  width: 0 !important;
+  .app-layout.auto-fit-screen .nav-rail,
+  .app-layout.sidebar-collapsed .nav-rail {
+    width: 0 !important;
+  }
 }
 
 /* ── CARDS — Engineering surface system ── */
@@ -4168,18 +4170,180 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
   box-shadow: 0 0 20px rgba(229,0,125,0.3) !important;
 }
 
-/* ── MOBILE REFINEMENTS ── */
+/* ── COMPREHENSIVE MOBILE VIEWPORT OPTIMIZATIONS ── */
 @media (max-width: 767px) {
+  html, body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  body {
+    padding-bottom: calc(72px + var(--sab, 0px)) !important;
+  }
+
+  /* Full-width responsive container - zero right-side dead zone */
+  .app-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Completely eliminate desktop left sidebar from layout flow on mobile */
+  .nav-rail {
+    display: none !important;
+    width: 0 !important;
+    max-width: 0 !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+  }
+
+  /* Main Canvas full-screen mobile expansion */
+  .main-canvas {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    padding: 10px 10px calc(80px + var(--sab, 0px)) 10px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Cards Mobile Fit */
+  .card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+    border-radius: 10px !important;
+  }
+  .card-header {
+    padding: 10px 12px !important;
+  }
+
+  /* Hero Banner Mobile Ergonomics */
+  .dugout-hero-card {
+    padding: 16px 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    border-radius: 10px !important;
+  }
+  .dugout-hero-heading {
+    font-size: 18px !important;
+    line-height: 1.25 !important;
+    word-break: break-word !important;
+    margin-bottom: 8px !important;
+    -webkit-text-fill-color: var(--text-data) !important;
+    background: none !important;
+  }
+  .dugout-hero-sub {
+    font-size: 11.5px !important;
+    line-height: 1.5 !important;
+    margin-bottom: 14px !important;
+  }
+  .dugout-hero-btns {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+  .btn-hero-primary, .btn-hero-secondary {
+    width: 100% !important;
+    font-size: 11px !important;
+    padding: 9px 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+
+  /* All Grids collapse into clean responsive single columns on Mobile */
+  .dugout-podium-grid,
+  .method-summary-bullet-container,
+  .filter-controls-bar,
+  .collapsible-control-bar,
+  .chart-grid,
+  .two-col-grid,
+  .grid-2col,
+  .duel-output-grid,
+  #slope-kpi-row,
+  #d2-cards-grid,
+  #pool-targets-container,
+  #notable-names-grid,
+  #impact-bench-grid,
+  #season-fixtures-grid,
+  #compare-selectors-bar,
+  #intl-slots-grid {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #intl-stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  /* High-Performance Touch Scrollable Data Tables */
+  .table-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    border-radius: 8px !important;
+    margin-bottom: 12px !important;
+  }
+  .table-scroll {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .scorecard-table {
+    width: max-content !important;
+    min-width: 100% !important;
+  }
+  .scorecard-table th, .scorecard-table td {
+    padding: 7px 8px !important;
+    font-size: 11px !important;
+  }
+  .sticky-col-rank {
+    width: 36px !important;
+    min-width: 36px !important;
+    position: sticky !important;
+    left: 0 !important;
+    z-index: 10 !important;
+  }
+  .sticky-col-player {
+    width: 145px !important;
+    min-width: 145px !important;
+    max-width: 160px !important;
+    font-size: 11px !important;
+    position: sticky !important;
+    left: 36px !important;
+    z-index: 10 !important;
+  }
+
+  /* Brand and Header Mobile Bar */
   .rr-logo-rr {
     width: 28px !important;
     height: 28px !important;
     font-size: 11px !important;
   }
-
   .brand-text h1 {
     font-size: 11px !important;
   }
-
   .google-telemetry-bar {
     font-size: 9px !important;
     padding: 4px 10px !important;
@@ -4190,25 +4354,29 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
     white-space: nowrap !important;
     min-height: 28px !important;
   }
-
   .telemetry-right-group {
     flex-shrink: 0 !important;
     gap: 3px !important;
   }
-
   .ticker-card {
     padding: 7px 10px !important;
   }
-
-  .dugout-hero-heading {
-    font-size: 20px !important;
-    -webkit-text-fill-color: var(--text-data) !important;
-    background: none !important;
-  }
-
   .nav-section-label {
     font-size: 7.5px !important;
     padding: 8px 10px 3px !important;
+  }
+
+  /* Fixed Floating Mobile Bottom Bar */
+  .mobile-bottom-bar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 9999 !important;
+    background: rgba(5,12,21,0.98) !important;
+    border-top: 1px solid rgba(255,255,255,0.15) !important;
+    padding-bottom: var(--sab, 0px) !important;
+    width: 100% !important;
   }
 }
 
@@ -8169,7 +8337,7 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
             </div>
 
             <!-- Header Stat Chips -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; width: 100%; margin-top: 8px;">
+            <div id="intl-stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; width: 100%; margin-top: 8px;">
               <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 10px 14px;">
                 <div style="font-size: 10px; text-transform: uppercase; color: #94A3B8; font-weight: 800; letter-spacing: 0.5px;">Qualified Overseas Pool</div>
                 <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 3px;">
@@ -8237,7 +8405,7 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
           </div>
 
           <!-- 4 Slots Selector Grid -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin: 16px 0;">
+          <div id="intl-slots-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin: 16px 0;">
             <!-- Slot 1: Top-Order Batter -->
             <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 12px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
