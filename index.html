@@ -4526,6 +4526,13 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                   <div class="dropdown-item-desc">RR vs 9 IPL Opponents &amp; Head-to-Head Tactical Directives</div>
                 </div>
               </a>
+              <a href="javascript:void(0)" onclick="switchTab('tab-live-tracker'); closeTacticalDropdown();" class="dropdown-item">
+                <div class="dropdown-item-icon" style="background: rgba(56,189,248,0.12); border-color: rgba(56,189,248,0.2);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7DD3FC" stroke-width="2.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+                <div class="dropdown-item-content">
+                  <div class="dropdown-item-title">Live In-Play Dugout iPad Tracker <span class="engine-badge-new">NEW</span></div>
+                  <div class="dropdown-item-desc">Real-Time Win Probability (WPA) &amp; Instant Leverage Index (LI)</div>
+                </div>
+              </a>
               <a href="javascript:void(0)" onclick="openAuctionValuationConsole(); closeTacticalDropdown();" class="dropdown-item">
                 <div class="dropdown-item-icon" style="background: rgba(229,0,125,0.12); border-color: rgba(229,0,125,0.2);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF85C0" stroke-width="2.5" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
                 <div class="dropdown-item-content">
@@ -4729,6 +4736,13 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
         <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
           <span>Franchise Clash (vs 9)</span>
           <span style="background: rgba(229, 0, 125, 0.2); color: #FF85C0; font-size: 8px; font-weight: 800; padding: 1px 4px; border-radius: 3px; font-family: var(--font-mono);">VS 9</span>
+        </span>
+      </button>
+      <button onclick="switchTab('tab-live-tracker')" id="nav-tab-live-tracker" class="nav-btn">
+        <span class="nav-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+        <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+          <span>Live In-Play Tracker</span>
+          <span style="background: rgba(56, 189, 248, 0.2); color: #7DD3FC; font-size: 8px; font-weight: 800; padding: 1px 4px; border-radius: 3px; font-family: var(--font-mono);">LIVE</span>
         </span>
       </button>
       <button onclick="switchTab('tab-defense')" id="nav-tab-defense" class="nav-btn">
@@ -8695,6 +8709,33 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
         <div id="clash-engine-container"></div>
       </section>
 
+      <!-- TAB: LIVE IN-PLAY DUGOUT IPAD TRACKER (Part F2) -->
+      <section id="tab-live-tracker" class="tab-pane">
+        <!-- Header Card -->
+        <div class="card" style="margin-bottom: 16px;">
+          <div class="card-header" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 12px;">
+              <div>
+                <div class="card-title">
+                  <span class="card-title-prefix">Part F2:</span> Live In-Play Dugout iPad Tracker
+                </div>
+                <div class="card-subtitle">
+                  Ball-by-ball continuous win-probability calculation, instantaneous Leverage Index ($LI$) monitoring, and real-time tactical dugout advisories.
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button onclick="resetLiveTrackerState()" class="btn-header-action" style="background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); color: #E2E8F0; font-weight: 700; font-size: 11px; padding: 6px 12px;">
+                  ↺ Reset Match State
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Container for Live Tracker Engine -->
+        <div id="live-tracker-container"></div>
+      </section>
+
       <!-- TAB 10: TOP-1 RECOMMENDATION & DECISION MATRIX -->
             <!-- TAB 10: TOP-1 RECOMMENDATION & DECISION MATRIX (Part D2 & D3) -->
       <section id="tab-top1" class="tab-pane">
@@ -12046,7 +12087,7 @@ function switchTab(rawTabId) {
   if (!mobBtn && (tabId === 'tab-3d-playground' || rawTabId === '3d-playground')) {
     mobBtn = document.getElementById('mob-tab-3d');
   }
-  if (!mobBtn && ['tab-field-optimizer', 'tab-impact-sub', 'tab-season-sim', 'tab-international', 'tab-clash', 'tab-auction', 'tab-defense', 'tab-chase-sim', 'tab-duel', 'tab-tactics'].includes(tabId)) {
+  if (!mobBtn && ['tab-field-optimizer', 'tab-impact-sub', 'tab-season-sim', 'tab-international', 'tab-clash', 'tab-live-tracker', 'tab-auction', 'tab-defense', 'tab-chase-sim', 'tab-duel', 'tab-tactics'].includes(tabId)) {
     mobBtn = document.getElementById('mob-tab-tactical');
   }
   if (mobBtn) mobBtn.classList.add('active');
@@ -12090,6 +12131,7 @@ function switchTab(rawTabId) {
     else if (tabId === 'tab-season-sim') renderSeasonSimTab();
     else if (tabId === 'tab-international') renderInternationalTab();
     else if (tabId === 'tab-clash') renderClashTab();
+    else if (tabId === 'tab-live-tracker') renderLiveTrackerTab();
     else if (tabId === 'tab-auction') {
       renderAuctionSection();
       initAuctionSimulator();
@@ -21882,6 +21924,28 @@ function exportClashTacticalPlan() {
 window.CLASH_STATE = CLASH_STATE;
 window.selectClashOpponent = selectClashOpponent;
 
+/* ══════════════════════════════════════════════════════════════════════════════
+   PART F2: LIVE IN-PLAY DUGOUT IPAD TRACKER (WPA & LEVERAGE CONSOLE)
+   ══════════════════════════════════════════════════════════════════════════════ */
+function renderLiveTrackerTab() {
+  const container = document.getElementById('live-tracker-container');
+  if (!container) return;
+  if (!window.LIVE_TRACKER_STATE) {
+    initLiveTrackerEngine();
+  }
+}
+
+function initLiveTrackerEngine() {
+  // To be populated in next commit
+}
+
+function resetLiveTrackerState() {
+  // Stub
+}
+
+window.renderLiveTrackerTab = renderLiveTrackerTab;
+window.initLiveTrackerEngine = initLiveTrackerEngine;
+window.resetLiveTrackerState = resetLiveTrackerState;
 
 </script>
 
@@ -21978,6 +22042,14 @@ window.selectClashOpponent = selectClashOpponent;
         <div class="mob-item-text">
           <div class="mob-item-title">Franchise Clash (vs 9 Teams) <span class="badge-mini">NEW</span></div>
           <div class="mob-item-desc">RR vs 9 IPL Opponents &amp; Choke Vulnerability</div>
+        </div>
+      </button>
+
+      <button class="mobile-sheet-item tactical-highlight" onclick="mobileSwitchTab('tab-live-tracker')">
+        <div class="mob-item-icon" style="background: rgba(56, 189, 248, 0.15); color: #7DD3FC;">⚡</div>
+        <div class="mob-item-text">
+          <div class="mob-item-title">Live In-Play Dugout Tracker <span class="badge-mini">NEW</span></div>
+          <div class="mob-item-desc">Real-Time WPA &amp; Instantaneous Leverage Index (LI)</div>
         </div>
       </button>
 
