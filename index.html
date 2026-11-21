@@ -3014,6 +3014,63 @@ body {
   }
 }
 
+/* ── 3D DATA PLAYGROUND FULL-SCREEN & VIEWPORT FIT ADAPTATION ── */
+#tab-3d-playground {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+#tab-3d-playground .card {
+  margin-bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  border-radius: var(--radius-lg, 12px) !important;
+}
+
+.p3d-canvas-wrapper {
+  position: relative !important;
+  width: 100% !important;
+  height: clamp(480px, calc(100vh - 200px), 740px) !important;
+  height: clamp(480px, calc(100dvh - 200px), 740px) !important;
+  max-height: calc(100vh - 190px) !important;
+  max-height: calc(100dvh - 190px) !important;
+  overflow: hidden !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@media (max-width: 767px) {
+  .p3d-canvas-wrapper {
+    height: calc(100dvh - 180px) !important;
+    min-height: 400px !important;
+    max-height: calc(100dvh - 150px) !important;
+  }
+}
+
+/* Immersive 100% Fullscreen Viewport Mode */
+.p3d-canvas-wrapper.p3d-immersive-fullscreen {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
+  z-index: 999999 !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#p3d-exit-fullscreen-btn:hover {
+  transform: scale(1.05) !important;
+  background: #BE123C !important;
+}
+
 /* ── CARDS — Engineering surface system ── */
 .card {
   background: var(--surface-2) !important;
@@ -5146,29 +5203,37 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
         <div class="card" style="padding: 0; overflow: hidden; border: 1px solid rgba(56, 189, 248, 0.35); box-shadow: 0 12px 40px rgba(0,0,0,0.5);">
           
           <!-- 3D PLAYGROUND HEADER -->
-          <div style="background: linear-gradient(135deg, #07152B 0%, #0A1E3D 100%); padding: 18px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+          <div style="background: linear-gradient(135deg, #07152B 0%, #0A1E3D 100%); padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
             <div>
               <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 20px;">🌐</span>
-                <span style="font-size: 18px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.01em;">3D Pressure Dynamics Universe</span>
-                <span style="background: linear-gradient(135deg, var(--rr-pink) 0%, #38BDF8 100%); color: #FFFFFF; font-size: 10px; font-weight: 800; font-family: var(--font-mono); padding: 2px 8px; border-radius: 9999px;">WEBGL 3D HARDWARE ACCELERATED</span>
+                <span style="font-size: 18px;">🌐</span>
+                <span style="font-size: 16px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.01em;">3D Pressure Dynamics Universe</span>
+                <span style="background: linear-gradient(135deg, var(--rr-pink) 0%, #38BDF8 100%); color: #FFFFFF; font-size: 9.5px; font-weight: 800; font-family: var(--font-mono); padding: 2px 7px; border-radius: 9999px;">WEBGL 3D HARDWARE ACCELERATED</span>
               </div>
-              <div style="font-size: 12px; color: #94A3B8; margin-top: 4px;">
+              <div style="font-size: 11.5px; color: #94A3B8; margin-top: 2px;">
                 360&deg; interactive state-space clutch manifold (202 qualified players).
               </div>
             </div>
 
-            <!-- PRESET DIMENSION SELECTORS -->
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <!-- PRESET DIMENSION SELECTORS & FULLSCREEN FIT -->
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
               <button id="p3d-btn-std" class="toggle-btn active" onclick="set3DDimension('std')">Standard 3D Clutch Space</button>
               <button id="p3d-btn-wp" class="toggle-btn" onclick="set3DDimension('wp')">Win Prob Manifold</button>
               <button id="p3d-btn-stability" class="toggle-btn" onclick="set3DDimension('stability')">Bootstrap Stability Cube</button>
               <button id="p3d-btn-auction" class="toggle-btn" onclick="set3DDimension('auction')" style="border-color: #34D399; color: #34D399;">💰 Auction Value Space</button>
+              <button id="p3d-btn-fullscreen" class="toggle-btn" onclick="toggle3DFullscreen()" style="border-color: #38BDF8; color: #38BDF8; background: rgba(56, 189, 248, 0.14); font-weight: 700; display: inline-flex; align-items: center; gap: 5px;" title="Fit 3D Universe to 100% Fullscreen Viewport">
+                <span>⛶ Fit Full Screen</span>
+              </button>
             </div>
           </div>
 
           <!-- 3D INTERACTIVE CANVAS WRAPPER -->
-          <div class="p3d-canvas-wrapper" style="position: relative; width: 100%; height: 640px; background: radial-gradient(circle at 50% 50%, #08162B 0%, #020713 100%); overflow: hidden;">
+          <div class="p3d-canvas-wrapper" id="p3d-canvas-wrapper" style="position: relative; width: 100%; background: radial-gradient(circle at 50% 50%, #08162B 0%, #020713 100%); overflow: hidden;">
+            
+            <!-- EXIT FULLSCREEN FLOATING BUTTON -->
+            <button id="p3d-exit-fullscreen-btn" onclick="toggle3DFullscreen()" style="display: none; position: absolute; top: 16px; right: 16px; z-index: 100; background: rgba(225, 29, 72, 0.94); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.4); color: #FFF; font-weight: 800; font-size: 12px; padding: 7px 16px; border-radius: 6px; cursor: pointer; box-shadow: 0 4px 18px rgba(0,0,0,0.6); transition: transform 0.15s ease;">
+              ✕ Exit Full Screen (Esc)
+            </button>
             
             <!-- 3D WEBGL CONTAINER -->
             <div id="p3d-viewport" style="width: 100%; height: 100%; cursor: grab;"></div>
@@ -5243,6 +5308,9 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                 <button onclick="reset3DCamera()" class="btn-p3d-action" title="Reset Default Cinematic Angle">
                   <span>🎯 Reset Angle</span>
                 </button>
+                <button id="p3d-btn-action-fullscreen" onclick="toggle3DFullscreen()" class="btn-p3d-action" style="border-color: #38BDF8; color: #7DD3FC;" title="Fit 3D Universe to 100% Screen Viewport">
+                  <span>⛶ Fit Full Screen</span>
+                </button>
               </div>
 
               <!-- RIGHT: QUICK FOCUS TARGETS -->
@@ -5266,7 +5334,7 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
           </div>
 
           <!-- 3D TELEMETRY & METHODOLOGY STRIP -->
-          <div style="padding: 16px 20px; background: #06152B; border-top: 1px solid rgba(255,255,255,0.08); display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; font-size: 11px;">
+          <div style="padding: 10px 18px; background: #06152B; border-top: 1px solid rgba(255,255,255,0.08); display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 10.5px;">
             <div style="display: flex; gap: 10px; align-items: center;">
               <span style="font-size: 20px;">🎲</span>
               <div>
@@ -11285,10 +11353,82 @@ function setup3DRaycaster(container) {
 function onP3DResize() {
   const container = document.getElementById('p3d-viewport');
   if (!container || !P3D.renderer || !P3D.camera) return;
-  P3D.camera.aspect = container.clientWidth / container.clientHeight;
+  const w = container.clientWidth;
+  const h = container.clientHeight;
+  if (w === 0 || h === 0) return;
+  P3D.camera.aspect = w / h;
   P3D.camera.updateProjectionMatrix();
-  P3D.renderer.setSize(container.clientWidth, container.clientHeight);
+  P3D.renderer.setSize(w, h);
 }
+
+function toggle3DFullscreen() {
+  const wrapper = document.getElementById('p3d-canvas-wrapper') || document.querySelector('.p3d-canvas-wrapper');
+  const exitBtn = document.getElementById('p3d-exit-fullscreen-btn');
+  const fsBtn = document.getElementById('p3d-btn-fullscreen');
+  const actionFsBtn = document.getElementById('p3d-btn-action-fullscreen');
+  if (!wrapper) return;
+
+  const isFullscreen = wrapper.classList.toggle('p3d-immersive-fullscreen');
+
+  if (isFullscreen) {
+    if (exitBtn) exitBtn.style.display = 'block';
+    if (fsBtn) fsBtn.innerHTML = '<span>✕ Exit Screen</span>';
+    if (actionFsBtn) actionFsBtn.innerHTML = '<span>✕ Exit Full Screen</span>';
+
+    try {
+      if (wrapper.requestFullscreen) {
+        wrapper.requestFullscreen().catch(() => {});
+      } else if (wrapper.webkitRequestFullscreen) {
+        wrapper.webkitRequestFullscreen();
+      }
+    } catch (e) {}
+  } else {
+    if (exitBtn) exitBtn.style.display = 'none';
+    if (fsBtn) fsBtn.innerHTML = '<span>⛶ Fit Full Screen</span>';
+    if (actionFsBtn) actionFsBtn.innerHTML = '<span>⛶ Fit Full Screen</span>';
+
+    try {
+      if (document.fullscreenElement || document.webkitFullscreenElement) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      }
+    } catch (e) {}
+  }
+
+  setTimeout(onP3DResize, 60);
+  setTimeout(onP3DResize, 180);
+  setTimeout(onP3DResize, 350);
+}
+
+document.addEventListener('fullscreenchange', syncP3DFullscreenState);
+document.addEventListener('webkitfullscreenchange', syncP3DFullscreenState);
+
+function syncP3DFullscreenState() {
+  const wrapper = document.getElementById('p3d-canvas-wrapper') || document.querySelector('.p3d-canvas-wrapper');
+  const isDocFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement);
+  if (!isDocFullscreen && wrapper && wrapper.classList.contains('p3d-immersive-fullscreen')) {
+    wrapper.classList.remove('p3d-immersive-fullscreen');
+    const exitBtn = document.getElementById('p3d-exit-fullscreen-btn');
+    const fsBtn = document.getElementById('p3d-btn-fullscreen');
+    const actionFsBtn = document.getElementById('p3d-btn-action-fullscreen');
+    if (exitBtn) exitBtn.style.display = 'none';
+    if (fsBtn) fsBtn.innerHTML = '<span>⛶ Fit Full Screen</span>';
+    if (actionFsBtn) actionFsBtn.innerHTML = '<span>⛶ Fit Full Screen</span>';
+    setTimeout(onP3DResize, 80);
+  }
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const wrapper = document.getElementById('p3d-canvas-wrapper') || document.querySelector('.p3d-canvas-wrapper');
+    if (wrapper && wrapper.classList.contains('p3d-immersive-fullscreen')) {
+      toggle3DFullscreen();
+    }
+  }
+});
 
 function animate3D() {
   P3D.animId = requestAnimationFrame(animate3D);
@@ -11875,25 +12015,43 @@ function switchTab(rawTabId) {
 
   // Trigger lazy re-renders
   renderExplorerTable();
-  if (tabId === 'tab-3d-playground') init3DPlayground();
-  else if (tabId === 'tab-scatter') renderPressureScatter();
-  else if (tabId === 'tab-slope') renderSlopeChart();
-  else if (tabId === 'tab-leverage') renderLeverageAndCalibration();
-  else if (tabId === 'tab-weights') renderWeightLab();
-  else if (tabId === 'tab-compare') updateComparison();
-  else if (tabId === 'tab-top1') { renderD2DecisionCards(); renderPoolTargetsCard(); }
-  else if (tabId === 'tab-duel') initDuelSimulator();
-  else if (tabId === 'tab-tactics') renderTacticsTab();
-  else if (tabId === 'tab-submission') renderSubmissionTab();
-  else if (tabId === 'tab-defense') renderDefenseMatrixTab();
-  else if (tabId === 'tab-chase-sim') renderChaseSimTab();
-  else if (tabId === 'tab-field-optimizer') renderFieldOptimizerTab();
-  else if (tabId === 'tab-impact-sub') renderImpactSubTab();
-  else if (tabId === 'tab-season-sim') renderSeasonSimTab();
-  else if (tabId === 'tab-international') renderInternationalTab();
-  else if (tabId === 'tab-auction') {
-    renderAuctionSection();
-    initAuctionSimulator();
+  if (tabId === 'tab-3d-playground') {
+    init3DPlayground();
+    // Auto-fit screen width for full immersion on desktop
+    const layout = document.querySelector('.app-layout');
+    if (layout && window.innerWidth >= 768 && !isSidebarUserPinned) {
+      layout.classList.add('auto-fit-screen');
+      updateSidebarToggleUI(true);
+    }
+    setTimeout(onP3DResize, 60);
+    setTimeout(onP3DResize, 180);
+    setTimeout(onP3DResize, 360);
+  } else {
+    // If navigating away from 3D playground, restore sidebar if not manually collapsed
+    const layout = document.querySelector('.app-layout');
+    if (layout && !isSidebarManuallyCollapsed && !isSidebarUserPinned && layout.classList.contains('auto-fit-screen')) {
+      layout.classList.remove('auto-fit-screen');
+      updateSidebarToggleUI(false);
+    }
+    if (tabId === 'tab-scatter') renderPressureScatter();
+    else if (tabId === 'tab-slope') renderSlopeChart();
+    else if (tabId === 'tab-leverage') renderLeverageAndCalibration();
+    else if (tabId === 'tab-weights') renderWeightLab();
+    else if (tabId === 'tab-compare') updateComparison();
+    else if (tabId === 'tab-top1') { renderD2DecisionCards(); renderPoolTargetsCard(); }
+    else if (tabId === 'tab-duel') initDuelSimulator();
+    else if (tabId === 'tab-tactics') renderTacticsTab();
+    else if (tabId === 'tab-submission') renderSubmissionTab();
+    else if (tabId === 'tab-defense') renderDefenseMatrixTab();
+    else if (tabId === 'tab-chase-sim') renderChaseSimTab();
+    else if (tabId === 'tab-field-optimizer') renderFieldOptimizerTab();
+    else if (tabId === 'tab-impact-sub') renderImpactSubTab();
+    else if (tabId === 'tab-season-sim') renderSeasonSimTab();
+    else if (tabId === 'tab-international') renderInternationalTab();
+    else if (tabId === 'tab-auction') {
+      renderAuctionSection();
+      initAuctionSimulator();
+    }
   }
 }
 
