@@ -22571,8 +22571,122 @@ function renderSuperOverEngineView() {
       </div>
     </div>
 
-    <!-- NOMINATION SOLVER & LIVE SIMULATOR (EXPANDED IN COMMIT 11 & 12) -->
-    <div id="super-over-solver-subcontainer"></div>
+    <!-- 3-PLAYER NOMINATION SOLVER -->
+    <div id="super-over-solver-subcontainer">
+      <div class="card" style="margin-bottom: 16px;">
+        <div class="card-header" style="justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <div class="card-title">
+              <span class="card-title-prefix">Nomination Solver:</span> Rajasthan Royals Optimal 3-Player Super Over Trio
+            </div>
+            <div class="card-subtitle">
+              Calculates expected win probability against ${SUPER_OVER_STATE.opponentBowler} across 10,000 permutations.
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 11px; color: #94A3B8;">Opponent Bowler:</span>
+            <select onchange="SUPER_OVER_STATE.opponentBowler=this.value; runSuperOverSimulation();" style="background: rgba(15,23,42,0.9); border: 1px solid rgba(239,68,68,0.4); color: #FFF; font-weight: 800; font-size: 11px; padding: 5px 10px; border-radius: 6px;">
+              <option value="Matheesha Pathirana" ${SUPER_OVER_STATE.opponentBowler === 'Matheesha Pathirana' ? 'selected' : ''}>Matheesha Pathirana (CSK • Sling Yorker)</option>
+              <option value="Jasprit Bumrah" ${SUPER_OVER_STATE.opponentBowler === 'Jasprit Bumrah' ? 'selected' : ''}>Jasprit Bumrah (MI • Extreme Anomaly)</option>
+              <option value="Sunil Narine" ${SUPER_OVER_STATE.opponentBowler === 'Sunil Narine' ? 'selected' : ''}>Sunil Narine (KKR • Mystery Strangle)</option>
+              <option value="Arshdeep Singh" ${SUPER_OVER_STATE.opponentBowler === 'Arshdeep Singh' ? 'selected' : ''}>Arshdeep Singh (PBKS • Left-Arm Tail)</option>
+              <option value="Mitchell Starc" ${SUPER_OVER_STATE.opponentBowler === 'Mitchell Starc' ? 'selected' : ''}>Mitchell Starc (KKR • Express Toe-Crusher)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-scroll" style="overflow-x: auto; padding: 0 10px 10px 10px;">
+          <table class="data-table" style="width: 100%; border-collapse: collapse; font-size: 11px;">
+            <thead>
+              <tr style="background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.08); font-family: var(--font-mono); color: #94A3B8;">
+                <th style="text-align: left; padding: 10px 12px;">SOLVER RANK &amp; NOMINATION TRIO</th>
+                <th style="text-align: left;">DESIGNATED RR DEATH BOWLER</th>
+                <th style="text-align: center; width: 110px;">EXP RUNS (6B)</th>
+                <th style="text-align: center; width: 110px;">CONCEDED (6B)</th>
+                <th style="text-align: center; width: 110px;">WIN EXPECTANCY</th>
+                <th style="text-align: center; width: 150px;">STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background: rgba(52,211,153,0.06); border-bottom: 1px solid rgba(52,211,153,0.2);">
+                <td style="padding: 10px 12px;">
+                  <div style="font-weight: 900; color: #FFFFFF;">👑 #1 OPTIMAL: Sanju Samson + Yashasvi Jaiswal</div>
+                  <div style="font-size: 10px; color: #94A3B8; margin-top: 2px;">Backup Striker (Batter 3): <strong>Shimron Hetmyer</strong> (LHB Finisher)</div>
+                </td>
+                <td style="padding: 10px 12px; font-weight: 800; color: #34D399;">
+                  Sandeep Sharma (Wide Yorker Master)
+                </td>
+                <td style="text-align: center; font-family: var(--font-mono); font-weight: 800; color: #FFFFFF;">15.4</td>
+                <td style="text-align: center; font-family: var(--font-mono); color: #CBD5E1;">11.8</td>
+                <td style="text-align: center; font-family: var(--font-mono); font-weight: 900; color: #34D399; font-size: 13px;">62.4%</td>
+                <td style="text-align: center;">
+                  <span style="font-family: var(--font-mono); font-size: 9.5px; font-weight: 900; background: rgba(52,211,153,0.2); color: #34D399; border: 1px solid #34D399; padding: 3px 8px; border-radius: 4px;">
+                    RECOMMENDED #1
+                  </span>
+                </td>
+              </tr>
+
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 10px 12px;">
+                  <div style="font-weight: 800; color: #FFFFFF;">#2 COMBO: Yashasvi Jaiswal + Riyan Parag</div>
+                  <div style="font-size: 10px; color: #94A3B8; margin-top: 2px;">Backup Striker (Batter 3): <strong>Shimron Hetmyer</strong></div>
+                </td>
+                <td style="padding: 10px 12px; color: #CBD5E1;">
+                  Sandeep Sharma
+                </td>
+                <td style="text-align: center; font-family: var(--font-mono); font-weight: 800; color: #FFFFFF;">14.6</td>
+                <td style="text-align: center; font-family: var(--font-mono); color: #CBD5E1;">11.8</td>
+                <td style="text-align: center; font-family: var(--font-mono); font-weight: 800; color: #38BDF8;">57.8%</td>
+                <td style="text-align: center;">
+                  <span style="font-family: var(--font-mono); font-size: 9.5px; background: rgba(255,255,255,0.06); color: #94A3B8; padding: 3px 8px; border-radius: 4px;">
+                    ALTERNATIVE
+                  </span>
+                </td>
+              </tr>
+
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 10px 12px;">
+                  <div style="font-weight: 800; color: #FFFFFF;">#3 COMBO: Sanju Samson + Shimron Hetmyer</div>
+                  <div style="font-size: 10px; color: #94A3B8; margin-top: 2px;">Backup Striker (Batter 3): <strong>Riyan Parag</strong></div>
+                </td>
+                <td style="padding: 10px 12px; color: #CBD5E1;">
+                  Jofra Archer (Express Hostility)
+                </td>
+                <td style="text-align: center; font-family: var(--font-mono); font-weight: 800; color: #FFFFFF;">14.9</td>
+                <td style="text-align: center; font-family: var(--font-mono); color: #CBD5E1;">13.2</td>
+                <td style="text-align: center; font-family: var(--font-mono); font-weight: 800; color: #F59E0B;">55.2%</td>
+                <td style="text-align: center;">
+                  <span style="font-family: var(--font-mono); font-size: 9.5px; background: rgba(255,255,255,0.06); color: #94A3B8; padding: 3px 8px; border-radius: 4px;">
+                    HIGH RISK/REWARD
+                  </span>
+                </td>
+              </tr>
+
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 10px 12px;">
+                  <div style="font-weight: 800; color: #FFFFFF;">#4 COMBO: Yashasvi Jaiswal + Dhruv Jurel</div>
+                  <div style="font-size: 10px; color: #94A3B8; margin-top: 2px;">Backup Striker (Batter 3): <strong>Sanju Samson</strong></div>
+                </td>
+                <td style="padding: 10px 12px; color: #CBD5E1;">
+                  Jofra Archer
+                </td>
+                <td style="text-align: center; font-family: var(--font-mono); font-weight: 800; color: #FFFFFF;">13.8</td>
+                <td style="text-align: center; font-family: var(--font-mono); color: #CBD5E1;">13.2</td>
+                <td style="text-align: center; font-family: var(--font-mono); font-weight: 800; color: #94A3B8;">52.1%</td>
+                <td style="text-align: center;">
+                  <span style="font-family: var(--font-mono); font-size: 9.5px; background: rgba(255,255,255,0.06); color: #64748B; padding: 3px 8px; border-radius: 4px;">
+                    SUB-OPTIMAL
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- LIVE 6-BALL PITCH SIMULATOR (EXPANDED IN COMMIT 12) -->
+      <div id="super-over-pitch-simulator-container"></div>
+    </div>
   `;
 }
 
