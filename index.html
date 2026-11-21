@@ -1486,6 +1486,41 @@ body.scroll-locked {
     display: block !important;
     page-break-before: always;
   }
+
+  /* Dedicated High-Contrast Executive Dossier Print Optimization */
+  body.printing-dossier .tab-pane:not(#tab-dossier),
+  body.printing-dossier #tab-dossier .dugout-hero-card,
+  body.printing-dossier #tab-dossier .card:first-child,
+  body.printing-dossier .mobile-bottom-bar,
+  body.printing-dossier .mobile-sheet,
+  body.printing-dossier .mobile-sheet-backdrop {
+    display: none !important;
+  }
+  body.printing-dossier .dossier-printable-doc {
+    background: #FFFFFF !important;
+    color: #0F172A !important;
+    border: 2px solid #0A1E3D !important;
+    box-shadow: none !important;
+    padding: 20px !important;
+    page-break-inside: auto !important;
+  }
+  body.printing-dossier .dossier-printable-doc * {
+    color: #0F172A !important;
+    text-shadow: none !important;
+  }
+  body.printing-dossier .dossier-printable-doc .dossier-section {
+    page-break-inside: avoid !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    padding-bottom: 14px !important;
+    margin-bottom: 16px !important;
+  }
+  body.printing-dossier .dossier-printable-doc [style*="background: rgba"] {
+    background: #F8FAFC !important;
+    border: 1px solid #CBD5E1 !important;
+  }
+  body.printing-dossier .dossier-printable-doc strong {
+    color: #000000 !important;
+  }
 }
 
 /* =========================================================================
@@ -23229,8 +23264,16 @@ function renderDossierPreview() {
 }
 
 function printExecutiveDossier() {
+  document.body.classList.add('printing-dossier');
   window.print();
+  setTimeout(() => {
+    document.body.classList.remove('printing-dossier');
+  }, 1000);
 }
+
+window.addEventListener('afterprint', () => {
+  document.body.classList.remove('printing-dossier');
+});
 
 function copyDossierMarkdown() {
   const opp = DOSSIER_STATE.opponent;
@@ -23267,10 +23310,25 @@ ${oppData ? `- Toss: ${oppData.blueprint.toss}\n- Powerplay: ${oppData.blueprint
 `;
 
   navigator.clipboard.writeText(md).then(() => {
-    alert('Executive Dossier Markdown copied to clipboard!');
+    showDossierToast('✓ Executive Dossier copied to clipboard in clean Markdown!');
   }).catch(() => {
-    alert('Copied to clipboard!');
+    showDossierToast('✓ Copied to clipboard!');
   });
+}
+
+function showDossierToast(msg) {
+  let toast = document.getElementById('dossier-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'dossier-toast';
+    toast.style.cssText = 'position: fixed; bottom: 80px; right: 24px; background: rgba(9, 26, 51, 0.95); border: 1.5px solid var(--rr-pink); color: #FFF; padding: 12px 20px; border-radius: 8px; font-size: 12px; font-weight: 700; z-index: 10000; box-shadow: 0 8px 30px rgba(0,0,0,0.6); display: flex; align-items: center; gap: 8px; transition: opacity 0.3s ease;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  setTimeout(() => {
+    toast.style.opacity = '0';
+  }, 2600);
 }
 
 function exportDossierJSON() {
