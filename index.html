@@ -21523,6 +21523,75 @@ function renderClashTab() {
   renderClashEngineView();
 }
 
+function getDuelsForOpponent(code) {
+  switch(code) {
+    case 'MI':
+      return [
+        { batter: 'Yashasvi Jaiswal (RR)', bowler: 'Jasprit Bumrah (MI)', sr: '128.4', dotPct: '48.2%', edge: 'Bowler Advantage', note: 'Bumrah yorkers suppress Jaiswal pull shot; focus on singles into mid-wicket.' },
+        { batter: 'Sanju Samson (RR)', bowler: 'Hardik Pandya (MI)', sr: '164.2', dotPct: '28.1%', edge: 'RR Advantage', note: 'Samson punishes Hardik back-of-length deliveries (+21.4 Net).' },
+        { batter: 'Suryakumar Yadav (MI)', bowler: 'Sandeep Sharma (RR)', sr: '136.5', dotPct: '36.8%', edge: 'Even Battle', note: 'Sandeep wide off-stump line takes away Surya fine leg scoop angle.' },
+        { batter: 'Shimron Hetmyer (RR)', bowler: 'Gerald Coetzee (MI)', sr: '178.6', dotPct: '22.0%', edge: 'RR Advantage', note: 'Hetmyer capitalizes on express pace in death overs 18 & 20.' }
+      ];
+    case 'CSK':
+      return [
+        { batter: 'Sanju Samson (RR)', bowler: 'Matheesha Pathirana (CSK)', sr: '131.0', dotPct: '44.5%', edge: 'Bowler Advantage', note: 'Pathirana sling angle attacks pads; Samson must play off back foot.' },
+        { batter: 'Yashasvi Jaiswal (RR)', bowler: 'Deepak Chahar (CSK)', sr: '172.5', dotPct: '24.2%', edge: 'RR Advantage', note: 'Jaiswal steps out against early outswing to pierce extra cover.' },
+        { batter: 'Shivam Dube (CSK)', bowler: 'Sandeep Sharma (RR)', sr: '118.4', dotPct: '42.0%', edge: 'RR Advantage', note: 'Wide knuckleballs outside off-stump starve Dube of straight extension.' },
+        { batter: 'Riyan Parag (RR)', bowler: 'Ravindra Jadeja (CSK)', sr: '148.8', dotPct: '29.5%', edge: 'Even Battle', note: 'Parag utilizes inside-out loft over extra cover against flat trajectory.' }
+      ];
+    case 'KKR':
+      return [
+        { batter: 'Sanju Samson (RR)', bowler: 'Sunil Narine (KKR)', sr: '112.4', dotPct: '52.0%', edge: 'Bowler Advantage', note: 'Narine #1 clutch strangle (+37.2 Net). Strict mandate: play for 1s, zero wild slogs.' },
+        { batter: 'Riyan Parag (RR)', bowler: 'Varun Chakaravarthy (KKR)', sr: '144.2', dotPct: '32.1%', edge: 'Even Battle', note: 'Watch the seam out of the hand; sweep firmly to backward square leg.' },
+        { batter: 'Andre Russell (KKR)', bowler: 'Sandeep Sharma (RR)', sr: '132.8', dotPct: '41.5%', edge: 'RR Advantage', note: 'Sandeep execute 6 consecutive wide yorkers; Russell strike rate drops 48 pts.' },
+        { batter: 'Yashasvi Jaiswal (RR)', bowler: 'Mitchell Starc / Harshit (KKR)', sr: '182.0', dotPct: '21.4%', edge: 'RR Advantage', note: 'Attack early in Powerplay over long-on and mid-wicket.' }
+      ];
+    case 'RCB':
+      return [
+        { batter: 'Virat Kohli (RCB)', bowler: 'Sandeep Sharma (RR)', sr: '124.0', dotPct: '38.5%', edge: 'RR Advantage', note: 'Sandeep swing dismisses Kohli inside Powerplay with fourth stump shape.' },
+        { batter: 'Phil Salt (RCB)', bowler: 'Jofra Archer (RR)', sr: '142.5', dotPct: '40.2%', edge: 'Even Battle', note: 'High pace bumper at rib level cramps Salt pull shot.' },
+        { batter: 'Sanju Samson (RR)', bowler: 'Jacob Duffy (RCB)', sr: '158.4', dotPct: '28.0%', edge: 'RR Advantage', note: 'Samson counters Duffy bounce with clean horizontal bat punches.' },
+        { batter: 'Tim David (RCB)', bowler: 'Sandeep Sharma (RR)', sr: '126.2', dotPct: '46.0%', edge: 'RR Advantage', note: 'Wide cutter into the surface; zero deliveries in slot.' }
+      ];
+    case 'SRH':
+      return [
+        { batter: 'Travis Head (SRH)', bowler: 'Jofra Archer (RR)', sr: '148.0', dotPct: '39.0%', edge: 'Even Battle', note: 'Test fifth stump outside off-stump with seam movement; Head cuts aggressively.' },
+        { batter: 'Heinrich Klaasen (SRH)', bowler: 'Sandeep Sharma (RR)', sr: '134.2', dotPct: '36.0%', edge: 'RR Advantage', note: 'Do not bowl spin to Klaasen; Sandeep wide yorkers exclusively.' },
+        { batter: 'Yashasvi Jaiswal (RR)', bowler: 'Pat Cummins (SRH)', sr: '156.4', dotPct: '30.5%', edge: 'RR Advantage', note: 'Punish Cummins back-of-length deliveries behind point.' },
+        { batter: 'Sanju Samson (RR)', bowler: 'Bhuvneshwar Kumar (SRH)', sr: '145.0', dotPct: '33.2%', edge: 'Even Battle', note: 'Wait for incoming inswinger to work through mid-wicket.' }
+      ];
+    case 'GT':
+      return [
+        { batter: 'Shubman Gill (GT)', bowler: 'Sandeep Sharma (RR)', sr: '122.5', dotPct: '41.0%', edge: 'RR Advantage', note: 'Starve Gill of front-foot timing; build dot ball pressure in Powerplay.' },
+        { batter: 'Sanju Samson (RR)', bowler: 'Rashid Khan (GT)', sr: '125.0', dotPct: '45.0%', edge: 'Bowler Advantage', note: 'Rashid quick googly poses LBW threat; prioritize strike rotation.' },
+        { batter: 'Rahul Tewatia (GT)', bowler: 'Jofra Archer (RR)', sr: '119.0', dotPct: '48.0%', edge: 'RR Advantage', note: 'Target head and throat with 150kph bumpers; Tewatia cannot pull extreme pace.' },
+        { batter: 'Shimron Hetmyer (RR)', bowler: 'Mohammed Shami (GT)', sr: '162.8', dotPct: '25.5%', edge: 'RR Advantage', note: 'Hetmyer clears deep mid-wicket against full seam.' }
+      ];
+    case 'LSG':
+      return [
+        { batter: 'Nicholas Pooran (LSG)', bowler: 'Sandeep Sharma (RR)', sr: '138.4', dotPct: '35.0%', edge: 'Even Battle', note: 'Pooran hits straight; Sandeep must nail wide yorker lines.' },
+        { batter: 'KL Rahul (LSG)', bowler: 'Jofra Archer (RR)', sr: '118.0', dotPct: '44.0%', edge: 'RR Advantage', note: 'Archer early heat creates tentative defensive pushes.' },
+        { batter: 'Sanju Samson (RR)', bowler: 'Mayank Yadav (LSG)', sr: '152.0', dotPct: '31.0%', edge: 'RR Advantage', note: 'Samson uses Mayank 155kph pace to ramp and glide behind square.' },
+        { batter: 'Riyan Parag (RR)', bowler: 'Ravi Bishnoi (LSG)', sr: '165.4', dotPct: '24.0%', edge: 'RR Advantage', note: 'Parag picks the googly quickly and clubs down the ground.' }
+      ];
+    case 'DC':
+      return [
+        { batter: 'Rishabh Pant (DC)', bowler: 'Sandeep Sharma (RR)', sr: '135.0', dotPct: '37.0%', edge: 'Even Battle', note: 'Pant ramps and scoops; keep third man and deep fine leg back.' },
+        { batter: 'Tristan Stubbs (DC)', bowler: 'Jofra Archer (RR)', sr: '129.5', dotPct: '42.0%', edge: 'RR Advantage', note: 'Fast yorker at off-stump base neutralizes 360° sweeps.' },
+        { batter: 'Sanju Samson (RR)', bowler: 'Kuldeep Yadav (DC)', sr: '139.0', dotPct: '33.0%', edge: 'Even Battle', note: 'Read the chinaman drift; avoid cross-bat swipes against arm ball.' },
+        { batter: 'Yashasvi Jaiswal (RR)', bowler: 'Axar Patel (DC)', sr: '158.0', dotPct: '26.0%', edge: 'RR Advantage', note: 'Jaiswal dominates SLA with powerful straight lofted drives.' }
+      ];
+    case 'PBKS':
+    default:
+      return [
+        { batter: 'Sanju Samson (RR)', bowler: 'Lockie Ferguson (PBKS)', sr: '168.0', dotPct: '23.0%', edge: 'RR Advantage', note: 'Samson handles Ferguson extreme pace with high-elbow pull shots.' },
+        { batter: 'Yashasvi Jaiswal (RR)', bowler: 'Arshdeep Singh (PBKS)', sr: '144.5', dotPct: '34.0%', edge: 'Even Battle', note: 'Left-arm battle; Jaiswal must watch the incoming tailing yorker.' },
+        { batter: 'Shashank Singh (PBKS)', bowler: 'Sandeep Sharma (RR)', sr: '121.0', dotPct: '45.0%', edge: 'RR Advantage', note: 'Sandeep slower ball off-cutter induces mistimed lofted shots.' },
+        { batter: 'Riyan Parag (RR)', bowler: 'Harpreet Brar (PBKS)', sr: '155.0', dotPct: '27.0%', edge: 'RR Advantage', note: 'Attack through mid-wicket arc with the turn.' }
+      ];
+  }
+}
+
 function renderClashEngineView() {
   const container = document.getElementById('clash-engine-container');
   if (!container) return;
@@ -21599,8 +21668,117 @@ function renderClashEngineView() {
       </div>
     </div>
 
-    <!-- TACTICAL CONTAINER (TO BE EXPANDED IN COMMIT 3 & 4) -->
-    <div id="clash-tactics-subcontainer"></div>
+    <!-- TACTICAL CONTAINER -->
+    <div id="clash-tactics-subcontainer">
+      <!-- PHASE-BY-PHASE CLASH GRID -->
+      <div class="card" style="margin-bottom: 16px;">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="card-title-prefix">Tactical Matrix:</span> Phase-by-Phase Clash Breakdown (RR vs ${current.shortName})
+          </div>
+          <div class="card-subtitle">
+            Continuous win-probability swing expectation across Powerplay, Middle, and Death phases under high leverage.
+          </div>
+        </div>
+        <div style="padding: 16px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
+          
+          <!-- POWERPLAY (OVERS 1-6) -->
+          <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 14px 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #38BDF8;">PHASE 1: POWERPLAY (OVERS 1–6)</span>
+              <span style="background: rgba(56, 189, 248, 0.2); color: #7DD3FC; font-size: 9.5px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">RR PAR: 54/1</span>
+            </div>
+            <div style="font-size: 11.5px; color: #E2E8F0; line-height: 1.5;">
+              <strong>Strategic Objective:</strong> Attack with Jaiswal early while testing ${current.shortName} top order with incoming swing.
+            </div>
+            <div style="margin-top: 10px; padding: 8px 10px; background: rgba(56, 189, 248, 0.08); border-radius: 6px; font-size: 11px; color: #7DD3FC;">
+              ⚡ <strong>Choke Vector:</strong> ${current.ppVulnerability}
+            </div>
+          </div>
+
+          <!-- MIDDLE OVERS (OVERS 7-15) -->
+          <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(192, 132, 252, 0.3); border-radius: 8px; padding: 14px 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: #C084FC;">PHASE 2: MIDDLE STRANGLE (OVERS 7–15)</span>
+              <span style="background: rgba(192, 132, 252, 0.2); color: #E9D5FF; font-size: 9.5px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">RR PAR: 74/2</span>
+            </div>
+            <div style="font-size: 11.5px; color: #E2E8F0; line-height: 1.5;">
+              <strong>Strategic Objective:</strong> Samson and Parag enforce tempo without high-risk slogs against prime spin anchors.
+            </div>
+            <div style="margin-top: 10px; padding: 8px 10px; background: rgba(192, 132, 252, 0.08); border-radius: 6px; font-size: 11px; color: #D8B4FE;">
+              🔄 <strong>Stranglehold:</strong> ${current.middleStranglehold}
+            </div>
+          </div>
+
+          <!-- DEATH PHASE (OVERS 16-20) -->
+          <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(229, 0, 125, 0.3); border-radius: 8px; padding: 14px 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: var(--rr-pink);">PHASE 3: DEATH CLIMAX (OVERS 16–20)</span>
+              <span style="background: rgba(229, 0, 125, 0.2); color: #FFB3D9; font-size: 9.5px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">RR PAR: 58/1</span>
+            </div>
+            <div style="font-size: 11.5px; color: #E2E8F0; line-height: 1.5;">
+              <strong>Strategic Objective:</strong> Sandeep Sharma wide-yorker discipline vs Hetmyer boundary explosion.
+            </div>
+            <div style="margin-top: 10px; padding: 8px 10px; background: rgba(229, 0, 125, 0.08); border-radius: 6px; font-size: 11px; color: #FF85C0;">
+              🎯 <strong>Choke Blueprint:</strong> ${current.deathProfile}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- HEAD-TO-HEAD MARQUEE DUELS TABLE -->
+      <div class="card" style="margin-bottom: 16px;">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="card-title-prefix">Micro-Tactics:</span> 4 Marquee Head-to-Head Duels (RR vs ${current.shortName})
+          </div>
+          <div class="card-subtitle">
+            Empirical strike rates, dot percentages, and tactical directives under high leverage (LI &ge; 1.32).
+          </div>
+        </div>
+        <div class="table-scroll" style="overflow-x: auto; padding: 0 10px 10px 10px;">
+          <table class="data-table" style="width: 100%; border-collapse: collapse; font-size: 11px;">
+            <thead>
+              <tr style="background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.08); font-family: var(--font-mono); color: #94A3B8;">
+                <th style="text-align: left; padding: 10px 12px;">KEY DUEL (BATTER VS BOWLER)</th>
+                <th style="text-align: center; width: 90px;">HP STRIKE RATE</th>
+                <th style="text-align: center; width: 90px;">DOT BALL %</th>
+                <th style="text-align: center; width: 130px;">TACTICAL EDGE</th>
+                <th style="text-align: left; min-width: 280px;">DUGOUT TACTICAL DIRECTIVE</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${getDuelsForOpponent(current.code).map(d => `
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                  <td style="padding: 10px 12px;">
+                    <div style="font-weight: 800; color: #FFFFFF;">${d.batter}</div>
+                    <div style="font-size: 10px; color: #94A3B8; margin-top: 1px;">vs <strong>${d.bowler}</strong></div>
+                  </td>
+                  <td style="text-align: center; font-family: var(--font-mono); font-weight: 800; color: ${parseFloat(d.sr) >= 150 ? '#34D399' : parseFloat(d.sr) <= 125 ? '#EF4444' : '#FBBF24'};">
+                    ${d.sr}
+                  </td>
+                  <td style="text-align: center; font-family: var(--font-mono); color: #CBD5E1;">
+                    ${d.dotPct}
+                  </td>
+                  <td style="text-align: center;">
+                    <span style="font-family: var(--font-mono); font-size: 9.5px; font-weight: 800; padding: 3px 8px; border-radius: 4px; ${d.edge === 'RR Advantage' ? 'background: rgba(52,211,153,0.15); color: #34D399; border: 1px solid rgba(52,211,153,0.3);' : d.edge === 'Bowler Advantage' ? 'background: rgba(239,68,68,0.15); color: #F87171; border: 1px solid rgba(239,68,68,0.3);' : 'background: rgba(251,191,36,0.15); color: #FBBF24; border: 1px solid rgba(251,191,36,0.3);'}">
+                      ${d.edge}
+                    </span>
+                  </td>
+                  <td style="padding: 10px 12px; color: #E2E8F0; font-size: 11px; line-height: 1.4;">
+                    ${d.note}
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- MATCH-DAY DIRECTIVE CARDS (EXPANDED IN COMMIT 4) -->
+      <div id="clash-directives-container"></div>
+    </div>
   `;
 }
 
