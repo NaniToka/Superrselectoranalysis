@@ -22960,21 +22960,40 @@ function renderDossierTab() {
           </label>
         </div>
 
-        <!-- Target Opponent Selector for Clash Section -->
-        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; background: rgba(4, 15, 33, 0.6); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
-          <span style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase;">Target Match Opponent:</span>
-          <select id="dossier-opponent-select" onchange="setDossierOpponent(this.value)" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #FFF; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 6px; outline: none; cursor: pointer;">
-            <option value="CSK" ${DOSSIER_STATE.opponent === 'CSK' ? 'selected' : ''}>Chennai Super Kings (CSK)</option>
-            <option value="MI" ${DOSSIER_STATE.opponent === 'MI' ? 'selected' : ''}>Mumbai Indians (MI)</option>
-            <option value="KKR" ${DOSSIER_STATE.opponent === 'KKR' ? 'selected' : ''}>Kolkata Knight Riders (KKR)</option>
-            <option value="RCB" ${DOSSIER_STATE.opponent === 'RCB' ? 'selected' : ''}>Royal Challengers Bengaluru (RCB)</option>
-            <option value="SRH" ${DOSSIER_STATE.opponent === 'SRH' ? 'selected' : ''}>Sunrisers Hyderabad (SRH)</option>
-            <option value="GT" ${DOSSIER_STATE.opponent === 'GT' ? 'selected' : ''}>Gujarat Titans (GT)</option>
-            <option value="LSG" ${DOSSIER_STATE.opponent === 'LSG' ? 'selected' : ''}>Lucknow Super Giants (LSG)</option>
-            <option value="DC" ${DOSSIER_STATE.opponent === 'DC' ? 'selected' : ''}>Delhi Capitals (DC)</option>
-            <option value="PBKS" ${DOSSIER_STATE.opponent === 'PBKS' ? 'selected' : ''}>Punjab Kings (PBKS)</option>
-          </select>
-          <span style="font-size: 10.5px; color: #64748B;">Updates Section 6 with bespoke match-day plan.</span>
+        <!-- QUICK PRESETS & NOTES CONTROLS -->
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; align-items: center;">
+          <span style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase;">Quick Presets:</span>
+          <button onclick="applyDossierPreset('matchday')" class="btn-header-action" style="background: rgba(229,0,125,0.15); border-color: rgba(229,0,125,0.3); color: #FFB3D9; font-size: 11px; padding: 4px 10px; font-weight: 700;">
+            ⚔️ Match-Day Tactical Pack
+          </button>
+          <button onclick="applyDossierPreset('auction')" class="btn-header-action" style="background: rgba(56,189,248,0.15); border-color: rgba(56,189,248,0.3); color: #7DD3FC; font-size: 11px; padding: 4px 10px; font-weight: 700;">
+            💎 Auction &amp; Overseas Review
+          </button>
+          <button onclick="applyDossierPreset('full')" class="btn-header-action" style="background: rgba(52,211,153,0.15); border-color: rgba(52,211,153,0.3); color: #6EE7B7; font-size: 11px; padding: 4px 10px; font-weight: 700;">
+            📑 Full Master Dossier (All 6)
+          </button>
+        </div>
+
+        <!-- Target Opponent Selector for Clash Section & Custom Notes -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; background: rgba(4, 15, 33, 0.6); padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase;">Target Match Opponent:</label>
+            <select id="dossier-opponent-select" onchange="setDossierOpponent(this.value)" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #FFF; font-size: 12px; font-weight: 700; padding: 6px 10px; border-radius: 6px; outline: none; cursor: pointer;">
+              <option value="CSK" ${DOSSIER_STATE.opponent === 'CSK' ? 'selected' : ''}>Chennai Super Kings (CSK)</option>
+              <option value="MI" ${DOSSIER_STATE.opponent === 'MI' ? 'selected' : ''}>Mumbai Indians (MI)</option>
+              <option value="KKR" ${DOSSIER_STATE.opponent === 'KKR' ? 'selected' : ''}>Kolkata Knight Riders (KKR)</option>
+              <option value="RCB" ${DOSSIER_STATE.opponent === 'RCB' ? 'selected' : ''}>Royal Challengers Bengaluru (RCB)</option>
+              <option value="SRH" ${DOSSIER_STATE.opponent === 'SRH' ? 'selected' : ''}>Sunrisers Hyderabad (SRH)</option>
+              <option value="GT" ${DOSSIER_STATE.opponent === 'GT' ? 'selected' : ''}>Gujarat Titans (GT)</option>
+              <option value="LSG" ${DOSSIER_STATE.opponent === 'LSG' ? 'selected' : ''}>Lucknow Super Giants (LSG)</option>
+              <option value="DC" ${DOSSIER_STATE.opponent === 'DC' ? 'selected' : ''}>Delhi Capitals (DC)</option>
+              <option value="PBKS" ${DOSSIER_STATE.opponent === 'PBKS' ? 'selected' : ''}>Punjab Kings (PBKS)</option>
+            </select>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase;">Executive Staff Match Notes:</label>
+            <input type="text" id="dossier-custom-notes" value="${DOSSIER_STATE.notes}" oninput="updateDossierNotes(this.value)" placeholder="Enter tactical briefing notes..." style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #FFF; font-size: 12px; padding: 6px 10px; border-radius: 6px; outline: none; width: 100%; box-sizing: border-box;">
+          </div>
         </div>
       </div>
     </div>
@@ -22984,6 +23003,27 @@ function renderDossierTab() {
   `;
 
   renderDossierPreview();
+}
+
+function applyDossierPreset(preset) {
+  if (preset === 'matchday') {
+    DOSSIER_STATE.sections = { summary: true, leaderboard: false, overseas: false, defense: true, jaipur: true, clash: true };
+  } else if (preset === 'auction') {
+    DOSSIER_STATE.sections = { summary: true, leaderboard: true, overseas: true, defense: false, jaipur: false, clash: false };
+  } else {
+    DOSSIER_STATE.sections = { summary: true, leaderboard: true, overseas: true, defense: true, jaipur: true, clash: true };
+  }
+  Object.keys(DOSSIER_STATE.sections).forEach(k => {
+    const el = document.getElementById('dossier-sec-' + k);
+    if (el) el.checked = DOSSIER_STATE.sections[k];
+  });
+  renderDossierPreview();
+}
+
+function updateDossierNotes(val) {
+  DOSSIER_STATE.notes = val;
+  const notesEl = document.getElementById('dossier-rendered-notes');
+  if (notesEl) notesEl.textContent = val;
 }
 
 function toggleDossierSection(secKey, isChecked) {
@@ -23167,6 +23207,14 @@ function renderDossierPreview() {
         </div>
       ` : ''}
 
+      <!-- LIVE CUSTOM NOTES BLOCK -->
+      ${DOSSIER_STATE.notes ? `
+        <div style="margin-top: 18px; background: rgba(255,255,255,0.02); border-left: 3px solid var(--rr-pink); padding: 10px 14px; border-radius: 0 8px 8px 0;">
+          <div style="font-size: 10px; font-weight: 800; color: #FF85C0; text-transform: uppercase;">Executive Staff Directive Note:</div>
+          <div id="dossier-rendered-notes" style="font-size: 11.5px; color: #E2E8F0; font-style: italic; margin-top: 4px;">${DOSSIER_STATE.notes}</div>
+        </div>
+      ` : ''}
+
       <!-- FOOTER SIGN-OFF -->
       <div style="margin-top: 24px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
         <div style="font-size: 10.5px; color: #64748B; font-family: var(--font-mono);">
@@ -23269,6 +23317,8 @@ function exportDossierJSON() {
 
 window.DOSSIER_STATE = DOSSIER_STATE;
 window.renderDossierTab = renderDossierTab;
+window.applyDossierPreset = applyDossierPreset;
+window.updateDossierNotes = updateDossierNotes;
 window.toggleDossierSection = toggleDossierSection;
 window.toggleAllDossierSections = toggleAllDossierSections;
 window.setDossierOpponent = setDossierOpponent;
