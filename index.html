@@ -22097,8 +22097,34 @@ window.CLASH_STATE = CLASH_STATE;
 window.selectClashOpponent = selectClashOpponent;
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   PART F2: LIVE IN-PLAY DUGOUT IPAD TRACKER (WPA & LEVERAGE CONSOLE)
+   PART F2: LIVE IN-PLAY DUGOUT IPAD TRACKER (WPA, SCORECARD & STADIUM HOLODECK)
    ══════════════════════════════════════════════════════════════════════════════ */
+
+const RR_FULL_SQUAD_BATTING = [
+  { id: 'jaiswal', name: 'Yashasvi Jaiswal', role: 'Explosive Opener', runs: 38, balls: 22, fours: 5, sixes: 2, status: 'out', howOut: 'c Jadeja b Pathirana' },
+  { id: 'buttler', name: 'Jos Buttler', role: 'Top Order Batter', runs: 42, balls: 28, fours: 4, sixes: 2, status: 'out', howOut: 'b Bumrah' },
+  { id: 'samson', name: 'Sanju Samson', role: 'Captain / WK', runs: 34, balls: 20, fours: 3, sixes: 1, status: 'striker', howOut: '' },
+  { id: 'parag', name: 'Riyan Parag', role: 'Middle Enforcer', runs: 18, balls: 14, fours: 1, sixes: 1, status: 'out', howOut: 'c & b Narine' },
+  { id: 'hetmyer', name: 'Shimron Hetmyer', role: 'Death Finisher', runs: 16, balls: 10, fours: 1, sixes: 1, status: 'non-striker', howOut: '' },
+  { id: 'jurel', name: 'Dhruv Jurel', role: 'Wicketkeeper / Finisher', runs: 4, balls: 3, fours: 0, sixes: 0, status: 'out', howOut: 'run out (Kohli)' },
+  { id: 'ashwin', name: 'Ravichandran Ashwin', role: 'Spin All-Rounder', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
+  { id: 'boult', name: 'Trent Boult', role: 'Fast Bowler', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
+  { id: 'avesh', name: 'Avesh Khan', role: 'Pace Bowler', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
+  { id: 'sandeep', name: 'Sandeep Sharma', role: 'Death Specialist', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
+  { id: 'chahal', name: 'Yuzvendra Chahal', role: 'Leg Spinner', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' }
+];
+
+const OPPONENT_BOWLERS_DATABASE = {
+  'Matheesha Pathirana': { team: 'CSK', overs: 3.2, maidens: 0, runs: 28, wickets: 2, dots: 9, econ: 8.4 },
+  'Jasprit Bumrah': { team: 'MI', overs: 4.0, maidens: 1, runs: 19, wickets: 2, dots: 14, econ: 4.75 },
+  'Sunil Narine': { team: 'KKR', overs: 4.0, maidens: 0, runs: 24, wickets: 1, dots: 11, econ: 6.0 },
+  'Sandeep Sharma': { team: 'RR', overs: 3.0, maidens: 0, runs: 22, wickets: 1, dots: 8, econ: 7.33 },
+  'Arshdeep Singh': { team: 'PBKS', overs: 3.0, maidens: 0, runs: 29, wickets: 2, dots: 7, econ: 9.67 },
+  'Pat Cummins': { team: 'SRH', overs: 4.0, maidens: 0, runs: 35, wickets: 1, dots: 9, econ: 8.75 },
+  'Lockie Ferguson': { team: 'PBKS', overs: 3.0, maidens: 0, runs: 31, wickets: 1, dots: 6, econ: 10.33 },
+  'Jacob Duffy': { team: 'RCB', overs: 4.0, maidens: 0, runs: 26, wickets: 2, dots: 12, econ: 6.5 }
+};
+
 const LIVE_TRACKER_STATE = {
   target: 185,
   runs: 152,
@@ -22106,8 +22132,48 @@ const LIVE_TRACKER_STATE = {
   overs: 17,
   ballsInOver: 2,
   striker: 'Sanju Samson',
+  nonStriker: 'Shimron Hetmyer',
   bowler: 'Matheesha Pathirana',
-  preset: 'Tight Death Chase (18 off 12)'
+  preset: 'Tight Death Chase (18 off 12)',
+  isFreeHit: false,
+  freeHitAlert: '',
+  fallOfWickets: [
+    { wkt: 1, score: 38, batter: 'Yashasvi Jaiswal', over: '4.2' },
+    { wkt: 2, score: 78, batter: 'Jos Buttler', over: '8.4' },
+    { wkt: 3, score: 112, batter: 'Riyan Parag', over: '12.5' },
+    { wkt: 4, score: 148, batter: 'Dhruv Jurel', over: '16.4' }
+  ],
+  currentOverHistory: [
+    {
+      ballNum: '17.1',
+      type: 'dot',
+      runs: 0,
+      label: '0',
+      speed: 144,
+      shot: 'Block to Cover Point',
+      sector: 'Cover',
+      dist: '14m',
+      x: 215,
+      y: 205,
+      note: 'Good length 144 km/h angled in, solidly defended to cover.'
+    },
+    {
+      ballNum: '17.2',
+      type: 'four',
+      runs: 4,
+      label: '4',
+      speed: 147,
+      shot: 'Screaming Cover Drive',
+      sector: 'Extra Cover',
+      dist: '68m',
+      x: 105,
+      y: 135,
+      note: 'Overpitched yorker attempt, carved through extra cover to the rope!'
+    }
+  ],
+  selectedBallIndex: 1,
+  batters: JSON.parse(JSON.stringify(RR_FULL_SQUAD_BATTING)),
+  bowlers: JSON.parse(JSON.stringify(OPPONENT_BOWLERS_DATABASE))
 };
 
 function renderLiveTrackerTab() {
@@ -22127,8 +22193,48 @@ function resetLiveTrackerState() {
   LIVE_TRACKER_STATE.overs = 17;
   LIVE_TRACKER_STATE.ballsInOver = 2;
   LIVE_TRACKER_STATE.striker = 'Sanju Samson';
+  LIVE_TRACKER_STATE.nonStriker = 'Shimron Hetmyer';
   LIVE_TRACKER_STATE.bowler = 'Matheesha Pathirana';
   LIVE_TRACKER_STATE.preset = 'Tight Death Chase (18 off 12)';
+  LIVE_TRACKER_STATE.isFreeHit = false;
+  LIVE_TRACKER_STATE.freeHitAlert = '';
+  LIVE_TRACKER_STATE.fallOfWickets = [
+    { wkt: 1, score: 38, batter: 'Yashasvi Jaiswal', over: '4.2' },
+    { wkt: 2, score: 78, batter: 'Jos Buttler', over: '8.4' },
+    { wkt: 3, score: 112, batter: 'Riyan Parag', over: '12.5' },
+    { wkt: 4, score: 148, batter: 'Dhruv Jurel', over: '16.4' }
+  ];
+  LIVE_TRACKER_STATE.currentOverHistory = [
+    {
+      ballNum: '17.1',
+      type: 'dot',
+      runs: 0,
+      label: '0',
+      speed: 144,
+      shot: 'Block to Cover Point',
+      sector: 'Cover',
+      dist: '14m',
+      x: 215,
+      y: 205,
+      note: 'Good length 144 km/h angled in, solidly defended to cover.'
+    },
+    {
+      ballNum: '17.2',
+      type: 'four',
+      runs: 4,
+      label: '4',
+      speed: 147,
+      shot: 'Screaming Cover Drive',
+      sector: 'Extra Cover',
+      dist: '68m',
+      x: 105,
+      y: 135,
+      note: 'Overpitched yorker attempt, carved through extra cover to the rope!'
+    }
+  ];
+  LIVE_TRACKER_STATE.selectedBallIndex = 1;
+  LIVE_TRACKER_STATE.batters = JSON.parse(JSON.stringify(RR_FULL_SQUAD_BATTING));
+  LIVE_TRACKER_STATE.bowlers = JSON.parse(JSON.stringify(OPPONENT_BOWLERS_DATABASE));
   renderLiveTrackerEngineView();
 }
 
@@ -22142,16 +22248,340 @@ function adjTrackerWickets(delta) {
   renderLiveTrackerEngineView();
 }
 
-function adjTrackerBall(runsOnBall, isWicket) {
-  if (isWicket) {
-    LIVE_TRACKER_STATE.wickets = Math.min(10, LIVE_TRACKER_STATE.wickets + 1);
+function swapBatters() {
+  const temp = LIVE_TRACKER_STATE.striker;
+  LIVE_TRACKER_STATE.striker = LIVE_TRACKER_STATE.nonStriker;
+  LIVE_TRACKER_STATE.nonStriker = temp;
+  renderLiveTrackerEngineView();
+}
+
+function inspectStadiumBall(idx) {
+  if (idx >= 0 && idx < LIVE_TRACKER_STATE.currentOverHistory.length) {
+    LIVE_TRACKER_STATE.selectedBallIndex = idx;
+    renderLiveTrackerEngineView();
   }
-  LIVE_TRACKER_STATE.runs = Math.max(0, LIVE_TRACKER_STATE.runs + runsOnBall);
-  
-  let totalBalls = LIVE_TRACKER_STATE.overs * 6 + LIVE_TRACKER_STATE.ballsInOver + 1;
-  if (totalBalls > 120) totalBalls = 120;
-  LIVE_TRACKER_STATE.overs = Math.floor(totalBalls / 6);
-  LIVE_TRACKER_STATE.ballsInOver = totalBalls % 6;
+}
+
+function getBallTelemetry(outcomeType, runs, isFreeHit) {
+  const speeds = [138, 141, 143, 145, 147, 149, 151];
+  const speed = speeds[Math.floor(Math.random() * speeds.length)];
+
+  if (outcomeType === 'wide') {
+    return {
+      type: 'wide',
+      runs: 1,
+      label: 'Wd',
+      speed: speed - 3,
+      shot: 'Delivery Tramline Wide Off-Stump',
+      sector: 'Wide Tramline (Off)',
+      dist: 'Outside Tramline',
+      x: 165,
+      y: 240,
+      note: 'Slanted well outside the off-stump tramline. 1 Extra conceded, over ball count retained.'
+    };
+  }
+
+  if (outcomeType === 'noball') {
+    return {
+      type: 'noball',
+      runs: 1,
+      label: 'Nb',
+      speed: speed,
+      shot: 'Front Crease Overstep • FREE HIT Triggered',
+      sector: 'Bowler Front Crease',
+      dist: 'Front-foot Fault',
+      x: 250,
+      y: 315,
+      note: 'Bowler clearly overstepped popping crease. 1 Extra run, FREE HIT awarded on next legal ball!'
+    };
+  }
+
+  if (outcomeType === 'wicket') {
+    if (isFreeHit) {
+      return {
+        type: 'freehit_immunity',
+        runs: 0,
+        label: '0*',
+        speed: speed,
+        shot: 'Slog to Deep Fielder • FREE HIT IMMUNITY',
+        sector: 'Deep Mid-Wicket',
+        dist: '62m',
+        x: 370,
+        y: 150,
+        note: 'Caught on the boundary rope, but STRIKER IMMUNE under Free Hit rules! Not Out.'
+      };
+    }
+    const dismissals = [
+      { shot: 'Yorker Shatters Off-Stump', sector: 'Stumps', dist: 'Bowled', x: 250, y: 232, note: '148 km/h toe-crushing yorker snuck under the bat into off-pole!' },
+      { shot: 'High Mistimed Skier to Long-On', sector: 'Long-On', dist: '64m', x: 300, y: 80, note: 'Top-edge soared high into night sky, caught comfortably at long-on.' },
+      { shot: 'Edge Carried to Wicketkeeper', sector: 'Behind Stumps', dist: 'Edge', x: 250, y: 220, note: 'Feathered edge through to the keeper on a climbing back-of-length delivery.' },
+      { shot: 'Plumb LBW on Full In-Swinger', sector: 'Pads (LBW)', dist: 'LBW', x: 250, y: 236, note: 'Beaten for pace by sharp late inward swing, striking middle and leg.' }
+    ];
+    const d = dismissals[Math.floor(Math.random() * dismissals.length)];
+    return {
+      type: 'wicket',
+      runs: 0,
+      label: 'W',
+      speed: speed,
+      shot: d.shot,
+      sector: d.sector,
+      dist: d.dist,
+      x: d.x,
+      y: d.y,
+      note: d.note
+    };
+  }
+
+  if (outcomeType === 'six') {
+    const sixOptions = [
+      { shot: 'Monster Slog-Sweep over Cow Corner', sector: 'Deep Mid-Wicket', dist: '94m', x: 420, y: 130 },
+      { shot: 'Straight Downtown Lofted Drive', sector: 'Long-Off Stands', dist: '88m', x: 210, y: 35 },
+      { shot: 'Upper-Cut into Third-Man Tiers', sector: 'Deep Third Man', dist: '76m', x: 120, y: 390 },
+      { shot: 'Helicopter Whip over Deep Square Leg', sector: 'Deep Square Leg', dist: '89m', x: 430, y: 270 }
+    ];
+    const s = sixOptions[Math.floor(Math.random() * sixOptions.length)];
+    return {
+      type: 'six',
+      runs: 6,
+      label: '6',
+      speed: speed,
+      shot: s.shot,
+      sector: s.sector,
+      dist: s.dist,
+      x: s.x,
+      y: s.y,
+      note: `Tremendous execution! Clears the rope by a mile into the Jaipur crowd.`
+    };
+  }
+
+  if (outcomeType === 'four') {
+    const fourOptions = [
+      { shot: 'Lethal Cover Drive to Rope', sector: 'Deep Extra Cover', dist: '68m', x: 105, y: 135 },
+      { shot: 'Pull Shot through Midwicket Gap', sector: 'Deep Mid-Wicket', dist: '66m', x: 385, y: 155 },
+      { shot: 'Delicate Late Cut Past Slip', sector: 'Backward Point Rope', dist: '62m', x: 110, y: 295 },
+      { shot: 'Straight Punch Past Bowler', sector: 'Long-On Boundary', dist: '72m', x: 285, y: 48 }
+    ];
+    const f = fourOptions[Math.floor(Math.random() * fourOptions.length)];
+    return {
+      type: 'four',
+      runs: 4,
+      label: '4',
+      speed: speed,
+      shot: f.shot,
+      sector: f.sector,
+      dist: f.dist,
+      x: f.x,
+      y: f.y,
+      note: `Timed with supreme precision, beating the ring fielders cleanly to the cushion.`
+    };
+  }
+
+  if (outcomeType === 'run') {
+    if (runs === 1) {
+      return {
+        type: 'run',
+        runs: 1,
+        label: '1',
+        speed: speed,
+        shot: 'Soft Hands Dab into Cover-Point',
+        sector: 'Point',
+        dist: '24m',
+        x: 180,
+        y: 220,
+        note: 'Pushed into the gap for a sharp single; strike rotates.'
+      };
+    } else if (runs === 2) {
+      return {
+        type: 'run',
+        runs: 2,
+        label: '2',
+        speed: speed,
+        shot: 'Worked Deep into Mid-Wicket Pocket',
+        sector: 'Deep Mid-Wicket',
+        dist: '48m',
+        x: 340,
+        y: 190,
+        note: 'High-speed running between wickets; completes two runs safely.'
+      };
+    } else {
+      return {
+        type: 'run',
+        runs: 3,
+        label: '3',
+        speed: speed,
+        shot: 'Sliced into Deep Backward Point Sweeper',
+        sector: 'Deep Point',
+        dist: '55m',
+        x: 140,
+        y: 260,
+        note: 'Superb outfield relay by sweeper; batters hustle 3 runs.'
+      };
+    }
+  }
+
+  // Default: Dot
+  const dotOptions = [
+    { shot: 'Forward Defensive Dead-Bat', sector: 'Mid-Off Ring', dist: '8m', x: 235, y: 200, note: 'Solid forward defensive block right into the turf.' },
+    { shot: 'Play & Miss Outside Off-Cutter', sector: 'Keeper Gloves', dist: '0m', x: 250, y: 215, note: 'Beaten by seam movement outside off, collected cleanly by keeper.' },
+    { shot: 'Sharp Slower Ball Bouncer Ducked', sector: 'Crease', dist: '0m', x: 250, y: 240, note: 'Well-directed bumper, batter sways out of the way safely.' }
+  ];
+  const dt = dotOptions[Math.floor(Math.random() * dotOptions.length)];
+  return {
+    type: 'dot',
+    runs: 0,
+    label: '0',
+    speed: speed,
+    shot: dt.shot,
+    sector: dt.sector,
+    dist: dt.dist,
+    x: dt.x,
+    y: dt.y,
+    note: dt.note
+  };
+}
+
+function adjTrackerBall(outcomeType, runsParam) {
+  const isFreeHit = LIVE_TRACKER_STATE.isFreeHit;
+  LIVE_TRACKER_STATE.freeHitAlert = '';
+
+  // 1. Telemetry Generation
+  const telem = getBallTelemetry(outcomeType, runsParam, isFreeHit);
+
+  // 2. Wide delivery handling
+  if (outcomeType === 'wide') {
+    LIVE_TRACKER_STATE.runs += 1;
+    // Bowler stats
+    const b = LIVE_TRACKER_STATE.bowlers[LIVE_TRACKER_STATE.bowler];
+    if (b) {
+      b.runs += 1;
+      const totalOvers = Math.floor(b.overs) + ((b.overs % 1) * 10) / 6;
+      if (totalOvers > 0) b.econ = parseFloat((b.runs / totalOvers).toFixed(2));
+    }
+    // Ball history: recorded with wide tag, ballsInOver does NOT increment
+    telem.ballNum = `${LIVE_TRACKER_STATE.overs}.${LIVE_TRACKER_STATE.ballsInOver} (Wd)`;
+    LIVE_TRACKER_STATE.currentOverHistory.push(telem);
+    LIVE_TRACKER_STATE.selectedBallIndex = LIVE_TRACKER_STATE.currentOverHistory.length - 1;
+    renderLiveTrackerEngineView();
+    return;
+  }
+
+  // 3. No Ball delivery handling
+  if (outcomeType === 'noball') {
+    LIVE_TRACKER_STATE.runs += 1;
+    LIVE_TRACKER_STATE.isFreeHit = true;
+    LIVE_TRACKER_STATE.freeHitAlert = '⚡ FREE HIT ACTIVE! Batter immune to dismissal on next delivery!';
+    const b = LIVE_TRACKER_STATE.bowlers[LIVE_TRACKER_STATE.bowler];
+    if (b) {
+      b.runs += 1;
+      const totalOvers = Math.floor(b.overs) + ((b.overs % 1) * 10) / 6;
+      if (totalOvers > 0) b.econ = parseFloat((b.runs / totalOvers).toFixed(2));
+    }
+    telem.ballNum = `${LIVE_TRACKER_STATE.overs}.${LIVE_TRACKER_STATE.ballsInOver} (Nb)`;
+    LIVE_TRACKER_STATE.currentOverHistory.push(telem);
+    LIVE_TRACKER_STATE.selectedBallIndex = LIVE_TRACKER_STATE.currentOverHistory.length - 1;
+    renderLiveTrackerEngineView();
+    return;
+  }
+
+  // 4. Legal ball progression
+  const currentLegalBall = LIVE_TRACKER_STATE.ballsInOver + 1;
+  telem.ballNum = `${LIVE_TRACKER_STATE.overs}.${currentLegalBall}`;
+
+  // If previous ball was Free Hit, consume it now
+  if (isFreeHit) {
+    LIVE_TRACKER_STATE.isFreeHit = false;
+    if (outcomeType === 'wicket') {
+      LIVE_TRACKER_STATE.freeHitAlert = '🛡️ FREE HIT IMMUNITY! Striker survived dismissal attempt!';
+    }
+  }
+
+  // Find active striker & non-striker in batting lineup
+  let strikerObj = LIVE_TRACKER_STATE.batters.find(b => b.name === LIVE_TRACKER_STATE.striker);
+  if (!strikerObj) {
+    strikerObj = { name: LIVE_TRACKER_STATE.striker, runs: 0, balls: 0, fours: 0, sixes: 0, status: 'striker' };
+    LIVE_TRACKER_STATE.batters.push(strikerObj);
+  }
+
+  // Handle Wicket Dismissal
+  if (outcomeType === 'wicket' && telem.type === 'wicket') {
+    LIVE_TRACKER_STATE.wickets = Math.min(10, LIVE_TRACKER_STATE.wickets + 1);
+    strikerObj.balls += 1;
+    strikerObj.status = 'out';
+    strikerObj.howOut = `${telem.dist === 'Bowled' ? 'b' : 'c Sub b'} ${LIVE_TRACKER_STATE.bowler}`;
+
+    // Record Fall of Wicket
+    LIVE_TRACKER_STATE.fallOfWickets.push({
+      wkt: LIVE_TRACKER_STATE.wickets,
+      score: LIVE_TRACKER_STATE.runs,
+      batter: strikerObj.name,
+      over: `${LIVE_TRACKER_STATE.overs}.${currentLegalBall}`
+    });
+
+    // Bowler wicket tally
+    const b = LIVE_TRACKER_STATE.bowlers[LIVE_TRACKER_STATE.bowler];
+    if (b) {
+      b.wickets += 1;
+      b.dots += 1;
+    }
+
+    // Next Batter from Dugout walks out!
+    const nextBatter = LIVE_TRACKER_STATE.batters.find(b => b.status === 'dnb');
+    if (nextBatter && LIVE_TRACKER_STATE.wickets < 10) {
+      nextBatter.status = 'striker';
+      LIVE_TRACKER_STATE.striker = nextBatter.name;
+    }
+  } else {
+    // Scoring ball
+    const runsAdded = telem.runs;
+    LIVE_TRACKER_STATE.runs += runsAdded;
+    strikerObj.runs += runsAdded;
+    strikerObj.balls += 1;
+    if (runsAdded === 4) strikerObj.fours += 1;
+    if (runsAdded === 6) strikerObj.sixes += 1;
+
+    // Bowler stats
+    const b = LIVE_TRACKER_STATE.bowlers[LIVE_TRACKER_STATE.bowler];
+    if (b) {
+      b.runs += runsAdded;
+      if (runsAdded === 0) b.dots += 1;
+    }
+
+    // Strike rotation on odd runs (1 or 3)
+    if (runsAdded % 2 === 1) {
+      const temp = LIVE_TRACKER_STATE.striker;
+      LIVE_TRACKER_STATE.striker = LIVE_TRACKER_STATE.nonStriker;
+      LIVE_TRACKER_STATE.nonStriker = temp;
+    }
+  }
+
+  // Update Bowler over count
+  const b = LIVE_TRACKER_STATE.bowlers[LIVE_TRACKER_STATE.bowler];
+  if (b) {
+    const curBalls = Math.round((b.overs % 1) * 10) + 1;
+    if (curBalls >= 6) {
+      b.overs = Math.floor(b.overs) + 1;
+    } else {
+      b.overs = parseFloat((Math.floor(b.overs) + (curBalls / 10)).toFixed(1));
+    }
+    const totalOvers = Math.floor(b.overs) + ((b.overs % 1) * 10) / 6;
+    if (totalOvers > 0) b.econ = parseFloat((b.runs / totalOvers).toFixed(2));
+  }
+
+  // Over progression
+  if (currentLegalBall >= 6) {
+    LIVE_TRACKER_STATE.overs += 1;
+    LIVE_TRACKER_STATE.ballsInOver = 0;
+    // Over complete: rotate strike
+    const temp = LIVE_TRACKER_STATE.striker;
+    LIVE_TRACKER_STATE.striker = LIVE_TRACKER_STATE.nonStriker;
+    LIVE_TRACKER_STATE.nonStriker = temp;
+  } else {
+    LIVE_TRACKER_STATE.ballsInOver = currentLegalBall;
+  }
+
+  // Add ball to current over history
+  LIVE_TRACKER_STATE.currentOverHistory.push(telem);
+  LIVE_TRACKER_STATE.selectedBallIndex = LIVE_TRACKER_STATE.currentOverHistory.length - 1;
 
   renderLiveTrackerEngineView();
 }
@@ -22169,6 +22599,7 @@ function applyTrackerPreset(preset) {
     LIVE_TRACKER_STATE.overs = 18;
     LIVE_TRACKER_STATE.ballsInOver = 0;
     LIVE_TRACKER_STATE.striker = 'Sanju Samson';
+    LIVE_TRACKER_STATE.nonStriker = 'Shimron Hetmyer';
     LIVE_TRACKER_STATE.bowler = 'Matheesha Pathirana';
     LIVE_TRACKER_STATE.preset = 'Tight Death Chase (17 needed off 12)';
   } else if (preset === 'middle') {
@@ -22178,6 +22609,7 @@ function applyTrackerPreset(preset) {
     LIVE_TRACKER_STATE.overs = 12;
     LIVE_TRACKER_STATE.ballsInOver = 0;
     LIVE_TRACKER_STATE.striker = 'Riyan Parag';
+    LIVE_TRACKER_STATE.nonStriker = 'Sanju Samson';
     LIVE_TRACKER_STATE.bowler = 'Sunil Narine';
     LIVE_TRACKER_STATE.preset = 'Middle Squeeze (85 needed off 48)';
   } else if (preset === 'powerplay') {
@@ -22187,6 +22619,7 @@ function applyTrackerPreset(preset) {
     LIVE_TRACKER_STATE.overs = 4;
     LIVE_TRACKER_STATE.ballsInOver = 3;
     LIVE_TRACKER_STATE.striker = 'Yashasvi Jaiswal';
+    LIVE_TRACKER_STATE.nonStriker = 'Jos Buttler';
     LIVE_TRACKER_STATE.bowler = 'Pat Cummins';
     LIVE_TRACKER_STATE.preset = 'Powerplay Blitzkrieg (Chasing 205)';
   } else if (preset === 'finalover') {
@@ -22196,9 +22629,28 @@ function applyTrackerPreset(preset) {
     LIVE_TRACKER_STATE.overs = 19;
     LIVE_TRACKER_STATE.ballsInOver = 0;
     LIVE_TRACKER_STATE.striker = 'Shimron Hetmyer';
+    LIVE_TRACKER_STATE.nonStriker = 'Dhruv Jurel';
     LIVE_TRACKER_STATE.bowler = 'Arshdeep Singh';
     LIVE_TRACKER_STATE.preset = 'High-Stakes Final Over (11 needed off 6)';
   }
+  LIVE_TRACKER_STATE.isFreeHit = false;
+  LIVE_TRACKER_STATE.freeHitAlert = '';
+  LIVE_TRACKER_STATE.currentOverHistory = [
+    {
+      ballNum: `${LIVE_TRACKER_STATE.overs}.1`,
+      type: 'dot',
+      runs: 0,
+      label: '0',
+      speed: 142,
+      shot: 'Tight Block into Crease',
+      sector: 'Pitch Center',
+      dist: '5m',
+      x: 245,
+      y: 220,
+      note: 'Dug out fast yorker solidly on the crease.'
+    }
+  ];
+  LIVE_TRACKER_STATE.selectedBallIndex = 0;
   renderLiveTrackerEngineView();
 }
 
@@ -22228,7 +22680,6 @@ function calculateLiveWPAAndLI(runsNeeded, ballsRemaining, wickets) {
   const wpWicket = 1 / (1 + Math.exp(-zWicket));
 
   const swing = Math.abs(wpBoundary - wpWicket);
-  // Benchmark swing = 0.0373 (3.73 percentage points per ball)
   const li = Math.max(0.2, Math.min(5.0, swing / 0.0373));
 
   let status = 'BALANCED LEVERAGE';
@@ -22241,7 +22692,6 @@ function calculateLiveWPAAndLI(runsNeeded, ballsRemaining, wickets) {
     color = '#F59E0B';
   } else if (li < 0.7) {
     status = 'LOW VOLATILITY ZONE';
-    color = '#64748B';
   }
 
   return {
@@ -22264,6 +22714,39 @@ function renderLiveTrackerEngineView() {
   const crr = oversCompleted > 0 ? (LIVE_TRACKER_STATE.runs / oversCompleted).toFixed(2) : '0.00';
   const rrr = ballsRemaining > 0 ? ((runsNeeded / ballsRemaining) * 6).toFixed(2) : (runsNeeded === 0 ? '0.00' : '99.99');
   const calc = calculateLiveWPAAndLI(runsNeeded, ballsRemaining, LIVE_TRACKER_STATE.wickets);
+
+  // Active Batters
+  const striker = LIVE_TRACKER_STATE.batters.find(b => b.name === LIVE_TRACKER_STATE.striker) || { name: LIVE_TRACKER_STATE.striker, runs: 0, balls: 0, fours: 0, sixes: 0, role: 'Batter' };
+  const nonStriker = LIVE_TRACKER_STATE.batters.find(b => b.name === LIVE_TRACKER_STATE.nonStriker) || { name: LIVE_TRACKER_STATE.nonStriker, runs: 0, balls: 0, fours: 0, sixes: 0, role: 'Batter' };
+  const strikerSR = striker.balls > 0 ? ((striker.runs / striker.balls) * 100).toFixed(1) : '0.0';
+  const nonStrikerSR = nonStriker.balls > 0 ? ((nonStriker.runs / nonStriker.balls) * 100).toFixed(1) : '0.0';
+
+  // Active Bowler
+  const bowlerStats = LIVE_TRACKER_STATE.bowlers[LIVE_TRACKER_STATE.bowler] || { overs: 3.2, maidens: 0, runs: 28, wickets: 2, dots: 9, econ: 8.4 };
+
+  // Selected Ball Telemetry for Stadium
+  const selIdx = LIVE_TRACKER_STATE.selectedBallIndex;
+  const activeBall = LIVE_TRACKER_STATE.currentOverHistory[selIdx] || LIVE_TRACKER_STATE.currentOverHistory[LIVE_TRACKER_STATE.currentOverHistory.length - 1] || {
+    ballNum: `${LIVE_TRACKER_STATE.overs}.${LIVE_TRACKER_STATE.ballsInOver}`,
+    type: 'dot',
+    runs: 0,
+    label: '0',
+    speed: 144,
+    shot: 'Defensive Block',
+    sector: 'Cover',
+    dist: '10m',
+    x: 250,
+    y: 220,
+    note: 'In play delivery.'
+  };
+
+  // Trajectory color & stroke
+  let trajectoryColor = '#94A3B8';
+  if (activeBall.type === 'six') trajectoryColor = '#F59E0B';
+  else if (activeBall.type === 'four') trajectoryColor = '#34D399';
+  else if (activeBall.type === 'wicket') trajectoryColor = '#EF4444';
+  else if (activeBall.type === 'run') trajectoryColor = '#38BDF8';
+  else if (activeBall.type === 'wide' || activeBall.type === 'noball') trajectoryColor = '#FBBF24';
 
   container.innerHTML = `
     <!-- SCENARIO PRESETS BAR -->
@@ -22305,22 +22788,28 @@ function renderLiveTrackerEngineView() {
         </div>
       </div>
 
-      <!-- IN-PLAY RAPID BALL & RUN CONTROLLER (TOUCH STEPPERS) -->
-      <div style="padding: 16px 20px; background: rgba(0,0,0,0.25); display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: center;">
+      <!-- IN-PLAY RAPID BALL & RUN CONTROLLER (TOUCH STEPPERS & NO-BALL/WIDE) -->
+      <div style="padding: 16px 20px; background: rgba(0,0,0,0.3); display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center;">
         
-        <!-- BALL EVENT DISPATCHER -->
+        <!-- BALL EVENT DISPATCHER WITH NO BALL & WIDE -->
         <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
           <span style="font-size: 10.5px; font-weight: 800; color: #94A3B8; font-family: var(--font-mono); text-transform: uppercase;">+ Next Ball:</span>
-          <button onclick="adjTrackerBall(0, false)" class="toggle-btn" style="padding: 6px 12px; font-weight: 800; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); color: #FFFFFF;">0 (Dot)</button>
-          <button onclick="adjTrackerBall(1, false)" class="toggle-btn" style="padding: 6px 12px; font-weight: 800; background: rgba(56,189,248,0.15); border-color: #38BDF8; color: #7DD3FC;">+1</button>
-          <button onclick="adjTrackerBall(2, false)" class="toggle-btn" style="padding: 6px 12px; font-weight: 800; background: rgba(56,189,248,0.15); border-color: #38BDF8; color: #7DD3FC;">+2</button>
-          <button onclick="adjTrackerBall(4, false)" class="toggle-btn" style="padding: 6px 12px; font-weight: 800; background: rgba(52,211,153,0.15); border-color: #34D399; color: #6EE7B7;">+4 (FOUR)</button>
-          <button onclick="adjTrackerBall(6, false)" class="toggle-btn" style="padding: 6px 12px; font-weight: 800; background: rgba(245,158,11,0.15); border-color: #F59E0B; color: #FDE68A;">+6 (SIX)</button>
-          <button onclick="adjTrackerBall(0, true)" class="toggle-btn" style="padding: 6px 12px; font-weight: 800; background: rgba(239,68,68,0.18); border-color: #EF4444; color: #FCA5A5;">W (Wicket)</button>
+          <button onclick="adjTrackerBall('dot', 0)" class="toggle-btn" style="padding: 6px 11px; font-weight: 800; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); color: #FFFFFF;" title="Dot Ball (0 runs)">0 (Dot)</button>
+          <button onclick="adjTrackerBall('run', 1)" class="toggle-btn" style="padding: 6px 11px; font-weight: 800; background: rgba(56,189,248,0.15); border-color: #38BDF8; color: #7DD3FC;" title="Single Run (+1)">+1</button>
+          <button onclick="adjTrackerBall('run', 2)" class="toggle-btn" style="padding: 6px 11px; font-weight: 800; background: rgba(56,189,248,0.15); border-color: #38BDF8; color: #7DD3FC;" title="Two Runs (+2)">+2</button>
+          <button onclick="adjTrackerBall('four', 4)" class="toggle-btn" style="padding: 6px 11px; font-weight: 800; background: rgba(52,211,153,0.15); border-color: #34D399; color: #6EE7B7;" title="Four Boundary (+4)">+4 (FOUR)</button>
+          <button onclick="adjTrackerBall('six', 6)" class="toggle-btn" style="padding: 6px 11px; font-weight: 800; background: rgba(245,158,11,0.15); border-color: #F59E0B; color: #FDE68A;" title="Six Maximum (+6)">+6 (SIX)</button>
+          <button onclick="adjTrackerBall('wide', 1)" class="toggle-btn" style="padding: 6px 11px; font-weight: 800; background: rgba(234,179,8,0.18); border-color: #EAB308; color: #FEF08A;" title="Wide Ball (+1 Extra, Ball count retained)">Wd (Wide)</button>
+          <button onclick="adjTrackerBall('noball', 1)" class="toggle-btn" style="padding: 6px 11px; font-weight: 800; background: rgba(168,85,247,0.18); border-color: #A855F7; color: #E9D5FF;" title="No Ball (+1 Extra & FREE HIT)">Nb (No Ball)</button>
+          <button onclick="adjTrackerBall('wicket', 0)" class="toggle-btn" style="padding: 6px 11px; font-weight: 800; background: rgba(239,68,68,0.18); border-color: #EF4444; color: #FCA5A5;" title="Wicket (Dismissal & Batter Change)">W (Wicket)</button>
         </div>
 
-        <!-- FINE STEPPERS -->
+        <!-- FINE STEPPERS & ACTIONS -->
         <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+          <button onclick="swapBatters()" class="toggle-btn" style="font-size: 10.5px; padding: 4px 10px; background: rgba(255,255,255,0.05); color: #E2E8F0;" title="Rotate Strike between Striker and Non-Striker">
+            🔄 Swap Strike
+          </button>
+
           <div style="display: flex; align-items: center; gap: 4px; background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 2px 6px;">
             <span style="font-size: 10px; color: #94A3B8; font-family: var(--font-mono);">RUNS:</span>
             <button onclick="adjTrackerRuns(-1)" style="background: transparent; border: none; color: #94A3B8; cursor: pointer; padding: 2px 6px; font-weight: 800;">-</button>
@@ -22337,6 +22826,352 @@ function renderLiveTrackerEngineView() {
         </div>
 
       </div>
+
+      <!-- FREE HIT & IMMUNITY BANNER -->
+      ${LIVE_TRACKER_STATE.isFreeHit ? `
+        <div style="background: linear-gradient(90deg, rgba(168,85,247,0.3) 0%, rgba(236,72,153,0.3) 100%); border-top: 1px solid #A855F7; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 11.5px; font-weight: 800; color: #FDF4FF;">
+            <span style="font-size: 14px;">⚡</span>
+            <span>FREE HIT IN PLAY: Striker cannot be bowled, caught, or lbw on next delivery!</span>
+          </div>
+          <span style="background: #A855F7; color: #FFF; font-size: 9.5px; font-weight: 900; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-family: var(--font-mono);">Free Hit</span>
+        </div>
+      ` : ''}
+      ${LIVE_TRACKER_STATE.freeHitAlert ? `
+        <div style="background: rgba(52,211,153,0.15); border-top: 1px solid #34D399; padding: 8px 16px; font-size: 11px; font-weight: 800; color: #6EE7B7; display: flex; align-items: center; gap: 8px;">
+          <span>${LIVE_TRACKER_STATE.freeHitAlert}</span>
+        </div>
+      ` : ''}
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════════
+         REAL LIVE SCORECARD & SAWAI MANSINGH CRICKET STADIUM DUAL ENGINE
+         ══════════════════════════════════════════════════════════════════════════ -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; margin-bottom: 16px;">
+      
+      <!-- REAL LIVE SCORECARD CARD -->
+      <div class="card" style="border-top: 3px solid var(--rr-pink);">
+        <div class="card-header" style="background: rgba(230,0,126,0.06); display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div class="card-title">
+              <span class="card-title-prefix">Live In-Play:</span> Official Match Scorecard
+            </div>
+            <div class="card-subtitle">Active batting crease pairs, bowler figures, and fall of wickets tracking.</div>
+          </div>
+          <span style="font-size: 9.5px; font-weight: 800; background: rgba(52,211,153,0.15); color: #34D399; border: 1px solid #34D399; padding: 2px 7px; border-radius: 4px; font-family: var(--font-mono);">
+            ● LIVE INNINGS
+          </span>
+        </div>
+        
+        <div style="padding: 16px;">
+          <!-- BATTERS TABLE -->
+          <div style="font-size: 10px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 8px; font-family: var(--font-mono);">
+            Current Batters in Crease
+          </div>
+          <div style="overflow-x: auto; margin-bottom: 14px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: left;">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: #94A3B8; font-size: 10px; font-family: var(--font-mono);">
+                  <th style="padding: 6px 8px;">BATTER</th>
+                  <th style="padding: 6px 6px; text-align: right;">R</th>
+                  <th style="padding: 6px 6px; text-align: right;">B</th>
+                  <th style="padding: 6px 6px; text-align: right;">4s</th>
+                  <th style="padding: 6px 6px; text-align: right;">6s</th>
+                  <th style="padding: 6px 8px; text-align: right;">SR</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Striker Row -->
+                <tr style="background: rgba(230,0,126,0.12); border-bottom: 1px solid rgba(230,0,126,0.3);">
+                  <td style="padding: 8px; font-weight: 800; color: #FFFFFF; display: flex; align-items: center; gap: 6px;">
+                    <span style="color: var(--rr-pink); font-size: 13px;" title="Active Striker on strike">🏏</span>
+                    <div>
+                      <span style="color: #FF85C0;">${striker.name}</span>
+                      <span style="font-size: 9.5px; color: #94A3B8; display: block; font-weight: normal;">${striker.role || 'On Strike'}</span>
+                    </div>
+                  </td>
+                  <td style="padding: 8px 6px; text-align: right; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono); font-size: 13px;">${striker.runs}</td>
+                  <td style="padding: 8px 6px; text-align: right; color: #CBD5E1; font-family: var(--font-mono);">${striker.balls}</td>
+                  <td style="padding: 8px 6px; text-align: right; color: #34D399; font-family: var(--font-mono);">${striker.fours}</td>
+                  <td style="padding: 8px 6px; text-align: right; color: #F59E0B; font-family: var(--font-mono);">${striker.sixes}</td>
+                  <td style="padding: 8px; text-align: right; font-weight: 800; color: #38BDF8; font-family: var(--font-mono);">${strikerSR}</td>
+                </tr>
+                <!-- Non-Striker Row -->
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                  <td style="padding: 8px; font-weight: 700; color: #E2E8F0;">
+                    <div>
+                      <span>${nonStriker.name}</span>
+                      <span style="font-size: 9.5px; color: #94A3B8; display: block; font-weight: normal;">${nonStriker.role || 'Non-Striker'}</span>
+                    </div>
+                  </td>
+                  <td style="padding: 8px 6px; text-align: right; font-weight: 900; color: #E2E8F0; font-family: var(--font-mono); font-size: 13px;">${nonStriker.runs}</td>
+                  <td style="padding: 8px 6px; text-align: right; color: #94A3B8; font-family: var(--font-mono);">${nonStriker.balls}</td>
+                  <td style="padding: 8px 6px; text-align: right; color: #34D399; font-family: var(--font-mono);">${nonStriker.fours}</td>
+                  <td style="padding: 8px 6px; text-align: right; color: #F59E0B; font-family: var(--font-mono);">${nonStriker.sixes}</td>
+                  <td style="padding: 8px; text-align: right; font-weight: 800; color: #94A3B8; font-family: var(--font-mono);">${nonStrikerSR}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- CURRENT BOWLER CARD -->
+          <div style="font-size: 10px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 8px; font-family: var(--font-mono);">
+            Current Bowler Figures
+          </div>
+          <div style="background: rgba(15,23,42,0.7); border: 1px solid rgba(56,189,248,0.25); border-radius: 8px; padding: 10px 14px; margin-bottom: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="color: #38BDF8; font-size: 13px;">🎯</span>
+                <span style="font-weight: 800; color: #FFFFFF; font-size: 12px;">${LIVE_TRACKER_STATE.bowler}</span>
+                <span style="font-size: 10px; color: #94A3B8; background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px;">${bowlerStats.team || 'Opponent'}</span>
+              </div>
+              <span style="font-size: 10px; color: #34D399; font-family: var(--font-mono); font-weight: 800;">
+                Dots: ${bowlerStats.dots || 0}
+              </span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; text-align: center; font-family: var(--font-mono); font-size: 11px;">
+              <div>
+                <div style="font-size: 9px; color: #94A3B8;">O</div>
+                <div style="font-weight: 800; color: #FFF;">${bowlerStats.overs}</div>
+              </div>
+              <div>
+                <div style="font-size: 9px; color: #94A3B8;">M</div>
+                <div style="font-weight: 800; color: #FFF;">${bowlerStats.maidens || 0}</div>
+              </div>
+              <div>
+                <div style="font-size: 9px; color: #94A3B8;">R</div>
+                <div style="font-weight: 800; color: #F87171;">${bowlerStats.runs}</div>
+              </div>
+              <div>
+                <div style="font-size: 9px; color: #94A3B8;">W</div>
+                <div style="font-weight: 800; color: var(--rr-pink);">${bowlerStats.wickets}</div>
+              </div>
+              <div>
+                <div style="font-size: 9px; color: #94A3B8;">ECON</div>
+                <div style="font-weight: 800; color: #38BDF8;">${bowlerStats.econ}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- INTERACTIVE CURRENT OVER BALL STRIP -->
+          <div style="font-size: 10px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 6px; font-family: var(--font-mono); display: flex; justify-content: space-between; align-items: center;">
+            <span>Current Over Delivery Sequence (Click Ball to Inspect)</span>
+            <span style="color: #38BDF8; font-size: 9px;">Ball ${selIdx + 1} of ${LIVE_TRACKER_STATE.currentOverHistory.length}</span>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: center;">
+            ${LIVE_TRACKER_STATE.currentOverHistory.map((b, idx) => {
+              const isSelected = idx === selIdx;
+              let bg = 'rgba(255,255,255,0.08)';
+              let border = 'rgba(255,255,255,0.2)';
+              let textColor = '#FFFFFF';
+              if (b.type === 'six') { bg = 'rgba(245,158,11,0.25)'; border = '#F59E0B'; textColor = '#FDE68A'; }
+              else if (b.type === 'four') { bg = 'rgba(52,211,153,0.25)'; border = '#34D399'; textColor = '#6EE7B7'; }
+              else if (b.type === 'wicket') { bg = 'rgba(239,68,68,0.25)'; border = '#EF4444'; textColor = '#FCA5A5'; }
+              else if (b.type === 'wide' || b.type === 'noball') { bg = 'rgba(234,179,8,0.25)'; border = '#EAB308'; textColor = '#FEF08A'; }
+              else if (b.type === 'run') { bg = 'rgba(56,189,248,0.2)'; border = '#38BDF8'; textColor = '#BAE6FD'; }
+
+              return `
+                <button onclick="inspectStadiumBall(${idx})" style="
+                  min-width: 38px;
+                  height: 38px;
+                  border-radius: 50%;
+                  background: ${bg};
+                  border: 2px solid ${isSelected ? 'var(--rr-pink)' : border};
+                  color: ${textColor};
+                  font-family: var(--font-mono);
+                  font-weight: 900;
+                  font-size: 12px;
+                  cursor: pointer;
+                  box-shadow: ${isSelected ? '0 0 12px var(--rr-pink)' : 'none'};
+                  transform: ${isSelected ? 'scale(1.15)' : 'scale(1)'};
+                  transition: all 0.2s ease;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                " title="${b.ballNum}: ${b.shot}">
+                  ${b.label}
+                </button>
+              `;
+            }).join('')}
+          </div>
+
+          <!-- FALL OF WICKETS (FOW) TIMELINE -->
+          <div style="font-size: 10px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 6px; font-family: var(--font-mono);">
+            Fall of Wickets (FOW)
+          </div>
+          <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;">
+            ${LIVE_TRACKER_STATE.fallOfWickets.map(f => `
+              <div style="background: rgba(15,23,42,0.8); border: 1px solid rgba(239,68,68,0.3); border-radius: 6px; padding: 4px 8px; white-space: nowrap; font-size: 10px; font-family: var(--font-mono);">
+                <span style="color: #EF4444; font-weight: 800;">${f.wkt}-${f.score}</span>
+                <span style="color: #E2E8F0; margin-left: 4px;">${f.batter.split(' ').pop()}</span>
+                <span style="color: #94A3B8; font-size: 9px; margin-left: 2px;">(${f.over})</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+
+      <!-- SAWAI MANSINGH CRICKET STADIUM (REAL WORLD HOLODECK) -->
+      <div class="card" style="border-top: 3px solid #38BDF8; display: flex; flex-direction: column;">
+        <div class="card-header" style="background: rgba(56,189,248,0.06); display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div class="card-title">
+              <span class="card-title-prefix">Sawai Mansingh Stadium:</span> 3D Jaipur Holodeck
+            </div>
+            <div class="card-subtitle">Asymmetric boundary acoustics (78m East vs 66m West), 9-fielder tactical ring &amp; trajectory flight.</div>
+          </div>
+          <span style="font-size: 9.5px; font-weight: 800; background: rgba(56,189,248,0.15); color: #38BDF8; border: 1px solid #38BDF8; padding: 2px 7px; border-radius: 4px; font-family: var(--font-mono);">
+            🏟️ JAIPUR ROOF
+          </span>
+        </div>
+
+        <div style="padding: 16px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+          
+          <!-- REALISTIC JAIPUR STADIUM SVG ARENA -->
+          <div style="width: 100%; max-width: 440px; aspect-ratio: 1; position: relative;">
+            <svg viewBox="0 0 500 500" style="width: 100%; height: 100%; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));">
+              <defs>
+                <!-- Radial Stadium Grass Gradient -->
+                <radialGradient id="turfGradient" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#14532D" />
+                  <stop offset="65%" stop-color="#0F3E22" />
+                  <stop offset="90%" stop-color="#092916" />
+                  <stop offset="100%" stop-color="#051B0E" />
+                </radialGradient>
+                <!-- Stadium Seating Outer Glow -->
+                <linearGradient id="standsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#1E293B" />
+                  <stop offset="100%" stop-color="#0F172A" />
+                </linearGradient>
+                <!-- Animated Ball Glow Filter -->
+                <filter id="ballGlow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+
+              <!-- 1. Stadium Grandstands & Outer Concrete Shell -->
+              <ellipse cx="250" cy="250" rx="245" ry="245" fill="url(#standsGrad)" stroke="#334155" stroke-width="4" />
+              
+              <!-- 2. Stadium Floodlight Towers (4 High-Mast Corners) -->
+              <g stroke="#38BDF8" stroke-width="2" fill="#0284C7">
+                <circle cx="45" cy="55" r="9" />
+                <circle cx="455" cy="55" r="9" />
+                <circle cx="45" cy="445" r="9" />
+                <circle cx="455" cy="445" r="9" />
+              </g>
+
+              <!-- 3. Jaipur Emerald Outfield (Mown Pattern) -->
+              <ellipse cx="250" cy="250" rx="225" ry="225" fill="url(#turfGradient)" stroke="#15803D" stroke-width="2" />
+              
+              <!-- Radial Mowing Stripes (Jaipur Pattern) -->
+              <g stroke="rgba(255,255,255,0.03)" stroke-width="24" fill="none">
+                <circle cx="250" cy="250" r="45" />
+                <circle cx="250" cy="250" r="90" />
+                <circle cx="250" cy="250" r="135" />
+                <circle cx="250" cy="250" r="180" />
+              </g>
+
+              <!-- 4. Asymmetric Boundary Rope (Sawai Mansingh Stadium Dimension) -->
+              <!-- West (Leg side) 66m (rx 205), East (Off side) 78m (wider rx 218), Straight 72m (ry 215) -->
+              <ellipse cx="250" cy="250" rx="215" ry="210" fill="none" stroke="#F87171" stroke-width="2.5" stroke-dasharray="6,4" />
+              
+              <!-- Boundary Distance Callouts -->
+              <text x="250" y="32" fill="#E2E8F0" font-size="10" font-family="monospace" text-anchor="middle" font-weight="bold">Long-Off / On 72m</text>
+              <text x="250" y="475" fill="#E2E8F0" font-size="10" font-family="monospace" text-anchor="middle" font-weight="bold">Third-Man / Fine Leg 62m</text>
+              <text x="32" y="254" fill="#38BDF8" font-size="10" font-family="monospace" text-anchor="middle" font-weight="bold">East 78m (Off)</text>
+              <text x="466" y="254" fill="var(--rr-pink)" font-size="10" font-family="monospace" text-anchor="middle" font-weight="bold">West 66m (Leg)</text>
+
+              <!-- 5. 30-Yard Fielding Inner Circle -->
+              <ellipse cx="250" cy="250" rx="105" ry="100" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-dasharray="5,5" />
+              <text x="250" y="160" fill="rgba(255,255,255,0.3)" font-size="9" font-family="monospace" text-anchor="middle">30-YARD RING</text>
+
+              <!-- 6. Central 22-Yard Pitch (Jaipur Loam/Clay) -->
+              <rect x="238" y="195" width="24" height="110" rx="3" fill="#D97706" stroke="#B45309" stroke-width="1.5" />
+              <!-- Crease Markings -->
+              <line x1="236" y1="230" x2="264" y2="230" stroke="#FFFFFF" stroke-width="1.5" />
+              <line x1="236" y1="270" x2="264" y2="270" stroke="#FFFFFF" stroke-width="1.5" />
+              <!-- Stumps -->
+              <line x1="244" y1="228" x2="256" y2="228" stroke="#FEF08A" stroke-width="2.5" />
+              <line x1="244" y1="272" x2="256" y2="272" stroke="#FEF08A" stroke-width="2.5" />
+
+              <!-- 7. 9 Fielders on Field (Tactical Setup) -->
+              <!-- Wicketkeeper -->
+              <circle cx="250" cy="216" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1" />
+              <!-- Bowler -->
+              <circle cx="250" cy="286" r="4.5" fill="#EF4444" stroke="#FFFFFF" stroke-width="1" />
+              <!-- Slip -->
+              <circle cx="232" cy="212" r="4" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1" />
+              <!-- Cover Ring -->
+              <circle cx="185" cy="215" r="4" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1" />
+              <!-- Mid-Off -->
+              <circle cx="205" cy="275" r="4" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1" />
+              <!-- Mid-On -->
+              <circle cx="295" cy="275" r="4" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1" />
+              <!-- Deep Mid-Wicket -->
+              <circle cx="390" cy="180" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1" />
+              <!-- Deep Extra Cover Sweeper -->
+              <circle cx="95" cy="165" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1" />
+              <!-- Fine Leg -->
+              <circle cx="340" cy="380" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1" />
+
+              <!-- 8. Active Striker on Crease -->
+              <circle cx="250" cy="235" r="6" fill="var(--rr-pink)" stroke="#FFFFFF" stroke-width="1.5" filter="url(#ballGlow)" />
+
+              <!-- 9. Dynamic Shot Trajectory Path for Selected Ball -->
+              <path d="M 250 235 Q ${(250 + activeBall.x) / 2} ${(235 + activeBall.y) / 2 - (activeBall.type === 'six' ? 65 : 15)} ${activeBall.x} ${activeBall.y}"
+                    fill="none"
+                    stroke="${trajectoryColor}"
+                    stroke-width="${activeBall.type === 'six' ? '3.5' : '2.5'}"
+                    stroke-dasharray="${activeBall.type === 'six' ? '5,4' : 'none'}" />
+
+              <!-- Trajectory Landing / Impact Node -->
+              <circle cx="${activeBall.x}" cy="${activeBall.y}" r="${activeBall.type === 'six' ? '7' : '5'}" fill="${trajectoryColor}" stroke="#FFFFFF" stroke-width="1.5" filter="url(#ballGlow)" />
+              
+              <!-- Starburst Explosion for Boundaries or Wicket -->
+              ${activeBall.type === 'six' ? `
+                <circle cx="${activeBall.x}" cy="${activeBall.y}" r="14" fill="none" stroke="#F59E0B" stroke-width="2" opacity="0.8" />
+                <text x="${activeBall.x}" y="${activeBall.y - 12}" fill="#FDE68A" font-size="11" font-weight="900" font-family="monospace" text-anchor="middle">6️⃣ ${activeBall.dist}</text>
+              ` : activeBall.type === 'four' ? `
+                <circle cx="${activeBall.x}" cy="${activeBall.y}" r="11" fill="none" stroke="#34D399" stroke-width="2" opacity="0.8" />
+                <text x="${activeBall.x}" y="${activeBall.y - 10}" fill="#6EE7B7" font-size="11" font-weight="900" font-family="monospace" text-anchor="middle">4️⃣ FOUR</text>
+              ` : activeBall.type === 'wicket' ? `
+                <circle cx="${activeBall.x}" cy="${activeBall.y}" r="12" fill="none" stroke="#EF4444" stroke-width="2" opacity="0.8" />
+                <text x="${activeBall.x}" y="${activeBall.y - 10}" fill="#FCA5A5" font-size="11" font-weight="900" font-family="monospace" text-anchor="middle">🚨 OUT!</text>
+              ` : ''}
+
+              <!-- Dugout Benches -->
+              <rect x="70" y="440" width="60" height="14" rx="3" fill="var(--rr-pink)" opacity="0.85" />
+              <text x="100" y="451" fill="#FFF" font-size="8.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">RR DUGOUT</text>
+
+              <rect x="370" y="440" width="60" height="14" rx="3" fill="#0284C7" opacity="0.85" />
+              <text x="400" y="451" fill="#FFF" font-size="8.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">OPP DUGOUT</text>
+            </svg>
+          </div>
+
+          <!-- BALL TELEMETRY & SHOT PROFILE HUD -->
+          <div style="width: 100%; margin-top: 12px; background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: ${trajectoryColor};">
+                BALL ${activeBall.ballNum} &bull; ${activeBall.shot.toUpperCase()}
+              </span>
+              <span style="font-size: 11px; font-family: var(--font-mono); color: #FFF; font-weight: 800; background: rgba(255,255,255,0.08); padding: 1px 6px; border-radius: 4px;">
+                ⚡ ${activeBall.speed} km/h
+              </span>
+            </div>
+            <div style="font-size: 11px; color: #CBD5E1; line-height: 1.4;">
+              ${activeBall.note}
+            </div>
+            <div style="display: flex; gap: 14px; margin-top: 6px; font-size: 10px; font-family: var(--font-mono); color: #94A3B8;">
+              <span>Sector: <strong style="color: #FFF;">${activeBall.sector}</strong></span>
+              <span>Distance: <strong style="color: #FFF;">${activeBall.dist}</strong></span>
+              <span>Release: <strong style="color: #38BDF8;">Over The Wicket</strong></span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
     <!-- WPA & LEVERAGE CONTAINER -->
@@ -22523,6 +23358,8 @@ window.adjTrackerWickets = adjTrackerWickets;
 window.adjTrackerBall = adjTrackerBall;
 window.adjTrackerOvers = adjTrackerOvers;
 window.applyTrackerPreset = applyTrackerPreset;
+window.swapBatters = swapBatters;
+window.inspectStadiumBall = inspectStadiumBall;
 
 /* ══════════════════════════════════════════════════════════════════════════════
    PART F3: SUPER OVER CLUTCH DECIDER & 3-PLAYER NOMINATION SOLVER
