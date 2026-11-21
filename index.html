@@ -4458,6 +4458,14 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
     padding: 8px 10px 3px !important;
   }
 
+  /* Executive Dossier Mobile Optimization */
+  #tab-dossier .dossier-printable-doc {
+    padding: 16px 14px !important;
+  }
+  #tab-dossier .dossier-section {
+    margin-bottom: 16px !important;
+  }
+
   /* Fixed Floating Mobile Bottom Bar */
   .mobile-bottom-bar {
     position: fixed !important;
@@ -14894,59 +14902,95 @@ function renderCommandPaletteResults(query) {
   if (!cont) return;
 
   const q = (query || '').toLowerCase().trim();
-  let matches = [];
 
+  const tacticalEngines = [
+    { title: 'Franchise Clash (RR vs 9 Teams)', tab: 'tab-clash', icon: '⚔️', desc: 'Head-to-head opposition match-up radar & Dravid blueprint', keywords: 'clash vs opponents csk mi rcb kkr srh gt lsg dc pbks' },
+    { title: 'Live In-Play Dugout iPad Tracker', tab: 'tab-live-tracker', icon: '⚡', desc: 'Continuous WPA & Instantaneous Leverage Index (LI)', keywords: 'live tracker ipad inplay wpa leverage scoreboard next ball' },
+    { title: 'Super Over Clutch Decider', tab: 'tab-super-over', icon: '🎯', desc: '10,000-Sim Monte Carlo Tied Match & 3-Player Solver', keywords: 'super over clutch decider tied tie 6 balls nomination' },
+    { title: 'Executive Dugout Dossier', tab: 'tab-dossier', icon: '📄', desc: 'Print-Ready PDF Briefing Book & Multi-Section Tactical Export', keywords: 'dossier pdf print export briefing book sangakkara dravid' }
+  ];
+
+  let engineMatches = [];
   if (!q) {
-    // Show top 8 recommended players if query is empty
-    matches = APP_DATA.adjusted_all_players.slice(0, 8);
+    engineMatches = tacticalEngines;
+  } else {
+    engineMatches = tacticalEngines.filter(e => e.title.toLowerCase().includes(q) || e.desc.toLowerCase().includes(q) || e.keywords.includes(q));
+  }
+
+  let matches = [];
+  if (!q) {
+    // Show top 6 recommended players if query is empty
+    matches = APP_DATA.adjusted_all_players.slice(0, 6);
   } else {
     matches = APP_DATA.adjusted_all_players.filter(p => {
       const nameMatch = p.name.toLowerCase().includes(q);
       const teamMatch = (p.ipl2026 || '').toLowerCase().includes(q);
       const natMatch = (p.nationality || '').toLowerCase().includes(q);
       return nameMatch || teamMatch || natMatch;
-    }).slice(0, 12);
+    }).slice(0, 10);
   }
 
-  if (matches.length === 0) {
+  if (engineMatches.length === 0 && matches.length === 0) {
     cont.innerHTML = `
       <div style="padding: 24px 16px; text-align: center; color: #64748B; font-size: 12px;">
-        No qualified players matching "<strong>${query}</strong>" found. Try another name or keyword.
+        No tactical engines or qualified players matching "<strong>${query}</strong>" found.
       </div>
     `;
     return;
   }
 
   let html = '';
-  matches.forEach(p => {
-    const flag = getFlag(p.nationality);
-    const img = getPlayerImageUrl(p.name);
-    const roleChip = p.role === 'bat' 
-      ? '<span style="background: rgba(56, 189, 248, 0.15); color: #38BDF8; padding: 2px 6px; border-radius: 4px; font-size: 9.5px; font-weight: 700;">BAT #' + p.adjusted_rank + '</span>'
-      : '<span style="background: rgba(192, 132, 252, 0.15); color: #C084FC; padding: 2px 6px; border-radius: 4px; font-size: 9.5px; font-weight: 700;">BOWL #' + p.adjusted_rank + '</span>';
 
-    html += `
-      <div onclick="closeCommandPalette(); openPlayerProfile('${p.name.replace(/'/g, "\\'")}')" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--rr-border); border-radius: 6px; cursor: pointer; transition: all 0.15s ease;" onmouseenter="this.style.background='rgba(229,0,125,0.12)'; this.style.borderColor='var(--rr-pink)'" onmouseleave="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='var(--rr-border)'">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <img src="${img}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
-          <div>
-            <div style="font-weight: 700; color: #FFFFFF; font-size: 12px; display: flex; align-items: center; gap: 6px;">
-              <span>${p.name}</span>
-              <span style="font-size: 12px;">${flag}</span>
-              ${roleChip}
+  if (engineMatches.length > 0) {
+    html += `<div style="font-size: 9.5px; font-weight: 800; font-family: var(--font-mono); color: #FF85C0; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 6px 6px;">// TACTICAL ENGINES</div>`;
+    engineMatches.forEach(eng => {
+      html += `
+        <div onclick="closeCommandPalette(); switchTab('${eng.tab}')" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: rgba(229,0,125,0.06); border: 1px solid rgba(229,0,125,0.2); border-radius: 6px; cursor: pointer; transition: all 0.15s ease;" onmouseenter="this.style.background='rgba(229,0,125,0.18)'; this.style.borderColor='var(--rr-pink)'" onmouseleave="this.style.background='rgba(229,0,125,0.06)'; this.style.borderColor='rgba(229,0,125,0.2)'">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 18px;">${eng.icon}</span>
+            <div>
+              <div style="font-weight: 800; color: #FFFFFF; font-size: 12.5px;">${eng.title}</div>
+              <div style="font-size: 10.5px; color: #94A3B8;">${eng.desc}</div>
             </div>
-            <div style="font-size: 10px; color: #94A3B8;">${p.ipl2026 ? p.ipl2026 : 'Auction Pool'} &bull; ${p.n_hp} HP balls &bull; Score: ${p.adjusted_score.toFixed(3)}</div>
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 9.5px; color: #38BDF8; font-weight: 700;">OPEN &rarr;</span>
+        </div>
+      `;
+    });
+  }
+
+  if (matches.length > 0) {
+    html += `<div style="font-size: 9.5px; font-weight: 800; font-family: var(--font-mono); color: #64748B; text-transform: uppercase; letter-spacing: 0.1em; padding: 10px 6px 4px;">// QUALIFIED PLAYERS</div>`;
+    matches.forEach(p => {
+      const flag = getFlag(p.nationality);
+      const img = getPlayerImageUrl(p.name);
+      const roleChip = p.role === 'bat' 
+        ? '<span style="background: rgba(56, 189, 248, 0.15); color: #38BDF8; padding: 2px 6px; border-radius: 4px; font-size: 9.5px; font-weight: 700;">BAT #' + p.adjusted_rank + '</span>'
+        : '<span style="background: rgba(192, 132, 252, 0.15); color: #C084FC; padding: 2px 6px; border-radius: 4px; font-size: 9.5px; font-weight: 700;">BOWL #' + p.adjusted_rank + '</span>';
+
+      html += `
+        <div onclick="closeCommandPalette(); openPlayerProfile('${p.name.replace(/'/g, "\\'")}')" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--rr-border); border-radius: 6px; cursor: pointer; transition: all 0.15s ease;" onmouseenter="this.style.background='rgba(229,0,125,0.12)'; this.style.borderColor='var(--rr-pink)'" onmouseleave="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='var(--rr-border)'">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="${img}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #08162B; border: 1px solid rgba(255,255,255,0.2);">
+            <div>
+              <div style="font-weight: 700; color: #FFFFFF; font-size: 12px; display: flex; align-items: center; gap: 6px;">
+                <span>${p.name}</span>
+                <span style="font-size: 12px;">${flag}</span>
+                ${roleChip}
+              </div>
+              <div style="font-size: 10px; color: #94A3B8;">${p.ipl2026 ? p.ipl2026 : 'Auction Pool'} &bull; ${p.n_hp} HP balls &bull; Score: ${p.adjusted_score.toFixed(3)}</div>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 11px; font-weight: 800; color: ${p.net_hp >= 0 ? '#34D399' : '#F87171'}; font-family: monospace;">
+              ${p.net_hp >= 0 ? '+' : ''}${p.net_hp.toFixed(1)} Net
+            </div>
+            <div style="font-size: 9.5px; color: #64748B;">Δ ${p.delta >= 0 ? '+' : ''}${p.delta.toFixed(1)}</div>
           </div>
         </div>
-        <div style="text-align: right;">
-          <div style="font-size: 11px; font-weight: 800; color: ${p.net_hp >= 0 ? '#34D399' : '#F87171'}; font-family: monospace;">
-            ${p.net_hp >= 0 ? '+' : ''}${p.net_hp.toFixed(1)} Net
-          </div>
-          <div style="font-size: 9.5px; color: #64748B;">Δ ${p.delta >= 0 ? '+' : ''}${p.delta.toFixed(1)}</div>
-        </div>
-      </div>
-    `;
-  });
+      `;
+    });
+  }
 
   cont.innerHTML = html;
 }
