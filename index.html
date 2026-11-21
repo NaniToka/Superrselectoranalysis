@@ -22241,8 +22241,103 @@ function renderLiveTrackerEngineView() {
 
       </div>
 
-      <!-- TACTICAL ADVISORY FEED CONTAINER (EXPANDED IN COMMIT 8) -->
-      <div id="live-tracker-advisory-container"></div>
+      <!-- BATTER & BOWLER ON-FIELD MATCHUP BAR -->
+      <div class="card" style="margin-bottom: 16px; padding: 14px 18px; background: rgba(15,23,42,0.85);">
+        <div style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 10px;">
+          Active Delivery Matchup (Striker vs Current Bowler)
+        </div>
+        <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 11px; color: #94A3B8;">🏏 Striker:</span>
+              <select onchange="LIVE_TRACKER_STATE.striker=this.value; renderLiveTrackerEngineView();" style="background: rgba(15,23,42,0.9); border: 1px solid var(--rr-pink); color: #FFF; font-weight: 800; font-size: 11px; padding: 5px 10px; border-radius: 6px;">
+                <option value="Sanju Samson" ${LIVE_TRACKER_STATE.striker === 'Sanju Samson' ? 'selected' : ''}>Sanju Samson (RR • Rank #8)</option>
+                <option value="Yashasvi Jaiswal" ${LIVE_TRACKER_STATE.striker === 'Yashasvi Jaiswal' ? 'selected' : ''}>Yashasvi Jaiswal (RR • Explosive Opener)</option>
+                <option value="Riyan Parag" ${LIVE_TRACKER_STATE.striker === 'Riyan Parag' ? 'selected' : ''}>Riyan Parag (RR • Middle Enforcer)</option>
+                <option value="Shimron Hetmyer" ${LIVE_TRACKER_STATE.striker === 'Shimron Hetmyer' ? 'selected' : ''}>Shimron Hetmyer (RR • Death Finisher)</option>
+                <option value="Dhruv Jurel" ${LIVE_TRACKER_STATE.striker === 'Dhruv Jurel' ? 'selected' : ''}>Dhruv Jurel (RR • Ice Finisher)</option>
+              </select>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 11px; color: #94A3B8;">🎯 Bowler:</span>
+              <select onchange="LIVE_TRACKER_STATE.bowler=this.value; renderLiveTrackerEngineView();" style="background: rgba(15,23,42,0.9); border: 1px solid #38BDF8; color: #FFF; font-weight: 800; font-size: 11px; padding: 5px 10px; border-radius: 6px;">
+                <option value="Matheesha Pathirana" ${LIVE_TRACKER_STATE.bowler === 'Matheesha Pathirana' ? 'selected' : ''}>Matheesha Pathirana (CSK • Rank #5)</option>
+                <option value="Jasprit Bumrah" ${LIVE_TRACKER_STATE.bowler === 'Jasprit Bumrah' ? 'selected' : ''}>Jasprit Bumrah (MI • Anomaly)</option>
+                <option value="Sunil Narine" ${LIVE_TRACKER_STATE.bowler === 'Sunil Narine' ? 'selected' : ''}>Sunil Narine (KKR • Rank #1 Bowler)</option>
+                <option value="Sandeep Sharma" ${LIVE_TRACKER_STATE.bowler === 'Sandeep Sharma' ? 'selected' : ''}>Sandeep Sharma (RR • Death Yorker King)</option>
+                <option value="Arshdeep Singh" ${LIVE_TRACKER_STATE.bowler === 'Arshdeep Singh' ? 'selected' : ''}>Arshdeep Singh (PBKS • Death Tailer)</option>
+                <option value="Pat Cummins" ${LIVE_TRACKER_STATE.bowler === 'Pat Cummins' ? 'selected' : ''}>Pat Cummins (SRH • Hard Length)</option>
+                <option value="Lockie Ferguson" ${LIVE_TRACKER_STATE.bowler === 'Lockie Ferguson' ? 'selected' : ''}>Lockie Ferguson (PBKS • Rank #6 Bowler)</option>
+                <option value="Jacob Duffy" ${LIVE_TRACKER_STATE.bowler === 'Jacob Duffy' ? 'selected' : ''}>Jacob Duffy (RCB • Rank #4 Bowler)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="font-size: 11px; font-family: var(--font-mono); color: #34D399; background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.25); padding: 4px 10px; border-radius: 6px;">
+            ⚡ Matchup Pressure Gradient: <strong>${(calc.li * 1.15).toFixed(2)}x Active Volatility</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- DYNAMIC DUGOUT TACTICAL ADVISORY FEED -->
+      <div class="card" style="border-top: 3px solid #F59E0B;">
+        <div class="card-header" style="background: rgba(245, 158, 11, 0.08);">
+          <div class="card-title">
+            <span class="card-title-prefix">Real-Time Dugout AI:</span> Automated Tactical Match Advisories
+          </div>
+          <div class="card-subtitle">
+            Algorithmic action triggers for Sanju Samson &amp; Dugout coaching staff based on live win-probability derivatives.
+          </div>
+        </div>
+        <div style="padding: 16px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
+          
+          <!-- ADVISORY 1: AGGRESSION TRIGGER -->
+          <div style="background: rgba(15,23,42,0.7); border: 1px solid ${parseFloat(rrr) > 11.5 ? '#EF4444' : parseFloat(rrr) > 8.5 ? '#F59E0B' : '#34D399'}; border-radius: 8px; padding: 12px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 800; color: ${parseFloat(rrr) > 11.5 ? '#F87171' : parseFloat(rrr) > 8.5 ? '#FBBF24' : '#34D399'};">
+                ${parseFloat(rrr) > 11.5 ? 'CRITICAL AGGRESSION TRIGGER' : parseFloat(rrr) > 8.5 ? 'ACCELERATION WINDOW' : 'CONTROLLED CHASE DISCIPLINE'}
+              </span>
+              <span style="font-size: 14px;">${parseFloat(rrr) > 11.5 ? '🚨' : parseFloat(rrr) > 8.5 ? '⚡' : '🛡️'}</span>
+            </div>
+            <div style="font-size: 11px; color: #E2E8F0; line-height: 1.45;">
+              ${parseFloat(rrr) > 11.5 
+                ? `Required run rate is ${rrr} rpo. Striker must commit to lofted boundary attempt on ball 1 or 2 of this over to avoid win probability degradation.`
+                : parseFloat(rrr) > 8.5
+                ? `Required run rate is ${rrr} rpo. Target 1 boundary every 4 deliveries while working 2s hard to maintain +3.73 percentage points equity.`
+                : `Required run rate is comfortable at ${rrr} rpo. Wickets in hand (${10 - LIVE_TRACKER_STATE.wickets}) dictate zero high-risk aerial shots.`
+              }
+            </div>
+          </div>
+
+          <!-- ADVISORY 2: SHOT PROFILE & WEAKNESS EXPLOIT -->
+          <div style="background: rgba(15,23,42,0.7); border: 1px solid rgba(56,189,248,0.25); border-radius: 8px; padding: 12px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 800; color: #38BDF8;">
+                MATCHUP EXPLOIT (VS ${LIVE_TRACKER_STATE.bowler.toUpperCase()})
+              </span>
+              <span style="font-size: 14px;">🎯</span>
+            </div>
+            <div style="font-size: 11px; color: #E2E8F0; line-height: 1.45;">
+              Against <strong>${LIVE_TRACKER_STATE.bowler}</strong>: Expected release point favors wide off-stump execution. ${LIVE_TRACKER_STATE.striker} should back away slightly to open up cover-point boundaries.
+            </div>
+          </div>
+
+          <!-- ADVISORY 3: FIELD SQUEEZE DIRECTIVE -->
+          <div style="background: rgba(15,23,42,0.7); border: 1px solid rgba(192,132,252,0.25); border-radius: 8px; padding: 12px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 800; color: #C084FC;">
+                DUGOUT FIELD CUE
+              </span>
+              <span style="font-size: 14px;">📡</span>
+            </div>
+            <div style="font-size: 11px; color: #E2E8F0; line-height: 1.45;">
+              With <strong>${ballsRemaining}</strong> balls remaining and <strong>${runsNeeded}</strong> runs needed: If bowling, deploy 5-4 off-side field ring with deep cover sweeper; starve of straight boundaries.
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
   `;
 }
