@@ -20934,6 +20934,8 @@ function run10kSeasonSim() {
     name: f.name,
     short: f.short,
     color: f.color,
+    rating: f.rating || 0.50,
+    homeRating: f.homeRating || 0.55,
     isPinned: !!f.isPinned,
     top4Count: 0,
     top2Count: 0,
