@@ -4499,6 +4499,31 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
   }
 }
 
+
+/* HOLODECK 3D STADIUM CELEBRATIONS & BROADCAST HUD */
+@keyframes stadiumScreenShake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-3px, 2px) rotate(-0.4deg); }
+  40% { transform: translate(3px, -2px) rotate(0.4deg); }
+  60% { transform: translate(-2px, -1px) rotate(-0.2deg); }
+  80% { transform: translate(2px, 1px) rotate(0.2deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.stadium-shake {
+  animation: stadiumScreenShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes bannerSlideDown {
+  0% { opacity: 0; transform: translateY(-16px) scale(0.92); }
+  60% { transform: translateY(2px) scale(1.03); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.holodeck-banner-anim {
+  animation: bannerSlideDown 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 </style>
   <!-- THREE.JS & ORBITCONTROLS 3D DATA PLAYGROUND ENGINE -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -22211,6 +22236,7 @@ function renderLiveTrackerTab() {
 }
 
 function resetLiveTrackerState() {
+  cancelOrClearHolodeckFX();
   applyTrackerPreset(LIVE_TRACKER_STATE.preset ? LIVE_TRACKER_STATE.preset.toLowerCase() : 'start');
 }
 
@@ -22243,6 +22269,7 @@ function changeTrackerBowler(newBowlerName) {
 }
 
 function applyTrackerPreset(presetKey) {
+  cancelOrClearHolodeckFX();
   LIVE_TRACKER_STATE.isFreeHit = false;
   LIVE_TRACKER_STATE.freeHitAlert = '';
   LIVE_TRACKER_STATE.notification = '';
@@ -22478,6 +22505,7 @@ function applyTrackerPreset(presetKey) {
     LIVE_TRACKER_STATE.previousOvers = [{ over: 18, bowler: 'Mustafizur Rahman', runs: 10, summary: '1, 4, 1, 2, 1, 1' }];
   }
 
+  syncBatterStatuses();
   checkMatchStatus();
   renderLiveTrackerEngineView();
 }
@@ -22526,8 +22554,807 @@ function swapBatters() {
   const temp = LIVE_TRACKER_STATE.striker;
   LIVE_TRACKER_STATE.striker = LIVE_TRACKER_STATE.nonStriker;
   LIVE_TRACKER_STATE.nonStriker = temp;
+  syncBatterStatuses();
   renderLiveTrackerEngineView();
 }
+
+function syncBatterStatuses() {
+  if (!LIVE_TRACKER_STATE.batters) return;
+  LIVE_TRACKER_STATE.batters.forEach(b => {
+    if (b.status === 'out') return;
+    if (b.name === LIVE_TRACKER_STATE.striker && LIVE_TRACKER_STATE.wickets < 10) {
+      b.status = 'striker';
+    } else if (b.name === LIVE_TRACKER_STATE.nonStriker && LIVE_TRACKER_STATE.wickets < 10) {
+      b.status = 'non-striker';
+    } else {
+      b.status = 'dnb';
+    }
+  });
+}
+
+function updateStrikeAfterWicket(dismissedBatterName, dismissalType) {
+  const strikerObj = LIVE_TRACKER_STATE.batters.find(b => b.name === dismissedBatterName);
+  if (strikerObj) {
+    strikerObj.status = 'out';
+    strikerObj.howOut = `${dismissalType === 'Bowled' ? 'b' : dismissalType === 'LBW' ? 'lbw b' : dismissalType === 'Stumped' ? 'st † b' : 'c Sub b'} ${LIVE_TRACKER_STATE.bowler}`;
+  }
+
+  if (LIVE_TRACKER_STATE.wickets < 10) {
+    const nextBatter = LIVE_TRACKER_STATE.batters.find(b => b.status === 'dnb');
+    if (nextBatter) {
+      LIVE_TRACKER_STATE.striker = nextBatter.name;
+      nextBatter.status = 'striker';
+    }
+  } else {
+    LIVE_TRACKER_STATE.striker = null;
+    const nonStrikerObj = LIVE_TRACKER_STATE.batters.find(b => b.name === LIVE_TRACKER_STATE.nonStriker);
+    if (nonStrikerObj) nonStrikerObj.status = 'not_out';
+    LIVE_TRACKER_STATE.matchStatus = 'ALL_OUT';
+  }
+
+  syncBatterStatuses();
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   BROADCAST-GRADE HOLODECK GRAPHICS & CELEBRATIONS ENGINE
+   Canvas 2D, Particle Pool (capped at 600), Delta-Time Motion, Web Audio Synth
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+const HOLODECK_FX = {
+  canvas: null,
+  ctx: null,
+  rafId: null,
+  lastTime: 0,
+  active: false,
+  soundEnabled: true,
+  audioCtx: null,
+  particles: [],
+  particlePool: [],
+  MAX_PARTICLES: 600,
+  rockets: [],
+  fountains: [],
+  confetti: [],
+  shockwaves: [],
+  stumpDebris: [],
+  ballFlight: null,
+  ropeFlash: null,
+  screenFlashAlpha: 0,
+  screenFlashColor: '#F59E0B',
+  bannerTimer: null
+};
+
+// Pre-fill particle pool to eliminate GC allocations
+for (let i = 0; i < HOLODECK_FX.MAX_PARTICLES; i++) {
+  HOLODECK_FX.particlePool.push({});
+}
+
+function getAudioContext() {
+  if (!HOLODECK_FX.audioCtx) {
+    const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioCtxClass) {
+      HOLODECK_FX.audioCtx = new AudioCtxClass();
+    }
+  }
+  if (HOLODECK_FX.audioCtx && HOLODECK_FX.audioCtx.state === 'suspended') {
+    HOLODECK_FX.audioCtx.resume();
+  }
+  return HOLODECK_FX.audioCtx;
+}
+
+function toggleHolodeckSound() {
+  HOLODECK_FX.soundEnabled = !HOLODECK_FX.soundEnabled;
+  const btn = document.getElementById('holodeck-sound-toggle');
+  if (btn) {
+    btn.textContent = HOLODECK_FX.soundEnabled ? '🔊 FX ON' : '🔇 FX OFF';
+    btn.classList.toggle('active', HOLODECK_FX.soundEnabled);
+  }
+}
+
+function playSynthesizedSound(type) {
+  if (!HOLODECK_FX.soundEnabled) return;
+  try {
+    const actx = getAudioContext();
+    if (!actx) return;
+    const now = actx.currentTime;
+
+    if (type === 'bat_crack') {
+      const osc = actx.createOscillator();
+      const gain = actx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(480, now);
+      osc.frequency.exponentialRampToValueAtTime(75, now + 0.08);
+      gain.gain.setValueAtTime(0.35, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+      osc.connect(gain);
+      gain.connect(actx.destination);
+      osc.start(now);
+      osc.stop(now + 0.08);
+    } else if (type === 'rocket_whistle') {
+      const osc = actx.createOscillator();
+      const gain = actx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(420, now);
+      osc.frequency.exponentialRampToValueAtTime(1700, now + 0.38);
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
+      osc.connect(gain);
+      gain.connect(actx.destination);
+      osc.start(now);
+      osc.stop(now + 0.42);
+    } else if (type === 'firework_boom') {
+      const bufferSize = Math.floor(actx.sampleRate * 0.4);
+      const buffer = actx.createBuffer(1, bufferSize, actx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (actx.sampleRate * 0.07));
+      }
+      const noise = actx.createBufferSource();
+      noise.buffer = buffer;
+      const filter = actx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(260, now);
+      const gain = actx.createGain();
+      gain.gain.setValueAtTime(0.45, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.38);
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(actx.destination);
+      noise.start(now);
+    } else if (type === 'wicket_clatter') {
+      const osc = actx.createOscillator();
+      const gain = actx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(880, now);
+      osc.frequency.exponentialRampToValueAtTime(180, now + 0.12);
+      gain.gain.setValueAtTime(0.35, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+      osc.connect(gain);
+      gain.connect(actx.destination);
+      osc.start(now);
+      osc.stop(now + 0.12);
+    } else if (type === 'crowd_roar') {
+      const bufferSize = Math.floor(actx.sampleRate * 1.5);
+      const buffer = actx.createBuffer(1, bufferSize, actx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+      }
+      const noise = actx.createBufferSource();
+      noise.buffer = buffer;
+      const filter = actx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(550, now);
+      filter.Q.setValueAtTime(2.2, now);
+      const gain = actx.createGain();
+      gain.gain.setValueAtTime(0.01, now);
+      gain.gain.linearRampToValueAtTime(0.22, now + 0.35);
+      gain.gain.exponentialRampToValueAtTime(0.005, now + 1.4);
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(actx.destination);
+      noise.start(now);
+    }
+  } catch (err) {
+    // Graceful fallback if audio blocked
+  }
+}
+
+function getParticleFromPool() {
+  if (HOLODECK_FX.particles.length >= HOLODECK_FX.MAX_PARTICLES) {
+    return HOLODECK_FX.particles.shift();
+  }
+  if (HOLODECK_FX.particlePool.length > 0) {
+    return HOLODECK_FX.particlePool.pop();
+  }
+  return {};
+}
+
+function releaseParticleToPool(p) {
+  if (HOLODECK_FX.particlePool.length < HOLODECK_FX.MAX_PARTICLES) {
+    HOLODECK_FX.particlePool.push(p);
+  }
+}
+
+function createParticle(x, y, vx, vy, color, size, life, decay, gravity = 0, drag = 1, blend = 'lighter') {
+  const p = getParticleFromPool();
+  p.x = x;
+  p.y = y;
+  p.vx = vx;
+  p.vy = vy;
+  p.color = color;
+  p.size = size;
+  p.maxLife = life;
+  p.life = life;
+  p.decay = decay;
+  p.gravity = gravity;
+  p.drag = drag;
+  p.blend = blend;
+  p.alpha = 1;
+  HOLODECK_FX.particles.push(p);
+  return p;
+}
+
+function launchRocket(sx, sy, tx, ty, color = '#FEF08A', onBurst = null) {
+  playSynthesizedSound('rocket_whistle');
+  HOLODECK_FX.rockets.push({
+    sx: sx, sy: sy,
+    tx: tx, ty: ty,
+    color: color,
+    t: 0,
+    speed: 1.5 + Math.random() * 0.35,
+    onBurst: onBurst
+  });
+}
+
+function burstFirework(x, y, colorScheme = 'peony') {
+  playSynthesizedSound('firework_boom');
+  const palette = colorScheme === 'peony'
+    ? ['#FF2D6F', '#FEF08A', '#38BDF8', '#FFFFFF', '#F59E0B']
+    : ['#F59E0B', '#FEF08A', '#FCD34D', '#FFFFFF', '#FF85C0'];
+  const count = 55;
+  for (let i = 0; i < count; i++) {
+    const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.2;
+    const speed = 40 + Math.random() * 85;
+    const vx = Math.cos(angle) * speed;
+    const vy = Math.sin(angle) * speed;
+    const color = palette[Math.floor(Math.random() * palette.length)];
+    const size = 2.2 + Math.random() * 2.2;
+    const life = 0.8 + Math.random() * 0.6;
+    createParticle(x, y, vx, vy, color, size, life, 1.0, 45, 0.94, 'lighter');
+  }
+}
+
+function startFountainAt(fx, fy, duration = 2.2) {
+  HOLODECK_FX.fountains.push({
+    x: fx, y: fy,
+    duration: duration,
+    elapsed: 0
+  });
+}
+
+function startConfettiRain(duration = 3.0, count = 75) {
+  const colors = ['#FF2D6F', '#F59E0B', '#FEF08A', '#38BDF8', '#34D399', '#FFFFFF'];
+  for (let i = 0; i < count; i++) {
+    HOLODECK_FX.confetti.push({
+      x: 35 + Math.random() * 430,
+      y: -20 - Math.random() * 90,
+      vy: 42 + Math.random() * 52,
+      vx: (Math.random() - 0.5) * 24,
+      angle: Math.random() * Math.PI * 2,
+      vAngle: (Math.random() - 0.5) * 6,
+      size: 4 + Math.random() * 3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      swayOffset: Math.random() * Math.PI * 2,
+      duration: duration,
+      elapsed: 0
+    });
+  }
+}
+
+function triggerRopeFlashAt(x, y) {
+  HOLODECK_FX.ropeFlash = {
+    x: x, y: y,
+    life: 0.8,
+    maxLife: 0.8
+  };
+  const angleOut = Math.atan2(y - 250, x - 250);
+  const colors = ['#34D399', '#FEF08A', '#FFFFFF', '#6EE7B7', '#F59E0B'];
+  for (let i = 0; i < 35; i++) {
+    const angle = angleOut + (Math.random() - 0.5) * 1.2;
+    const speed = 40 + Math.random() * 75;
+    const vx = Math.cos(angle) * speed;
+    const vy = Math.sin(angle) * speed;
+    const col = colors[Math.floor(Math.random() * colors.length)];
+    createParticle(x, y, vx, vy, col, 2.5, 0.6 + Math.random() * 0.4, 1.2, 40, 0.93, 'lighter');
+  }
+}
+
+function startStumpBreakage(x = 250, y = 228) {
+  playSynthesizedSound('wicket_clatter');
+  HOLODECK_FX.stumpDebris = [
+    { type: 'stump', x: x - 4, y: y, angle: 0, vAngle: -2.0, vx: -16, vy: -20, h: 16, life: 1.0 },
+    { type: 'stump', x: x, y: y, angle: 0, vAngle: 0.6, vx: 6, vy: -38, h: 16, life: 1.0 },
+    { type: 'stump', x: x + 4, y: y, angle: 0, vAngle: 2.2, vx: 20, vy: -15, h: 16, life: 1.0 },
+    { type: 'bail', x: x - 2, y: y - 8, angle: 0, vAngle: 9.5, vx: -42, vy: -100, w: 8, life: 1.0 },
+    { type: 'bail', x: x + 2, y: y - 8, angle: 0, vAngle: -8.5, vx: 45, vy: -108, w: 8, life: 1.0 }
+  ];
+  for (let i = 0; i < 50; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 20 + Math.random() * 70;
+    const col = Math.random() > 0.4 ? '#EF4444' : (Math.random() > 0.5 ? '#F87171' : '#FCA5A5');
+    createParticle(x, y, Math.cos(angle) * speed, Math.sin(angle) * speed, col, 2.5, 0.7, 1.1, 40, 0.94, 'lighter');
+  }
+  HOLODECK_FX.shockwaves.push({
+    x: x, y: y,
+    radius: 8,
+    maxRadius: 180,
+    color: '#EF4444',
+    life: 0.8,
+    maxLife: 0.8
+  });
+}
+
+function showHolodeckBanner(html, duration = 2000) {
+  const hud = document.getElementById('holodeck-banner-hud');
+  if (!hud) return;
+  if (HOLODECK_FX.bannerTimer) {
+    clearTimeout(HOLODECK_FX.bannerTimer);
+    HOLODECK_FX.bannerTimer = null;
+  }
+  hud.innerHTML = html;
+  HOLODECK_FX.bannerTimer = setTimeout(() => {
+    hud.innerHTML = '';
+    HOLODECK_FX.bannerTimer = null;
+  }, duration);
+}
+
+function playSix(dist = '89m', sector = 'Deep Mid-Wicket') {
+  const isReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wrapper = document.getElementById('stadium-holodeck-wrapper');
+  if (wrapper && !isReduced) {
+    wrapper.classList.remove('stadium-shake');
+    void wrapper.offsetWidth;
+    wrapper.classList.add('stadium-shake');
+    setTimeout(() => wrapper.classList.remove('stadium-shake'), 480);
+  }
+  HOLODECK_FX.screenFlashAlpha = 0.42;
+  HOLODECK_FX.screenFlashColor = '#F59E0B';
+  playSynthesizedSound('crowd_roar');
+
+  if (!isReduced) {
+    const rockets = [
+      { sx: 70, sy: 430, tx: 160, ty: 150 },
+      { sx: 430, sy: 430, tx: 340, ty: 150 },
+      { sx: 70, sy: 70, tx: 170, ty: 110 },
+      { sx: 430, sy: 70, tx: 330, ty: 110 }
+    ];
+    rockets.forEach((r, idx) => {
+      setTimeout(() => {
+        launchRocket(r.sx, r.sy, r.tx, r.ty, idx % 2 === 0 ? '#FF2D6F' : '#F59E0B');
+      }, idx * 160);
+    });
+
+    startFountainAt(45, 55, 2.4);
+    startFountainAt(455, 55, 2.4);
+    startFountainAt(45, 445, 2.4);
+    startFountainAt(455, 445, 2.4);
+    startConfettiRain(3.0, 75);
+  }
+
+  showHolodeckBanner(`
+    <div class="holodeck-banner-anim" style="background: linear-gradient(135deg, rgba(245,158,11,0.96), rgba(230,0,126,0.96)); padding: 9px 22px; border-radius: 9px; box-shadow: 0 0 28px rgba(245,158,11,0.7); border: 2px solid #FEF08A; font-family: var(--font-mono); color: #FFF; width: 100%; box-sizing: border-box;">
+      <div style="font-size: clamp(14px, 4vw, 18px); font-weight: 900; letter-spacing: 1.2px; text-shadow: 0 2px 8px rgba(0,0,0,0.6);">💥 SIX! ${dist} MAXIMUM!</div>
+      <div style="font-size: clamp(9.5px, 2.4vw, 11px); color: #FEF08A; font-weight: 800; margin-top: 3px; letter-spacing: 0.5px;">${sector.toUpperCase()} &bull; JAIPUR GRAND CELEBRATION</div>
+    </div>
+  `, 3200);
+
+  ensureHolodeckLoop();
+}
+
+function playFour(dist = '68m', sector = 'Deep Cover', target = { x: 100, y: 145 }) {
+  const isReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  playSynthesizedSound('crowd_roar');
+
+  if (!isReduced) {
+    triggerRopeFlashAt(target.x, target.y);
+  }
+
+  showHolodeckBanner(`
+    <div class="holodeck-banner-anim" style="background: linear-gradient(135deg, rgba(16,185,129,0.96), rgba(5,150,105,0.96)); padding: 8px 18px; border-radius: 8px; box-shadow: 0 0 22px rgba(52,211,153,0.6); border: 2px solid #6EE7B7; font-family: var(--font-mono); color: #FFF; width: 100%; box-sizing: border-box;">
+      <div style="font-size: clamp(13.5px, 3.8vw, 17px); font-weight: 900; letter-spacing: 0.8px; text-shadow: 0 2px 6px rgba(0,0,0,0.6);">⚡ FOUR! BOUNDARY CRACKED!</div>
+      <div style="font-size: clamp(9.5px, 2.3vw, 10.5px); color: #D1FAE5; font-weight: 700; margin-top: 2px;">${dist} &bull; ${sector.toUpperCase()}</div>
+    </div>
+  `, 1800);
+
+  ensureHolodeckLoop();
+}
+
+function playWicket(bowler = 'Pat Cummins', dismissalType = 'Bowled') {
+  const isReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  HOLODECK_FX.screenFlashAlpha = 0.35;
+  HOLODECK_FX.screenFlashColor = '#EF4444';
+  playSynthesizedSound('crowd_roar');
+
+  if (!isReduced) {
+    startStumpBreakage(250, 228);
+  }
+
+  showHolodeckBanner(`
+    <div class="holodeck-banner-anim" style="background: linear-gradient(135deg, rgba(239,68,68,0.96), rgba(185,28,28,0.96)); padding: 9px 20px; border-radius: 8px; box-shadow: 0 0 28px rgba(239,68,68,0.75); border: 2px solid #FCA5A5; font-family: var(--font-mono); color: #FFF; width: 100%; box-sizing: border-box;">
+      <div style="font-size: clamp(14px, 4vw, 18px); font-weight: 900; letter-spacing: 1.2px; text-shadow: 0 2px 8px rgba(0,0,0,0.6);">🚨 WICKET! OUT!</div>
+      <div style="font-size: clamp(9.5px, 2.4vw, 11px); color: #FEE2E2; font-weight: 800; margin-top: 3px;">${dismissalType.toUpperCase()} &bull; ${bowler.toUpperCase()}</div>
+    </div>
+  `, 3000);
+
+  ensureHolodeckLoop();
+}
+
+function playWideOrNoBall(type) {
+  HOLODECK_FX.screenFlashAlpha = 0.22;
+  HOLODECK_FX.screenFlashColor = '#F59E0B';
+  const isWide = type === 'wide';
+  showHolodeckBanner(`
+    <div class="holodeck-banner-anim" style="background: rgba(245,158,11,0.95); padding: 6px 14px; border-radius: 6px; border: 1.5px solid #FEF08A; font-family: var(--font-mono); color: #050C15; font-weight: 900; width: 100%; box-sizing: border-box;">
+      <div style="font-size: clamp(12px, 3.2vw, 14px);">${isWide ? '⚠️ WIDE BALL (+1 EXTRA)' : '⚡ NO BALL (+1 EXTRA & FREE HIT!)'}</div>
+    </div>
+  `, 1600);
+  ensureHolodeckLoop();
+}
+
+function animateBallFlight(ballData, onImpact = null, onLand = null) {
+  const isReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (isReduced) {
+    if (onImpact) onImpact();
+    if (onLand) onLand();
+    return;
+  }
+
+  const start = { x: 250, y: 285 };
+  const batter = { x: 250, y: 235 };
+  const target = { x: ballData.x, y: ballData.y };
+  const type = ballData.type;
+
+  HOLODECK_FX.ballFlight = {
+    phase: 1,
+    t: 0,
+    speed1: 5.5,
+    speed2: type === 'six' ? 0.95 : (type === 'four' ? 1.35 : 1.75),
+    start: start,
+    batter: batter,
+    target: target,
+    type: type,
+    trail: [],
+    onImpact: onImpact,
+    onLand: onLand,
+    impactTriggered: false,
+    ropeCrossed: false
+  };
+  ensureHolodeckLoop();
+}
+
+function updateAndDrawBallFlight(ctx, dt) {
+  const bf = HOLODECK_FX.ballFlight;
+  if (!bf) return;
+
+  if (bf.phase === 1) {
+    bf.t += bf.speed1 * dt;
+    const progress = Math.min(1, bf.t);
+    const curX = bf.start.x + (bf.batter.x - bf.start.x) * progress;
+    const curY = bf.start.y + (bf.batter.y - bf.start.y) * progress;
+
+    ctx.beginPath();
+    ctx.arc(curX, curY, 3.5, 0, Math.PI * 2);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+    ctx.strokeStyle = '#FEF08A';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    if (bf.t >= 1) {
+      bf.phase = 2;
+      bf.t = 0;
+      if (!bf.impactTriggered) {
+        bf.impactTriggered = true;
+        if (bf.type !== 'wicket') {
+          playSynthesizedSound('bat_crack');
+          for (let i = 0; i < 8; i++) {
+            createParticle(bf.batter.x, bf.batter.y, (Math.random() - 0.5) * 35, (Math.random() - 0.5) * 35, '#FEF08A', 2.0, 0.25, 2.5);
+          }
+        }
+        if (bf.onImpact) bf.onImpact();
+      }
+    }
+  } else {
+    bf.t += bf.speed2 * dt;
+    const progress = Math.min(1, bf.t);
+    const gx = bf.batter.x + (bf.target.x - bf.batter.x) * progress;
+    const gy = bf.batter.y + (bf.target.y - bf.batter.y) * progress;
+
+    let h = 0;
+    if (bf.type === 'six') {
+      h = 4 * 72 * progress * (1 - progress);
+    } else if (bf.type === 'four') {
+      h = 0;
+      const distFromCenter = Math.hypot(gx - 250, gy - 250);
+      if (!bf.ropeCrossed && distFromCenter >= 208) {
+        bf.ropeCrossed = true;
+        triggerRopeFlashAt(gx, gy);
+      }
+    }
+
+    const screenY = gy - h;
+    const scale = 1 + (h / 38);
+    const radius = 3.8 * scale;
+
+    bf.trail.push({ x: gx, y: screenY, alpha: 1.0, size: radius * 0.85 });
+    if (bf.trail.length > 7) bf.trail.shift();
+
+    ctx.globalCompositeOperation = 'lighter';
+    for (let i = 0; i < bf.trail.length; i++) {
+      const pt = bf.trail[i];
+      pt.alpha -= dt * 3.5;
+      if (pt.alpha > 0) {
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, pt.size * pt.alpha, 0, Math.PI * 2);
+        ctx.fillStyle = bf.type === 'six' ? `rgba(245,158,11,${pt.alpha * 0.7})` : `rgba(255,255,255,${pt.alpha * 0.5})`;
+        ctx.fill();
+      }
+    }
+
+    ctx.globalCompositeOperation = 'source-over';
+    const shadowAlpha = Math.max(0.1, 0.45 * (1 - h / 110));
+    ctx.beginPath();
+    ctx.ellipse(gx, gy, radius * 1.1, radius * 0.6, 0, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0,0,0,${shadowAlpha})`;
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(gx, screenY, radius, 0, Math.PI * 2);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+    ctx.strokeStyle = bf.type === 'six' ? '#FEF08A' : (bf.type === 'four' ? '#6EE7B7' : '#E2E8F0');
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+
+    if (bf.t >= 1) {
+      HOLODECK_FX.ballFlight = null;
+      if (bf.onLand) bf.onLand();
+    }
+  }
+}
+
+function mountHolodeckFX() {
+  const canvas = document.getElementById('holodeck-fx-canvas');
+  if (!canvas) return;
+  HOLODECK_FX.canvas = canvas;
+  HOLODECK_FX.ctx = canvas.getContext('2d');
+  resizeHolodeckCanvas();
+  ensureHolodeckLoop();
+}
+
+function resizeHolodeckCanvas() {
+  if (!HOLODECK_FX.canvas) return;
+  const rect = HOLODECK_FX.canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  const w = Math.round(rect.width * dpr);
+  const h = Math.round(rect.height * dpr);
+  if (w > 0 && h > 0 && (HOLODECK_FX.canvas.width !== w || HOLODECK_FX.canvas.height !== h)) {
+    HOLODECK_FX.canvas.width = w;
+    HOLODECK_FX.canvas.height = h;
+  }
+}
+
+window.addEventListener('resize', () => {
+  resizeHolodeckCanvas();
+});
+
+function cancelOrClearHolodeckFX() {
+  if (HOLODECK_FX.rafId) {
+    cancelAnimationFrame(HOLODECK_FX.rafId);
+    HOLODECK_FX.rafId = null;
+  }
+  HOLODECK_FX.active = false;
+  HOLODECK_FX.particles.length = 0;
+  HOLODECK_FX.rockets.length = 0;
+  HOLODECK_FX.fountains.length = 0;
+  HOLODECK_FX.confetti.length = 0;
+  HOLODECK_FX.shockwaves.length = 0;
+  HOLODECK_FX.stumpDebris.length = 0;
+  HOLODECK_FX.ballFlight = null;
+  HOLODECK_FX.ropeFlash = null;
+  HOLODECK_FX.screenFlashAlpha = 0;
+  if (HOLODECK_FX.bannerTimer) {
+    clearTimeout(HOLODECK_FX.bannerTimer);
+    HOLODECK_FX.bannerTimer = null;
+  }
+  const hud = document.getElementById('holodeck-banner-hud');
+  if (hud) hud.innerHTML = '';
+  if (HOLODECK_FX.canvas && HOLODECK_FX.ctx) {
+    HOLODECK_FX.ctx.clearRect(0, 0, HOLODECK_FX.canvas.width, HOLODECK_FX.canvas.height);
+  }
+}
+
+function ensureHolodeckLoop() {
+  if (HOLODECK_FX.active) return;
+  HOLODECK_FX.active = true;
+  HOLODECK_FX.lastTime = performance.now();
+  HOLODECK_FX.rafId = requestAnimationFrame(holodeckAnimationLoop);
+}
+
+function holodeckAnimationLoop(now) {
+  if (!HOLODECK_FX.active) return;
+  const dt = Math.min(0.05, (now - HOLODECK_FX.lastTime) / 1000);
+  HOLODECK_FX.lastTime = now;
+
+  const canvas = HOLODECK_FX.canvas;
+  const ctx = HOLODECK_FX.ctx;
+  if (!canvas || !ctx || canvas.width === 0) {
+    HOLODECK_FX.rafId = requestAnimationFrame(holodeckAnimationLoop);
+    return;
+  }
+
+  ctx.save();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const scaleX = canvas.width / 500;
+  const scaleY = canvas.height / 500;
+  ctx.scale(scaleX, scaleY);
+
+  if (HOLODECK_FX.screenFlashAlpha > 0.005) {
+    ctx.fillStyle = HOLODECK_FX.screenFlashColor;
+    ctx.globalAlpha = HOLODECK_FX.screenFlashAlpha;
+    ctx.fillRect(0, 0, 500, 500);
+    ctx.globalAlpha = 1.0;
+    HOLODECK_FX.screenFlashAlpha = Math.max(0, HOLODECK_FX.screenFlashAlpha - dt * 1.5);
+  }
+
+  if (HOLODECK_FX.ropeFlash) {
+    const rf = HOLODECK_FX.ropeFlash;
+    rf.life -= dt;
+    if (rf.life > 0) {
+      const alpha = rf.life / rf.maxLife;
+      ctx.beginPath();
+      ctx.arc(rf.x, rf.y, 28 * (1 - alpha * 0.5), 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(52,211,153,${alpha * 0.9})`;
+      ctx.lineWidth = 3.5;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.ellipse(250, 250, 216, 210, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(110,231,183,${alpha * 0.7})`;
+      ctx.lineWidth = 4;
+      ctx.stroke();
+    } else {
+      HOLODECK_FX.ropeFlash = null;
+    }
+  }
+
+  for (let i = HOLODECK_FX.shockwaves.length - 1; i >= 0; i--) {
+    const sw = HOLODECK_FX.shockwaves[i];
+    sw.life -= dt;
+    if (sw.life > 0) {
+      const p = 1 - sw.life / sw.maxLife;
+      const r = sw.radius + (sw.maxRadius - sw.radius) * p;
+      const alpha = (1 - p) * 0.85;
+      ctx.beginPath();
+      ctx.arc(sw.x, sw.y, r, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(239,68,68,${alpha})`;
+      ctx.lineWidth = 3 * (1 - p) + 1;
+      ctx.stroke();
+    } else {
+      HOLODECK_FX.shockwaves.splice(i, 1);
+    }
+  }
+
+  for (let i = HOLODECK_FX.stumpDebris.length - 1; i >= 0; i--) {
+    const d = HOLODECK_FX.stumpDebris[i];
+    d.life -= dt;
+    if (d.life > 0) {
+      d.x += d.vx * dt;
+      d.y += d.vy * dt;
+      d.vy += 180 * dt;
+      d.angle += d.vAngle * dt;
+      const alpha = Math.min(1, d.life / 0.3);
+
+      ctx.save();
+      ctx.translate(d.x, d.y);
+      ctx.rotate(d.angle);
+      ctx.globalAlpha = alpha;
+      if (d.type === 'stump') {
+        ctx.fillStyle = '#FEF08A';
+        ctx.fillRect(-1.5, -d.h / 2, 3, d.h);
+      } else {
+        ctx.fillStyle = '#EF4444';
+        ctx.fillRect(-d.w / 2, -1.5, d.w, 3);
+      }
+      ctx.restore();
+    } else {
+      HOLODECK_FX.stumpDebris.splice(i, 1);
+    }
+  }
+
+  for (let i = HOLODECK_FX.rockets.length - 1; i >= 0; i--) {
+    const r = HOLODECK_FX.rockets[i];
+    r.t += r.speed * dt;
+    const rx = r.sx + (r.tx - r.sx) * r.t;
+    const ry = r.sy + (r.ty - r.sy) * r.t;
+    createParticle(rx + (Math.random() - 0.5) * 4, ry + (Math.random() - 0.5) * 4, (Math.random() - 0.5) * 15, Math.random() * 20 + 10, '#FEF08A', 2.2, 0.3, 1.4, 25, 0.92, 'lighter');
+    ctx.beginPath();
+    ctx.arc(rx, ry, 3.2, 0, Math.PI * 2);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+    if (r.t >= 1) {
+      burstFirework(r.tx, r.ty, r.color === '#FF2D6F' ? 'peony' : 'gold');
+      if (r.onBurst) r.onBurst();
+      HOLODECK_FX.rockets.splice(i, 1);
+    }
+  }
+
+  for (let i = HOLODECK_FX.fountains.length - 1; i >= 0; i--) {
+    const f = HOLODECK_FX.fountains[i];
+    f.elapsed += dt;
+    if (f.elapsed < f.duration) {
+      for (let s = 0; s < 2; s++) {
+        const vx = (Math.random() - 0.5) * 36;
+        const vy = -(55 + Math.random() * 65);
+        const col = Math.random() > 0.4 ? '#FEF08A' : '#FFFFFF';
+        createParticle(f.x, f.y, vx, vy, col, 2.0, 0.45, 1.3, 110, 0.94, 'lighter');
+      }
+    } else {
+      HOLODECK_FX.fountains.splice(i, 1);
+    }
+  }
+
+  ctx.globalCompositeOperation = 'source-over';
+  for (let i = HOLODECK_FX.confetti.length - 1; i >= 0; i--) {
+    const c = HOLODECK_FX.confetti[i];
+    c.elapsed += dt;
+    if (c.elapsed < c.duration && c.y < 490) {
+      c.y += c.vy * dt;
+      c.x += Math.sin(c.elapsed * 4 + c.swayOffset) * 20 * dt + c.vx * dt;
+      c.angle += c.vAngle * dt;
+      const alpha = Math.max(0, 1 - c.elapsed / c.duration);
+      ctx.save();
+      ctx.translate(c.x, c.y);
+      ctx.rotate(c.angle);
+      ctx.fillStyle = c.color;
+      ctx.globalAlpha = alpha;
+      ctx.fillRect(-c.size / 2, -c.size / 4, c.size, c.size / 2);
+      ctx.restore();
+    } else {
+      HOLODECK_FX.confetti.splice(i, 1);
+    }
+  }
+
+  if (HOLODECK_FX.ballFlight) {
+    updateAndDrawBallFlight(ctx, dt);
+  }
+
+  for (let i = HOLODECK_FX.particles.length - 1; i >= 0; i--) {
+    const p = HOLODECK_FX.particles[i];
+    p.life -= p.decay * dt;
+    if (p.life > 0) {
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+      p.vy += p.gravity * dt;
+      p.vx *= Math.pow(p.drag, dt * 60);
+      p.vy *= Math.pow(p.drag, dt * 60);
+
+      const alpha = Math.max(0, p.life / p.maxLife);
+      ctx.globalCompositeOperation = p.blend || 'lighter';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * alpha, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = alpha;
+      ctx.fill();
+    } else {
+      const dead = HOLODECK_FX.particles.splice(i, 1)[0];
+      releaseParticleToPool(dead);
+    }
+  }
+
+  ctx.restore();
+
+  const hasWork = HOLODECK_FX.particles.length > 0 ||
+    HOLODECK_FX.rockets.length > 0 ||
+    HOLODECK_FX.fountains.length > 0 ||
+    HOLODECK_FX.confetti.length > 0 ||
+    HOLODECK_FX.shockwaves.length > 0 ||
+    HOLODECK_FX.stumpDebris.length > 0 ||
+    HOLODECK_FX.ballFlight !== null ||
+    HOLODECK_FX.ropeFlash !== null ||
+    HOLODECK_FX.screenFlashAlpha > 0.005;
+
+  if (hasWork) {
+    HOLODECK_FX.rafId = requestAnimationFrame(holodeckAnimationLoop);
+  } else {
+    HOLODECK_FX.active = false;
+    HOLODECK_FX.rafId = null;
+    if (ctx && canvas) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+}
+
 
 function inspectStadiumBall(idx) {
   if (idx >= 0 && idx < LIVE_TRACKER_STATE.currentOverHistory.length) {
@@ -22780,6 +23607,7 @@ function adjTrackerBall(outcomeType, runsParam) {
     LIVE_TRACKER_STATE.selectedBallIndex = LIVE_TRACKER_STATE.currentOverHistory.length - 1;
     checkMatchStatus();
     renderLiveTrackerEngineView();
+    animateBallFlight(telem, null, () => playWideOrNoBall('wide'));
     return;
   }
 
@@ -22801,6 +23629,7 @@ function adjTrackerBall(outcomeType, runsParam) {
     LIVE_TRACKER_STATE.selectedBallIndex = LIVE_TRACKER_STATE.currentOverHistory.length - 1;
     checkMatchStatus();
     renderLiveTrackerEngineView();
+    animateBallFlight(telem, null, () => playWideOrNoBall('noball'));
     return;
   }
 
@@ -22825,9 +23654,6 @@ function adjTrackerBall(outcomeType, runsParam) {
   if (outcomeType === 'wicket' && telem.type === 'wicket') {
     const dismissedBatterName = strikerObj.name;
     strikerObj.balls += 1;
-    strikerObj.status = 'out';
-    strikerObj.howOut = `${telem.dist === 'Bowled' ? 'b' : telem.dist === 'LBW' ? 'lbw b' : telem.dist === 'Stumped' ? 'st † b' : 'c Sub b'} ${LIVE_TRACKER_STATE.bowler}`;
-
     LIVE_TRACKER_STATE.wickets += 1;
 
     LIVE_TRACKER_STATE.fallOfWickets.push({
@@ -22843,18 +23669,7 @@ function adjTrackerBall(outcomeType, runsParam) {
       b.dots += 1;
     }
 
-    if (LIVE_TRACKER_STATE.wickets < 10) {
-      const nextBatter = LIVE_TRACKER_STATE.batters.find(bat => bat.status === 'dnb');
-      if (nextBatter) {
-        nextBatter.status = 'striker';
-        LIVE_TRACKER_STATE.striker = nextBatter.name;
-      }
-    } else {
-      LIVE_TRACKER_STATE.striker = null;
-      const nonStrikerObj = LIVE_TRACKER_STATE.batters.find(bat => bat.name === LIVE_TRACKER_STATE.nonStriker);
-      if (nonStrikerObj) nonStrikerObj.status = 'not_out';
-      LIVE_TRACKER_STATE.matchStatus = 'ALL_OUT';
-    }
+    updateStrikeAfterWicket(dismissedBatterName, telem.dist);
   } else {
     // Scoring delivery
     const runsAdded = telem.runs;
@@ -22875,6 +23690,7 @@ function adjTrackerBall(outcomeType, runsParam) {
       const temp = LIVE_TRACKER_STATE.striker;
       LIVE_TRACKER_STATE.striker = LIVE_TRACKER_STATE.nonStriker;
       LIVE_TRACKER_STATE.nonStriker = temp;
+      syncBatterStatuses();
     }
   }
 
@@ -22918,6 +23734,7 @@ function adjTrackerBall(outcomeType, runsParam) {
       const temp = LIVE_TRACKER_STATE.striker;
       LIVE_TRACKER_STATE.striker = LIVE_TRACKER_STATE.nonStriker;
       LIVE_TRACKER_STATE.nonStriker = temp;
+      syncBatterStatuses();
     }
 
     // Cricket Law 17: Bowler MUST change. Select an eligible bowler with < 4.0 overs!
@@ -22935,6 +23752,17 @@ function adjTrackerBall(outcomeType, runsParam) {
 
   checkMatchStatus();
   renderLiveTrackerEngineView();
+
+  // Trigger Live Graphics & Celebration
+  if (outcomeType === 'six') {
+    animateBallFlight(telem, null, () => playSix(telem.dist, telem.sector));
+  } else if (outcomeType === 'four') {
+    animateBallFlight(telem, null, () => playFour(telem.dist, telem.sector, { x: telem.x, y: telem.y }));
+  } else if (outcomeType === 'wicket') {
+    animateBallFlight(telem, () => playWicket(LIVE_TRACKER_STATE.bowler, telem.dist));
+  } else {
+    animateBallFlight(telem);
+  }
 }
 
 function calculateLiveWPAAndLI(runsNeeded, ballsRemaining, wickets) {
@@ -23288,9 +24116,10 @@ function renderLiveTrackerEngineView() {
               </thead>
               <tbody>
                 ${battedBatters.map(b => {
-                  const isStriker = b.status === 'striker';
-                  const isNonStriker = b.status === 'non-striker';
-                  const isNotOut = b.status === 'not_out';
+                  const isStriker = (b.name === LIVE_TRACKER_STATE.striker && LIVE_TRACKER_STATE.wickets < 10);
+                  const isNonStriker = (b.name === LIVE_TRACKER_STATE.nonStriker && LIVE_TRACKER_STATE.wickets < 10);
+                  const isOut = b.status === 'out';
+                  const isNotOut = !isOut && !isStriker && !isNonStriker && (LIVE_TRACKER_STATE.matchStatus === 'ALL_OUT' || LIVE_TRACKER_STATE.matchStatus === 'WON' || LIVE_TRACKER_STATE.matchStatus === 'OVERS_EXHAUSTED' || LIVE_TRACKER_STATE.matchStatus === 'TIED');
 
                   let rowBg = 'transparent';
                   let nameColor = '#FFFFFF';
@@ -23479,6 +24308,9 @@ function renderLiveTrackerEngineView() {
             <div class="card-subtitle">Real broadcast field setup, dynamic parabolic ball physics, and stadium celebration pyrotechnics.</div>
           </div>
           <div style="display: flex; gap: 6px; align-items: center;">
+            <button id="holodeck-sound-toggle" onclick="toggleHolodeckSound()" class="toggle-btn ${HOLODECK_FX.soundEnabled ? 'active' : ''}" style="font-size: 9.5px; padding: 3px 8px;" title="Stadium Sound FX">
+              ${HOLODECK_FX.soundEnabled ? '🔊 FX ON' : '🔇 FX OFF'}
+            </button>
             <button onclick="setStadiumViewMode('flight')" class="toggle-btn ${LIVE_TRACKER_STATE.stadiumViewMode === 'flight' ? 'active' : ''}" style="font-size: 9.5px; padding: 3px 8px;">🏟️ Live Flight</button>
             <button onclick="setStadiumViewMode('wagon')" class="toggle-btn ${LIVE_TRACKER_STATE.stadiumViewMode === 'wagon' ? 'active' : ''}" style="font-size: 9.5px; padding: 3px 8px;">🕸️ All Shots</button>
             <button onclick="setStadiumViewMode('pitch')" class="toggle-btn ${LIVE_TRACKER_STATE.stadiumViewMode === 'pitch' ? 'active' : ''}" style="font-size: 9.5px; padding: 3px 8px;">🎯 Pitch Map</button>
@@ -23487,9 +24319,9 @@ function renderLiveTrackerEngineView() {
 
         <div style="padding: 16px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
           
-          <!-- BROADCAST STADIUM SVG ARENA -->
-          <div style="width: 100%; max-width: 440px; aspect-ratio: 1; position: relative;">
-            <svg viewBox="0 0 500 500" style="width: 100%; height: 100%; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));">
+          <!-- BROADCAST STADIUM SVG ARENA WITH CANVAS OVERLAY -->
+          <div id="stadium-holodeck-wrapper" style="width: 100%; max-width: 440px; aspect-ratio: 1; position: relative; overflow: visible;">
+            <svg id="stadium-base-svg" viewBox="0 0 500 500" style="width: 100%; height: 100%; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));">
               <defs>
                 <radialGradient id="turfGrad" cx="50%" cy="50%" r="50%">
                   <stop offset="0%" stop-color="#14532D" />
@@ -23613,91 +24445,9 @@ function renderLiveTrackerEngineView() {
 
               <!-- STADIUM VIEW MODES: 1. LIVE FLIGHT TRAJECTORY -->
               ${LIVE_TRACKER_STATE.stadiumViewMode === 'flight' && activeBall ? `
-                <!-- Ground Shadow Tracker -->
-                <line x1="250" y1="235" x2="${activeBall.x}" y2="${activeBall.y}" stroke="rgba(0,0,0,0.4)" stroke-width="3" stroke-dasharray="2,3" />
-
-                <!-- 3D Curved Parabolic Flight Arc -->
-                <path d="M 250 235 Q ${(250 + activeBall.x) / 2} ${(235 + activeBall.y) / 2 - (activeBall.type === 'six' ? 75 : activeBall.type === 'four' ? 20 : 10)} ${activeBall.x} ${activeBall.y}"
-                      fill="none"
-                      stroke="${trajectoryColor}"
-                      stroke-width="${activeBall.type === 'six' ? '3.5' : '2.5'}"
-                      stroke-dasharray="${activeBall.type === 'six' ? '5,4' : 'none'}" />
-
-                <circle cx="${activeBall.x}" cy="${activeBall.y}" r="${activeBall.type === 'six' ? '7' : '5'}" fill="${trajectoryColor}" stroke="#FFFFFF" stroke-width="1.5" filter="url(#ballGlow)" />
-                
-                <!-- 🎆 REAL-WORLD STADIUM CELEBRATION PYROTECHNICS FOR SIX -->
-                ${activeBall.type === 'six' ? `
-                  <!-- 4 Stadium Aerial Mortar Launch Beams from Floodlights into Sky -->
-                  <path d="M 45 55 Q 120 70 170 110" fill="none" stroke="#F59E0B" stroke-width="2" stroke-dasharray="3,3" opacity="0.8" />
-                  <path d="M 455 55 Q 380 70 330 110" fill="none" stroke="#F59E0B" stroke-width="2" stroke-dasharray="3,3" opacity="0.8" />
-                  <path d="M 45 445 Q 110 370 160 300" fill="none" stroke="#F59E0B" stroke-width="2" stroke-dasharray="3,3" opacity="0.8" />
-                  <path d="M 455 445 Q 390 370 340 300" fill="none" stroke="#F59E0B" stroke-width="2" stroke-dasharray="3,3" opacity="0.8" />
-
-                  <!-- Boundary Flame Fountains (Cold Pyro Spark Plumes) -->
-                  <g stroke="#F59E0B" stroke-width="2">
-                    <line x1="250" y1="40" x2="250" y2="15" stroke="#FEF08A" stroke-width="3" filter="url(#ballGlow)" />
-                    <line x1="100" y1="90" x2="85" y2="70" stroke="#FEF08A" stroke-width="2.5" />
-                    <line x1="400" y1="90" x2="415" y2="70" stroke="#FEF08A" stroke-width="2.5" />
-                    <line x1="460" y1="250" x2="485" y2="250" stroke="#FEF08A" stroke-width="3" />
-                    <line x1="40" y1="250" x2="15" y2="250" stroke="#FEF08A" stroke-width="3" />
-                  </g>
-
-                  <!-- High Sky Multi-Burst Pyrotechnic Stars & Brocade Rings -->
-                  <circle cx="${activeBall.x}" cy="${activeBall.y}" r="26" fill="none" stroke="#F59E0B" stroke-width="2.5" opacity="0.9" filter="url(#skyPyroGlow)" />
-                  <circle cx="${activeBall.x}" cy="${activeBall.y}" r="45" fill="none" stroke="#FEF08A" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.8" />
-                  <circle cx="${activeBall.x}" cy="${activeBall.y}" r="64" fill="none" stroke="var(--rr-pink)" stroke-width="1" stroke-dasharray="2,5" opacity="0.6" />
-                  
-                  <!-- Cascading Golden Cracker Sparks -->
-                  <g stroke="#FEF08A" stroke-width="2" stroke-linecap="round">
-                    <line x1="${activeBall.x}" y1="${activeBall.y}" x2="${activeBall.x - 32}" y2="${activeBall.y - 28}" />
-                    <line x1="${activeBall.x}" y1="${activeBall.y}" x2="${activeBall.x + 32}" y2="${activeBall.y - 28}" />
-                    <line x1="${activeBall.x}" y1="${activeBall.y}" x2="${activeBall.x - 40}" y2="${activeBall.y + 12}" />
-                    <line x1="${activeBall.x}" y1="${activeBall.y}" x2="${activeBall.x + 40}" y2="${activeBall.y + 12}" />
-                    <line x1="${activeBall.x}" y1="${activeBall.y}" x2="${activeBall.x - 18}" y2="${activeBall.y + 36}" />
-                    <line x1="${activeBall.x}" y1="${activeBall.y}" x2="${activeBall.x + 18}" y2="${activeBall.y + 36}" />
-                    <line x1="${activeBall.x}" y1="${activeBall.y}" x2="${activeBall.x}" y2="${activeBall.y - 44}" />
-                  </g>
-                  
-                  <!-- Sparkling Star Particles -->
-                  <circle cx="${activeBall.x - 36}" cy="${activeBall.y - 30}" r="3.5" fill="#FFFFFF" filter="url(#ballGlow)" />
-                  <circle cx="${activeBall.x + 36}" cy="${activeBall.y - 30}" r="3.5" fill="#FFFFFF" filter="url(#ballGlow)" />
-                  <circle cx="${activeBall.x - 42}" cy="${activeBall.y + 14}" r="3" fill="#F59E0B" filter="url(#ballGlow)" />
-                  <circle cx="${activeBall.x + 42}" cy="${activeBall.y + 14}" r="3" fill="#F59E0B" filter="url(#ballGlow)" />
-                  <circle cx="${activeBall.x}" cy="${activeBall.y - 48}" r="4" fill="#FF85C0" filter="url(#ballGlow)" />
-
-                  <text x="${activeBall.x}" y="${Math.max(28, activeBall.y - 52)}" fill="#FEF08A" font-size="12" font-weight="900" font-family="monospace" text-anchor="middle" filter="url(#ballGlow)">🎆 6️⃣ ${activeBall.dist} MAXIMUM! CRACKERS!</text>
-                ` : activeBall.type === 'four' ? `
-                  <!-- 💥 BOUNDARY COLD PYRO JETS FOR FOUR -->
-                  <circle cx="${activeBall.x}" cy="${activeBall.y}" r="20" fill="none" stroke="#34D399" stroke-width="2.5" opacity="0.9" filter="url(#skyPyroGlow)" />
-                  <circle cx="${activeBall.x}" cy="${activeBall.y}" r="38" fill="none" stroke="#6EE7B7" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.7" />
-                  
-                  <!-- Turf Spark Lines & Boundary Flash -->
-                  <g stroke="#34D399" stroke-width="2">
-                    <line x1="${activeBall.x - 24}" y1="${activeBall.y - 14}" x2="${activeBall.x + 24}" y2="${activeBall.y + 14}" />
-                    <line x1="${activeBall.x - 24}" y1="${activeBall.y + 14}" x2="${activeBall.x + 24}" y2="${activeBall.y - 14}" />
-                    <line x1="${activeBall.x}" y1="${activeBall.y - 26}" x2="${activeBall.x}" y2="${activeBall.y + 26}" />
-                  </g>
-                  
-                  <circle cx="${activeBall.x - 24}" cy="${activeBall.y}" r="3" fill="#6EE7B7" />
-                  <circle cx="${activeBall.x + 24}" cy="${activeBall.y}" r="3" fill="#6EE7B7" />
-                  <circle cx="${activeBall.x}" cy="${activeBall.y - 26}" r="3.5" fill="#38BDF8" />
-
-                  <text x="${activeBall.x}" y="${Math.max(28, activeBall.y - 30)}" fill="#6EE7B7" font-size="11.5" font-weight="900" font-family="monospace" text-anchor="middle" filter="url(#ballGlow)">💥 4️⃣ FOUR! BOUNDARY PYRO JETS!</text>
-                ` : activeBall.type === 'wicket' ? `
-                  <!-- 🚨 RED STROBE ALERT FOR WICKET -->
-                  <circle cx="${activeBall.x}" cy="${activeBall.y}" r="22" fill="none" stroke="#EF4444" stroke-width="3" opacity="0.95" filter="url(#skyPyroGlow)" />
-                  <circle cx="${activeBall.x}" cy="${activeBall.y}" r="40" fill="none" stroke="#F87171" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.75" />
-                  
-                  <g stroke="#EF4444" stroke-width="2.5">
-                    <line x1="${activeBall.x - 20}" y1="${activeBall.y - 20}" x2="${activeBall.x + 20}" y2="${activeBall.y + 20}" />
-                    <line x1="${activeBall.x - 20}" y1="${activeBall.y + 20}" x2="${activeBall.x + 20}" y2="${activeBall.y - 20}" />
-                  </g>
-                  <circle cx="${activeBall.x}" cy="${activeBall.y - 26}" r="3.5" fill="#FCA5A5" filter="url(#ballGlow)" />
-                  <circle cx="${activeBall.x - 26}" cy="${activeBall.y}" r="3.5" fill="#FCA5A5" filter="url(#ballGlow)" />
-                  <circle cx="${activeBall.x + 26}" cy="${activeBall.y}" r="3.5" fill="#FCA5A5" filter="url(#ballGlow)" />
-
-                  <text x="${activeBall.x}" y="${Math.max(28, activeBall.y - 32)}" fill="#FCA5A5" font-size="12" font-weight="900" font-family="monospace" text-anchor="middle" filter="url(#ballGlow)">🚨 💥 WICKET OUT! RED FLARES!</text>
-                ` : ''}
+                <!-- Static Ground Delivery Path -->
+                <line x1="250" y1="235" x2="${activeBall.x}" y2="${activeBall.y}" stroke="${trajectoryColor}" stroke-width="2" stroke-dasharray="4,4" opacity="0.65" />
+                <circle cx="${activeBall.x}" cy="${activeBall.y}" r="4" fill="${trajectoryColor}" stroke="#FFFFFF" stroke-width="1" />
               ` : LIVE_TRACKER_STATE.stadiumViewMode === 'wagon' ? `
                 <!-- 2. FULL INNINGS WAGON WHEEL -->
                 ${LIVE_TRACKER_STATE.allInningsDeliveries.map(d => {
@@ -23740,6 +24490,8 @@ function renderLiveTrackerEngineView() {
               <rect x="370" y="440" width="60" height="14" rx="3" fill="#0284C7" opacity="0.85" />
               <text x="400" y="451" fill="#FFF" font-size="8.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">OPP DUGOUT</text>
             </svg>
+            <canvas id="holodeck-fx-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20;"></canvas>
+            <div id="holodeck-banner-hud" style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 30; pointer-events: none; width: 92%; max-width: 380px; text-align: center;"></div>
           </div>
 
           <!-- BALL HUD WITH REALISTIC SPEED & PROFILE -->
@@ -23951,6 +24703,8 @@ function renderLiveTrackerEngineView() {
       </div>
     </div>
   `;
+
+  mountHolodeckFX();
 }
 
 initLiveTrackerEngine();
@@ -23967,6 +24721,19 @@ window.swapBatters = swapBatters;
 window.inspectStadiumBall = inspectStadiumBall;
 window.changeTrackerBowler = changeTrackerBowler;
 window.setStadiumViewMode = setStadiumViewMode;
+window.createParticle = createParticle;
+window.launchRocket = launchRocket;
+window.burstFirework = burstFirework;
+window.playSix = playSix;
+window.playFour = playFour;
+window.playWicket = playWicket;
+window.playWideOrNoBall = playWideOrNoBall;
+window.updateStrikeAfterWicket = updateStrikeAfterWicket;
+window.syncBatterStatuses = syncBatterStatuses;
+window.animateBallFlight = animateBallFlight;
+window.mountHolodeckFX = mountHolodeckFX;
+window.cancelOrClearHolodeckFX = cancelOrClearHolodeckFX;
+window.toggleHolodeckSound = toggleHolodeckSound;
 
 /* ══════════════════════════════════════════════════════════════════════════════
    PART F3: SUPER OVER CLUTCH DECIDER & TWO-INNINGS INTERACTIVE PLAY ENGINE
