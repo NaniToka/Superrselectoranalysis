@@ -24149,7 +24149,9 @@ function adjTrackerBall(outcomeType, runsParam) {
   checkMatchStatus();
   renderLiveTrackerEngineView();
 
-  // Trigger Live Graphics & Celebration
+  // Trigger Live Voice Commentary & Broadcast Celebration
+  DUGOUT_RADIO.commentateBall(telem, LIVE_TRACKER_STATE.striker, LIVE_TRACKER_STATE.bowler);
+
   if (outcomeType === 'six') {
     animateBallFlight(telem, null, () => playSix(telem.dist, telem.sector));
   } else if (outcomeType === 'four') {
@@ -25305,6 +25307,7 @@ function playSuperOverBall(outcome, runs) {
     }
 
     inn.balls.push(bObj);
+    DUGOUT_RADIO.commentateBall(bObj, inn.striker, SUPER_OVER_STATE.opponentBowler);
 
     // Innings 1 Concludes (6 legal balls or 2 wickets)
     if (inn.legalBalls >= 6 || inn.wickets >= 2) {
@@ -25353,6 +25356,7 @@ function playSuperOverBall(outcome, runs) {
     }
 
     inn.balls.push(bObj);
+    DUGOUT_RADIO.commentateBall(bObj, inn.striker, SUPER_OVER_STATE.rrBowler);
     checkSuperOverResult();
   }
 
