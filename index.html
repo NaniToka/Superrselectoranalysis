@@ -23585,6 +23585,172 @@ function holodeckAnimationLoop(now) {
   }
 }
 
+/* ══════════════════════════════════════════════════════════════════════════════
+   DUGOUT RADIO AI LIVE VOICE COMMENTARY ENGINE
+   Web Speech Synthesis API, Situational Dugout Audio Broadcast & Subtitles
+   ══════════════════════════════════════════════════════════════════════════════ */
+const DUGOUT_RADIO = {
+  enabled: false,
+  synth: typeof window !== 'undefined' && 'speechSynthesis' in window ? window.speechSynthesis : null,
+  voice: null,
+  rate: 1.12,
+  pitch: 1.04,
+  volume: 1.0,
+  currentLine: '',
+  timer: null,
+
+  phrases: {
+    six: [
+      "{batter} launches it into orbit! 89 meters over deep mid-wicket!",
+      "Colossal strike from {batter}! High and handsome into the Jaipur pavilion!",
+      "Maximum! That is outta here! What a monster hit by {batter}!",
+      "{batter} gets under the ball and sends it sailing out of Sawai Mansingh Stadium!"
+    ],
+    four: [
+      "Cracking shot through the covers! {batter} finds the boundary rope!",
+      "Pure timing and placement! Four runs into the fence by {batter}!",
+      "Driven with immense authority! Sweeper cover had no chance, four runs!",
+      "Flayed away backward of point! Races to the rope for four!"
+    ],
+    wicket: [
+      "GONE! {bowler} strikes! {batter} has to walk back! Big breakthrough!",
+      "TIMBER! The bails fly off! What a lethal delivery from {bowler}!",
+      "In the air and taken! Huge wicket for the bowling side, {batter} departs!",
+      "Appeal, and given! {bowler} breaks the partnership, huge moment in the match!"
+    ],
+    dot: [
+      "Good tight line from {bowler}, defended for no run.",
+      "Beaten for pace! Straight to the fielder, dot ball.",
+      "Squeezed out into the inner ring, no run conceded.",
+      "Dot ball. Pressure building on the batting side."
+    ],
+    one: [
+      "Worked away into the gap for a brisk single.",
+      "Pushed down to long-on, easy single taken.",
+      "Nudged into the leg side, rotate the strike."
+    ],
+    two: [
+      "Hard running between the wickets, they come back for a sharp brace!",
+      "Paced into the deep, excellent turn and they comfortably get two!"
+    ],
+    wide: [
+      "Called wide! Fired down leg side, one extra added to the total.",
+      "Wide ball signaled. {bowler} must re-bowl that delivery."
+    ],
+    noball: [
+      "No ball signaled! Overstepping by {bowler}, and it is a Free Hit next ball!",
+      "Front foot no ball! Free hit coming up for {batter}!"
+    ],
+    fifty: [
+      "Sensational fifty for {batter}! The Rajasthan Royals dugout is on their feet!",
+      "Fifty for {batter}! A masterclass under extreme pressure here in Jaipur!"
+    ],
+    drs_review: [
+      "Review taken! The third umpire is being referred to. Let's check UltraEdge.",
+      "Dugout review signaled! Hawk-Eye ball tracking is calculating the path."
+    ],
+    match_won: [
+      "Rajasthan Royals seal the chase! A clinical, champion victory in Jaipur!",
+      "What a finish! The Royals dugout erupts as the winning runs are scored!"
+    ]
+  },
+
+  init() {
+    if (!this.synth) return;
+    const loadVoices = () => {
+      const voices = this.synth.getVoices();
+      if (!voices || voices.length === 0) return;
+      this.voice = voices.find(v => v.lang === 'en-IN') ||
+                   voices.find(v => v.lang === 'en-GB') ||
+                   voices.find(v => v.lang.startsWith('en')) ||
+                   voices[0];
+    };
+    loadVoices();
+    if (this.synth.onvoiceschanged !== undefined) {
+      this.synth.onvoiceschanged = loadVoices;
+    }
+  },
+
+  toggle() {
+    this.enabled = !this.enabled;
+    const btn = document.getElementById('holodeck-comms-toggle');
+    if (btn) {
+      btn.textContent = this.enabled ? '🎙️ COMMS ON' : '🎙️ COMMS OFF';
+      btn.classList.toggle('active', this.enabled);
+    }
+    if (this.enabled) {
+      this.init();
+      this.speak("Dugout radio comms active. Ready for live ball-by-ball analysis.", true);
+    } else {
+      if (this.synth) this.synth.cancel();
+      this.updateTicker("");
+    }
+  },
+
+  updateTicker(text) {
+    this.currentLine = text;
+    const ticker = document.getElementById('holodeck-commentary-ticker');
+    if (ticker) {
+      if (text) {
+        ticker.style.display = 'flex';
+        ticker.innerHTML = `<span style="font-size: 13px;">🎙️</span> <span style="color: #F8FAFC; font-weight: 600;">"${text}"</span>`;
+      } else {
+        ticker.style.display = 'none';
+        ticker.innerHTML = '';
+      }
+    }
+  },
+
+  speak(text, priority = false) {
+    this.updateTicker(text);
+    if (!this.enabled || !this.synth) return;
+    try {
+      if (priority) {
+        this.synth.cancel();
+      }
+      const utter = new SpeechSynthesisUtterance(text);
+      if (this.voice) utter.voice = this.voice;
+      utter.rate = this.rate;
+      utter.pitch = this.pitch;
+      utter.volume = this.volume;
+      utter.onend = () => {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+          if (this.currentLine === text) {
+            this.updateTicker("");
+          }
+        }, 3500);
+      };
+      this.synth.speak(utter);
+    } catch (e) {
+      // Graceful fallback
+    }
+  },
+
+  commentateBall(ballData, strikerName, bowlerName) {
+    if (!ballData) return;
+    const sName = strikerName ? strikerName.split(' ').pop() : 'Striker';
+    const bName = bowlerName ? bowlerName.split(' ').pop() : 'Bowler';
+    let pool = this.phrases.dot;
+
+    if (ballData.type === 'six') pool = this.phrases.six;
+    else if (ballData.type === 'four') pool = this.phrases.four;
+    else if (ballData.type === 'wicket') pool = this.phrases.wicket;
+    else if (ballData.type === 'wide') pool = this.phrases.wide;
+    else if (ballData.type === 'noball') pool = this.phrases.noball;
+    else if (ballData.runs === 1) pool = this.phrases.one;
+    else if (ballData.runs === 2) pool = this.phrases.two;
+
+    const template = pool[Math.floor(Math.random() * pool.length)];
+    const text = template.replace(/\{batter\}/g, sName).replace(/\{bowler\}/g, bName);
+    const isPriority = ballData.type === 'six' || ballData.type === 'wicket' || ballData.type === 'four';
+    this.speak(text, isPriority);
+  }
+};
+
+window.DUGOUT_RADIO = DUGOUT_RADIO;
+window.toggleDugoutRadio = () => DUGOUT_RADIO.toggle();
+
 
 function inspectStadiumBall(idx) {
   if (idx >= 0 && idx < LIVE_TRACKER_STATE.currentOverHistory.length) {
