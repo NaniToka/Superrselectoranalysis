@@ -25435,6 +25435,7 @@ function renderLiveTrackerEngineView() {
     else if (activeBall.type === 'wide' || activeBall.type === 'noball') trajectoryColor = '#FBBF24';
   }
 
+  const dls = calculateDlsParScore();
   const isMatchOver = LIVE_TRACKER_STATE.matchStatus !== 'IN_PLAY';
   const isOverInProgress = LIVE_TRACKER_STATE.ballsInOver > 0 && LIVE_TRACKER_STATE.ballsInOver < 6;
 
@@ -25507,6 +25508,11 @@ function renderLiveTrackerEngineView() {
           <div style="font-size: 10px; font-family: var(--font-mono); color: #94A3B8; text-transform: uppercase;">REQ RUN RATE (RRR)</div>
           <div style="font-size: 32px; font-weight: 900; color: ${parseFloat(rrr) > 12 ? '#EF4444' : parseFloat(rrr) > 9 ? '#FBBF24' : '#34D399'}; font-family: var(--font-mono);">${rrr}</div>
           <div style="font-size: 11px; color: #94A3B8;">Current (CRR): <strong style="color: #FFFFFF;">${crr}</strong></div>
+        </div>
+        <div>
+          <div style="font-size: 10px; font-family: var(--font-mono); color: #94A3B8; text-transform: uppercase;">DLS PAR (${LIVE_TRACKER_STATE.overs}.${LIVE_TRACKER_STATE.ballsInOver} OV)</div>
+          <div style="font-size: 32px; font-weight: 900; color: ${dls.isAhead ? '#34D399' : '#F87171'}; font-family: var(--font-mono);">${dls.parScore}</div>
+          <div style="font-size: 11px; font-weight: 800; color: ${dls.isAhead ? '#6EE7B7' : '#FCA5A5'}; font-family: var(--font-mono);">${dls.diff >= 0 ? `+${dls.diff} Ahead (Safe 🟢)` : `${dls.diff} Behind (Risk 🔴)`}</div>
         </div>
       </div>
 
@@ -26233,6 +26239,21 @@ function renderLiveTrackerEngineView() {
             </div>
             <div style="font-size: 11px; color: #E2E8F0; line-height: 1.45;">
               With <strong>${ballsRemaining}</strong> balls remaining and <strong>${runsNeeded}</strong> runs needed: If bowling, deploy 5-4 off-side field ring with deep cover sweeper; starve of straight boundaries.
+            </div>
+          </div>
+
+          <div style="background: rgba(15,23,42,0.7); border: 1px solid ${dls.isAhead ? '#34D399' : '#EF4444'}; border-radius: 8px; padding: 12px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 800; color: ${dls.isAhead ? '#6EE7B7' : '#FCA5A5'};">
+                🌧️ WEATHER &amp; DLS EQUITY (${dls.diff >= 0 ? `+${dls.diff} RUNS` : `${dls.diff} RUNS`})
+              </span>
+              <span style="font-size: 14px;">${dls.isAhead ? '🟢' : '🔴'}</span>
+            </div>
+            <div style="font-size: 11px; color: #E2E8F0; line-height: 1.45;">
+              ${dls.isAhead 
+                ? `Royals hold a <strong>+${dls.diff} run equity buffer against DLS par</strong> (${dls.currentRuns} vs Par ${dls.parScore}). If rain halts play immediately, RR wins on DLS method. Batters should avoid high-risk aerial shots and rotate strike safely.` 
+                : `Royals are <strong>${Math.abs(dls.diff)} runs behind DLS par</strong> (${dls.currentRuns} vs Par ${dls.parScore}). Immediate rain stoppage results in defeat. Striker must target a boundary within the next 3 balls to restore positive DLS equity.`
+              }
             </div>
           </div>
 
