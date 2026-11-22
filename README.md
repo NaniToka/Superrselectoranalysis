@@ -179,6 +179,32 @@ The platform includes seven specialized computational engines integrated directl
 * **Walk-Away Ceilings:** Quantifies maximum rational bid thresholds for uncontracted targets (Phil Salt, Mitchell Santner, Jacob Duffy).
 * **Budget Optimization:** Models salary cap distribution across Indian core retention and auction acquisitions.
 
+### 8. 🎙️ Live Dugout AI Voice Commentary & Radio Comms
+* **Speech Synthesis Engine:** Situational broadcast commentary powered by the Web Speech API with custom dugout voice inflection.
+* **Contextual Triggering:** Automatically commentates sixes, cracking fours, bails-flying wickets, close DRS verdicts, and Super Over finishes with real-time text HUD subtitles.
+
+### 9. ⚡ Interactive DRS (Decision Review System) & UltraEdge / Hawk-Eye
+* **UltraEdge Seismograph:** Dynamic audio spike waveform synchronized with bat-ball proximity and contact timestamps.
+* **3D Hawk-Eye Ball Tracking:** Parabolic trajectory simulation from bowler hand release through pitch impact point to Zing stumps (Impact in-line / hitting stumps).
+* **3rd Umpire Sequence:** Automatic resolution sequence (Pending Review → Decision Overturned / Confirmed) with instant scorecard and strike synchronization.
+
+### 10. 🎯 Interactive Drag-and-Drop Field Setting & Real-Time Hazard Telemetry
+* **Direct Turf Manipulation:** Drag-and-drop fielder repositioning within Jaipur Holodeck boundary ropes with desktop mouse and mobile touch-drag events.
+* **Dynamic Hazard Algorithm:** Calculates angular dispersion gaps across 10 fielders to evaluate real-time Boundary Hazard % and Catch Probability %.
+* **Tactical Presets:** Instant deployment of battle-tested T20 formations: *Death Squeeze 5-4*, *Double Slip & Gully*, *Wide Yorker 7-2 Off-Side Trap*, and *Balanced Ring*.
+
+### 11. 🏆 RR Legacy Duels Historical Scenario Challenge Mode
+* **Championship Scenarios:** Relive iconic clutch moments from franchise history:
+  * **2024 Eden Gardens Miracle:** Jos Buttler 107* chase needing 46 off 18 balls with tailenders.
+  * **2008 Inaugural IPL Final:** Shane Warne & Sohail Tanvir needing 1 run off 1 ball vs CSK.
+  * **2022 Qualifier 2:** Jos Buttler 106* masterclass to seal the Final berth.
+* **Tactical Objectives Tracker:** Evaluates primary chase goals, century milestones, and wicket protection in real-time with gold victory trophies.
+
+### 12. 🌧️ Dynamic DLS (Duckworth-Lewis-Stern) Rain Delay & Par Score Calculator
+* **Empirical ICC Resource Formulation:** Implements the official Frank Duckworth-Tony Lewis T20 resource matrix across all 20 overs and 10 wickets.
+* **Live Par Telemetry:** Calculates real-time ball-by-ball DLS par score with positive/negative equity indicators (`+8 Ahead (Safe 🟢)` / `-6 Behind (Risk 🔴)`).
+* **Curtailed Match Simulator:** Models match reduction to 18, 16, 15, 14, 12, or 10 overs, dynamically recalibrating revised target scores and required run rates.
+
 ---
 
 ## 🌐 3D Aerospace State-Space Universe
