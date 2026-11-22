@@ -23874,11 +23874,32 @@ const DRS_ENGINE = {
     // 22-yard 2D Side Turf Perspective
     ctx.fillStyle = '#061932';
     ctx.fillRect(0, h - 24, w, 24);
+    
+    // Subtle distance grid markers every 100px (~4.4m)
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.15)';
+    ctx.lineWidth = 1;
+    for (let x = 80; x < 480; x += 80) {
+      ctx.beginPath();
+      ctx.moveTo(x, h - 24);
+      ctx.lineTo(x, h);
+      ctx.stroke();
+    }
+
     ctx.strokeStyle = '#38BDF8';
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(0, h - 24);
     ctx.lineTo(w, h - 24);
+    ctx.stroke();
+
+    // Pitch Crease Markings
+    ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(430, h - 24);
+    ctx.lineTo(430, h - 6);
+    ctx.moveTo(490, h - 24);
+    ctx.lineTo(490, h - 6);
     ctx.stroke();
 
     // 3 Zing Stumps at x = 500
