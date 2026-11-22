@@ -22786,6 +22786,161 @@ function changeTrackerBowler(newBowlerName) {
   renderLiveTrackerEngineView();
 }
 
+const RR_LEGACY_SCENARIOS = {
+  eden2024: {
+    id: 'eden2024',
+    title: 'Eden Gardens Miracle (2024)',
+    season: 'IPL 2024 &bull; Match 31 vs KKR',
+    badge: '🔥 EXTREME CLUTCH',
+    badgeColor: '#EF4444',
+    target: 224,
+    startRuns: 178,
+    startWickets: 8,
+    startOvers: 17,
+    startBalls: 0,
+    striker: 'Jos Buttler',
+    nonStriker: 'Trent Boult',
+    bowler: 'Mitchell Starc',
+    description: 'Chasing 224 at Eden Gardens, RR collapsed to 178/8 needing 46 off 18 balls. Jos Buttler fought severe cramps to script the greatest individual chase in IPL history.',
+    objectives: [
+      { id: 'win', text: 'Score 46 runs off 18 balls to win the match', done: false },
+      { id: 'century', text: 'Jos Buttler scores a heroic Century (100+ runs)', done: false },
+      { id: 'tail', text: 'Do not lose another wicket (protect Boult & Avesh)', done: false }
+    ],
+    batters: [
+      { id: 'jaiswal', name: 'Yashasvi Jaiswal', role: 'LH Explosive Opener', runs: 19, balls: 9, fours: 3, sixes: 1, status: 'out', howOut: 'c Venkatesh b Vaibhav' },
+      { id: 'buttler', name: 'Jos Buttler', role: 'RH Wicketkeeper Batter', runs: 67, balls: 42, fours: 4, sixes: 3, status: 'striker', howOut: '' },
+      { id: 'samson', name: 'Sanju Samson', role: 'RH Captain / Batter', runs: 12, balls: 8, fours: 2, sixes: 0, status: 'out', howOut: 'c Narine b Rana' },
+      { id: 'parag', name: 'Riyan Parag', role: 'RH Middle Enforcer', runs: 34, balls: 14, fours: 4, sixes: 2, status: 'out', howOut: 'c Russell b Rana' },
+      { id: 'jurel', name: 'Dhruv Jurel', role: 'RH Finisher / WK', runs: 2, balls: 4, fours: 0, sixes: 0, status: 'out', howOut: 'lbw b Narine' },
+      { id: 'ashwin', name: 'Ravichandran Ashwin', role: 'RH Spin All-Rounder', runs: 8, balls: 11, fours: 1, sixes: 0, status: 'out', howOut: 'c Salt b Chakravarthy' },
+      { id: 'hetmyer', name: 'Shimron Hetmyer', role: 'LH Death Finisher', runs: 0, balls: 1, fours: 0, sixes: 0, status: 'out', howOut: 'c Iyer b Chakravarthy' },
+      { id: 'powell', name: 'Rovman Powell', role: 'RH Finisher', runs: 26, balls: 13, fours: 1, sixes: 3, status: 'out', howOut: 'lbw b Narine' },
+      { id: 'boult', name: 'Trent Boult', role: 'LH Fast Bowler', runs: 0, balls: 1, fours: 0, sixes: 0, status: 'non-striker', howOut: '' },
+      { id: 'avesh', name: 'Avesh Khan', role: 'RH Pace Bowler', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' }
+    ],
+    bowlers: {
+      'Mitchell Starc': { overs: 3.0, maidens: 0, runs: 32, wickets: 0, econ: 10.67, dots: 5 },
+      'Harshit Rana': { overs: 3.0, maidens: 0, runs: 38, wickets: 2, econ: 12.67, dots: 4 },
+      'Varun Chakravarthy': { overs: 4.0, maidens: 0, runs: 36, wickets: 2, econ: 9.00, dots: 7 },
+      'Sunil Narine': { overs: 4.0, maidens: 0, runs: 30, wickets: 2, econ: 7.50, dots: 8 }
+    }
+  },
+  final2008: {
+    id: 'final2008',
+    title: 'Inaugural IPL Final (2008)',
+    season: 'IPL 2008 &bull; Final vs CSK (DY Patil)',
+    badge: '👑 LEGENDARY MOMENT',
+    badgeColor: '#F59E0B',
+    target: 164,
+    startRuns: 163,
+    startWickets: 7,
+    startOvers: 19,
+    startBalls: 5,
+    striker: 'Sohail Tanvir',
+    nonStriker: 'Shane Warne',
+    bowler: 'Laxmipathy Balaji',
+    description: 'The moment that birthed the IPL legend. 1 run needed off 1 ball. Shane Warne at the non-striker end, Sohail Tanvir facing Laxmipathy Balaji with the trophy on the line.',
+    objectives: [
+      { id: 'win', text: 'Score 1 run off the final ball to win IPL 2008', done: false },
+      { id: 'single', text: 'Scamper a brisk single through mid-wicket', done: false },
+      { id: 'nowicket', text: 'Do not get run out on the desperate winning run', done: false }
+    ],
+    batters: [
+      { id: 'asnodkar', name: 'Swapnil Asnodkar', role: 'RH Opener', runs: 28, balls: 20, fours: 4, sixes: 0, status: 'out', howOut: 'run out (Raina)' },
+      { id: 'smith', name: 'Graeme Smith', role: 'LH Opener', runs: 12, balls: 9, fours: 1, sixes: 0, status: 'out', howOut: 'b Morkel' },
+      { id: 'yusuf', name: 'Yusuf Pathan', role: 'RH All-Rounder', runs: 56, balls: 39, fours: 3, sixes: 4, status: 'out', howOut: 'run out (Raina)' },
+      { id: 'watson', name: 'Shane Watson', role: 'RH All-Rounder', runs: 28, balls: 19, fours: 3, sixes: 0, status: 'out', howOut: 'b Muralitharan' },
+      { id: 'kaif', name: 'Mohammad Kaif', role: 'RH Batter', runs: 12, balls: 9, fours: 1, sixes: 0, status: 'out', howOut: 'c Dhoni b Muralitharan' },
+      { id: 'jadeja', name: 'Ravindra Jadeja', role: 'LH All-Rounder', runs: 0, balls: 1, fours: 0, sixes: 0, status: 'out', howOut: 'c Kapugedera b Morkel' },
+      { id: 'rawat', name: 'Mahesh Rawat', role: 'RH WK', runs: 8, balls: 7, fours: 0, sixes: 0, status: 'out', howOut: 'c Dhoni b Balaji' },
+      { id: 'tanvir', name: 'Sohail Tanvir', role: 'LH Bowler / Finisher', runs: 8, balls: 6, fours: 0, sixes: 0, status: 'striker', howOut: '' },
+      { id: 'warne', name: 'Shane Warne', role: 'RH Captain / Legend', runs: 9, balls: 9, fours: 1, sixes: 0, status: 'non-striker', howOut: '' }
+    ],
+    bowlers: {
+      'Laxmipathy Balaji': { overs: 3.5, maidens: 0, runs: 41, wickets: 1, econ: 10.69, dots: 4 },
+      'Albie Morkel': { overs: 4.0, maidens: 0, runs: 25, wickets: 2, econ: 6.25, dots: 9 },
+      'Muttiah Muralitharan': { overs: 4.0, maidens: 0, runs: 39, wickets: 2, econ: 9.75, dots: 6 },
+      'Manpreet Gony': { overs: 4.0, maidens: 0, runs: 30, wickets: 0, econ: 7.50, dots: 8 }
+    }
+  },
+  qualifier2022: {
+    id: 'qualifier2022',
+    title: '2022 Qualifier 2 Masterclass',
+    season: 'IPL 2022 &bull; Qualifier 2 vs RCB (Ahmedabad)',
+    badge: '⚡ CHASE MASTERCLASS',
+    badgeColor: '#38BDF8',
+    target: 158,
+    startRuns: 120,
+    startWickets: 2,
+    startOvers: 15,
+    startBalls: 0,
+    striker: 'Jos Buttler',
+    nonStriker: 'Sanju Samson',
+    bowler: 'Josh Hazlewood',
+    description: 'Chasing 158 for a place in the Final, Jos Buttler unleashed a roaring 106* (60b). Finish off the remaining 38 runs with authority.',
+    objectives: [
+      { id: 'win', text: 'Score 38 runs off 30 balls to seal the Final berth', done: false },
+      { id: 'century', text: 'Seal Buttlers 106* century with a maximum', done: false },
+      { id: 'crr', text: 'Finish the chase with >= 10 balls to spare', done: false }
+    ],
+    batters: [
+      { id: 'jaiswal', name: 'Yashasvi Jaiswal', role: 'LH Explosive Opener', runs: 21, balls: 13, fours: 2, sixes: 1, status: 'out', howOut: 'c Kohli b Hazlewood' },
+      { id: 'buttler', name: 'Jos Buttler', role: 'RH Wicketkeeper Batter', runs: 78, balls: 46, fours: 8, sixes: 4, status: 'striker', howOut: '' },
+      { id: 'samson', name: 'Sanju Samson', role: 'RH Captain / Batter', runs: 16, balls: 18, fours: 1, sixes: 1, status: 'non-striker', howOut: '' },
+      { id: 'padikkal', name: 'Devdutt Padikkal', role: 'LH Batter', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
+      { id: 'hetmyer', name: 'Shimron Hetmyer', role: 'LH Finisher', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' }
+    ],
+    bowlers: {
+      'Josh Hazlewood': { overs: 3.0, maidens: 0, runs: 28, wickets: 1, econ: 9.33, dots: 5 },
+      'Harshal Patel': { overs: 3.0, maidens: 0, runs: 26, wickets: 0, econ: 8.67, dots: 6 },
+      'Wanindu Hasaranga': { overs: 4.0, maidens: 0, runs: 36, wickets: 1, econ: 9.00, dots: 7 },
+      'Mohammed Siraj': { overs: 2.0, maidens: 0, runs: 24, wickets: 0, econ: 12.00, dots: 2 }
+    }
+  }
+};
+
+function loadLegacyDuelScenario(scenarioId) {
+  const sc = RR_LEGACY_SCENARIOS[scenarioId];
+  if (!sc) return;
+  cancelOrClearHolodeckFX();
+  LIVE_TRACKER_STATE.isFreeHit = false;
+  LIVE_TRACKER_STATE.freeHitAlert = '';
+  LIVE_TRACKER_STATE.notification = '';
+  LIVE_TRACKER_STATE.matchStatus = 'IN_PLAY';
+  LIVE_TRACKER_STATE.currentOverHistory = [];
+  LIVE_TRACKER_STATE.allInningsDeliveries = [];
+  LIVE_TRACKER_STATE.selectedBallIndex = -1;
+  LIVE_TRACKER_STATE.extras = { wides: 0, noballs: 0, legbyes: 0, byes: 0 };
+  LIVE_TRACKER_STATE.fallOfWickets = [];
+  LIVE_TRACKER_STATE.previousOvers = [];
+
+  LIVE_TRACKER_STATE.target = sc.target;
+  LIVE_TRACKER_STATE.runs = sc.startRuns;
+  LIVE_TRACKER_STATE.wickets = sc.startWickets;
+  LIVE_TRACKER_STATE.overs = sc.startOvers;
+  LIVE_TRACKER_STATE.ballsInOver = sc.startBalls;
+  LIVE_TRACKER_STATE.striker = sc.striker;
+  LIVE_TRACKER_STATE.nonStriker = sc.nonStriker;
+  LIVE_TRACKER_STATE.bowler = sc.bowler;
+  LIVE_TRACKER_STATE.lastBowler = '';
+  LIVE_TRACKER_STATE.preset = `🏆 ${sc.title}`;
+  LIVE_TRACKER_STATE.legacyDuel = JSON.parse(JSON.stringify(sc));
+  LIVE_TRACKER_STATE.batters = JSON.parse(JSON.stringify(sc.batters));
+  LIVE_TRACKER_STATE.bowlers = JSON.parse(JSON.stringify(sc.bowlers));
+
+  renderLiveTrackerEngineView();
+  closeLegacyDuelsModal();
+
+  if (window.DUGOUT_RADIO && DUGOUT_RADIO.enabled) {
+    const ballsLeft = 120 - (sc.startOvers * 6 + sc.startBalls);
+    const runsLeft = sc.target - sc.startRuns;
+    DUGOUT_RADIO.speak(`Welcome to Rajasthan Royals Legacy Duel: ${sc.title}. ${runsLeft} runs required off ${ballsLeft} deliveries. Let us make history!`);
+  }
+}
+
+window.loadLegacyDuelScenario = loadLegacyDuelScenario;
+
 function applyTrackerPreset(presetKey) {
   cancelOrClearHolodeckFX();
   LIVE_TRACKER_STATE.isFreeHit = false;
