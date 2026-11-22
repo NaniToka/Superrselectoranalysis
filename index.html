@@ -4733,6 +4733,18 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
     border-radius: 10px !important;
   }
 
+  /* RR Legacy Duels Modals Mobile Optimization */
+  #legacy-duels-modal-backdrop, #legacy-duel-trophy-modal {
+    padding: 10px 8px !important;
+    align-items: flex-start !important;
+    padding-top: 15px !important;
+  }
+  #legacy-duels-modal-backdrop > div, #legacy-duel-trophy-modal > div {
+    max-height: 92vh !important;
+    overflow-y: auto !important;
+    border-radius: 10px !important;
+  }
+
   /* 3D Universe Player Card & Filter Pills */
   #p3d-player-card {
     max-width: calc(100% - 20px) !important;
@@ -15318,6 +15330,8 @@ document.addEventListener('keydown', function(e) {
   } else if (e.key === 'Escape') {
     closeCommandPalette();
     if (typeof closeDrsModal === 'function') closeDrsModal();
+    if (typeof closeLegacyDuelsModal === 'function') closeLegacyDuelsModal();
+    if (typeof closeLegacyDuelTrophyModal === 'function') closeLegacyDuelTrophyModal();
   }
 });
 
