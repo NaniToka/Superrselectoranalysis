@@ -24730,6 +24730,9 @@ function renderLiveTrackerEngineView() {
             <button id="holodeck-sound-toggle" onclick="toggleHolodeckSound()" class="toggle-btn ${HOLODECK_FX.soundEnabled ? 'active' : ''}" style="font-size: 9.5px; padding: 3px 8px;" title="Stadium Sound FX">
               ${HOLODECK_FX.soundEnabled ? '🔊 FX ON' : '🔇 FX OFF'}
             </button>
+            <button id="holodeck-comms-toggle" onclick="toggleDugoutRadio()" class="toggle-btn ${DUGOUT_RADIO.enabled ? 'active' : ''}" style="font-size: 9.5px; padding: 3px 8px; border-color: #38BDF8; color: #7DD3FC;" title="Live Dugout Radio Comms (Voice Commentary)">
+              ${DUGOUT_RADIO.enabled ? '🎙️ COMMS ON' : '🎙️ COMMS OFF'}
+            </button>
             <button onclick="setStadiumViewMode('flight')" class="toggle-btn ${LIVE_TRACKER_STATE.stadiumViewMode === 'flight' ? 'active' : ''}" style="font-size: 9.5px; padding: 3px 8px;">🏟️ Live Flight</button>
             <button onclick="setStadiumViewMode('wagon')" class="toggle-btn ${LIVE_TRACKER_STATE.stadiumViewMode === 'wagon' ? 'active' : ''}" style="font-size: 9.5px; padding: 3px 8px;">🕸️ All Shots</button>
             <button onclick="setStadiumViewMode('pitch')" class="toggle-btn ${LIVE_TRACKER_STATE.stadiumViewMode === 'pitch' ? 'active' : ''}" style="font-size: 9.5px; padding: 3px 8px;">🎯 Pitch Map</button>
@@ -24937,6 +24940,11 @@ function renderLiveTrackerEngineView() {
                 Tactical Pitch Map: Ready for Ball 1 of over from ${currentBowler} (${bowlerProfile.style}, ~${bowlerProfile.avgSpd} km/h).
               </div>
             `}
+          </div>
+
+          <!-- LIVE DUGOUT AI COMMENTARY TICKER -->
+          <div id="holodeck-commentary-ticker" style="display: ${DUGOUT_RADIO.currentLine ? 'flex' : 'none'}; width: 100%; margin-top: 8px; background: rgba(8, 22, 43, 0.95); border: 1px solid rgba(56, 189, 248, 0.3); border-left: 3px solid #38BDF8; border-radius: 6px; padding: 7px 12px; font-size: 11px; align-items: center; gap: 8px; line-height: 1.4; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+            <span style="font-size: 13px;">🎙️</span> <span style="color: #F8FAFC; font-weight: 600;">"${DUGOUT_RADIO.currentLine}"</span>
           </div>
 
         </div>
