@@ -22563,6 +22563,96 @@ function endFielderDrag(evt) {
   }
 }
 
+function calculateFieldTacticalMetrics() {
+  const fielders = LIVE_TRACKER_STATE.fielders || DEFAULT_TACTICAL_FIELD;
+  const striker = LIVE_TRACKER_STATE.striker || 'Yashasvi Jaiswal';
+  const isLHB = striker.includes('Jaiswal');
+  
+  let outside30 = 0;
+  let offCount = 0;
+  let legCount = 0;
+  let behindSquareLeg = 0;
+  const angles = [];
+  
+  fielders.forEach(f => {
+    const dx = f.x - 250;
+    const dy = f.y - 250;
+    const isOut = ((dx * dx) / (105 * 105) + (dy * dy) / (100 * 100)) > 1.0;
+    if (isOut) outside30++;
+    
+    const isOff = isLHB ? (f.x > 250) : (f.x < 250);
+    if (isOff) offCount++; else legCount++;
+    
+    const isLegSide = isLHB ? (f.x < 250) : (f.x > 250);
+    const isBehindSquare = f.y > 230;
+    if (isLegSide && isBehindSquare && f.id !== 'wk') {
+      behindSquareLeg++;
+    }
+    
+    let angle = Math.atan2(dy, dx);
+    if (angle < 0) angle += 2 * Math.PI;
+    angles.push(angle);
+  });
+  
+  const isPowerplay = (LIVE_TRACKER_STATE.overs < 6);
+  const maxAllowedOutside = isPowerplay ? 2 : 5;
+  const isRingLegal = outside30 <= maxAllowedOutside;
+  const isLaw28Legal = behindSquareLeg <= 2;
+  
+  angles.sort((a, b) => a - b);
+  let maxGap = 0;
+  let totalGapPenalty = 0;
+  for (let i = 0; i < angles.length; i++) {
+    const next = (i === angles.length - 1) ? angles[0] + 2 * Math.PI : angles[i + 1];
+    const gap = next - angles[i];
+    if (gap > maxGap) maxGap = gap;
+    if (gap > 0.75) {
+      totalGapPenalty += Math.pow(gap - 0.75, 1.8) * 8.5;
+    }
+  }
+  
+  let hazard = Math.min(38.0, Math.max(9.5, 13.5 + totalGapPenalty));
+  if (!isRingLegal) hazard += 5.0;
+  
+  const infielders = fielders.length - outside30;
+  let catchProb = Math.min(42.0, Math.max(16.0, 18.0 + (infielders * 1.6) + (10 - hazard * 0.25)));
+  
+  return {
+    outside30,
+    maxAllowedOutside,
+    isRingLegal,
+    offCount,
+    legCount,
+    behindSquareLeg,
+    isLaw28Legal,
+    hazard: hazard.toFixed(1),
+    catchProb: catchProb.toFixed(1)
+  };
+}
+
+function updateTacticalFieldMetricsHUD() {
+  const hud = document.getElementById('holodeck-field-tactics-hud');
+  if (!hud) return;
+  const m = calculateFieldTacticalMetrics();
+  
+  const hazardColor = parseFloat(m.hazard) < 16.0 ? '#34D399' : parseFloat(m.hazard) < 22.0 ? '#FBBF24' : '#F87171';
+  const catchColor = parseFloat(m.catchProb) > 28.0 ? '#38BDF8' : '#94A3B8';
+  const ringColor = m.isRingLegal ? '#34D399' : '#EF4444';
+  const law28Color = m.isLaw28Legal ? '#34D399' : '#EF4444';
+  
+  hud.innerHTML = `
+    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+      <span style="color: #38BDF8; font-weight: 700;">🛡️ Field ${m.offCount}-${m.legCount}</span>
+      <span style="color: ${ringColor}; font-size: 10px;" title="Powerplay limit: max ${m.maxAllowedOutside} outside ring">30yd: ${m.outside30} Out (${m.isRingLegal ? 'Legal' : 'NO-BALL RISK'})</span>
+      <span style="color: ${law28Color}; font-size: 10px;" title="Cricket Law 28.4: max 2 behind square on leg-side">Law 28: ${m.isLaw28Legal ? 'Valid' : '⚠️ >2 Behind Sq'}</span>
+    </div>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <span style="color: ${hazardColor}; font-weight: 800;">Boundary: ${m.hazard}%</span>
+      <span style="color: ${catchColor}; font-weight: 800;">Catch: ${m.catchProb}%</span>
+    </div>
+  `;
+}
+
 function setStadiumViewMode(mode) {
   LIVE_TRACKER_STATE.stadiumViewMode = mode;
   renderLiveTrackerEngineView();
@@ -23457,6 +23547,9 @@ function mountHolodeckFX() {
   HOLODECK_FX.ctx = canvas.getContext('2d');
   resizeHolodeckCanvas();
   ensureHolodeckLoop();
+  if (typeof updateTacticalFieldMetricsHUD === 'function') {
+    updateTacticalFieldMetricsHUD();
+  }
 }
 
 function resizeHolodeckCanvas() {
@@ -25238,6 +25331,10 @@ function renderLiveTrackerEngineView() {
 
         <div style="padding: 16px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
           
+          <!-- REAL-TIME DYNAMIC FIELD TACTICS TELEMETRY HUD -->
+          <div id="holodeck-field-tactics-hud" style="width: 100%; max-width: 440px; margin-bottom: 8px; background: rgba(15,23,42,0.85); border: 1px solid rgba(56,189,248,0.3); border-radius: 6px; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; font-family: var(--font-mono); color: #E2E8F0; box-shadow: 0 2px 8px rgba(0,0,0,0.4);">
+          </div>
+
           <!-- BROADCAST STADIUM SVG ARENA WITH CANVAS OVERLAY -->
           <div id="stadium-holodeck-wrapper" style="width: 100%; max-width: 440px; aspect-ratio: 1; position: relative; overflow: visible;">
             <svg id="stadium-base-svg" viewBox="0 0 500 500" style="width: 100%; height: 100%; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));">
