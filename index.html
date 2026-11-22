@@ -23757,6 +23757,338 @@ const DUGOUT_RADIO = {
 window.DUGOUT_RADIO = DUGOUT_RADIO;
 window.toggleDugoutRadio = () => DUGOUT_RADIO.toggle();
 
+/* ══════════════════════════════════════════════════════════════════════════════
+   DRS DECISION REVIEW SYSTEM (ULTRAEDGE & HAWK-EYE 3D SIMULATION)
+   Animated Seismograph, 3D Pitch Path, Multi-Stage 3rd Umpire Resolution
+   ══════════════════════════════════════════════════════════════════════════════ */
+const DRS_ENGINE = {
+  activeReview: null,
+  animId: null,
+  scanProgress: 0,
+  hawkEyeProgress: 0,
+  isSimulating: false,
+
+  openReview(batterName, bowlerName, onFieldCall = 'OUT', appealType = 'LBW') {
+    this.activeReview = {
+      batter: batterName || (LIVE_TRACKER_STATE.striker || 'Sanju Samson'),
+      bowler: bowlerName || (LIVE_TRACKER_STATE.bowler || 'Matheesha Pathirana'),
+      onFieldCall: onFieldCall,
+      appealType: appealType,
+      hasSpike: appealType === 'CAUGHT' ? true : Math.random() > 0.45,
+      pitching: 'IN_LINE',
+      impact: Math.random() > 0.15 ? 'IN_LINE' : 'UMPIRES_CALL',
+      wickets: Math.random() > 0.25 ? 'HITTING' : 'MISSING',
+      stage: 'READY'
+    };
+
+    const modal = document.getElementById('drs-broadcast-backdrop');
+    if (modal) {
+      modal.style.display = 'flex';
+      document.getElementById('drs-batter-name').textContent = this.activeReview.batter;
+      document.getElementById('drs-bowler-name').textContent = this.activeReview.bowler;
+      document.getElementById('drs-type-label').textContent = `${this.activeReview.appealType} Appeal`;
+      
+      const scanLine = document.getElementById('drs-scan-line');
+      if (scanLine) scanLine.style.display = 'none';
+
+      document.getElementById('drs-ultraedge-tag').textContent = 'READY FOR SCAN';
+      document.getElementById('drs-ultraedge-tag').style.color = '#38BDF8';
+      document.getElementById('drs-ultraedge-result').textContent = 'Ball passing bat: Awaiting frame synchronization...';
+
+      document.getElementById('drs-val-pitching').textContent = 'PENDING';
+      document.getElementById('drs-val-pitching').style.color = '#FFF';
+      document.getElementById('drs-val-impact').textContent = 'PENDING';
+      document.getElementById('drs-val-impact').style.color = '#FFF';
+      document.getElementById('drs-val-wickets').textContent = 'PENDING';
+      document.getElementById('drs-val-wickets').style.color = '#FFF';
+
+      document.getElementById('drs-decision-title').textContent = 'DECISION PENDING...';
+      document.getElementById('drs-decision-title').style.color = '#F59E0B';
+      document.getElementById('drs-decision-sub').textContent = 'Third Umpire checking UltraEdge spike and ball impact angles...';
+
+      const btn = document.getElementById('drs-action-btn');
+      if (btn) {
+        btn.textContent = '▶ Run Ball-Tracking Simulation';
+        btn.disabled = false;
+        btn.style.opacity = '1';
+      }
+
+      this.drawUltraEdgeBaseline();
+      this.drawHawkEyeBaseline();
+      
+      if (window.DUGOUT_RADIO && window.DUGOUT_RADIO.enabled) {
+        window.DUGOUT_RADIO.speak(`Review referred to the third umpire for ${this.activeReview.batter}. Checking UltraEdge now.`, true);
+      }
+    }
+  },
+
+  closeReview() {
+    if (this.animId) cancelAnimationFrame(this.animId);
+    this.isSimulating = false;
+    const modal = document.getElementById('drs-broadcast-backdrop');
+    if (modal) modal.style.display = 'none';
+  },
+
+  drawUltraEdgeBaseline() {
+    const canvas = document.getElementById('drs-ultraedge-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width;
+    const h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    // Draw audio grid lines
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.12)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < w; x += 30) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, h);
+      ctx.stroke();
+    }
+    ctx.beginPath();
+    ctx.moveTo(0, h / 2);
+    ctx.lineTo(w, h / 2);
+    ctx.stroke();
+
+    // Baseline flat noise
+    ctx.strokeStyle = '#34D399';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    for (let x = 0; x < w; x += 3) {
+      const ny = (h / 2) + (Math.sin(x * 0.1) * 2) + ((Math.random() - 0.5) * 3);
+      if (x === 0) ctx.moveTo(x, ny);
+      else ctx.lineTo(x, ny);
+    }
+    ctx.stroke();
+  },
+
+  drawHawkEyeBaseline() {
+    const canvas = document.getElementById('drs-hawkeye-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width;
+    const h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    // 22-yard 2D Side Turf Perspective
+    ctx.fillStyle = '#061932';
+    ctx.fillRect(0, h - 24, w, 24);
+    ctx.strokeStyle = '#38BDF8';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, h - 24);
+    ctx.lineTo(w, h - 24);
+    ctx.stroke();
+
+    // 3 Zing Stumps at x = 500
+    ctx.fillStyle = '#F59E0B';
+    ctx.fillRect(500, h - 75, 4, 51);
+    ctx.fillRect(508, h - 75, 4, 51);
+    ctx.fillRect(516, h - 75, 4, 51);
+    ctx.fillRect(497, h - 78, 25, 4); // Bails
+    ctx.fillStyle = '#94A3B8';
+    ctx.font = '10px monospace';
+    ctx.fillText('STUMPS', 492, h - 84);
+
+    // Batter Stance silhouette at x = 440
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(440, h - 70, 16, 46);
+    ctx.fillText('PAD/BAT', 428, h - 76);
+  },
+
+  runSimulation() {
+    if (this.isSimulating || !this.activeReview) return;
+    this.isSimulating = true;
+    const btn = document.getElementById('drs-action-btn');
+    if (btn) {
+      btn.disabled = true;
+      btn.style.opacity = '0.5';
+    }
+
+    const scanLine = document.getElementById('drs-scan-line');
+    if (scanLine) scanLine.style.display = 'block';
+
+    const uCanvas = document.getElementById('drs-ultraedge-canvas');
+    const hCanvas = document.getElementById('drs-hawkeye-canvas');
+    const uCtx = uCanvas.getContext('2d');
+    const hCtx = hCanvas.getContext('2d');
+
+    const startTime = performance.now();
+    const duration = 2800;
+
+    const review = this.activeReview;
+    const hasSpike = review.hasSpike;
+    const contactX = 300;
+
+    const loop = (now) => {
+      const elapsed = now - startTime;
+      const p = Math.min(1.0, elapsed / duration);
+
+      // 1. UltraEdge Sweep
+      if (scanLine) {
+        scanLine.style.left = `${p * 100}%`;
+      }
+
+      uCtx.clearRect(0, 0, uCanvas.width, uCanvas.height);
+      uCtx.strokeStyle = 'rgba(56, 189, 248, 0.12)';
+      uCtx.lineWidth = 1;
+      uCtx.beginPath();
+      uCtx.moveTo(0, uCanvas.height / 2);
+      uCtx.lineTo(uCanvas.width, uCanvas.height / 2);
+      uCtx.stroke();
+
+      uCtx.beginPath();
+      uCtx.strokeStyle = (p > 0.45 && p < 0.65 && hasSpike) ? '#EF4444' : '#34D399';
+      uCtx.lineWidth = 2;
+
+      for (let x = 0; x < uCanvas.width; x += 3) {
+        let amp = 3;
+        if (hasSpike && Math.abs(x - contactX) < 45) {
+          const dist = Math.abs(x - contactX);
+          amp = (45 - dist) * 1.8 * (Math.sin(x * 0.8) + (Math.random() - 0.5) * 1.2);
+        }
+        const ny = (uCanvas.height / 2) + (Math.sin(x * 0.1 + now * 0.01) * 2) + ((Math.random() - 0.5) * amp);
+        if (x === 0) uCtx.moveTo(x, ny);
+        else uCtx.lineTo(x, ny);
+      }
+      uCtx.stroke();
+
+      if (p > 0.52) {
+        if (hasSpike) {
+          document.getElementById('drs-ultraedge-tag').textContent = '⚡ CONTACT DETECTED (SPIKE)';
+          document.getElementById('drs-ultraedge-tag').style.color = '#EF4444';
+          document.getElementById('drs-ultraedge-result').textContent = 'Spike confirmed as ball passes bat!';
+        } else {
+          document.getElementById('drs-ultraedge-tag').textContent = '✔ NO BAT INVOLVED (FLAT LINE)';
+          document.getElementById('drs-ultraedge-tag').style.color = '#34D399';
+          document.getElementById('drs-ultraedge-result').textContent = 'Clear daylight between bat and pad. Proceed to ball tracking.';
+        }
+      }
+
+      // 2. Hawk-Eye Trajectory Simulation
+      hCtx.clearRect(0, 0, hCanvas.width, hCanvas.height);
+      DRS_ENGINE.drawHawkEyeBaseline();
+
+      const ballT = Math.min(1.0, p * 1.3);
+      const startX = 40;
+      const startY = hCanvas.height - 85;
+      const pitchX = 260;
+      const pitchY = hCanvas.height - 24;
+      const padX = 440;
+      const padY = hCanvas.height - 52;
+      const stumpX = 504;
+      const stumpY = review.wickets === 'HITTING' ? hCanvas.height - 62 : hCanvas.height - 95;
+
+      hCtx.lineWidth = 3;
+      hCtx.strokeStyle = '#38BDF8';
+      hCtx.beginPath();
+      hCtx.moveTo(startX, startY);
+
+      if (ballT <= 0.5) {
+        const segT = ballT / 0.5;
+        const curX = startX + (pitchX - startX) * segT;
+        const curY = startY + (pitchY - startY) * segT;
+        hCtx.lineTo(curX, curY);
+      } else if (ballT <= 0.8) {
+        hCtx.lineTo(pitchX, pitchY);
+        const segT = (ballT - 0.5) / 0.3;
+        const curX = pitchX + (padX - pitchX) * segT;
+        const curY = pitchY + (padY - pitchY) * segT;
+        hCtx.lineTo(curX, curY);
+      } else {
+        hCtx.lineTo(pitchX, pitchY);
+        hCtx.lineTo(padX, padY);
+        hCtx.stroke();
+
+        hCtx.beginPath();
+        hCtx.strokeStyle = review.wickets === 'HITTING' ? '#34D399' : '#EF4444';
+        hCtx.setLineDash([4, 4]);
+        hCtx.moveTo(padX, padY);
+        const segT = (ballT - 0.8) / 0.2;
+        const curX = padX + (stumpX - padX) * segT;
+        const curY = padY + (stumpY - padY) * segT;
+        hCtx.lineTo(curX, curY);
+        hCtx.stroke();
+        hCtx.setLineDash([]);
+      }
+      hCtx.stroke();
+
+      if (p > 0.6) {
+        document.getElementById('drs-val-pitching').textContent = 'IN-LINE';
+        document.getElementById('drs-val-pitching').style.color = '#34D399';
+      }
+      if (p > 0.75) {
+        document.getElementById('drs-val-impact').textContent = review.impact === 'IN_LINE' ? 'IN-LINE' : "UMPIRE'S CALL";
+        document.getElementById('drs-val-impact').style.color = review.impact === 'IN_LINE' ? '#34D399' : '#F59E0B';
+      }
+      if (p > 0.9) {
+        document.getElementById('drs-val-wickets').textContent = review.wickets === 'HITTING' ? 'HITTING' : 'MISSING';
+        document.getElementById('drs-val-wickets').style.color = review.wickets === 'HITTING' ? '#34D399' : '#EF4444';
+      }
+
+      if (p < 1.0) {
+        DRS_ENGINE.animId = requestAnimationFrame(loop);
+      } else {
+        DRS_ENGINE.resolveDecision();
+      }
+    };
+
+    this.animId = requestAnimationFrame(loop);
+  },
+
+  resolveDecision() {
+    this.isSimulating = false;
+    const review = this.activeReview;
+    const titleEl = document.getElementById('drs-decision-title');
+    const subEl = document.getElementById('drs-decision-sub');
+    const statusTag = document.getElementById('drs-status-tag');
+
+    let isOut = false;
+    if (review.appealType === 'CAUGHT') {
+      isOut = review.hasSpike;
+    } else {
+      isOut = !review.hasSpike && review.pitching === 'IN_LINE' && review.wickets === 'HITTING';
+    }
+
+    if (isOut) {
+      titleEl.textContent = '🔴 OUT! (DECISION UPHELD)';
+      titleEl.style.color = '#EF4444';
+      subEl.textContent = review.appealType === 'CAUGHT'
+        ? `UltraEdge confirms contact. ${review.batter} is OUT!`
+        : `Ball tracking confirms hitting stumps. ${review.batter} is OUT!`;
+      statusTag.textContent = 'VERDICT: OUT';
+      statusTag.style.background = 'rgba(239,68,68,0.2)';
+      statusTag.style.borderColor = '#EF4444';
+      statusTag.style.color = '#FCA5A5';
+
+      if (window.DUGOUT_RADIO && window.DUGOUT_RADIO.enabled) {
+        window.DUGOUT_RADIO.speak(`Decision confirmed! ${review.batter} is OUT. Wicket stands.`, true);
+      }
+    } else {
+      titleEl.textContent = '🟢 NOT OUT! (DECISION OVERTURNED)';
+      titleEl.style.color = '#34D399';
+      subEl.textContent = review.appealType === 'CAUGHT'
+        ? `No bat detected on UltraEdge. Decision overturned to NOT OUT!`
+        : `Ball tracking shows ball missing the wickets. Decision overturned to NOT OUT!`;
+      statusTag.textContent = 'VERDICT: NOT OUT';
+      statusTag.style.background = 'rgba(52,211,153,0.2)';
+      statusTag.style.borderColor = '#34D399';
+      statusTag.style.color = '#6EE7B7';
+
+      if (window.DUGOUT_RADIO && window.DUGOUT_RADIO.enabled) {
+        window.DUGOUT_RADIO.speak(`Decision overturned! ${review.batter} is NOT OUT. Royals dugout breathes a sigh of relief!`, true);
+      }
+    }
+  }
+};
+
+window.DRS_ENGINE = DRS_ENGINE;
+window.openDrsModal = (batter, bowler, call, type) => DRS_ENGINE.openReview(batter, bowler, call, type);
+window.closeDrsModal = () => DRS_ENGINE.closeReview();
+window.executeDrsReviewSequence = () => DRS_ENGINE.runSimulation();
+
 
 function inspectStadiumBall(idx) {
   if (idx >= 0 && idx < LIVE_TRACKER_STATE.currentOverHistory.length) {
@@ -24467,6 +24799,9 @@ function renderLiveTrackerEngineView() {
           <div class="tracker-extra-controls" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
             <button onclick="swapBatters()" class="toggle-btn" style="font-size: 10.5px; padding: 4px 10px; background: rgba(255,255,255,0.05); color: #E2E8F0;" title="Rotate Strike between Striker and Non-Striker">
               🔄 Swap Strike
+            </button>
+            <button onclick="openDrsModal(LIVE_TRACKER_STATE.striker, LIVE_TRACKER_STATE.bowler, 'OUT', 'LBW')" class="toggle-btn" style="font-size: 10.5px; padding: 4px 10px; border-color: #38BDF8; color: #7DD3FC; background: rgba(56,189,248,0.12); font-weight: 800;" title="Challenge Decision via 3rd Umpire DRS">
+              ⚡ DRS Review
             </button>
 
             <div style="display: flex; align-items: center; gap: 4px; background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 2px 6px;">
@@ -26545,6 +26880,95 @@ window.exportDossierJSON = exportDossierJSON;
       <button class="mobile-sheet-item" onclick="mobileSwitchTab('tab-audit')">
         <span>🔍</span> <span>Source Audit Console (174 Records Verified)</span>
       </button>
+    </div>
+  </div>
+
+  <!-- DRS (DECISION REVIEW SYSTEM) & ULTRAEDGE BROADCAST MODAL -->
+  <div id="drs-broadcast-backdrop" class="modal-backdrop" style="display: none; position: fixed; inset: 0; background: rgba(2, 6, 18, 0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 10000; align-items: center; justify-content: center; padding: 14px;" onclick="if(event.target === this) closeDrsModal()">
+    <div style="background: linear-gradient(135deg, #061325 0%, #0D223F 100%); border: 2px solid #38BDF8; border-radius: 14px; width: 100%; max-width: 640px; box-shadow: 0 25px 60px rgba(0,0,0,0.85), 0 0 35px rgba(56,189,248,0.25); overflow: hidden; display: flex; flex-direction: column;">
+      
+      <!-- DRS Header -->
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(5, 15, 30, 0.9);">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 18px;">⚡</span>
+          <span style="font-family: var(--font-mono); font-size: 13px; font-weight: 900; color: #38BDF8; letter-spacing: 0.08em; text-transform: uppercase;">DRS DECISION REVIEW SYSTEM</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span id="drs-status-tag" style="background: rgba(245,158,11,0.2); border: 1px solid #F59E0B; color: #FDE68A; font-size: 9.5px; font-weight: 800; font-family: var(--font-mono); padding: 3px 8px; border-radius: 4px; text-transform: uppercase;">3RD UMPIRE REVIEW</span>
+          <button onclick="closeDrsModal()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #94A3B8; font-size: 12px; font-weight: 700; border-radius: 6px; padding: 3px 9px; cursor: pointer;">✕</button>
+        </div>
+      </div>
+
+      <!-- Review Case Telemetry -->
+      <div style="padding: 12px 18px; background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-family: var(--font-mono); font-size: 11px;">
+        <div>Review Target: <strong id="drs-batter-name" style="color: #FF85C0;">Sanju Samson</strong> (<span id="drs-type-label" style="color: #FBBF24;">LBW Appeal</span>)</div>
+        <div>Bowler: <strong id="drs-bowler-name" style="color: #38BDF8;">Matheesha Pathirana</strong></div>
+      </div>
+
+      <div style="padding: 16px; display: flex; flex-direction: column; gap: 14px;">
+        
+        <!-- STEP 1: ULTRAEDGE AUDIO SEISMOGRAPH -->
+        <div style="background: rgba(4, 13, 26, 0.95); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: #94A3B8; text-transform: uppercase;">1. ULTRAEDGE SEISMOGRAPH WAVEFORM</span>
+            <span id="drs-ultraedge-tag" style="font-size: 9.5px; font-family: var(--font-mono); font-weight: 800; color: #34D399;">READY FOR SCAN</span>
+          </div>
+          <div style="width: 100%; height: 90px; background: #020814; border-radius: 6px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.08);">
+            <canvas id="drs-ultraedge-canvas" width="600" height="90" style="width: 100%; height: 100%;"></canvas>
+            <div id="drs-scan-line" style="position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: #EF4444; box-shadow: 0 0 8px #EF4444; display: none;"></div>
+          </div>
+          <div id="drs-ultraedge-result" style="margin-top: 6px; font-size: 10.5px; font-family: var(--font-mono); color: #CBD5E1; text-align: center;">
+            Ball passing bat: Awaiting frame scan...
+          </div>
+        </div>
+
+        <!-- STEP 2: 3D HAWK-EYE BALL TRACKING PROJECTION -->
+        <div style="background: rgba(4, 13, 26, 0.95); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: #94A3B8; text-transform: uppercase;">2. HAWK-EYE BALL TRACKING 3D TRAJECTORY</span>
+            <span id="drs-hawkeye-tag" style="font-size: 9.5px; font-family: var(--font-mono); font-weight: 800; color: #38BDF8;">STANDBY</span>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; text-align: center; font-family: var(--font-mono); font-size: 10px;">
+            <div id="drs-kpi-pitching" style="background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 6px;">
+              <span style="color: #94A3B8; display: block; font-size: 8.5px;">PITCHING</span>
+              <strong id="drs-val-pitching" style="color: #FFF; font-size: 11px;">PENDING</strong>
+            </div>
+            <div id="drs-kpi-impact" style="background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 6px;">
+              <span style="color: #94A3B8; display: block; font-size: 8.5px;">IMPACT</span>
+              <strong id="drs-val-impact" style="color: #FFF; font-size: 11px;">PENDING</strong>
+            </div>
+            <div id="drs-kpi-wickets" style="background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 6px;">
+              <span style="color: #94A3B8; display: block; font-size: 8.5px;">WICKETS</span>
+              <strong id="drs-val-wickets" style="color: #FFF; font-size: 11px;">PENDING</strong>
+            </div>
+          </div>
+
+          <div style="width: 100%; height: 110px; background: #030C1A; border-radius: 6px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.08);">
+            <canvas id="drs-hawkeye-canvas" width="600" height="110" style="width: 100%; height: 100%;"></canvas>
+          </div>
+        </div>
+
+        <!-- STEP 3: THIRD UMPIRE VERDICT BANNER -->
+        <div id="drs-decision-card" style="background: rgba(15,23,42,0.9); border: 2px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; text-align: center;">
+          <div id="drs-decision-title" style="font-size: 18px; font-weight: 900; font-family: var(--font-mono); color: #F59E0B; letter-spacing: 0.05em;">
+            DECISION PENDING...
+          </div>
+          <div id="drs-decision-sub" style="font-size: 11px; color: #94A3B8; margin-top: 4px;">
+            Third Umpire checking UltraEdge spike and ball impact angles...
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; justify-content: flex-end;">
+          <button id="drs-action-btn" onclick="executeDrsReviewSequence()" class="toggle-btn active" style="font-size: 11px; padding: 7px 16px; background: #38BDF8; color: #020814; font-weight: 900; border: none; cursor: pointer;">
+            ▶ Run Ball-Tracking Simulation
+          </button>
+          <button onclick="closeDrsModal()" class="toggle-btn" style="font-size: 11px; padding: 7px 14px; background: rgba(255,255,255,0.08); cursor: pointer;">
+            Dismiss
+          </button>
+        </div>
+
+      </div>
     </div>
   </div>
 
