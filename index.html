@@ -23204,18 +23204,98 @@ function checkMatchStatus() {
   const totalBalls = LIVE_TRACKER_STATE.overs * 6 + LIVE_TRACKER_STATE.ballsInOver;
   if (LIVE_TRACKER_STATE.runs >= LIVE_TRACKER_STATE.target) {
     LIVE_TRACKER_STATE.matchStatus = 'WON';
+    if (LIVE_TRACKER_STATE.legacyDuel && !LIVE_TRACKER_STATE.legacyDuel.trophyShown) {
+      evaluateLegacyDuelObjectives();
+      LIVE_TRACKER_STATE.legacyDuel.trophyShown = true;
+      setTimeout(() => showLegacyDuelTrophyModal(), 600);
+    }
   } else if (LIVE_TRACKER_STATE.wickets >= 10) {
     LIVE_TRACKER_STATE.matchStatus = 'ALL_OUT';
+    if (LIVE_TRACKER_STATE.legacyDuel) {
+      evaluateLegacyDuelObjectives();
+    }
   } else if (totalBalls >= 120) {
     if (LIVE_TRACKER_STATE.runs === LIVE_TRACKER_STATE.target - 1) {
       LIVE_TRACKER_STATE.matchStatus = 'TIED';
     } else {
       LIVE_TRACKER_STATE.matchStatus = 'OVERS_EXHAUSTED';
     }
+    if (LIVE_TRACKER_STATE.legacyDuel) {
+      evaluateLegacyDuelObjectives();
+    }
   } else {
     LIVE_TRACKER_STATE.matchStatus = 'IN_PLAY';
+    if (LIVE_TRACKER_STATE.legacyDuel) {
+      evaluateLegacyDuelObjectives();
+    }
   }
 }
+
+function evaluateLegacyDuelObjectives() {
+  const duel = LIVE_TRACKER_STATE.legacyDuel;
+  if (!duel) return;
+  const buttler = (LIVE_TRACKER_STATE.batters || []).find(b => b.name && b.name.includes('Buttler'));
+  const totalBalls = LIVE_TRACKER_STATE.overs * 6 + LIVE_TRACKER_STATE.ballsInOver;
+  const ballsLeft = 120 - totalBalls;
+
+  duel.objectives.forEach(obj => {
+    if (obj.id === 'win') {
+      obj.done = LIVE_TRACKER_STATE.runs >= LIVE_TRACKER_STATE.target;
+    } else if (obj.id === 'century') {
+      obj.done = buttler ? (buttler.runs >= 100) : false;
+    } else if (obj.id === 'tail') {
+      obj.done = LIVE_TRACKER_STATE.wickets <= 8;
+    } else if (obj.id === 'single') {
+      const last = LIVE_TRACKER_STATE.allInningsDeliveries && LIVE_TRACKER_STATE.allInningsDeliveries.length > 0 
+        ? LIVE_TRACKER_STATE.allInningsDeliveries[LIVE_TRACKER_STATE.allInningsDeliveries.length - 1] 
+        : null;
+      obj.done = last ? (last.runs === 1) : false;
+    } else if (obj.id === 'nowicket') {
+      obj.done = LIVE_TRACKER_STATE.wickets <= 7;
+    } else if (obj.id === 'crr') {
+      obj.done = (LIVE_TRACKER_STATE.runs >= LIVE_TRACKER_STATE.target) && (ballsLeft >= 10);
+    }
+  });
+}
+
+function showLegacyDuelTrophyModal() {
+  const modal = document.getElementById('legacy-duel-trophy-modal');
+  if (!modal) return;
+  const duel = LIVE_TRACKER_STATE.legacyDuel;
+  if (!duel) return;
+
+  const trophyTitle = document.getElementById('trophy-modal-title');
+  const trophySeason = document.getElementById('trophy-modal-season');
+  const trophyObjectives = document.getElementById('trophy-modal-objectives');
+  
+  if (trophyTitle) trophyTitle.textContent = duel.title;
+  if (trophySeason) trophySeason.innerHTML = duel.season;
+  if (trophyObjectives) {
+    trophyObjectives.innerHTML = duel.objectives.map(obj => `
+      <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 6px; border-left: 3px solid ${obj.done ? '#34D399' : '#EF4444'};">
+        <span style="font-size: 11.5px; color: #FFF;">${obj.text}</span>
+        <span style="font-size: 11px; font-weight: 800; color: ${obj.done ? '#34D399' : '#F87171'}; font-family: var(--font-mono);">${obj.done ? '⭐ ACHIEVED' : 'FAILED'}</span>
+      </div>
+    `).join('');
+  }
+
+  modal.style.display = 'flex';
+  if (typeof playSix === 'function') {
+    playSix('CHAMPION', 'EDEN GARDENS');
+  }
+  if (window.DUGOUT_RADIO && DUGOUT_RADIO.enabled) {
+    DUGOUT_RADIO.speak(`Extraordinary! You have conquered Rajasthan Royals Legacy Duel: ${duel.title}! A legendary triumph recorded in the dugout archives.`);
+  }
+}
+
+function closeLegacyDuelTrophyModal() {
+  const modal = document.getElementById('legacy-duel-trophy-modal');
+  if (!modal) return;
+  modal.style.display = 'none';
+}
+
+window.showLegacyDuelTrophyModal = showLegacyDuelTrophyModal;
+window.closeLegacyDuelTrophyModal = closeLegacyDuelTrophyModal;
 
 function adjTrackerRuns(delta) {
   if (LIVE_TRACKER_STATE.matchStatus !== 'IN_PLAY') return;
@@ -25201,6 +25281,33 @@ function renderLiveTrackerEngineView() {
         <button onclick="resetLiveTrackerState()" class="toggle-btn" style="font-size: 11px; margin-left: auto; background: rgba(255,255,255,0.06); color: #CBD5E1;">🔄 Reset Match State</button>
       </div>
     </div>
+
+    <!-- ACTIVE RR LEGACY DUEL OBJECTIVES BANNER -->
+    ${LIVE_TRACKER_STATE.legacyDuel ? `
+      <div class="card" style="margin-bottom: 16px; padding: 12px 16px; background: linear-gradient(135deg, rgba(245,158,11,0.12) 0%, rgba(15,23,42,0.95) 100%); border: 1.5px solid #F59E0B; box-shadow: 0 4px 16px rgba(245,158,11,0.15);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 18px;">🏆</span>
+            <div>
+              <span style="font-size: 12px; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono); letter-spacing: 0.5px;">ACTIVE RR LEGACY DUEL:</span>
+              <strong style="color: #FBBF24; font-size: 13px;"> ${LIVE_TRACKER_STATE.legacyDuel.title}</strong>
+              <span style="font-size: 10px; color: #94A3B8; margin-left: 6px;">(${LIVE_TRACKER_STATE.legacyDuel.season})</span>
+            </div>
+          </div>
+          <span style="background: ${LIVE_TRACKER_STATE.legacyDuel.badgeColor}; color: #FFFFFF; font-size: 9.5px; font-weight: 900; font-family: var(--font-mono); padding: 3px 8px; border-radius: 4px;">
+            ${LIVE_TRACKER_STATE.legacyDuel.badge}
+          </span>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          ${LIVE_TRACKER_STATE.legacyDuel.objectives.map(obj => `
+            <div style="background: rgba(0,0,0,0.4); border: 1px solid ${obj.done ? '#34D399' : 'rgba(255,255,255,0.1)'}; border-radius: 6px; padding: 5px 10px; font-size: 11px; color: ${obj.done ? '#6EE7B7' : '#CBD5E1'}; display: flex; align-items: center; gap: 6px;">
+              <span>${obj.done ? '✅' : '⬜'}</span>
+              <span>${obj.text}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
 
     <!-- MAIN LIVE SCOREBOARD TELEMETRY DISPLAY -->
     <div class="card" style="margin-bottom: 16px; background: linear-gradient(135deg, #07152B 0%, #0D2347 100%); border: 1px solid rgba(56, 189, 248, 0.35);">
@@ -27545,6 +27652,45 @@ window.exportDossierJSON = exportDossierJSON;
         </div>
 
       </div>
+    </div>
+  </div>
+
+  <!-- RR LEGACY DUELS VICTORY TROPHY MODAL -->
+  <div id="legacy-duel-trophy-modal" class="modal-backdrop" style="display: none; position: fixed; inset: 0; background: rgba(2, 6, 18, 0.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 10001; align-items: center; justify-content: center; padding: 14px;" onclick="if(event.target === this) closeLegacyDuelTrophyModal()">
+    <div style="background: linear-gradient(135deg, #091A33 0%, #152C52 100%); border: 2.5px solid #F59E0B; border-radius: 16px; width: 100%; max-width: 540px; box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 50px rgba(245,158,11,0.4); overflow: hidden; display: flex; flex-direction: column; text-align: center; padding: 24px;">
+      
+      <div style="font-size: 56px; margin-bottom: 10px; filter: drop-shadow(0 0 20px #F59E0B); animation: pulse 2s infinite;">🏆</div>
+      
+      <div style="font-size: 11px; font-weight: 900; color: #FBBF24; font-family: var(--font-mono); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;">
+        LEGACY CHALLENGE CONQUERED!
+      </div>
+      
+      <div id="trophy-modal-title" style="font-size: 22px; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono); margin-bottom: 4px;">
+        Eden Gardens Miracle (2024)
+      </div>
+      
+      <div id="trophy-modal-season" style="font-size: 11.5px; color: #94A3B8; margin-bottom: 18px;">
+        IPL 2024 &bull; Match 31 vs KKR
+      </div>
+
+      <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(245,158,11,0.3); border-radius: 10px; padding: 14px; margin-bottom: 20px;">
+        <div style="font-size: 11px; font-weight: 800; color: #38BDF8; font-family: var(--font-mono); margin-bottom: 10px; text-transform: uppercase;">
+          Tactical Objectives Scorecard
+        </div>
+        <div id="trophy-modal-objectives" style="display: flex; flex-direction: column; gap: 8px; text-align: left;">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button onclick="closeLegacyDuelTrophyModal(); openLegacyDuelsModal();" class="btn-primary" style="padding: 10px 20px; font-size: 12px; font-weight: 900; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: #050C15; border: none; border-radius: 8px; cursor: pointer;">
+          🏆 Choose Another Duel
+        </button>
+        <button onclick="closeLegacyDuelTrophyModal()" style="padding: 10px 18px; font-size: 12px; font-weight: 700; background: rgba(255,255,255,0.08); color: #CBD5E1; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; cursor: pointer;">
+          Dismiss
+        </button>
+      </div>
+
     </div>
   </div>
 
