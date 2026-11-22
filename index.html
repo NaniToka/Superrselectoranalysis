@@ -4485,6 +4485,236 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
     margin-bottom: 16px !important;
   }
 
+  /* ── COMPREHENSIVE RESPONSIVE UPGRADES (PART F2, PART F3 & GLOBAL) ── */
+  
+  /* Universal collapse for wide minmax grid layouts on mobile */
+  div[style*="minmax(3"],
+  div[style*="minmax(280px"],
+  div[style*="minmax(260px"],
+  div[style*="minmax(250px"],
+  div[style*="minmax(240px"],
+  .grid-wide-collapse {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* PART F2: Quick Tactical Scenario Presets (Touch-Swipeable Ribbon) */
+  .scenario-presets-bar {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    padding-bottom: 6px !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+  .scenario-presets-bar::-webkit-scrollbar {
+    display: none !important;
+  }
+  .scenario-presets-bar button {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  /* PART F2: Main Live Scoreboard Telemetry 2x2 Grid */
+  .tracker-score-grid {
+    grid-template-columns: 1fr 1fr !important;
+    padding: 12px 10px !important;
+    gap: 12px 8px !important;
+  }
+  .tracker-score-grid > div > div:nth-child(2) {
+    font-size: 24px !important;
+  }
+
+  /* PART F2: Rapid Next Ball & Runs/Wickets Controller */
+  .tracker-ball-controller {
+    padding: 10px 10px !important;
+    gap: 8px !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .tracker-ball-buttons {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    width: 100% !important;
+    align-items: center !important;
+  }
+  .tracker-ball-buttons > span {
+    width: 100% !important;
+    margin-bottom: 2px !important;
+  }
+  .tracker-ball-buttons button {
+    flex: 1 1 calc(25% - 6px) !important;
+    min-width: 52px !important;
+    padding: 7px 4px !important;
+    font-size: 10.5px !important;
+    text-align: center !important;
+  }
+  .tracker-extra-controls {
+    display: flex !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-top: 6px !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+  .tracker-extra-controls button,
+  .tracker-extra-controls > div {
+    font-size: 10px !important;
+  }
+
+  /* PART F2: Official Scorecard & 3D Jaipur Holodeck Grid */
+  .tracker-main-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  .live-batting-table,
+  .live-bowling-table {
+    min-width: 440px !important;
+    width: 100% !important;
+  }
+
+  /* PART F2: 3D Jaipur Holodeck Panel & Controls */
+  .holodeck-view-toggles {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    gap: 4px !important;
+    width: 100% !important;
+  }
+  .holodeck-view-toggles::-webkit-scrollbar {
+    display: none !important;
+  }
+  .holodeck-view-toggles button {
+    padding: 4px 6px !important;
+    font-size: 9px !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+  #stadium-holodeck-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+    aspect-ratio: 1 !important;
+  }
+
+  /* PART F2: Active Delivery Matchup Bar */
+  .tracker-matchup-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+  .tracker-matchup-bar select {
+    max-width: 100% !important;
+    width: 100% !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+  }
+  .tracker-matchup-bar > div:first-child {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+  }
+
+  /* PART F3: Super Over Clutch Decider Responsive Grids */
+  .super-over-kpi-grid {
+    grid-template-columns: 1fr 1fr !important;
+    padding: 12px 10px !important;
+    gap: 10px 8px !important;
+  }
+  .super-over-kpi-grid > div > div:nth-child(2) {
+    font-size: 26px !important;
+  }
+  .super-over-hist-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+  .super-over-innings-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .clash-duels-table,
+  .super-over-solver-table {
+    min-width: 580px !important;
+    width: 100% !important;
+  }
+
+  /* Head-to-Head & Tactical Sim Responsiveness */
+  #duel-prob-matrix {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+  }
+  #duel-custom-controls {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .duel-arena-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  #compare-radar-svg {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 !important;
+  }
+  #compare-radar-svg svg {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Command Palette Modal Fit */
+  #cmd-palette-backdrop {
+    padding-top: 16px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  #cmd-palette-backdrop > div {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  #cmd-palette-header {
+    padding: 10px 12px !important;
+  }
+  #cmd-palette-input {
+    font-size: 13px !important;
+  }
+  #cmd-palette-chips {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 4px !important;
+    scrollbar-width: none !important;
+  }
+  #cmd-palette-chips button {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  /* 3D Universe Player Card & Filter Pills */
+  #p3d-player-card {
+    max-width: calc(100% - 20px) !important;
+    width: auto !important;
+    left: 10px !important;
+    right: 10px !important;
+  }
+  #p3d-filter-pills {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    max-width: calc(100% - 20px) !important;
+  }
+  #p3d-filter-pills button {
+    flex-shrink: 0 !important;
+  }
+
   /* Fixed Floating Mobile Bottom Bar */
   .mobile-bottom-bar {
     position: fixed !important;
@@ -21996,7 +22226,7 @@ function renderClashEngineView() {
           </div>
         </div>
         <div class="table-scroll" style="overflow-x: auto; padding: 0 10px 10px 10px;">
-          <table class="data-table" style="width: 100%; border-collapse: collapse; font-size: 11px;">
+          <table class="data-table clash-duels-table" style="width: 100%; border-collapse: collapse; font-size: 11px;">
             <thead>
               <tr style="background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.08); font-family: var(--font-mono); color: #94A3B8;">
                 <th style="text-align: left; padding: 10px 12px;">KEY DUEL (BATTER VS BOWLER)</th>
@@ -23954,7 +24184,7 @@ function renderLiveTrackerEngineView() {
         <span>Quick Tactical Scenario Presets (Live Dugout Emulation)</span>
         <span style="color: #38BDF8; font-family: var(--font-mono); font-size: 10px; font-weight: 800;">ACTIVE: ${LIVE_TRACKER_STATE.preset}</span>
       </div>
-      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+      <div class="scenario-presets-bar" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
         <button onclick="applyTrackerPreset('start')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Start') ? 'active' : ''}" style="font-size: 11px; border-color: #34D399; color: #6EE7B7;">🟢 Match Start (0/0 in 0.0 ov)</button>
         <button onclick="applyTrackerPreset('powerplay')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Powerplay') ? 'active' : ''}" style="font-size: 11px; border-color: var(--rr-pink); color: #FF85C0;">🚀 Powerplay Launch (44/1)</button>
         <button onclick="applyTrackerPreset('middle')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Middle') ? 'active' : ''}" style="font-size: 11px;">🔄 Middle Squeeze (85 off 48)</button>
@@ -23967,7 +24197,7 @@ function renderLiveTrackerEngineView() {
 
     <!-- MAIN LIVE SCOREBOARD TELEMETRY DISPLAY -->
     <div class="card" style="margin-bottom: 16px; background: linear-gradient(135deg, #07152B 0%, #0D2347 100%); border: 1px solid rgba(56, 189, 248, 0.35);">
-      <div style="padding: 18px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 14px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08);">
+      <div class="tracker-score-grid" style="padding: 18px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 14px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08);">
         <div>
           <div style="font-size: 10px; font-family: var(--font-mono); color: #94A3B8; text-transform: uppercase;">CURRENT SCORE</div>
           <div style="font-size: 32px; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono);">${LIVE_TRACKER_STATE.runs} / <span style="color: var(--rr-pink);">${LIVE_TRACKER_STATE.wickets}</span></div>
@@ -24046,9 +24276,9 @@ function renderLiveTrackerEngineView() {
         </div>
       ` : `
         <!-- IN-PLAY RAPID BALL & RUN CONTROLLER -->
-        <div style="padding: 14px 20px; background: rgba(0,0,0,0.3); display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center;">
+        <div class="tracker-ball-controller" style="padding: 14px 20px; background: rgba(0,0,0,0.3); display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center;">
           
-          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+          <div class="tracker-ball-buttons" style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
             <span style="font-size: 10.5px; font-weight: 800; color: #94A3B8; font-family: var(--font-mono); text-transform: uppercase;">+ Next Ball:</span>
             <button onclick="adjTrackerBall('dot', 0)" class="toggle-btn" style="padding: 6px 11px; font-weight: 800; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); color: #FFFFFF;" title="Dot Ball (0 runs)">0 (Dot)</button>
             <button onclick="adjTrackerBall('run', 1)" class="toggle-btn" style="padding: 6px 11px; font-weight: 800; background: rgba(56,189,248,0.15); border-color: #38BDF8; color: #7DD3FC;" title="Single Run (+1)">+1</button>
@@ -24060,7 +24290,7 @@ function renderLiveTrackerEngineView() {
             <button onclick="adjTrackerBall('wicket', 0)" class="toggle-btn" style="padding: 6px 11px; font-weight: 800; background: rgba(239,68,68,0.18); border-color: #EF4444; color: #FCA5A5;" title="Wicket (Dismissal with Red Strobe Alerts)">🚨 W (Wicket)</button>
           </div>
 
-          <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+          <div class="tracker-extra-controls" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
             <button onclick="swapBatters()" class="toggle-btn" style="font-size: 10.5px; padding: 4px 10px; background: rgba(255,255,255,0.05); color: #E2E8F0;" title="Rotate Strike between Striker and Non-Striker">
               🔄 Swap Strike
             </button>
@@ -24101,7 +24331,7 @@ function renderLiveTrackerEngineView() {
     </div>
 
     <!-- REAL CRICKET SCORECARD & BROADCAST-GRADE HOLODECK -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; margin-bottom: 16px;">
+    <div class="tracker-main-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; margin-bottom: 16px;">
       
       <!-- OFFICIAL INNINGS SCORECARD CARD -->
       <div class="card" style="border-top: 3px solid var(--rr-pink);">
@@ -24124,8 +24354,8 @@ function renderLiveTrackerEngineView() {
             <span style="color: #38BDF8;">Target: ${LIVE_TRACKER_STATE.target} &bull; Par: 182.4</span>
           </div>
           
-          <div style="overflow-x: auto; margin-bottom: 14px;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: left;">
+          <div class="table-scroll" style="overflow-x: auto; margin-bottom: 14px;">
+            <table class="live-batting-table" style="width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: left;">
               <thead>
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.12); color: #94A3B8; font-size: 9.5px; font-family: var(--font-mono);">
                   <th style="padding: 6px 8px;">BATTER</th>
@@ -24215,8 +24445,8 @@ function renderLiveTrackerEngineView() {
             <span>Opponent Bowling Figures (Max 4.0 ov/bowler)</span>
             <span style="color: #38BDF8;">Active: ${currentBowler} (${bowlerProfile.style})</span>
           </div>
-          <div style="overflow-x: auto; margin-bottom: 14px;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 11px; text-align: left;">
+          <div class="table-scroll" style="overflow-x: auto; margin-bottom: 14px;">
+            <table class="live-bowling-table" style="width: 100%; border-collapse: collapse; font-size: 11px; text-align: left;">
               <thead>
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: #94A3B8; font-size: 9.5px; font-family: var(--font-mono);">
                   <th style="padding: 5px 6px;">BOWLER</th>
@@ -24330,7 +24560,7 @@ function renderLiveTrackerEngineView() {
             </div>
             <div class="card-subtitle">Real broadcast field setup, dynamic parabolic ball physics, and stadium celebration pyrotechnics.</div>
           </div>
-          <div style="display: flex; gap: 6px; align-items: center;">
+          <div class="holodeck-view-toggles" style="display: flex; gap: 6px; align-items: center;">
             <button id="holodeck-sound-toggle" onclick="toggleHolodeckSound()" class="toggle-btn ${HOLODECK_FX.soundEnabled ? 'active' : ''}" style="font-size: 9.5px; padding: 3px 8px;" title="Stadium Sound FX">
               ${HOLODECK_FX.soundEnabled ? '🔊 FX ON' : '🔇 FX OFF'}
             </button>
@@ -24626,7 +24856,7 @@ function renderLiveTrackerEngineView() {
         <div style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 10px;">
           Active Delivery Matchup (Striker vs Current Bowler)
         </div>
-        <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+        <div class="tracker-matchup-bar" style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
           <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
             <div style="display: flex; align-items: center; gap: 6px;">
               <span style="font-size: 11px; color: #94A3B8;">🏏 Striker:</span>
@@ -25123,7 +25353,7 @@ function renderSuperOverEngineView() {
   container.innerHTML = `
     <!-- 10,000 SIMULATION RESULT SCORECARD -->
     <div class="card" style="margin-bottom: 16px; background: linear-gradient(135deg, #07152B 0%, #150821 100%); border: 1px solid rgba(239, 68, 68, 0.35);">
-      <div style="padding: 18px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08);">
+      <div class="super-over-kpi-grid" style="padding: 18px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08);">
         <div>
           <div style="font-size: 10px; font-family: var(--font-mono); color: #34D399; text-transform: uppercase;">RR SUPER OVER WIN %</div>
           <div style="font-size: 36px; font-weight: 900; color: #34D399; font-family: var(--font-mono);">${res.rrWinPct}%</div>
@@ -25151,7 +25381,7 @@ function renderSuperOverEngineView() {
         <div style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 8px;">
           RR Super Over Total Score Probability Distribution (10,000 Runs)
         </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;">
+        <div class="super-over-hist-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;">
           <div style="background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px; text-align: center;">
             <div style="font-size: 10px; color: #94A3B8; font-family: var(--font-mono);">&lt; 10 Runs</div>
             <div style="font-size: 18px; font-weight: 800; color: #EF4444; font-family: var(--font-mono);">${((res.bins['<10'] / 10000) * 100).toFixed(1)}%</div>
@@ -25209,7 +25439,7 @@ function renderSuperOverEngineView() {
         </div>
 
         <!-- TWO-INNINGS COMPARISON DISPLAY -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 16px;">
+        <div class="super-over-innings-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 16px;">
           
           <!-- INNINGS 1: RR BATTING -->
           <div style="background: rgba(15,23,42,0.7); border: 2px solid ${sim.activeInning === 1 ? 'var(--rr-pink)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; padding: 14px;">
@@ -25324,7 +25554,7 @@ function renderSuperOverEngineView() {
         </div>
 
         <div class="table-scroll" style="overflow-x: auto; padding: 0 10px 10px 10px;">
-          <table class="data-table" style="width: 100%; border-collapse: collapse; font-size: 11px;">
+          <table class="data-table super-over-solver-table" style="width: 100%; border-collapse: collapse; font-size: 11px;">
             <thead>
               <tr style="background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.08); font-family: var(--font-mono); color: #94A3B8;">
                 <th style="text-align: left; padding: 10px 12px;">SOLVER RANK &amp; NOMINATION TRIO</th>
