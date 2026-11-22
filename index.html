@@ -22097,98 +22097,83 @@ window.CLASH_STATE = CLASH_STATE;
 window.selectClashOpponent = selectClashOpponent;
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   PART F2: LIVE IN-PLAY DUGOUT IPAD TRACKER (REAL-WORLD CRICKET ENGINE & WPA)
+   PART F2: LIVE IN-PLAY DUGOUT IPAD TRACKER (AUTHENTIC T20 SCORECARD & ENGINE)
    ══════════════════════════════════════════════════════════════════════════════ */
 
-const RR_OFFICIAL_11 = [
-  { id: 'jaiswal', name: 'Yashasvi Jaiswal', role: 'LH Explosive Opener' },
-  { id: 'buttler', name: 'Jos Buttler', role: 'RH Wicketkeeper Batter' },
-  { id: 'samson', name: 'Sanju Samson', role: 'RH Captain / Batter' },
-  { id: 'parag', name: 'Riyan Parag', role: 'RH Middle Enforcer' },
-  { id: 'hetmyer', name: 'Shimron Hetmyer', role: 'LH Death Finisher' },
-  { id: 'jurel', name: 'Dhruv Jurel', role: 'RH Finisher / WK' },
-  { id: 'ashwin', name: 'Ravichandran Ashwin', role: 'RH Spin All-Rounder' },
-  { id: 'boult', name: 'Trent Boult', role: 'LH Fast Bowler' },
-  { id: 'avesh', name: 'Avesh Khan', role: 'RH Pace Bowler' },
-  { id: 'sandeep', name: 'Sandeep Sharma', role: 'RH Death Specialist' },
-  { id: 'chahal', name: 'Yuzvendra Chahal', role: 'RH Leg Spinner' }
-];
-
 const LIVE_TRACKER_STATE = {
-  target: 185,
-  runs: 168,
-  wickets: 4,
-  overs: 18,
-  ballsInOver: 0,
-  striker: 'Sanju Samson',
-  nonStriker: 'Shimron Hetmyer',
-  bowler: 'Matheesha Pathirana',
-  lastBowler: 'Jasprit Bumrah',
-  preset: 'Tight Death Chase (17 off 12)',
+  target: 205,
+  runs: 44,
+  wickets: 1,
+  overs: 4,
+  ballsInOver: 3,
+  striker: 'Yashasvi Jaiswal',
+  nonStriker: 'Jos Buttler',
+  bowler: 'Pat Cummins',
+  lastBowler: 'Bhuvneshwar Kumar',
+  preset: 'Powerplay Launch (Chasing 205)',
   isFreeHit: false,
   freeHitAlert: '',
-  matchStatus: 'IN_PLAY', // 'IN_PLAY' | 'WON' | 'ALL_OUT' | 'OVERS_EXHAUSTED' | 'TIED'
+  matchStatus: 'IN_PLAY',
+  extras: { wides: 1, noballs: 1, legbyes: 0, byes: 0 },
   fallOfWickets: [
-    { wkt: 1, score: 38, batter: 'Yashasvi Jaiswal', over: '4.2' },
-    { wkt: 2, score: 78, batter: 'Jos Buttler', over: '8.4' },
-    { wkt: 3, score: 112, batter: 'Riyan Parag', over: '12.5' },
-    { wkt: 4, score: 148, batter: 'Dhruv Jurel', over: '16.4' }
+    { wkt: 1, score: 18, batter: 'Sanju Samson', over: '2.1' }
   ],
   currentOverHistory: [],
-  previousOvers: [
-    { over: 18, bowler: 'Jasprit Bumrah', runs: 6, summary: '1, 1, 0, 2, 1, 1' }
-  ],
+  previousOvers: [],
   selectedBallIndex: -1,
   batters: [],
   bowlers: {}
 };
 
 function initLiveTrackerEngine() {
-  applyTrackerPreset('death');
+  applyTrackerPreset('powerplay');
 }
 
 function renderLiveTrackerTab() {
   const container = document.getElementById('live-tracker-container');
   if (!container) return;
   if (!LIVE_TRACKER_STATE.batters || LIVE_TRACKER_STATE.batters.length === 0) {
-    applyTrackerPreset('death');
+    applyTrackerPreset('powerplay');
   } else {
     renderLiveTrackerEngineView();
   }
 }
 
 function resetLiveTrackerState() {
-  applyTrackerPreset('death');
+  applyTrackerPreset(LIVE_TRACKER_STATE.preset ? LIVE_TRACKER_STATE.preset.toLowerCase() : 'powerplay');
 }
 
-function applyTrackerPreset(preset) {
+function applyTrackerPreset(presetKey) {
   LIVE_TRACKER_STATE.isFreeHit = false;
   LIVE_TRACKER_STATE.freeHitAlert = '';
   LIVE_TRACKER_STATE.matchStatus = 'IN_PLAY';
   LIVE_TRACKER_STATE.currentOverHistory = [];
   LIVE_TRACKER_STATE.selectedBallIndex = -1;
 
-  if (preset === 'powerplay') {
-    // POWERPLAY PRESET: Score 44/1 in 4.3 overs (Target 205, Chasing 161 in 93 balls)
-    LIVE_TRACKER_STATE.target = 205;
-    LIVE_TRACKER_STATE.runs = 44;
-    LIVE_TRACKER_STATE.wickets = 1;
-    LIVE_TRACKER_STATE.overs = 4;
-    LIVE_TRACKER_STATE.ballsInOver = 3;
-    LIVE_TRACKER_STATE.striker = 'Yashasvi Jaiswal';
-    LIVE_TRACKER_STATE.nonStriker = 'Jos Buttler';
-    LIVE_TRACKER_STATE.bowler = 'Pat Cummins';
-    LIVE_TRACKER_STATE.lastBowler = 'Bhuvneshwar Kumar';
-    LIVE_TRACKER_STATE.preset = 'Powerplay Launch (Chasing 205)';
+  if (presetKey === 'death' || presetKey.includes('death')) {
+    // PRESET: DEATH SQUEEZE (168/4 in 18.0 ov, Chasing 185, 17 needed off 12)
+    // Mathematical breakdown:
+    // Jaiswal 38 (22), Buttler 42 (28), Samson 44* (26), Parag 18 (14), Hetmyer 18* (12), Jurel 4 (3)
+    // Sum off bat: 38 + 42 + 44 + 18 + 18 + 4 = 164. Extras: 4 (w:2, nb:1, lb:1) -> Total 168/4
+    LIVE_TRACKER_STATE.target = 185;
+    LIVE_TRACKER_STATE.runs = 168;
+    LIVE_TRACKER_STATE.wickets = 4;
+    LIVE_TRACKER_STATE.overs = 18;
+    LIVE_TRACKER_STATE.ballsInOver = 0;
+    LIVE_TRACKER_STATE.striker = 'Sanju Samson';
+    LIVE_TRACKER_STATE.nonStriker = 'Shimron Hetmyer';
+    LIVE_TRACKER_STATE.bowler = 'Matheesha Pathirana';
+    LIVE_TRACKER_STATE.lastBowler = 'Mustafizur Rahman';
+    LIVE_TRACKER_STATE.preset = 'Tight Death Chase (17 off 12)';
+    LIVE_TRACKER_STATE.extras = { wides: 2, noballs: 1, legbyes: 1, byes: 0 };
 
-    // Batting Lineup: Exactly 1 wicket has fallen (Sanju Samson). 2 in crease, 8 in dugout (dnb)
     LIVE_TRACKER_STATE.batters = [
-      { id: 'jaiswal', name: 'Yashasvi Jaiswal', role: 'LH Explosive Opener', runs: 26, balls: 15, fours: 4, sixes: 1, status: 'striker', howOut: '' },
-      { id: 'buttler', name: 'Jos Buttler', role: 'RH Wicketkeeper Batter', runs: 16, balls: 12, fours: 2, sixes: 0, status: 'non-striker', howOut: '' },
-      { id: 'samson', name: 'Sanju Samson', role: 'RH Captain / Batter', runs: 2, balls: 3, fours: 0, sixes: 0, status: 'out', howOut: 'c Klaasen b Cummins' },
-      { id: 'parag', name: 'Riyan Parag', role: 'RH Middle Enforcer', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
-      { id: 'hetmyer', name: 'Shimron Hetmyer', role: 'LH Death Finisher', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
-      { id: 'jurel', name: 'Dhruv Jurel', role: 'RH Finisher / WK', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
+      { id: 'jaiswal', name: 'Yashasvi Jaiswal', role: 'LH Explosive Opener', runs: 38, balls: 22, fours: 5, sixes: 2, status: 'out', howOut: 'c Jadeja b Pathirana' },
+      { id: 'buttler', name: 'Jos Buttler', role: 'RH Wicketkeeper Batter', runs: 42, balls: 28, fours: 4, sixes: 2, status: 'out', howOut: 'b Mustafizur' },
+      { id: 'samson', name: 'Sanju Samson', role: 'RH Captain / Batter', runs: 44, balls: 26, fours: 4, sixes: 2, status: 'striker', howOut: '' },
+      { id: 'parag', name: 'Riyan Parag', role: 'RH Middle Enforcer', runs: 18, balls: 14, fours: 1, sixes: 1, status: 'out', howOut: 'c & b Jadeja' },
+      { id: 'hetmyer', name: 'Shimron Hetmyer', role: 'LH Death Finisher', runs: 18, balls: 12, fours: 2, sixes: 1, status: 'non-striker', howOut: '' },
+      { id: 'jurel', name: 'Dhruv Jurel', role: 'RH Finisher / WK', runs: 4, balls: 3, fours: 0, sixes: 0, status: 'out', howOut: 'run out (Jadeja)' },
       { id: 'ashwin', name: 'Ravichandran Ashwin', role: 'RH Spin All-Rounder', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
       { id: 'boult', name: 'Trent Boult', role: 'LH Fast Bowler', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
       { id: 'avesh', name: 'Avesh Khan', role: 'RH Pace Bowler', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
@@ -22197,26 +22182,26 @@ function applyTrackerPreset(preset) {
     ];
 
     LIVE_TRACKER_STATE.fallOfWickets = [
-      { wkt: 1, score: 18, batter: 'Sanju Samson', over: '2.1' }
+      { wkt: 1, score: 48, batter: 'Yashasvi Jaiswal', over: '5.2' },
+      { wkt: 2, score: 92, batter: 'Jos Buttler', over: '10.4' },
+      { wkt: 3, score: 124, batter: 'Riyan Parag', over: '14.1' },
+      { wkt: 4, score: 142, batter: 'Dhruv Jurel', over: '15.5' }
     ];
 
+    // Bowler sums: 26 + 28 + 34 + 38 + 42 = 168 runs conceded
     LIVE_TRACKER_STATE.bowlers = {
-      'Pat Cummins': { team: 'SRH', overs: 2.3, maidens: 0, runs: 21, wickets: 1, dots: 7, econ: 8.4 },
-      'Bhuvneshwar Kumar': { team: 'SRH', overs: 2.0, maidens: 0, runs: 16, wickets: 0, dots: 5, econ: 8.0 },
-      'T Natarajan': { team: 'SRH', overs: 0.0, maidens: 0, runs: 0, wickets: 0, dots: 0, econ: 0.0 },
-      'Mayank Markande': { team: 'SRH', overs: 0.0, maidens: 0, runs: 0, wickets: 0, dots: 0, econ: 0.0 }
+      'Matheesha Pathirana': { team: 'CSK', overs: 3.0, maidens: 0, runs: 26, wickets: 1, dots: 8, econ: 8.67 },
+      'Mustafizur Rahman': { team: 'CSK', overs: 3.0, maidens: 0, runs: 28, wickets: 1, dots: 7, econ: 9.33 },
+      'Ravindra Jadeja': { team: 'CSK', overs: 4.0, maidens: 0, runs: 34, wickets: 1, dots: 10, econ: 8.50 },
+      'Tushar Deshpande': { team: 'CSK', overs: 4.0, maidens: 0, runs: 38, wickets: 0, dots: 8, econ: 9.50 },
+      'Shardul Thakur': { team: 'CSK', overs: 4.0, maidens: 0, runs: 42, wickets: 0, dots: 6, econ: 10.50 }
     };
+    LIVE_TRACKER_STATE.previousOvers = [{ over: 18, bowler: 'Mustafizur Rahman', runs: 10, summary: '1, 4, 1, 2, 1, 1' }];
 
-    LIVE_TRACKER_STATE.currentOverHistory = [
-      { ballNum: '4.1', type: 'run', runs: 1, label: '1', speed: 142, shot: 'Pushed to Mid-On', sector: 'Mid-On', dist: '15m', x: 285, y: 260, note: 'Quick single into mid-on.' },
-      { ballNum: '4.2', type: 'four', runs: 4, label: '4', speed: 146, shot: 'Square Cut to Deep Point Rope', sector: 'Backward Point', dist: '64m', x: 110, y: 290, note: 'Fast back-foot cut zips past point to boundary.' },
-      { ballNum: '4.3', type: 'dot', runs: 0, label: '0', speed: 144, shot: 'Defensive Block Outside Off', sector: 'Cover Ring', dist: '6m', x: 235, y: 200, note: 'Beaten for movement off seam, solid block.' }
-    ];
-    LIVE_TRACKER_STATE.selectedBallIndex = 1;
-    LIVE_TRACKER_STATE.previousOvers = [{ over: 4, bowler: 'Bhuvneshwar Kumar', runs: 9, summary: '1, 4, 0, 2, 1, 1' }];
-
-  } else if (preset === 'middle') {
-    // MIDDLE SQUEEZE: Score 105/3 in 12.0 overs (Target 190, 85 needed off 48 balls)
+  } else if (presetKey === 'middle' || presetKey.includes('middle')) {
+    // PRESET: MIDDLE SQUEEZE (105/3 in 12.0 ov, Chasing 190, 85 needed off 48)
+    // Jaiswal 28 (18), Buttler 34 (24), Samson 22* (15), Parag 16* (11), Jurel 2 (4)
+    // Sum off bat: 28 + 34 + 22 + 16 + 2 = 102. Extras: 3 (w:2, lb:1) -> Total 105/3
     LIVE_TRACKER_STATE.target = 190;
     LIVE_TRACKER_STATE.runs = 105;
     LIVE_TRACKER_STATE.wickets = 3;
@@ -22227,14 +22212,15 @@ function applyTrackerPreset(preset) {
     LIVE_TRACKER_STATE.bowler = 'Sunil Narine';
     LIVE_TRACKER_STATE.lastBowler = 'Varun Chakravarthy';
     LIVE_TRACKER_STATE.preset = 'Middle Squeeze (85 needed off 48)';
+    LIVE_TRACKER_STATE.extras = { wides: 2, noballs: 0, legbyes: 1, byes: 0 };
 
     LIVE_TRACKER_STATE.batters = [
-      { id: 'jaiswal', name: 'Yashasvi Jaiswal', role: 'LH Explosive Opener', runs: 32, balls: 20, fours: 4, sixes: 1, status: 'out', howOut: 'c Russell b Narine' },
-      { id: 'buttler', name: 'Jos Buttler', role: 'RH Wicketkeeper Batter', runs: 38, balls: 26, fours: 4, sixes: 1, status: 'out', howOut: 'b Starc' },
-      { id: 'samson', name: 'Sanju Samson', role: 'RH Captain / Batter', runs: 21, balls: 16, fours: 2, sixes: 0, status: 'non-striker', howOut: '' },
-      { id: 'parag', name: 'Riyan Parag', role: 'RH Middle Enforcer', runs: 12, balls: 8, fours: 1, sixes: 0, status: 'striker', howOut: '' },
+      { id: 'jaiswal', name: 'Yashasvi Jaiswal', role: 'LH Explosive Opener', runs: 28, balls: 18, fours: 4, sixes: 1, status: 'out', howOut: 'c Russell b Narine' },
+      { id: 'buttler', name: 'Jos Buttler', role: 'RH Wicketkeeper Batter', runs: 34, balls: 24, fours: 3, sixes: 1, status: 'out', howOut: 'b Starc' },
+      { id: 'samson', name: 'Sanju Samson', role: 'RH Captain / Batter', runs: 22, balls: 15, fours: 2, sixes: 0, status: 'non-striker', howOut: '' },
+      { id: 'parag', name: 'Riyan Parag', role: 'RH Middle Enforcer', runs: 16, balls: 11, fours: 1, sixes: 1, status: 'striker', howOut: '' },
       { id: 'hetmyer', name: 'Shimron Hetmyer', role: 'LH Death Finisher', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
-      { id: 'jurel', name: 'Dhruv Jurel', role: 'RH Finisher / WK', runs: 2, balls: 3, fours: 0, sixes: 0, status: 'out', howOut: 'lbw b Chakravarthy' },
+      { id: 'jurel', name: 'Dhruv Jurel', role: 'RH Finisher / WK', runs: 2, balls: 4, fours: 0, sixes: 0, status: 'out', howOut: 'lbw b Chakravarthy' },
       { id: 'ashwin', name: 'Ravichandran Ashwin', role: 'RH Spin All-Rounder', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
       { id: 'boult', name: 'Trent Boult', role: 'LH Fast Bowler', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
       { id: 'avesh', name: 'Avesh Khan', role: 'RH Pace Bowler', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
@@ -22243,23 +22229,25 @@ function applyTrackerPreset(preset) {
     ];
 
     LIVE_TRACKER_STATE.fallOfWickets = [
-      { wkt: 1, score: 48, batter: 'Yashasvi Jaiswal', over: '5.2' },
-      { wkt: 2, score: 82, batter: 'Jos Buttler', over: '9.4' },
-      { wkt: 3, score: 96, batter: 'Dhruv Jurel', over: '11.1' }
+      { wkt: 1, score: 38, batter: 'Yashasvi Jaiswal', over: '4.3' },
+      { wkt: 2, score: 76, batter: 'Jos Buttler', over: '8.5' },
+      { wkt: 3, score: 84, batter: 'Dhruv Jurel', over: '9.4' }
     ];
 
+    // Bowler sums: 18 + 22 + 31 + 18 + 16 = 105 runs
     LIVE_TRACKER_STATE.bowlers = {
-      'Sunil Narine': { team: 'KKR', overs: 2.0, maidens: 0, runs: 14, wickets: 1, dots: 7, econ: 7.0 },
+      'Sunil Narine': { team: 'KKR', overs: 3.0, maidens: 0, runs: 18, wickets: 1, dots: 9, econ: 6.00 },
       'Varun Chakravarthy': { team: 'KKR', overs: 3.0, maidens: 0, runs: 22, wickets: 1, dots: 8, econ: 7.33 },
-      'Mitchell Starc': { team: 'KKR', overs: 3.0, maidens: 0, runs: 28, wickets: 1, dots: 8, econ: 9.33 },
-      'Harshit Rana': { team: 'KKR', overs: 2.0, maidens: 0, runs: 18, wickets: 0, dots: 4, econ: 9.0 },
-      'Andre Russell': { team: 'KKR', overs: 2.0, maidens: 0, runs: 19, wickets: 0, dots: 5, econ: 9.5 }
+      'Mitchell Starc': { team: 'KKR', overs: 3.0, maidens: 0, runs: 31, wickets: 1, dots: 7, econ: 10.33 },
+      'Harshit Rana': { team: 'KKR', overs: 2.0, maidens: 0, runs: 18, wickets: 0, dots: 4, econ: 9.00 },
+      'Andre Russell': { team: 'KKR', overs: 1.0, maidens: 0, runs: 16, wickets: 0, dots: 2, econ: 16.00 }
     };
-
     LIVE_TRACKER_STATE.previousOvers = [{ over: 12, bowler: 'Varun Chakravarthy', runs: 7, summary: '1, 1, 0, 4, 1, 0' }];
 
-  } else if (preset === 'finalover') {
-    // FINAL OVER: Score 164/6 in 19.0 overs (Target 175, 11 needed off 6 balls)
+  } else if (presetKey === 'finalover' || presetKey.includes('final')) {
+    // PRESET: FINAL OVER (164/6 in 19.0 ov, Chasing 175, 11 needed off 6)
+    // Jaiswal 36 (22), Buttler 28 (20), Samson 42 (26), Parag 16 (11), Hetmyer 24* (14), Jurel 8 (6), Ashwin 6* (4), Boult 2 (3)
+    // Sum off bat: 36 + 28 + 42 + 16 + 24 + 8 + 6 + 2 = 162. Extras: 2 (w:1, nb:1) -> Total 164/6
     LIVE_TRACKER_STATE.target = 175;
     LIVE_TRACKER_STATE.runs = 164;
     LIVE_TRACKER_STATE.wickets = 6;
@@ -22270,6 +22258,7 @@ function applyTrackerPreset(preset) {
     LIVE_TRACKER_STATE.bowler = 'Arshdeep Singh';
     LIVE_TRACKER_STATE.lastBowler = 'Sam Curran';
     LIVE_TRACKER_STATE.preset = 'High-Stakes Final Over (11 needed off 6)';
+    LIVE_TRACKER_STATE.extras = { wides: 1, noballs: 1, legbyes: 0, byes: 0 };
 
     LIVE_TRACKER_STATE.batters = [
       { id: 'jaiswal', name: 'Yashasvi Jaiswal', role: 'LH Explosive Opener', runs: 36, balls: 22, fours: 4, sixes: 2, status: 'out', howOut: 'c Curran b Arshdeep' },
@@ -22294,36 +22283,44 @@ function applyTrackerPreset(preset) {
       { wkt: 6, score: 158, batter: 'Trent Boult', over: '18.2' }
     ];
 
+    // Bowler sums: 28 + 35 + 34 + 28 + 39 = 164 runs
     LIVE_TRACKER_STATE.bowlers = {
       'Arshdeep Singh': { team: 'PBKS', overs: 3.0, maidens: 0, runs: 28, wickets: 2, dots: 7, econ: 9.33 },
       'Sam Curran': { team: 'PBKS', overs: 4.0, maidens: 0, runs: 35, wickets: 0, dots: 9, econ: 8.75 },
-      'Kagiso Rabada': { team: 'PBKS', overs: 4.0, maidens: 0, runs: 32, wickets: 2, dots: 11, econ: 8.0 },
-      'Harshal Patel': { team: 'PBKS', overs: 4.0, maidens: 0, runs: 38, wickets: 1, dots: 8, econ: 9.5 },
-      'Harpreet Brar': { team: 'PBKS', overs: 4.0, maidens: 0, runs: 26, wickets: 1, dots: 10, econ: 6.5 }
+      'Kagiso Rabada': { team: 'PBKS', overs: 4.0, maidens: 0, runs: 34, wickets: 2, dots: 11, econ: 8.50 },
+      'Harpreet Brar': { team: 'PBKS', overs: 4.0, maidens: 0, runs: 28, wickets: 1, dots: 10, econ: 7.00 },
+      'Harshal Patel': { team: 'PBKS', overs: 4.0, maidens: 0, runs: 39, wickets: 0, dots: 8, econ: 9.75 }
     };
-
     LIVE_TRACKER_STATE.previousOvers = [{ over: 19, bowler: 'Sam Curran', runs: 9, summary: '1, 2, 4, 1, 0, 1' }];
 
   } else {
-    // DEATH SQUEEZE (DEFAULT): Score 168/4 in 18.0 overs (Target 185, 17 needed off 12 balls)
-    LIVE_TRACKER_STATE.target = 185;
-    LIVE_TRACKER_STATE.runs = 168;
-    LIVE_TRACKER_STATE.wickets = 4;
-    LIVE_TRACKER_STATE.overs = 18;
-    LIVE_TRACKER_STATE.ballsInOver = 0;
-    LIVE_TRACKER_STATE.striker = 'Sanju Samson';
-    LIVE_TRACKER_STATE.nonStriker = 'Shimron Hetmyer';
-    LIVE_TRACKER_STATE.bowler = 'Matheesha Pathirana';
-    LIVE_TRACKER_STATE.lastBowler = 'Mustafizur Rahman';
-    LIVE_TRACKER_STATE.preset = 'Tight Death Chase (17 needed off 12)';
+    // DEFAULT PRESET: POWERPLAY LAUNCH (44/1 in 4.3 ov, Chasing 205, 161 needed off 93)
+    // EXACT MATHEMATICAL INVARIANCE:
+    // Yashasvi Jaiswal: 24* (15 balls, 4x4, 0x6) - STRIKER
+    // Jos Buttler: 16* (9 balls, 2x4, 1x6) - NON-STRIKER
+    // Sanju Samson: 2 (3 balls, 0x4, 0x6) - OUT (c Klaasen b Cummins)
+    // Sum off bat: 24 + 16 + 2 = 42 runs!
+    // Extras: 2 (1 Wide, 1 No-Ball) -> TOTAL SCORE: 44 / 1!
+    // Total balls faced: 15 + 9 + 3 = 27 balls (4.3 overs)!
+    LIVE_TRACKER_STATE.target = 205;
+    LIVE_TRACKER_STATE.runs = 44;
+    LIVE_TRACKER_STATE.wickets = 1;
+    LIVE_TRACKER_STATE.overs = 4;
+    LIVE_TRACKER_STATE.ballsInOver = 3;
+    LIVE_TRACKER_STATE.striker = 'Yashasvi Jaiswal';
+    LIVE_TRACKER_STATE.nonStriker = 'Jos Buttler';
+    LIVE_TRACKER_STATE.bowler = 'Pat Cummins';
+    LIVE_TRACKER_STATE.lastBowler = 'Bhuvneshwar Kumar';
+    LIVE_TRACKER_STATE.preset = 'Powerplay Launch (Chasing 205)';
+    LIVE_TRACKER_STATE.extras = { wides: 1, noballs: 1, legbyes: 0, byes: 0 };
 
     LIVE_TRACKER_STATE.batters = [
-      { id: 'jaiswal', name: 'Yashasvi Jaiswal', role: 'LH Explosive Opener', runs: 38, balls: 22, fours: 5, sixes: 2, status: 'out', howOut: 'c Jadeja b Pathirana' },
-      { id: 'buttler', name: 'Jos Buttler', role: 'RH Wicketkeeper Batter', runs: 42, balls: 28, fours: 4, sixes: 2, status: 'out', howOut: 'b Mustafizur' },
-      { id: 'samson', name: 'Sanju Samson', role: 'RH Captain / Batter', runs: 44, balls: 26, fours: 4, sixes: 2, status: 'striker', howOut: '' },
-      { id: 'parag', name: 'Riyan Parag', role: 'RH Middle Enforcer', runs: 18, balls: 14, fours: 1, sixes: 1, status: 'out', howOut: 'c & b Jadeja' },
-      { id: 'hetmyer', name: 'Shimron Hetmyer', role: 'LH Death Finisher', runs: 18, balls: 10, fours: 2, sixes: 1, status: 'non-striker', howOut: '' },
-      { id: 'jurel', name: 'Dhruv Jurel', role: 'RH Finisher / WK', runs: 4, balls: 3, fours: 0, sixes: 0, status: 'out', howOut: 'run out (Jadeja)' },
+      { id: 'jaiswal', name: 'Yashasvi Jaiswal', role: 'LH Explosive Opener', runs: 24, balls: 15, fours: 4, sixes: 0, status: 'striker', howOut: '' },
+      { id: 'buttler', name: 'Jos Buttler', role: 'RH Wicketkeeper Batter', runs: 16, balls: 9, fours: 2, sixes: 1, status: 'non-striker', howOut: '' },
+      { id: 'samson', name: 'Sanju Samson', role: 'RH Captain / Batter', runs: 2, balls: 3, fours: 0, sixes: 0, status: 'out', howOut: 'c Klaasen b Cummins' },
+      { id: 'parag', name: 'Riyan Parag', role: 'RH Middle Enforcer', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
+      { id: 'hetmyer', name: 'Shimron Hetmyer', role: 'LH Death Finisher', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
+      { id: 'jurel', name: 'Dhruv Jurel', role: 'RH Finisher / WK', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
       { id: 'ashwin', name: 'Ravichandran Ashwin', role: 'RH Spin All-Rounder', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
       { id: 'boult', name: 'Trent Boult', role: 'LH Fast Bowler', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
       { id: 'avesh', name: 'Avesh Khan', role: 'RH Pace Bowler', runs: 0, balls: 0, fours: 0, sixes: 0, status: 'dnb', howOut: '' },
@@ -22332,21 +22329,24 @@ function applyTrackerPreset(preset) {
     ];
 
     LIVE_TRACKER_STATE.fallOfWickets = [
-      { wkt: 1, score: 38, batter: 'Yashasvi Jaiswal', over: '4.2' },
-      { wkt: 2, score: 78, batter: 'Jos Buttler', over: '8.4' },
-      { wkt: 3, score: 112, batter: 'Riyan Parag', over: '12.5' },
-      { wkt: 4, score: 148, batter: 'Dhruv Jurel', over: '16.4' }
+      { wkt: 1, score: 18, batter: 'Sanju Samson', over: '2.1' }
     ];
 
+    // Bowler sums: 25 + 19 = 44 runs conceded, 2.3 + 2.0 = 4.3 overs bowled
     LIVE_TRACKER_STATE.bowlers = {
-      'Matheesha Pathirana': { team: 'CSK', overs: 3.0, maidens: 0, runs: 24, wickets: 1, dots: 9, econ: 8.0 },
-      'Mustafizur Rahman': { team: 'CSK', overs: 3.0, maidens: 0, runs: 28, wickets: 1, dots: 7, econ: 9.33 },
-      'Ravindra Jadeja': { team: 'CSK', overs: 4.0, maidens: 0, runs: 32, wickets: 1, dots: 10, econ: 8.0 },
-      'Tushar Deshpande': { team: 'CSK', overs: 4.0, maidens: 0, runs: 39, wickets: 0, dots: 8, econ: 9.75 },
-      'Shardul Thakur': { team: 'CSK', overs: 4.0, maidens: 0, runs: 41, wickets: 0, dots: 6, econ: 10.25 }
+      'Pat Cummins': { team: 'SRH', overs: 2.3, maidens: 0, runs: 25, wickets: 1, dots: 6, econ: 10.00 },
+      'Bhuvneshwar Kumar': { team: 'SRH', overs: 2.0, maidens: 0, runs: 19, wickets: 0, dots: 5, econ: 9.50 },
+      'T Natarajan': { team: 'SRH', overs: 0.0, maidens: 0, runs: 0, wickets: 0, dots: 0, econ: 0.00 },
+      'Mayank Markande': { team: 'SRH', overs: 0.0, maidens: 0, runs: 0, wickets: 0, dots: 0, econ: 0.00 }
     };
 
-    LIVE_TRACKER_STATE.previousOvers = [{ over: 18, bowler: 'Mustafizur Rahman', runs: 10, summary: '1, 4, 1, 2, 1, 1' }];
+    LIVE_TRACKER_STATE.currentOverHistory = [
+      { ballNum: '4.1', type: 'run', runs: 1, label: '1', speed: 142, shot: 'Pushed into Mid-On Gap', sector: 'Mid-On', dist: '15m', x: 285, y: 260, note: 'Quick single into mid-on.' },
+      { ballNum: '4.2', type: 'four', runs: 4, label: '4', speed: 146, shot: 'Square Cut to Deep Point', sector: 'Backward Point', dist: '64m', x: 110, y: 290, note: 'Back-foot cut zips past point to boundary.' },
+      { ballNum: '4.3', type: 'dot', runs: 0, label: '0', speed: 144, shot: 'Solid Defensive Block', sector: 'Cover Ring', dist: '6m', x: 235, y: 200, note: 'Good length on off-stump, solidly defended.' }
+    ];
+    LIVE_TRACKER_STATE.selectedBallIndex = 1;
+    LIVE_TRACKER_STATE.previousOvers = [{ over: 4, bowler: 'Bhuvneshwar Kumar', runs: 9, summary: '1, 4, 0, 2, 1, 1' }];
   }
 
   checkMatchStatus();
@@ -22599,6 +22599,7 @@ function adjTrackerBall(outcomeType, runsParam) {
   // 1. Wide delivery handling
   if (outcomeType === 'wide') {
     LIVE_TRACKER_STATE.runs += 1;
+    LIVE_TRACKER_STATE.extras.wides += 1;
     const b = LIVE_TRACKER_STATE.bowlers[LIVE_TRACKER_STATE.bowler];
     if (b) {
       b.runs += 1;
@@ -22616,6 +22617,7 @@ function adjTrackerBall(outcomeType, runsParam) {
   // 2. No Ball delivery handling
   if (outcomeType === 'noball') {
     LIVE_TRACKER_STATE.runs += 1;
+    LIVE_TRACKER_STATE.extras.noballs += 1;
     LIVE_TRACKER_STATE.isFreeHit = true;
     LIVE_TRACKER_STATE.freeHitAlert = '⚡ FREE HIT ACTIVE! Batter immune to dismissal on next delivery!';
     const b = LIVE_TRACKER_STATE.bowlers[LIVE_TRACKER_STATE.bowler];
@@ -22658,7 +22660,6 @@ function adjTrackerBall(outcomeType, runsParam) {
 
     LIVE_TRACKER_STATE.wickets += 1;
 
-    // Record Fall of Wicket with exact dismissed batter
     LIVE_TRACKER_STATE.fallOfWickets.push({
       wkt: LIVE_TRACKER_STATE.wickets,
       score: LIVE_TRACKER_STATE.runs,
@@ -22672,8 +22673,7 @@ function adjTrackerBall(outcomeType, runsParam) {
       b.dots += 1;
     }
 
-    // Next Batter logic:
-    // If wickets < 10: Find next player with status 'dnb'
+    // Bring in next batter from dugout
     if (LIVE_TRACKER_STATE.wickets < 10) {
       const nextBatter = LIVE_TRACKER_STATE.batters.find(bat => bat.status === 'dnb');
       if (nextBatter) {
@@ -22681,8 +22681,6 @@ function adjTrackerBall(outcomeType, runsParam) {
         LIVE_TRACKER_STATE.striker = nextBatter.name;
       }
     } else {
-      // 10 Wickets fallen -> ALL OUT!
-      // No more batters can enter. The non-striker remains not out.
       LIVE_TRACKER_STATE.striker = null;
       const nonStrikerObj = LIVE_TRACKER_STATE.batters.find(bat => bat.name === LIVE_TRACKER_STATE.nonStriker);
       if (nonStrikerObj) nonStrikerObj.status = 'not_out';
@@ -22733,7 +22731,6 @@ function adjTrackerBall(outcomeType, runsParam) {
     LIVE_TRACKER_STATE.overs += 1;
     LIVE_TRACKER_STATE.ballsInOver = 0;
 
-    // Archive completed over
     const overSummaryStr = LIVE_TRACKER_STATE.currentOverHistory.map(item => item.label).join(', ');
     const overRuns = LIVE_TRACKER_STATE.currentOverHistory.reduce((acc, item) => acc + item.runs, 0);
     LIVE_TRACKER_STATE.previousOvers.push({
@@ -22743,7 +22740,6 @@ function adjTrackerBall(outcomeType, runsParam) {
       summary: overSummaryStr
     });
 
-    // Reset current over history for incoming over
     LIVE_TRACKER_STATE.currentOverHistory = [];
     LIVE_TRACKER_STATE.selectedBallIndex = -1;
 
@@ -22754,8 +22750,7 @@ function adjTrackerBall(outcomeType, runsParam) {
       LIVE_TRACKER_STATE.nonStriker = temp;
     }
 
-    // Cricket Law 21: A bowler cannot bowl two consecutive overs.
-    // Auto-rotate to another bowler who hasn't exceeded 4.0 overs and didn't bowl this over
+    // Cricket Law 21: Change bowler at end of over
     LIVE_TRACKER_STATE.lastBowler = LIVE_TRACKER_STATE.bowler;
     const availableBowlers = Object.keys(LIVE_TRACKER_STATE.bowlers).filter(name => {
       const bObj = LIVE_TRACKER_STATE.bowlers[name];
@@ -22901,12 +22896,14 @@ function renderLiveTrackerEngineView() {
   const rrr = ballsRemaining > 0 ? ((runsNeeded / ballsRemaining) * 6).toFixed(2) : (runsNeeded === 0 ? '0.00' : '99.99');
   const calc = calculateLiveWPAAndLI(runsNeeded, ballsRemaining, LIVE_TRACKER_STATE.wickets);
 
-  // Active Crease Batters
-  const striker = LIVE_TRACKER_STATE.batters.find(b => b.name === LIVE_TRACKER_STATE.striker);
-  const nonStriker = LIVE_TRACKER_STATE.batters.find(b => b.name === LIVE_TRACKER_STATE.nonStriker);
-
-  const dismissedBatters = LIVE_TRACKER_STATE.batters.filter(b => b.status === 'out');
+  // Batters who have taken the crease (in order)
+  const battedBatters = LIVE_TRACKER_STATE.batters.filter(b => b.status !== 'dnb');
   const dnbBatters = LIVE_TRACKER_STATE.batters.filter(b => b.status === 'dnb');
+
+  // Exact Extras computation
+  const totalBatterRuns = LIVE_TRACKER_STATE.batters.reduce((acc, b) => acc + (b.runs || 0), 0);
+  const totalExtras = Math.max(0, LIVE_TRACKER_STATE.runs - totalBatterRuns);
+  const ext = LIVE_TRACKER_STATE.extras || { wides: 1, noballs: 1, legbyes: 0, byes: 0 };
 
   // Bowlers
   const currentBowler = LIVE_TRACKER_STATE.bowler;
@@ -22940,10 +22937,10 @@ function renderLiveTrackerEngineView() {
         <span style="color: #38BDF8; font-family: var(--font-mono); font-size: 10px; font-weight: 800;">ACTIVE: ${LIVE_TRACKER_STATE.preset}</span>
       </div>
       <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <button onclick="applyTrackerPreset('death')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Death') ? 'active' : ''}" style="font-size: 11px;">⚡ Death Squeeze (17 off 12)</button>
+        <button onclick="applyTrackerPreset('powerplay')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Powerplay') ? 'active' : ''}" style="font-size: 11px; border-color: var(--rr-pink); color: #FF85C0;">🚀 Powerplay Launch (44/1)</button>
         <button onclick="applyTrackerPreset('middle')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Middle') ? 'active' : ''}" style="font-size: 11px;">🔄 Middle Squeeze (85 off 48)</button>
-        <button onclick="applyTrackerPreset('powerplay')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Powerplay') ? 'active' : ''}" style="font-size: 11px;">🚀 Powerplay Launch (44/1)</button>
-        <button onclick="applyTrackerPreset('finalover')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Final') ? 'active' : ''}" style="font-size: 11px; border-color: var(--rr-pink); color: #FF85C0;">🔥 Final Over (11 off 6)</button>
+        <button onclick="applyTrackerPreset('death')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Death') ? 'active' : ''}" style="font-size: 11px;">⚡ Death Squeeze (17 off 12)</button>
+        <button onclick="applyTrackerPreset('finalover')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Final') ? 'active' : ''}" style="font-size: 11px;">🔥 Final Over (11 off 6)</button>
         <button onclick="resetLiveTrackerState()" class="toggle-btn" style="font-size: 11px; margin-left: auto; background: rgba(255,255,255,0.06); color: #CBD5E1;">🔄 Reset Match State</button>
       </div>
     </div>
@@ -23070,14 +23067,14 @@ function renderLiveTrackerEngineView() {
          ══════════════════════════════════════════════════════════════════════════ -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; margin-bottom: 16px;">
       
-      <!-- REAL CRICKET SCORECARD CARD -->
+      <!-- REAL CRICKET SCORECARD CARD (100% MATHEMATICAL INVARIANCE) -->
       <div class="card" style="border-top: 3px solid var(--rr-pink);">
         <div class="card-header" style="background: rgba(230,0,126,0.06); display: flex; justify-content: space-between; align-items: center;">
           <div>
             <div class="card-title">
               <span class="card-title-prefix">Official Match Card:</span> Rajasthan Royals Innings
             </div>
-            <div class="card-subtitle">Complete 11-player batting card, active crease pair, and bowling attack breakdown.</div>
+            <div class="card-subtitle">Official 11-player batting card with exact extras, individual scores, and bowling figures.</div>
           </div>
           <span style="font-size: 9.5px; font-weight: 800; background: ${isMatchOver ? 'rgba(239,68,68,0.15)' : 'rgba(52,211,153,0.15)'}; color: ${isMatchOver ? '#F87171' : '#34D399'}; border: 1px solid ${isMatchOver ? '#EF4444' : '#34D399'}; padding: 2px 7px; border-radius: 4px; font-family: var(--font-mono);">
             ${isMatchOver ? '● INNINGS CLOSED' : '● LIVE INNINGS'}
@@ -23086,76 +23083,90 @@ function renderLiveTrackerEngineView() {
         
         <div style="padding: 16px;">
           
-          <!-- ACTIVE CREASE PARTNERSHIP (IF MATCH IN PLAY) -->
-          ${!isMatchOver && striker && nonStriker ? `
-            <div style="font-size: 10px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 8px; font-family: var(--font-mono); display: flex; justify-content: space-between;">
-              <span>Active Batters in Crease</span>
-              <span style="color: #34D399;">Partnership: ${striker.runs + nonStriker.runs} runs (${striker.balls + nonStriker.balls}b)</span>
-            </div>
-            <div style="overflow-x: auto; margin-bottom: 14px;">
-              <table style="width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: left;">
-                <thead>
-                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: #94A3B8; font-size: 10px; font-family: var(--font-mono);">
-                    <th style="padding: 6px 8px;">BATTER</th>
-                    <th style="padding: 6px 6px; text-align: right;">R</th>
-                    <th style="padding: 6px 6px; text-align: right;">B</th>
-                    <th style="padding: 6px 6px; text-align: right;">4s</th>
-                    <th style="padding: 6px 6px; text-align: right;">6s</th>
-                    <th style="padding: 6px 8px; text-align: right;">SR</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr style="background: rgba(230,0,126,0.14); border-bottom: 1px solid rgba(230,0,126,0.3);">
-                    <td style="padding: 8px; font-weight: 800; color: #FFFFFF; display: flex; align-items: center; gap: 6px;">
-                      <span style="color: var(--rr-pink); font-size: 13px;">🏏</span>
-                      <div>
-                        <span style="color: #FF85C0;">${striker.name}</span>
-                        <span style="font-size: 9.5px; color: #94A3B8; display: block; font-weight: normal;">${striker.role} • On Strike</span>
-                      </div>
-                    </td>
-                    <td style="padding: 8px 6px; text-align: right; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono); font-size: 13px;">${striker.runs}*</td>
-                    <td style="padding: 8px 6px; text-align: right; color: #CBD5E1; font-family: var(--font-mono);">${striker.balls}</td>
-                    <td style="padding: 8px 6px; text-align: right; color: #34D399; font-family: var(--font-mono);">${striker.fours}</td>
-                    <td style="padding: 8px 6px; text-align: right; color: #F59E0B; font-family: var(--font-mono);">${striker.sixes}</td>
-                    <td style="padding: 8px; text-align: right; font-weight: 800; color: #38BDF8; font-family: var(--font-mono);">${striker.balls > 0 ? ((striker.runs / striker.balls) * 100).toFixed(1) : '0.0'}</td>
-                  </tr>
-                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-                    <td style="padding: 8px; font-weight: 700; color: #E2E8F0;">
-                      <div>
-                        <span>${nonStriker.name}</span>
-                        <span style="font-size: 9.5px; color: #94A3B8; display: block; font-weight: normal;">${nonStriker.role} • Non-Striker</span>
-                      </div>
-                    </td>
-                    <td style="padding: 8px 6px; text-align: right; font-weight: 900; color: #E2E8F0; font-family: var(--font-mono); font-size: 13px;">${nonStriker.runs}*</td>
-                    <td style="padding: 8px 6px; text-align: right; color: #94A3B8; font-family: var(--font-mono);">${nonStriker.balls}</td>
-                    <td style="padding: 8px 6px; text-align: right; color: #34D399; font-family: var(--font-mono);">${nonStriker.fours}</td>
-                    <td style="padding: 8px 6px; text-align: right; color: #F59E0B; font-family: var(--font-mono);">${nonStriker.sixes}</td>
-                    <td style="padding: 8px; text-align: right; font-weight: 800; color: #94A3B8; font-family: var(--font-mono);">${nonStriker.balls > 0 ? ((nonStriker.runs / nonStriker.balls) * 100).toFixed(1) : '0.0'}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          ` : ''}
+          <!-- OFFICIAL INNINGS BATTING TABLE -->
+          <div style="font-size: 10px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 8px; font-family: var(--font-mono); display: flex; justify-content: space-between;">
+            <span>Batting Card</span>
+            <span style="color: #38BDF8;">Target: ${LIVE_TRACKER_STATE.target} &bull; Par: 182.4</span>
+          </div>
+          
+          <div style="overflow-x: auto; margin-bottom: 14px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: left;">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.12); color: #94A3B8; font-size: 9.5px; font-family: var(--font-mono);">
+                  <th style="padding: 6px 8px;">BATTER</th>
+                  <th style="padding: 6px 6px;">DISMISSAL / STATUS</th>
+                  <th style="padding: 6px 6px; text-align: right;">R</th>
+                  <th style="padding: 6px 6px; text-align: right;">B</th>
+                  <th style="padding: 6px 6px; text-align: right;">4s</th>
+                  <th style="padding: 6px 6px; text-align: right;">6s</th>
+                  <th style="padding: 6px 8px; text-align: right;">SR</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${battedBatters.map(b => {
+                  const isStriker = b.status === 'striker';
+                  const isNonStriker = b.status === 'non-striker';
+                  const isNotOut = b.status === 'not_out';
+                  const isOut = b.status === 'out';
 
-          <!-- DISMISSED BATTERS SUMMARY (IF ANY WICKETS HAVE FALLEN) -->
-          ${dismissedBatters.length > 0 ? `
-            <div style="font-size: 10px; font-weight: 800; color: #EF4444; text-transform: uppercase; margin-bottom: 6px; font-family: var(--font-mono);">
-              Dismissed Batters (${dismissedBatters.length}/10)
-            </div>
-            <div style="background: rgba(15,23,42,0.6); border: 1px solid rgba(239,68,68,0.2); border-radius: 6px; padding: 8px 12px; margin-bottom: 14px;">
-              ${dismissedBatters.map(b => `
-                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
-                  <div>
-                    <span style="font-weight: 800; color: #FFFFFF;">${b.name}</span>
-                    <span style="color: #94A3B8; font-size: 10px; margin-left: 6px;">${b.howOut || 'out'}</span>
-                  </div>
-                  <div style="font-family: var(--font-mono); font-weight: 800; color: #E2E8F0;">
-                    ${b.runs} <span style="font-size: 9.5px; color: #94A3B8; font-weight: normal;">(${b.balls}b, ${b.fours}x4, ${b.sixes}x6)</span>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          ` : ''}
+                  let rowBg = 'transparent';
+                  let nameColor = '#FFFFFF';
+                  let statusHtml = '';
+
+                  if (isStriker) {
+                    rowBg = 'rgba(230,0,126,0.14)';
+                    nameColor = '#FF85C0';
+                    statusHtml = '<span style="color: var(--rr-pink); font-weight: 800;">🏏 batting (on strike)</span>';
+                  } else if (isNonStriker) {
+                    nameColor = '#E2E8F0';
+                    statusHtml = '<span style="color: #34D399; font-weight: bold;">batting* (non-strike)</span>';
+                  } else if (isNotOut) {
+                    nameColor = '#E2E8F0';
+                    statusHtml = '<span style="color: #38BDF8; font-weight: bold;">not out</span>';
+                  } else {
+                    statusHtml = `<span style="color: #94A3B8;">${b.howOut || 'out'}</span>`;
+                  }
+
+                  const sr = b.balls > 0 ? ((b.runs / b.balls) * 100).toFixed(1) : '0.0';
+
+                  return `
+                    <tr style="background: ${rowBg}; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                      <td style="padding: 7px 8px; font-weight: ${isStriker ? '800' : '700'}; color: ${nameColor};">
+                        ${b.name}
+                        <span style="font-size: 9px; color: #94A3B8; display: block; font-weight: normal;">${b.role}</span>
+                      </td>
+                      <td style="padding: 7px 6px; font-size: 10.5px;">${statusHtml}</td>
+                      <td style="padding: 7px 6px; text-align: right; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono); font-size: 12.5px;">${b.runs}${isStriker || isNonStriker || isNotOut ? '*' : ''}</td>
+                      <td style="padding: 7px 6px; text-align: right; color: #CBD5E1; font-family: var(--font-mono);">${b.balls}</td>
+                      <td style="padding: 7px 6px; text-align: right; color: #34D399; font-family: var(--font-mono);">${b.fours}</td>
+                      <td style="padding: 7px 6px; text-align: right; color: #F59E0B; font-family: var(--font-mono);">${b.sixes}</td>
+                      <td style="padding: 7px 8px; text-align: right; font-weight: 800; color: ${parseFloat(sr) >= 150 ? '#38BDF8' : '#94A3B8'}; font-family: var(--font-mono);">${sr}</td>
+                    </tr>
+                  `;
+                }).join('')}
+
+                <!-- EXTRAS LINE -->
+                <tr style="border-top: 1px solid rgba(255,255,255,0.08); font-size: 11px; color: #94A3B8;">
+                  <td style="padding: 6px 8px; font-weight: bold;">Extras</td>
+                  <td colspan="5" style="padding: 6px 6px; font-family: var(--font-mono); color: #CBD5E1;">
+                    ${totalExtras} (w ${ext.wides || 0}, nb ${ext.noballs || 0}, b ${ext.byes || 0}, lb ${ext.legbyes || 0})
+                  </td>
+                  <td style="padding: 6px 8px; text-align: right; font-family: var(--font-mono); color: #94A3B8;">-</td>
+                </tr>
+
+                <!-- TOTAL SCORE LINE -->
+                <tr style="border-top: 2px solid rgba(56,189,248,0.4); font-size: 12px; font-weight: 900; background: rgba(56,189,248,0.06);">
+                  <td style="padding: 8px; color: #FFFFFF;">TOTAL</td>
+                  <td style="padding: 8px 6px; font-size: 10px; color: #94A3B8; font-family: var(--font-mono);">
+                    ${LIVE_TRACKER_STATE.overs}.${LIVE_TRACKER_STATE.ballsInOver} Ov (CRR: ${crr})
+                  </td>
+                  <td colspan="5" style="padding: 8px; text-align: right; font-family: var(--font-mono); color: #38BDF8; font-size: 14px;">
+                    ${LIVE_TRACKER_STATE.runs} / ${LIVE_TRACKER_STATE.wickets}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <!-- YET TO BAT IN DUGOUT -->
           ${dnbBatters.length > 0 ? `
@@ -23310,7 +23321,6 @@ function renderLiveTrackerEngineView() {
 
               <ellipse cx="250" cy="250" rx="245" ry="245" fill="url(#standsGrad)" stroke="#334155" stroke-width="4" />
               
-              <!-- 4 Floodlight Towers -->
               <g stroke="#38BDF8" stroke-width="2" fill="#0284C7">
                 <circle cx="45" cy="55" r="9" />
                 <circle cx="455" cy="55" r="9" />
@@ -23318,10 +23328,8 @@ function renderLiveTrackerEngineView() {
                 <circle cx="455" cy="445" r="9" />
               </g>
 
-              <!-- Jaipur Emerald Outfield -->
               <ellipse cx="250" cy="250" rx="225" ry="225" fill="url(#turfGradient)" stroke="#15803D" stroke-width="2" />
               
-              <!-- Mowing Stripes -->
               <g stroke="rgba(255,255,255,0.03)" stroke-width="24" fill="none">
                 <circle cx="250" cy="250" r="45" />
                 <circle cx="250" cy="250" r="90" />
@@ -23329,7 +23337,6 @@ function renderLiveTrackerEngineView() {
                 <circle cx="250" cy="250" r="180" />
               </g>
 
-              <!-- Asymmetric Boundary Rope -->
               <ellipse cx="250" cy="250" rx="215" ry="210" fill="none" stroke="#F87171" stroke-width="2.5" stroke-dasharray="6,4" />
               
               <text x="250" y="32" fill="#E2E8F0" font-size="10" font-family="monospace" text-anchor="middle" font-weight="bold">Long-Off / On 72m</text>
@@ -23337,18 +23344,15 @@ function renderLiveTrackerEngineView() {
               <text x="32" y="254" fill="#38BDF8" font-size="10" font-family="monospace" text-anchor="middle" font-weight="bold">East 78m (Off)</text>
               <text x="466" y="254" fill="var(--rr-pink)" font-size="10" font-family="monospace" text-anchor="middle" font-weight="bold">West 66m (Leg)</text>
 
-              <!-- 30-Yard Fielding Circle -->
               <ellipse cx="250" cy="250" rx="105" ry="100" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-dasharray="5,5" />
               <text x="250" y="160" fill="rgba(255,255,255,0.3)" font-size="9" font-family="monospace" text-anchor="middle">30-YARD RING</text>
 
-              <!-- 22-Yard Pitch -->
               <rect x="238" y="195" width="24" height="110" rx="3" fill="#D97706" stroke="#B45309" stroke-width="1.5" />
               <line x1="236" y1="230" x2="264" y2="230" stroke="#FFFFFF" stroke-width="1.5" />
               <line x1="236" y1="270" x2="264" y2="270" stroke="#FFFFFF" stroke-width="1.5" />
               <line x1="244" y1="228" x2="256" y2="228" stroke="#FEF08A" stroke-width="2.5" />
               <line x1="244" y1="272" x2="256" y2="272" stroke="#FEF08A" stroke-width="2.5" />
 
-              <!-- Fielders -->
               <circle cx="250" cy="216" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1" />
               <circle cx="250" cy="286" r="4.5" fill="#EF4444" stroke="#FFFFFF" stroke-width="1" />
               <circle cx="232" cy="212" r="4" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1" />
@@ -23359,10 +23363,8 @@ function renderLiveTrackerEngineView() {
               <circle cx="95" cy="165" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1" />
               <circle cx="340" cy="380" r="4.5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1" />
 
-              <!-- Striker on Crease -->
               <circle cx="250" cy="235" r="6" fill="var(--rr-pink)" stroke="#FFFFFF" stroke-width="1.5" filter="url(#ballGlow)" />
 
-              <!-- Dynamic Shot Trajectory Path for Selected Ball -->
               ${activeBall ? `
                 <path d="M 250 235 Q ${(250 + activeBall.x) / 2} ${(235 + activeBall.y) / 2 - (activeBall.type === 'six' ? 65 : 15)} ${activeBall.x} ${activeBall.y}"
                       fill="none"
@@ -23387,7 +23389,6 @@ function renderLiveTrackerEngineView() {
                 <text x="250" y="340" fill="#94A3B8" font-size="9" font-family="monospace" text-anchor="middle">BOWLER ON RUN-UP</text>
               `}
 
-              <!-- Dugouts -->
               <rect x="70" y="440" width="60" height="14" rx="3" fill="var(--rr-pink)" opacity="0.85" />
               <text x="100" y="451" fill="#FFF" font-size="8.5" font-family="sans-serif" font-weight="bold" text-anchor="middle">RR DUGOUT</text>
 
@@ -23396,7 +23397,6 @@ function renderLiveTrackerEngineView() {
             </svg>
           </div>
 
-          <!-- BALL TELEMETRY & SHOT PROFILE HUD -->
           <div style="width: 100%; margin-top: 12px; background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 14px;">
             ${activeBall ? `
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
@@ -23595,6 +23595,9 @@ function renderLiveTrackerEngineView() {
     </div>
   `;
 }
+
+// Automatically initialize with default preset
+initLiveTrackerEngine();
 
 window.LIVE_TRACKER_STATE = LIVE_TRACKER_STATE;
 window.renderLiveTrackerTab = renderLiveTrackerTab;
