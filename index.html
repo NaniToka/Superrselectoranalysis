@@ -22452,6 +22452,66 @@ const DEFAULT_TACTICAL_FIELD = [
   { id: 'longon', name: 'Long-On', x: 285, y: 65, role: 'Long-On' }
 ];
 
+const TACTICAL_FIELD_PRESETS = {
+  default: [
+    { id: 'wk', name: 'WK', x: 250, y: 216, role: 'Wicketkeeper' },
+    { id: 'slip', name: 'Slip', x: 232, y: 212, role: 'First Slip' },
+    { id: 'point', name: 'Point', x: 175, y: 225, role: 'Point' },
+    { id: 'cover', name: 'Cover', x: 160, y: 180, role: 'Extra Cover' },
+    { id: 'midoff', name: 'Mid-Off', x: 205, y: 275, role: 'Mid-Off' },
+    { id: 'midon', name: 'Mid-On', x: 295, y: 275, role: 'Mid-On' },
+    { id: 'midwkt', name: 'Mid-Wkt', x: 410, y: 165, role: 'Deep Mid-Wicket' },
+    { id: 'thirdman', name: '3rd Man', x: 105, y: 385, role: 'Deep Third Man' },
+    { id: 'fineleg', name: 'Fine Leg', x: 395, y: 385, role: 'Deep Fine Leg' },
+    { id: 'longon', name: 'Long-On', x: 285, y: 65, role: 'Long-On' }
+  ],
+  death54: [
+    { id: 'wk', name: 'WK', x: 250, y: 216, role: 'Wicketkeeper' },
+    { id: 'point', name: 'Point', x: 165, y: 230, role: 'Point' },
+    { id: 'cover', name: 'Cover', x: 110, y: 160, role: 'Deep Cover' },
+    { id: 'midoff', name: 'Mid-Off', x: 195, y: 275, role: 'Mid-Off' },
+    { id: 'longoff', name: 'Long-Off', x: 185, y: 68, role: 'Long-Off' },
+    { id: 'longon', name: 'Long-On', x: 315, y: 68, role: 'Long-On' },
+    { id: 'midwkt', name: 'Mid-Wkt', x: 415, y: 160, role: 'Deep Mid-Wicket' },
+    { id: 'sqleg', name: 'Sq Leg', x: 425, y: 275, role: 'Deep Square Leg' },
+    { id: 'shortmid', name: 'Mid-Wkt', x: 330, y: 225, role: 'Short Mid-Wicket' },
+    { id: 'thirdman', name: '3rd Man', x: 110, y: 380, role: 'Deep Third Man' }
+  ],
+  doubleslip: [
+    { id: 'wk', name: 'WK', x: 250, y: 216, role: 'Wicketkeeper' },
+    { id: 'slip', name: '1st Slip', x: 236, y: 212, role: '1st Slip' },
+    { id: 'slip2', name: '2nd Slip', x: 222, y: 210, role: '2nd Slip' },
+    { id: 'gully', name: 'Gully', x: 200, y: 218, role: 'Gully' },
+    { id: 'point', name: 'Point', x: 165, y: 235, role: 'Point' },
+    { id: 'cover', name: 'Cover', x: 160, y: 175, role: 'Cover' },
+    { id: 'midoff', name: 'Mid-Off', x: 210, y: 275, role: 'Mid-Off' },
+    { id: 'midon', name: 'Mid-On', x: 290, y: 275, role: 'Mid-On' },
+    { id: 'fineleg', name: 'Fine Leg', x: 395, y: 385, role: 'Fine Leg' },
+    { id: 'thirdman', name: '3rd Man', x: 105, y: 385, role: 'Third Man' }
+  ],
+  yorkershield: [
+    { id: 'wk', name: 'WK', x: 250, y: 216, role: 'Wicketkeeper' },
+    { id: 'deeppoint', name: 'Deep Pt', x: 95, y: 240, role: 'Deep Point' },
+    { id: 'cover', name: 'Deep Cov', x: 110, y: 160, role: 'Deep Cover' },
+    { id: 'longoff', name: 'Long-Off', x: 180, y: 68, role: 'Long-Off' },
+    { id: 'point', name: 'Point', x: 175, y: 230, role: 'Point' },
+    { id: 'shortcover', name: 'Cover', x: 165, y: 185, role: 'Cover' },
+    { id: 'extracover', name: 'Ex Cover', x: 195, y: 170, role: 'Extra Cover' },
+    { id: 'midoff', name: 'Mid-Off', x: 215, y: 275, role: 'Mid-Off' },
+    { id: 'longon', name: 'Long-On', x: 300, y: 70, role: 'Long-On' },
+    { id: 'midwkt', name: 'Mid-Wkt', x: 410, y: 165, role: 'Deep Mid-Wicket' }
+  ]
+};
+
+function applyFieldPreset(presetKey) {
+  const preset = TACTICAL_FIELD_PRESETS[presetKey] || TACTICAL_FIELD_PRESETS.default;
+  LIVE_TRACKER_STATE.fielders = JSON.parse(JSON.stringify(preset));
+  LIVE_TRACKER_STATE.activeFieldPreset = presetKey;
+  renderLiveTrackerEngineView();
+}
+
+window.applyFieldPreset = applyFieldPreset;
+
 const LIVE_TRACKER_STATE = {
   target: 185,
   runs: 0,
@@ -22474,6 +22534,7 @@ const LIVE_TRACKER_STATE = {
   previousOvers: [],
   selectedBallIndex: -1,
   stadiumViewMode: 'flight', // 'flight' | 'wagon' | 'pitch'
+  activeFieldPreset: 'default',
   batters: [],
   bowlers: {},
   fielders: JSON.parse(JSON.stringify(DEFAULT_TACTICAL_FIELD))
@@ -25331,6 +25392,14 @@ function renderLiveTrackerEngineView() {
 
         <div style="padding: 16px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
           
+          <!-- TACTICAL FIELD PRESETS SELECTOR BAR -->
+          <div class="field-preset-bar" style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 440px;">
+            <button onclick="applyFieldPreset('death54')" class="toggle-btn ${LIVE_TRACKER_STATE.activeFieldPreset === 'death54' ? 'active' : ''}" style="font-size: 9px; padding: 3px 8px; border-color: #F59E0B; color: #FCD34D;" title="Death Squeeze: 5-4 field with deep boundaries guarded">🛡️ Death 5-4</button>
+            <button onclick="applyFieldPreset('doubleslip')" class="toggle-btn ${LIVE_TRACKER_STATE.activeFieldPreset === 'doubleslip' ? 'active' : ''}" style="font-size: 9px; padding: 3px 8px; border-color: #38BDF8; color: #7DD3FC;" title="Attacking Double Slip & Gully cordon">🌀 Double Slip</button>
+            <button onclick="applyFieldPreset('yorkershield')" class="toggle-btn ${LIVE_TRACKER_STATE.activeFieldPreset === 'yorkershield' ? 'active' : ''}" style="font-size: 9px; padding: 3px 8px; border-color: var(--rr-pink); color: #FF85C0;" title="Wide Yorker 7-2 Off-Side Trap">⚡ Yorker Shield</button>
+            <button onclick="applyFieldPreset('default')" class="toggle-btn ${LIVE_TRACKER_STATE.activeFieldPreset === 'default' || !LIVE_TRACKER_STATE.activeFieldPreset ? 'active' : ''}" style="font-size: 9px; padding: 3px 8px;" title="Standard balanced T20 fielding ring">↺ Default Ring</button>
+          </div>
+
           <!-- REAL-TIME DYNAMIC FIELD TACTICS TELEMETRY HUD -->
           <div id="holodeck-field-tactics-hud" style="width: 100%; max-width: 440px; margin-bottom: 8px; background: rgba(15,23,42,0.85); border: 1px solid rgba(56,189,248,0.3); border-radius: 6px; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; font-family: var(--font-mono); color: #E2E8F0; box-shadow: 0 2px 8px rgba(0,0,0,0.4);">
           </div>
