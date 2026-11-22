@@ -4703,6 +4703,18 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
     white-space: nowrap !important;
   }
 
+  /* DRS Broadcast Modal Mobile Optimization */
+  #drs-broadcast-backdrop {
+    padding: 10px 8px !important;
+    align-items: flex-start !important;
+    padding-top: 20px !important;
+  }
+  #drs-broadcast-backdrop > div {
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    border-radius: 10px !important;
+  }
+
   /* 3D Universe Player Card & Filter Pills */
   #p3d-player-card {
     max-width: calc(100% - 20px) !important;
@@ -15287,6 +15299,7 @@ document.addEventListener('keydown', function(e) {
     }
   } else if (e.key === 'Escape') {
     closeCommandPalette();
+    if (typeof closeDrsModal === 'function') closeDrsModal();
   }
 });
 
