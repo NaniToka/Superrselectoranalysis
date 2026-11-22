@@ -24098,6 +24098,28 @@ const DRS_ENGINE = {
       statusTag.style.borderColor = '#34D399';
       statusTag.style.color = '#6EE7B7';
 
+      // Scorecard Synchronization: If reviewed after wicket, reinstate batter
+      if (review.onFieldCall === 'OUT' && LIVE_TRACKER_STATE.wickets > 0) {
+        const lastFow = LIVE_TRACKER_STATE.fallOfWickets[LIVE_TRACKER_STATE.fallOfWickets.length - 1];
+        if (lastFow && lastFow.batter === review.batter) {
+          LIVE_TRACKER_STATE.wickets = Math.max(0, LIVE_TRACKER_STATE.wickets - 1);
+          LIVE_TRACKER_STATE.fallOfWickets.pop();
+          
+          const bObj = LIVE_TRACKER_STATE.batters.find(b => b.name === review.batter);
+          if (bObj) {
+            bObj.status = 'striker';
+            bObj.howOut = '';
+          }
+          const newBat = LIVE_TRACKER_STATE.batters.find(b => b.name === LIVE_TRACKER_STATE.striker && b.name !== review.batter);
+          if (newBat) {
+            newBat.status = 'dnb';
+          }
+          LIVE_TRACKER_STATE.striker = review.batter;
+          syncBatterStatuses();
+          renderLiveTrackerEngineView();
+        }
+      }
+
       if (window.DUGOUT_RADIO && window.DUGOUT_RADIO.enabled) {
         window.DUGOUT_RADIO.speak(`Decision overturned! ${review.batter} is NOT OUT. Royals dugout breathes a sigh of relief!`, true);
       }
