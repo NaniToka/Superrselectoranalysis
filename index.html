@@ -23810,46 +23810,68 @@ function calculateLiveWPAAndLI(runsNeeded, ballsRemaining, wickets) {
     }
   }
 
-  const oversLeft = ballsRemaining / 6.0;
-  const rrr = (runsNeeded / ballsRemaining) * 6;
+  // Realistic Empirical T20 Win Probability (DLS / IPL Resource Depletion Modeling)
+  function computeT20WinProb(rNeed, bRem, wLost) {
+    const wHand = Math.max(0, 10 - wLost);
+    if (rNeed <= 0) return 1.0;
+    if (wLost >= 10 || bRem <= 0) return 0.0;
 
-  let expectedRPO = 9.8;
-  if (wicketsInHand >= 8) expectedRPO = 9.8;
-  else if (wicketsInHand >= 6) expectedRPO = 9.2;
-  else if (wicketsInHand >= 4) expectedRPO = 8.5;
-  else if (wicketsInHand >= 2) expectedRPO = 7.2;
-  else expectedRPO = 5.5;
+    const u = bRem / 6.0;
+    const reqRate = (rNeed / bRem) * 6.0;
 
-  const deathOversLeft = Math.min(5.0, oversLeft);
-  if (wicketsInHand >= 4) {
-    expectedRPO += (deathOversLeft / Math.max(1.0, oversLeft)) * 1.2;
+    // Empirical T20 wicket lifespans in balls: Tail (W9-W10: 8b), Lower (W7-W8: 12b), Middle (W4-W6: 18b), Top (W1-W3: 24b)
+    const wicketCapacities = [8, 8, 12, 12, 18, 18, 18, 24, 24, 24];
+    const totalExpectedBalls = wicketCapacities.slice(0, wHand).reduce((a, b) => a + b, 0);
+    const effBalls = Math.min(bRem, totalExpectedBalls);
+    const effOvers = effBalls / 6.0;
+
+    let baseRPO = 9.5;
+    if (wHand >= 8) baseRPO = 9.5;
+    else if (wHand >= 6) baseRPO = 9.0;
+    else if (wHand >= 5) baseRPO = 8.4;
+    else if (wHand >= 4) baseRPO = 7.5;
+    else if (wHand >= 3) baseRPO = 6.4;
+    else if (wHand >= 2) baseRPO = 5.2;
+    else baseRPO = 4.2;
+
+    if (wHand >= 4 && u <= 5.0) {
+      baseRPO += 1.4 * (1.0 - u / 5.0);
+    }
+
+    const expectedRuns = effOvers * baseRPO;
+    const diff = expectedRuns - rNeed;
+
+    // Survival Factor: severely penalizes chases when remaining balls far exceed wicket capacity
+    const survivalFactor = Math.min(1.0, totalExpectedBalls / Math.max(1, bRem));
+    const stdDev = 3.6 * Math.sqrt(Math.max(0.6, effOvers));
+
+    let z = diff / stdDev;
+    if (survivalFactor < 0.95) {
+      z -= (1.0 - survivalFactor) * 3.5;
+    }
+
+    const rateGap = reqRate - baseRPO;
+    if (rateGap > 0) {
+      z -= rateGap * 0.28;
+    } else {
+      z += Math.abs(rateGap) * 0.15;
+    }
+
+    const prob = 1.0 / (1.0 + Math.exp(-0.88 * z));
+    return Math.max(0.005, Math.min(0.995, prob));
   }
 
-  const expectedRuns = oversLeft * expectedRPO;
-  const diff = expectedRuns - runsNeeded;
-  const stdDev = 3.6 * Math.sqrt(Math.max(0.5, oversLeft));
-  const z = diff / stdDev;
-  let wp = 1.0 / (1.0 + Math.exp(-1.2 * z));
-  wp = Math.max(0.005, Math.min(0.995, wp));
+  const currentWP = computeT20WinProb(runsNeeded, ballsRemaining, wickets);
 
-  // Leverage Index
+  // Instantaneous Leverage Index ($LI$)
   const nextBalls = ballsRemaining - 1;
-  let wpBoundary = wp;
-  let wpWicket = wp;
+  let wpBoundary = currentWP;
+  let wpWicket = currentWP;
   if (nextBalls > 0) {
-    const oversNext = nextBalls / 6.0;
-    const stdDevNext = 3.6 * Math.sqrt(Math.max(0.5, oversNext));
-
-    const diffB = (oversNext * expectedRPO) - Math.max(0, runsNeeded - 4);
-    wpBoundary = 1.0 / (1.0 + Math.exp(-1.2 * (diffB / stdDevNext)));
-
-    const nextWktsInHand = Math.max(0, wicketsInHand - 1);
-    let expRPONext = expectedRPO;
-    if (nextWktsInHand < 4) expRPONext -= 1.0;
-    const diffW = (oversNext * expRPONext) - runsNeeded;
-    wpWicket = 1.0 / (1.0 + Math.exp(-1.2 * (diffW / stdDevNext)));
+    wpBoundary = computeT20WinProb(Math.max(0, runsNeeded - 4), nextBalls, wickets);
+    wpWicket = computeT20WinProb(runsNeeded, nextBalls, wickets + 1);
   } else {
-    wpBoundary = (runsNeeded <= 4) ? 1.0 : (runsNeeded <= 6 ? 0.75 : 0.0);
+    wpBoundary = (runsNeeded <= 4) ? 1.0 : 0.0;
     wpWicket = 0.0;
   }
 
@@ -23869,13 +23891,14 @@ function calculateLiveWPAAndLI(runsNeeded, ballsRemaining, wickets) {
     color = '#64748B';
   }
 
+  const rrr = ballsRemaining > 0 ? ((runsNeeded / ballsRemaining) * 6).toFixed(2) : '99.99';
   return {
-    wp: parseFloat((wp * 100).toFixed(1)),
+    wp: parseFloat((currentWP * 100).toFixed(1)),
     li: parseFloat(li.toFixed(2)),
     status: status,
     color: color,
     swing: parseFloat((swing * 100).toFixed(1)),
-    narrative: `Required run rate: ${rrr.toFixed(2)} rpo with ${wicketsInHand} wickets in hand.`
+    narrative: `Required run rate: ${rrr} rpo with ${wicketsInHand} wickets in hand.`
   };
 }
 
@@ -24658,15 +24681,17 @@ function renderLiveTrackerEngineView() {
         </div>
         <div style="padding: 16px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 14px;">
           
-          <div style="background: rgba(15,23,42,0.7); border: 1px solid ${parseFloat(rrr) > 11.5 ? '#EF4444' : parseFloat(rrr) > 8.5 ? '#F59E0B' : '#34D399'}; border-radius: 8px; padding: 12px 14px;">
+          <div style="background: rgba(15,23,42,0.7); border: 1px solid ${LIVE_TRACKER_STATE.wickets >= 6 ? '#EF4444' : parseFloat(rrr) > 11.5 ? '#EF4444' : parseFloat(rrr) > 8.5 ? '#F59E0B' : '#34D399'}; border-radius: 8px; padding: 12px 14px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <span style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 800; color: ${parseFloat(rrr) > 11.5 ? '#F87171' : parseFloat(rrr) > 8.5 ? '#FBBF24' : '#34D399'};">
-                ${parseFloat(rrr) > 11.5 ? 'CRITICAL AGGRESSION TRIGGER' : parseFloat(rrr) > 8.5 ? 'ACCELERATION WINDOW' : 'CONTROLLED CHASE DISCIPLINE'}
+              <span style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 800; color: ${LIVE_TRACKER_STATE.wickets >= 6 ? '#F87171' : parseFloat(rrr) > 11.5 ? '#F87171' : parseFloat(rrr) > 8.5 ? '#FBBF24' : '#34D399'};">
+                ${LIVE_TRACKER_STATE.wickets >= 6 ? 'CRITICAL BATTING COLLAPSE EMERGENCY' : parseFloat(rrr) > 11.5 ? 'CRITICAL AGGRESSION TRIGGER' : parseFloat(rrr) > 8.5 ? 'ACCELERATION WINDOW' : 'CONTROLLED CHASE DISCIPLINE'}
               </span>
-              <span style="font-size: 14px;">${parseFloat(rrr) > 11.5 ? '🚨' : parseFloat(rrr) > 8.5 ? '⚡' : '🛡️'}</span>
+              <span style="font-size: 14px;">${LIVE_TRACKER_STATE.wickets >= 6 ? '🚨' : parseFloat(rrr) > 11.5 ? '🚨' : parseFloat(rrr) > 8.5 ? '⚡' : '🛡️'}</span>
             </div>
             <div style="font-size: 11px; color: #E2E8F0; line-height: 1.45;">
-              ${parseFloat(rrr) > 11.5 
+              ${LIVE_TRACKER_STATE.wickets >= 6
+                ? `Top order demolished with ${LIVE_TRACKER_STATE.wickets} wickets down. Only ${10 - LIVE_TRACKER_STATE.wickets} wickets in hand with ${runsNeeded} runs needed. Batters must arrest the collapse with singles and occupy the crease before any aerial boundary shots.`
+                : parseFloat(rrr) > 11.5 
                 ? `Required run rate is ${rrr} rpo. Striker must commit to lofted boundary attempt on ball 1 or 2 of this over to avoid win probability degradation.`
                 : parseFloat(rrr) > 8.5
                 ? `Required run rate is ${rrr} rpo. Target 1 boundary every 4 deliveries while working 2s hard to maintain +3.73 percentage points equity.`
