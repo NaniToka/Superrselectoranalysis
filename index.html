@@ -4733,13 +4733,13 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
     border-radius: 10px !important;
   }
 
-  /* RR Legacy Duels Modals Mobile Optimization */
-  #legacy-duels-modal-backdrop, #legacy-duel-trophy-modal {
+  /* RR Legacy Duels & DLS Modals Mobile Optimization */
+  #legacy-duels-modal-backdrop, #legacy-duel-trophy-modal, #dls-rain-modal-backdrop {
     padding: 10px 8px !important;
     align-items: flex-start !important;
     padding-top: 15px !important;
   }
-  #legacy-duels-modal-backdrop > div, #legacy-duel-trophy-modal > div {
+  #legacy-duels-modal-backdrop > div, #legacy-duel-trophy-modal > div, #dls-rain-modal-backdrop > div {
     max-height: 92vh !important;
     overflow-y: auto !important;
     border-radius: 10px !important;
@@ -23350,7 +23350,7 @@ function updateDlsModalPreview(targetOvers) {
       <div style="font-size: 13px; font-weight: 800; color: #38BDF8; font-family: var(--font-mono); margin-bottom: 6px;">
         Curtailed Match: ${targetOvers} Overs (Resource: ${r2.toFixed(1)}%)
       </div>
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center; font-family: var(--font-mono);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 90px), 1fr)); gap: 8px; text-align: center; font-family: var(--font-mono);">
         <div style="background: rgba(0,0,0,0.3); padding: 8px; border-radius: 6px;">
           <div style="font-size: 10px; color: #94A3B8;">REVISED TARGET</div>
           <div style="font-size: 20px; font-weight: 900; color: #FEF08A;">${revisedTarget}</div>
