@@ -22941,6 +22941,23 @@ function loadLegacyDuelScenario(scenarioId) {
 
 window.loadLegacyDuelScenario = loadLegacyDuelScenario;
 
+function openLegacyDuelsModal() {
+  const modal = document.getElementById('legacy-duels-modal-backdrop');
+  if (modal) {
+    modal.style.display = 'flex';
+  }
+}
+
+function closeLegacyDuelsModal() {
+  const modal = document.getElementById('legacy-duels-modal-backdrop');
+  if (modal) {
+    modal.style.display = 'none';
+  }
+}
+
+window.openLegacyDuelsModal = openLegacyDuelsModal;
+window.closeLegacyDuelsModal = closeLegacyDuelsModal;
+
 function applyTrackerPreset(presetKey) {
   cancelOrClearHolodeckFX();
   LIVE_TRACKER_STATE.isFreeHit = false;
@@ -25180,6 +25197,7 @@ function renderLiveTrackerEngineView() {
         <button onclick="applyTrackerPreset('death')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Death') ? 'active' : ''}" style="font-size: 11px;">⚡ Death Squeeze (17 off 12)</button>
         <button onclick="applyTrackerPreset('finalover')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Final') ? 'active' : ''}" style="font-size: 11px;">🔥 Final Over (11 off 6)</button>
         <button onclick="startInteractiveSuperOver()" class="toggle-btn" style="font-size: 11px; border-color: #F59E0B; color: #FDE68A; background: rgba(245,158,11,0.15); font-weight: 800;">⚔️ Play Super Over (Both Innings)</button>
+        <button onclick="openLegacyDuelsModal()" class="toggle-btn" style="font-size: 11px; border-color: #F59E0B; color: #FDE68A; background: rgba(245,158,11,0.18); font-weight: 800;">🏆 RR Legacy Duels</button>
         <button onclick="resetLiveTrackerState()" class="toggle-btn" style="font-size: 11px; margin-left: auto; background: rgba(255,255,255,0.06); color: #CBD5E1;">🔄 Reset Match State</button>
       </div>
     </div>
@@ -27429,6 +27447,100 @@ window.exportDossierJSON = exportDossierJSON;
           </button>
           <button onclick="closeDrsModal()" class="toggle-btn" style="font-size: 11px; padding: 7px 14px; background: rgba(255,255,255,0.08); cursor: pointer;">
             Dismiss
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- RR LEGACY DUELS CHALLENGE MODE MODAL -->
+  <div id="legacy-duels-modal-backdrop" class="modal-backdrop" style="display: none; position: fixed; inset: 0; background: rgba(2, 6, 18, 0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 10000; align-items: center; justify-content: center; padding: 14px;" onclick="if(event.target === this) closeLegacyDuelsModal()">
+    <div style="background: linear-gradient(135deg, #061325 0%, #0D223F 100%); border: 2px solid #F59E0B; border-radius: 14px; width: 100%; max-width: 820px; box-shadow: 0 25px 60px rgba(0,0,0,0.85), 0 0 35px rgba(245,158,11,0.25); overflow: hidden; display: flex; flex-direction: column; max-height: 90vh;">
+      
+      <!-- Modal Header -->
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(5, 15, 30, 0.95);">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 24px;">🏆</span>
+          <div>
+            <div style="font-size: 15px; font-weight: 900; color: #FFFFFF; font-family: var(--font-mono); letter-spacing: 0.5px;">
+              RAJASTHAN ROYALS <span style="color: #FBBF24;">LEGACY DUELS</span>
+            </div>
+            <div style="font-size: 11px; color: #94A3B8;">Historical Clutch Moments &amp; Championship Scenarios &bull; Authentic Dugout Emulation</div>
+          </div>
+        </div>
+        <button onclick="closeLegacyDuelsModal()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #94A3B8; border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 12px; font-weight: bold;">✕ ESC</button>
+      </div>
+
+      <!-- Scenarios List Grid / Carousel -->
+      <div style="padding: 18px; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 14px;">
+        
+        <!-- CARD 1: Eden Gardens 2024 -->
+        <div style="background: rgba(15,23,42,0.85); border: 1.5px solid rgba(239,68,68,0.4); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; position: relative;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <span style="background: rgba(239,68,68,0.2); border: 1px solid #EF4444; color: #FCA5A5; font-size: 9.5px; font-weight: 900; font-family: var(--font-mono); padding: 2px 7px; border-radius: 4px;">🔥 EXTREME CLUTCH</span>
+              <span style="color: #94A3B8; font-size: 10.5px; font-family: var(--font-mono);">2024</span>
+            </div>
+            <div style="font-size: 14px; font-weight: 800; color: #FFFFFF; margin-bottom: 4px;">Eden Gardens Miracle</div>
+            <div style="font-size: 10.5px; color: #38BDF8; font-family: var(--font-mono); margin-bottom: 8px;">Target 224 &bull; 178/8 (Ov 17.0)</div>
+            <div style="font-size: 11px; color: #CBD5E1; line-height: 1.45; margin-bottom: 12px;">
+              46 needed off 18 balls with only 2 wickets remaining! Jos Buttler (67*) batting through exhaustion.
+            </div>
+            <div style="background: rgba(0,0,0,0.3); border-radius: 6px; padding: 8px; margin-bottom: 12px; font-size: 10px; color: #94A3B8; display: flex; flex-direction: column; gap: 4px;">
+              <div>🎯 <strong>Primary:</strong> Score 46 runs off 18 balls</div>
+              <div>⚡ <strong>Bonus:</strong> Buttler scores Century (100+)</div>
+              <div>🛡️ <strong>Tactical:</strong> Protect Boult &amp; Avesh</div>
+            </div>
+          </div>
+          <button onclick="loadLegacyDuelScenario('eden2024')" class="btn-primary" style="width: 100%; padding: 8px; font-size: 11px; font-weight: 800; background: linear-gradient(135deg, #EF4444 0%, #B91C1C 100%); border: 1px solid #F87171; cursor: pointer; border-radius: 6px;">
+            ⚔️ Launch Miracle Chase
+          </button>
+        </div>
+
+        <!-- CARD 2: Inaugural Final 2008 -->
+        <div style="background: rgba(15,23,42,0.85); border: 1.5px solid rgba(245,158,11,0.4); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; position: relative;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <span style="background: rgba(245,158,11,0.2); border: 1px solid #F59E0B; color: #FDE68A; font-size: 9.5px; font-weight: 900; font-family: var(--font-mono); padding: 2px 7px; border-radius: 4px;">👑 LEGENDARY MOMENT</span>
+              <span style="color: #94A3B8; font-size: 10.5px; font-family: var(--font-mono);">2008</span>
+            </div>
+            <div style="font-size: 14px; font-weight: 800; color: #FFFFFF; margin-bottom: 4px;">Inaugural IPL Final</div>
+            <div style="font-size: 10.5px; color: #FBBF24; font-family: var(--font-mono); margin-bottom: 8px;">Target 164 &bull; 163/7 (Ov 19.5)</div>
+            <div style="font-size: 11px; color: #CBD5E1; line-height: 1.45; margin-bottom: 12px;">
+              1 run needed off 1 ball! Shane Warne at non-striker, Sohail Tanvir facing Balaji for the trophy.
+            </div>
+            <div style="background: rgba(0,0,0,0.3); border-radius: 6px; padding: 8px; margin-bottom: 12px; font-size: 10px; color: #94A3B8; display: flex; flex-direction: column; gap: 4px;">
+              <div>🎯 <strong>Primary:</strong> Score 1 run on final delivery</div>
+              <div>⚡ <strong>Bonus:</strong> Avoid Tie / Super Over</div>
+              <div>🏃 <strong>Tactical:</strong> Scamper winning single safely</div>
+            </div>
+          </div>
+          <button onclick="loadLegacyDuelScenario('final2008')" class="btn-primary" style="width: 100%; padding: 8px; font-size: 11px; font-weight: 800; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border: 1px solid #FCD34D; cursor: pointer; border-radius: 6px; color: #050C15;">
+            👑 Play Historic Final Ball
+          </button>
+        </div>
+
+        <!-- CARD 3: 2022 Qualifier 2 -->
+        <div style="background: rgba(15,23,42,0.85); border: 1.5px solid rgba(56,189,248,0.4); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; position: relative;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <span style="background: rgba(56,189,248,0.2); border: 1px solid #38BDF8; color: #7DD3FC; font-size: 9.5px; font-weight: 900; font-family: var(--font-mono); padding: 2px 7px; border-radius: 4px;">⚡ CHASE MASTERCLASS</span>
+              <span style="color: #94A3B8; font-size: 10.5px; font-family: var(--font-mono);">2022</span>
+            </div>
+            <div style="font-size: 14px; font-weight: 800; color: #FFFFFF; margin-bottom: 4px;">2022 Qualifier 2</div>
+            <div style="font-size: 10.5px; color: #34D399; font-family: var(--font-mono); margin-bottom: 8px;">Target 158 &bull; 120/2 (Ov 15.0)</div>
+            <div style="font-size: 11px; color: #CBD5E1; line-height: 1.45; margin-bottom: 12px;">
+              38 needed off 30 balls vs RCB. Jos Buttler (78*) batting imperiously. Seal the Final with authority!
+            </div>
+            <div style="background: rgba(0,0,0,0.3); border-radius: 6px; padding: 8px; margin-bottom: 12px; font-size: 10px; color: #94A3B8; display: flex; flex-direction: column; gap: 4px;">
+              <div>🎯 <strong>Primary:</strong> Score 38 runs off 30 balls</div>
+              <div>⚡ <strong>Bonus:</strong> Buttler completes 106* (4th 100)</div>
+              <div>⏱️ <strong>Tactical:</strong> Finish with &gt;= 10 balls left</div>
+            </div>
+          </div>
+          <button onclick="loadLegacyDuelScenario('qualifier2022')" class="btn-primary" style="width: 100%; padding: 8px; font-size: 11px; font-weight: 800; background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); border: 1px solid #38BDF8; cursor: pointer; border-radius: 6px;">
+            ⚡ Launch Qualifier Chase
           </button>
         </div>
 
