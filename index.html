@@ -23269,7 +23269,8 @@ function calculateDlsParScore() {
   const ballsInOver = LIVE_TRACKER_STATE.ballsInOver;
   const wickets = LIVE_TRACKER_STATE.wickets;
   const maxOvers = LIVE_TRACKER_STATE.dlsReducedOvers || 20;
-  const team1Score = LIVE_TRACKER_STATE.target - 1;
+  const target = LIVE_TRACKER_STATE.target;
+  const targetMinusOne = Math.max(0, target - 1);
   
   const totalBallsBowled = oversBowled * 6 + ballsInOver;
   const totalMaxBalls = maxOvers * 6;
@@ -23279,9 +23280,12 @@ function calculateDlsParScore() {
   const initialResourceTeam2 = getDlsResourceRemaining(maxOvers, 0);
   const resourceRemaining = getDlsResourceRemaining(oversRemaining, wickets);
   const resourceUsed = Math.max(0, initialResourceTeam2 - resourceRemaining);
-  const resourceTeam1 = 100.0;
   
-  let parScore = Math.round(team1Score * (resourceUsed / resourceTeam1));
+  // Under DLS regulations, Par Score is the pro-rata resource consumed against Team 2's target
+  let parScore = initialResourceTeam2 > 0 
+    ? Math.round(targetMinusOne * (resourceUsed / initialResourceTeam2))
+    : 0;
+
   if (totalBallsBowled === 0) parScore = 0;
   
   const diff = LIVE_TRACKER_STATE.runs - parScore;
