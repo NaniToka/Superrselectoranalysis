@@ -305,9 +305,15 @@ body.scroll-locked {
 .tactical-dropdown-menu {
   position: absolute;
   top: calc(100% + 8px);
-  right: 0;
+  left: 0;
+  right: auto;
   width: 440px;
-  max-width: 95vw;
+  max-width: calc(100vw - 24px);
+  max-height: min(580px, calc(100vh - 80px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(229, 0, 125, 0.45) rgba(0, 0, 0, 0.2);
   background: rgba(6, 14, 28, 0.98);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
@@ -321,6 +327,21 @@ body.scroll-locked {
   pointer-events: none;
   transform: translateY(-6px);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tactical-dropdown-menu::-webkit-scrollbar {
+  width: 5px;
+}
+.tactical-dropdown-menu::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+.tactical-dropdown-menu::-webkit-scrollbar-thumb {
+  background: rgba(229, 0, 125, 0.45);
+  border-radius: 4px;
+}
+.tactical-dropdown-menu::-webkit-scrollbar-thumb:hover {
+  background: var(--rr-pink);
 }
 
 .tactical-dropdown-menu.open {
@@ -12167,6 +12188,22 @@ function toggleTacticalDropdown(e) {
   if (isOpen) {
     closeTacticalDropdown();
   } else {
+    // Dynamic boundary alignment: ensure menu never clips on either side of the viewport
+    const btnRect = btn.getBoundingClientRect();
+    const menuWidth = 440;
+    
+    // Check right viewport boundary
+    if (btnRect.left + menuWidth > window.innerWidth - 12) {
+      const rightOverflow = (btnRect.left + menuWidth) - (window.innerWidth - 12);
+      const maxAllowedShift = btnRect.left - 12;
+      const actualShift = Math.max(0, Math.min(rightOverflow, maxAllowedShift));
+      menu.style.left = `-${actualShift}px`;
+      menu.style.right = 'auto';
+    } else {
+      menu.style.left = '0px';
+      menu.style.right = 'auto';
+    }
+
     menu.classList.add('open');
     btn.classList.add('active');
     btn.setAttribute('aria-expanded', 'true');
