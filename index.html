@@ -23295,10 +23295,57 @@ window.DLS_T20_RESOURCES = DLS_T20_RESOURCES;
 window.getDlsResourceRemaining = getDlsResourceRemaining;
 window.calculateDlsParScore = calculateDlsParScore;
 
+let SELECTED_DLS_CURTAILED_OVERS = 16;
+window.SELECTED_DLS_CURTAILED_OVERS = SELECTED_DLS_CURTAILED_OVERS;
+
+function selectDlsTargetOvers(targetOvers) {
+  SELECTED_DLS_CURTAILED_OVERS = parseInt(targetOvers, 10) || 16;
+  const btnGroup = document.getElementById('dls-overs-btn-group');
+  if (btnGroup) {
+    const btns = btnGroup.querySelectorAll('button');
+    btns.forEach(btn => {
+      const ov = parseInt(btn.getAttribute('data-overs'), 10);
+      if (ov === SELECTED_DLS_CURTAILED_OVERS) {
+        btn.classList.add('active');
+        btn.style.background = 'var(--rr-pink)';
+        btn.style.borderColor = 'var(--rr-pink)';
+        btn.style.color = '#FFFFFF';
+        btn.style.boxShadow = '0 0 10px rgba(229, 0, 125, 0.4)';
+      } else {
+        btn.classList.remove('active');
+        btn.style.background = 'rgba(255,255,255,0.06)';
+        btn.style.borderColor = 'rgba(255,255,255,0.15)';
+        btn.style.color = '#CBD5E1';
+        btn.style.boxShadow = 'none';
+      }
+    });
+  }
+  updateDlsModalPreview(SELECTED_DLS_CURTAILED_OVERS);
+}
+window.selectDlsTargetOvers = selectDlsTargetOvers;
+
 function applyDlsCurtailedMatch(reducedOvers) {
+  reducedOvers = parseInt(reducedOvers || SELECTED_DLS_CURTAILED_OVERS || 16, 10);
   const oversBowled = LIVE_TRACKER_STATE.overs + (LIVE_TRACKER_STATE.ballsInOver / 6.0);
+  
   if (reducedOvers <= oversBowled) {
-    showBowlerLawNotification(`⚠️ Cannot curtail to ${reducedOvers} overs: already bowled ${LIVE_TRACKER_STATE.overs}.${LIVE_TRACKER_STATE.ballsInOver} overs!`);
+    const dls = calculateDlsParScore();
+    const isAhead = LIVE_TRACKER_STATE.runs >= dls.parScore;
+    
+    LIVE_TRACKER_STATE.dlsReducedOvers = reducedOvers;
+    LIVE_TRACKER_STATE.target = dls.parScore + (isAhead ? 0 : 1);
+    LIVE_TRACKER_STATE.preset = `🌧️ Rain Concluded (${LIVE_TRACKER_STATE.overs}.${LIVE_TRACKER_STATE.ballsInOver} Ov • Par: ${dls.parScore})`;
+    LIVE_TRACKER_STATE.matchStatus = isAhead ? 'WON' : 'ALL_OUT';
+    
+    closeDlsRainModal();
+    checkMatchStatus();
+    renderLiveTrackerEngineView();
+    
+    const msg = `🌧️ Rain Concluded Match! Played: ${LIVE_TRACKER_STATE.overs}.${LIVE_TRACKER_STATE.ballsInOver} ov. DLS Par: ${dls.parScore}. RR (${LIVE_TRACKER_STATE.runs}/${LIVE_TRACKER_STATE.wickets}) ${isAhead ? 'WON on DLS' : 'LOST on DLS'}!`;
+    showBowlerLawNotification(msg);
+    if (window.DUGOUT_RADIO && DUGOUT_RADIO.enabled) {
+      DUGOUT_RADIO.speak(`Match concluded due to rain interruption. RR ${isAhead ? 'wins' : 'concedes'} on DLS par score.`);
+    }
     return;
   }
   
@@ -23326,7 +23373,10 @@ function openDlsRainModal() {
   const modal = document.getElementById('dls-rain-modal-backdrop');
   if (modal) {
     modal.style.display = 'flex';
-    updateDlsModalPreview(16);
+    const oversBowled = LIVE_TRACKER_STATE.overs + (LIVE_TRACKER_STATE.ballsInOver / 6.0);
+    const availableOvers = [18, 16, 15, 14, 12, 10];
+    let defaultOv = availableOvers.find(ov => ov > Math.ceil(oversBowled)) || 16;
+    selectDlsTargetOvers(defaultOv);
   }
 }
 
@@ -23338,6 +23388,7 @@ function closeDlsRainModal() {
 }
 
 function updateDlsModalPreview(targetOvers) {
+  targetOvers = parseInt(targetOvers, 10) || 16;
   const r2 = getDlsResourceRemaining(targetOvers, 0);
   const team1Score = 184;
   const revisedTarget = Math.floor(team1Score * (r2 / 100.0)) + 1;
@@ -23345,11 +23396,21 @@ function updateDlsModalPreview(targetOvers) {
   const ballsBowled = LIVE_TRACKER_STATE.overs * 6 + LIVE_TRACKER_STATE.ballsInOver;
   const ballsRemaining = Math.max(0, targetOvers * 6 - ballsBowled);
   const rrr = ballsRemaining > 0 ? ((runsNeeded / ballsRemaining) * 6).toFixed(2) : '0.00';
+  const oversBowled = LIVE_TRACKER_STATE.overs + (LIVE_TRACKER_STATE.ballsInOver / 6.0);
+  
+  let warningBanner = '';
+  if (targetOvers <= oversBowled) {
+    warningBanner = `
+      <div style="margin-top: 8px; padding: 6px 10px; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 6px; font-size: 11px; color: #FCA5A5;">
+        ⚠️ Innings already bowled ${LIVE_TRACKER_STATE.overs}.${LIVE_TRACKER_STATE.ballsInOver} overs. Applying will conclude the match immediately on DLS Par.
+      </div>
+    `;
+  }
   
   const prevEl = document.getElementById('dls-preview-box');
   if (prevEl) {
     prevEl.innerHTML = `
-      <div style="font-size: 13px; font-weight: 800; color: #38BDF8; font-family: var(--font-mono); margin-bottom: 6px;">
+      <div id="dls-curtailed-title" style="font-size: 13px; font-weight: 800; color: #38BDF8; font-family: var(--font-mono); margin-bottom: 6px;">
         Curtailed Match: ${targetOvers} Overs (Resource: ${r2.toFixed(1)}%)
       </div>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 90px), 1fr)); gap: 8px; text-align: center; font-family: var(--font-mono);">
@@ -23368,6 +23429,7 @@ function updateDlsModalPreview(targetOvers) {
           <div style="font-size: 9.5px; color: #94A3B8;">rpo</div>
         </div>
       </div>
+      ${warningBanner}
     `;
   }
 }
@@ -27921,13 +27983,13 @@ window.exportDossierJSON = exportDossierJSON;
           <label style="font-size: 11px; font-family: var(--font-mono); color: #94A3B8; text-transform: uppercase; display: block; margin-bottom: 8px;">
             Choose Curtailed Overs for Innings 2:
           </label>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button onclick="updateDlsModalPreview(18)" class="toggle-btn" style="font-size: 11px; padding: 6px 12px;">18 Overs</button>
-            <button onclick="updateDlsModalPreview(16)" class="toggle-btn active" style="font-size: 11px; padding: 6px 12px;">16 Overs</button>
-            <button onclick="updateDlsModalPreview(15)" class="toggle-btn" style="font-size: 11px; padding: 6px 12px;">15 Overs</button>
-            <button onclick="updateDlsModalPreview(14)" class="toggle-btn" style="font-size: 11px; padding: 6px 12px;">14 Overs</button>
-            <button onclick="updateDlsModalPreview(12)" class="toggle-btn" style="font-size: 11px; padding: 6px 12px;">12 Overs</button>
-            <button onclick="updateDlsModalPreview(10)" class="toggle-btn" style="font-size: 11px; padding: 6px 12px;">10 Overs (Minimum)</button>
+          <div id="dls-overs-btn-group" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" onclick="selectDlsTargetOvers(18)" data-overs="18" class="toggle-btn" style="font-size: 11px; padding: 6px 12px; cursor: pointer;">18 Overs</button>
+            <button type="button" onclick="selectDlsTargetOvers(16)" data-overs="16" class="toggle-btn active" style="font-size: 11px; padding: 6px 12px; cursor: pointer; background: var(--rr-pink); border-color: var(--rr-pink); color: #FFFFFF;">16 Overs</button>
+            <button type="button" onclick="selectDlsTargetOvers(15)" data-overs="15" class="toggle-btn" style="font-size: 11px; padding: 6px 12px; cursor: pointer;">15 Overs</button>
+            <button type="button" onclick="selectDlsTargetOvers(14)" data-overs="14" class="toggle-btn" style="font-size: 11px; padding: 6px 12px; cursor: pointer;">14 Overs</button>
+            <button type="button" onclick="selectDlsTargetOvers(12)" data-overs="12" class="toggle-btn" style="font-size: 11px; padding: 6px 12px; cursor: pointer;">12 Overs</button>
+            <button type="button" onclick="selectDlsTargetOvers(10)" data-overs="10" class="toggle-btn" style="font-size: 11px; padding: 6px 12px; cursor: pointer;">10 Overs (Minimum)</button>
           </div>
         </div>
 
@@ -27938,10 +28000,10 @@ window.exportDossierJSON = exportDossierJSON;
 
         <!-- Actions -->
         <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px;">
-          <button onclick="const sel = document.querySelector('#dls-preview-box [style*=\"Curtailed Match:\"]'); const ov = sel ? parseInt(sel.textContent.match(/\\d+/)[0]) : 16; applyDlsCurtailedMatch(ov);" class="btn-primary" style="padding: 9px 18px; font-size: 11.5px; font-weight: 800; background: #38BDF8; color: #050C15; border: none; border-radius: 6px; cursor: pointer;">
+          <button type="button" id="dls-confirm-btn" onclick="applyDlsCurtailedMatch(SELECTED_DLS_CURTAILED_OVERS)" class="btn-primary" style="padding: 9px 18px; font-size: 11.5px; font-weight: 800; background: #38BDF8; color: #050C15; border: none; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;">
             🌧️ Confirm &amp; Apply DLS Revision
           </button>
-          <button onclick="closeDlsRainModal()" style="padding: 9px 14px; font-size: 11.5px; font-weight: 600; background: rgba(255,255,255,0.08); color: #CBD5E1; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; cursor: pointer;">
+          <button type="button" onclick="closeDlsRainModal()" style="padding: 9px 14px; font-size: 11.5px; font-weight: 600; background: rgba(255,255,255,0.08); color: #CBD5E1; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; cursor: pointer;">
             Cancel
           </button>
         </div>
