@@ -324,10 +324,73 @@ def extract_channel_matrix(player_hp: pd.DataFrame, role: str) -> dict[str, Any]
     }
 
 
+def extract_delivery_and_stroke_profile(player_hp: pd.DataFrame, role: str) -> dict[str, Any]:
+    """
+    Extract delivery_style stats, pace speed-band breakdowns (<135, 135-142, >142 kph),
+    top stroke distribution, stroke posture mix, and top dismissal stroke traps.
+    """
+    style_rows: list[dict[str, Any]] = []
+    style_counts = player_hp["delivery_style"].dropna().value_counts()
+    for style_name, _ in style_counts.head(8).items():
+        sub = player_hp[player_hp["delivery_style"] == style_name]
+        st = summarize_group(sub, role)
+        st["style"] = str(style_name)
+        style_rows.append(st)
+
+    pace_sub = player_hp[(player_hp["pace_or_spin"] == "Pace") & (player_hp["bowl_speed"] > 0)]
+    speed_bands: list[dict[str, Any]] = []
+    band_defs = [
+        ("<135 kph", pace_sub["bowl_speed"] < 135.0),
+        ("135-142 kph", (pace_sub["bowl_speed"] >= 135.0) & (pace_sub["bowl_speed"] <= 142.0)),
+        (">142 kph", pace_sub["bowl_speed"] > 142.0),
+    ]
+    for label, mask in band_defs:
+        sub = pace_sub[mask]
+        st = summarize_group(sub, role)
+        st["band"] = label
+        speed_bands.append(st)
+
+    n_total = max(int(len(player_hp)), 1)
+    posture_counts = player_hp["stroke_posture"].value_counts().to_dict()
+    posture_pct = {
+        k: round(int(posture_counts.get(k, 0)) / n_total * 100.0, 1)
+        for k in ("Attacking", "Rotation", "Defensive", "Unrecorded")
+    }
+
+    stroke_rows: list[dict[str, Any]] = []
+    stroke_counts = player_hp["stroke"].dropna().value_counts()
+    for stroke_name, _ in stroke_counts.head(7).items():
+        sub = player_hp[player_hp["stroke"] == stroke_name]
+        st = summarize_group(sub, role)
+        st["stroke"] = str(stroke_name)
+        st["posture"] = classify_stroke_posture(stroke_name)
+        stroke_rows.append(st)
+
+    wkt_col = "out_striker" if role == "bat" else "wkt_bowler"
+    wkt_sub = player_hp[player_hp[wkt_col] == 1].copy()
+    wkt_sub["trap_label"] = [
+        f"{str(s) if pd.notna(s) else 'Unrecorded'} ({str(dt) if pd.notna(dt) else 'Out'})"
+        for s, dt in zip(wkt_sub["stroke"], wkt_sub["dismissal_type"])
+    ]
+    traps = [
+        {"trap": str(lbl), "outs": int(cnt)}
+        for lbl, cnt in wkt_sub["trap_label"].value_counts().head(5).items()
+    ]
+
+    return {
+        "delivery_styles": style_rows,
+        "speed_bands": speed_bands,
+        "posture_pct": posture_pct,
+        "top_strokes": stroke_rows,
+        "dismissal_traps": traps,
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build Tactical Blueprint Vault dataset.")
     parser.add_argument("--check-cohort", action="store_true", help="Print cohort stats only.")
     parser.add_argument("--check-channels", action="store_true", help="Print sample channel matrices.")
+    parser.add_argument("--check-styles", action="store_true", help="Print sample style & stroke traps.")
     args = parser.parse_args()
 
     app_data = extract_app_data()
@@ -350,18 +413,19 @@ def main() -> None:
     )
     if args.check_cohort:
         return
-    if args.check_channels:
+    if args.check_channels or args.check_styles:
         for name, pid, role in [
             ("Yashasvi Jaiswal", 6819, "bat"),
-            ("Suryakumar Yadav", 464, "bat"),
             ("Jasprit Bumrah", 652, "bowl"),
-            ("Jofra Archer", 3298, "bowl"),
         ]:
             sub = hp[(hp["striker_id"] == pid) & (hp["faced"] == 1)] if role == "bat" else hp[hp["bowler_id"] == pid]
             if len(sub) == 0:
                 sub = hp[(hp["striker_name"] == name) & (hp["faced"] == 1)] if role == "bat" else hp[hp["bowler_name"] == name]
             print(f"=== {name} ({role}) ===")
-            print(json.dumps(extract_channel_matrix(sub, role), indent=2))
+            if args.check_channels:
+                print(json.dumps(extract_channel_matrix(sub, role), indent=2))
+            if args.check_styles:
+                print(json.dumps(extract_delivery_and_stroke_profile(sub, role), indent=2))
         return
 
 
