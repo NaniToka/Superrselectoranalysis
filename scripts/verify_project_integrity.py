@@ -158,6 +158,17 @@ for b_str, msg in bumrah_facts:
 check('tactical_splits_verified' in app_data, "APP_DATA missing 'tactical_splits_verified'")
 check('std_err' in html, "std_err missing from tactical splits display")
 
+# 11. Check Tactical Blueprint & Evidence Vault Empirical Integrity
+tb = app_data.get('tactical_blueprint', {})
+check(bool(tb), "APP_DATA missing 'tactical_blueprint'")
+tb_meta = tb.get('meta', {})
+check(tb_meta.get('hp_deliveries') == 49276, f"Expected 49276 HP deliveries, got {tb_meta.get('hp_deliveries')}")
+check(tb_meta.get('li_q75') == 1.32, f"Expected LI q75 1.32, got {tb_meta.get('li_q75')}")
+check(len(tb.get('profiles', {})) >= 130, f"Expected >= 130 blueprint profiles, got {len(tb.get('profiles', {}))}")
+check(tb.get('bumrah_proof', {}).get('bumrah_total_hp_balls') == 506, "Expected Bumrah 506 HP deliveries in bumrah_proof")
+check(len(tb.get('counter_plans', {})) == 9, f"Expected 9 IPL counter plans, got {len(tb.get('counter_plans', {}))}")
+check(len(tb.get('h2h_encounters', [])) >= 300, f"Expected >= 300 embedded H2H encounters, got {len(tb.get('h2h_encounters', []))}")
+
 # Print FAILURES ONLY if any, otherwise print "N checks run"
 if failures:
     print(f"VERIFICATION FAILED WITH {len(failures)} ERROR(S):")

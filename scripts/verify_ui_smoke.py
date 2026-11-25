@@ -85,6 +85,19 @@ def main() -> int:
     assert_ok("function lookupEmpiricalPlayerProfile(" in html, "Missing lookupEmpiricalPlayerProfile")
     assert_ok("function exportLiveMatchTelemetry(" in html, "Missing exportLiveMatchTelemetry")
 
+    # 8b. Validate Blueprint & Evidence Vault DOM & JS modules
+    for bp_token in (
+        'id="tab-blueprint"',
+        'id="bp-player-select"',
+        'id="bp-stage-container"',
+        'function renderBlueprintTab(',
+        'function bpRenderChannelsPanel(',
+        'function bpRenderBumrahPanel(',
+        'function bpRenderCounterPlanPanel(',
+    ):
+        assert_ok(bp_token in html, f"Missing Blueprint Vault token: {bp_token}")
+    assert_ok(len(tour_tabs) >= 6, f"Expected >=6 judge tour steps including Blueprint Vault, got {len(tour_tabs)}")
+
     # 9. Validate JavaScript syntax of all inline scripts when node is available
     node_bin = shutil.which("node")
     if node_bin:
