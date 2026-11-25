@@ -28864,7 +28864,89 @@ function bpRenderH2HPanel(prof) {
 }
 
 function bpRenderCounterPlanPanel() {
-  return `<div class="bp-panel"><div class="bp-panel-title">Loading RR Counter-Plan...</div></div>`;
+  const plans = getBlueprintData().counter_plans || {};
+  const teams = ['MI', 'CSK', 'KKR', 'RCB', 'SRH', 'GT', 'DC', 'PBKS', 'LSG'].filter((c) => plans[c]);
+  if (!teams.includes(BLUEPRINT_STATE.counterTeam) && teams.length) {
+    BLUEPRINT_STATE.counterTeam = teams[0];
+  }
+  const active = plans[BLUEPRINT_STATE.counterTeam];
+  if (!active) {
+    return '<div class="bp-panel"><div class="bp-panel-title">No Counter-Plan data available.</div></div>';
+  }
+
+  const teamPills = teams
+    .map(
+      (code) =>
+        `<button type="button" class="bp-pill-tab ${code === BLUEPRINT_STATE.counterTeam ? 'active' : ''}" onclick="bpSelectCounterTeam('${code}')">RR vs ${code}</button>`
+    )
+    .join('');
+
+  const defCards = (active.defensive_plan || [])
+    .map(
+      (d) => `
+      <div style="background: rgba(4, 13, 26, 0.88); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;">
+          <button type="button" onclick="bpInspectFromCounter('bat_${d.opp_pid}')" style="background: none; border: none; color: #F8FAFC; font-weight: 800; font-size: 13px; cursor: pointer; text-decoration: underline dotted rgba(125,211,252,0.5); padding: 0;">
+            ${bpEsc(d.opp_batter)} (Adj #${d.opp_rank || '—'})
+          </button>
+          <span style="font-size: 10.5px; font-family: var(--font-mono); font-weight: 800; color: #7DD3FC;">Deploy: ${bpEsc(d.rr_bowler)}</span>
+        </div>
+        <div style="font-size: 11.5px; color: #CBD5E1; line-height: 1.45;">
+          Trap Channel: <strong style="color: #FCA5A5;">${bpEsc(d.target_channel)}</strong> &bull; Style: <strong style="color: #FCD34D;">${bpEsc(d.target_style)}</strong>
+        </div>
+        <div style="font-size: 10.5px; font-family: var(--font-mono); color: #94A3B8; margin-top: 4px;">
+          Proof: <strong style="color: #6EE7B7;">${bpEsc(d.evidence_mode)}</strong>
+        </div>
+      </div>
+    `
+    )
+    .join('');
+
+  const batCards = (active.batting_plan || [])
+    .map(
+      (b) => `
+      <div style="background: rgba(4, 13, 26, 0.88); border: 1px solid rgba(229, 0, 125, 0.22); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;">
+          <button type="button" onclick="bpInspectFromCounter('bowl_${b.opp_pid}')" style="background: none; border: none; color: #F8FAFC; font-weight: 800; font-size: 13px; cursor: pointer; text-decoration: underline dotted rgba(255,133,192,0.5); padding: 0;">
+            ${bpEsc(b.opp_bowler)} (Adj #${b.opp_rank || '—'})
+          </button>
+          <span style="font-size: 10.5px; font-family: var(--font-mono); font-weight: 800; color: #FF85C0;">Enforcer: ${bpEsc(b.rr_enforcer)}</span>
+        </div>
+        <div style="font-size: 11.5px; color: #CBD5E1; line-height: 1.45;">
+          Attack Arc: <strong style="color: #6EE7B7;">${bpEsc(b.attack_channel)}</strong> &bull; Zone Saved/100: <strong style="color: #FCD34D;">${bpFmtSigned(b.bowler_weak_net, 1)}</strong>
+        </div>
+        <div style="font-size: 10.5px; font-family: var(--font-mono); color: #94A3B8; margin-top: 4px;">
+          Proof: <strong style="color: #7DD3FC;">${bpEsc(b.evidence_mode)}</strong>
+        </div>
+      </div>
+    `
+    )
+    .join('');
+
+  return `
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px;">
+      <div class="bp-pill-tabs" style="margin-bottom: 0;">${teamPills}</div>
+      <button type="button" class="bp-pill-tab" onclick="bpCopyCounterPlanBrief()" style="border-color: rgba(229,0,125,0.45); color: #FF85C0;">&#x1F4CB; Copy RR vs ${bpEsc(active.team_code)} Match Brief</button>
+    </div>
+
+    <div class="bp-grid-2">
+      <div class="bp-panel">
+        <div class="bp-panel-title">
+          <span>&#x1F6E1;&#xFE0F; How RR Restricts ${bpEsc(active.team_name)} Batters</span>
+          <span class="bp-se-badge">Click Batter to Inspect Heatmap</span>
+        </div>
+        ${defCards}
+      </div>
+
+      <div class="bp-panel">
+        <div class="bp-panel-title">
+          <span>&#x2694;&#xFE0F; How RR Attacks ${bpEsc(active.team_name)} Bowlers</span>
+          <span class="bp-se-badge">Click Bowler to Inspect Heatmap</span>
+        </div>
+        ${batCards}
+      </div>
+    </div>
+  `;
 }
 
 function bpRenderCurrentView() {
@@ -28965,6 +29047,47 @@ function bpToggleH2HRrOnly() {
   bpRenderCurrentView();
 }
 
+function bpSelectCounterTeam(code) {
+  BLUEPRINT_STATE.counterTeam = code || 'MI';
+  bpRenderCurrentView();
+}
+
+function bpInspectFromCounter(key) {
+  BLUEPRINT_STATE.cohortFilter = 'ALL';
+  BLUEPRINT_STATE.roleFilter = 'ALL';
+  BLUEPRINT_STATE.searchQuery = '';
+  const cf = document.getElementById('bp-cohort-filter');
+  const rf = document.getElementById('bp-role-filter');
+  const si = document.getElementById('bp-search-input');
+  if (cf) cf.value = 'ALL';
+  if (rf) rf.value = 'ALL';
+  if (si) si.value = '';
+  BLUEPRINT_STATE.selectedKey = key;
+  BLUEPRINT_STATE.viewMode = 'channels';
+  bpPopulatePlayerSelector();
+  bpRenderCurrentView();
+}
+
+function bpCopyCounterPlanBrief() {
+  const plans = getBlueprintData().counter_plans || {};
+  const active = plans[BLUEPRINT_STATE.counterTeam];
+  if (!active) return;
+  const lines = [
+    `RR 2026-27 MATCH-DAY COUNTER PLAN VS ${active.team_name} (${active.team_code})`,
+    'BOWLING / TRAP ASSIGNMENTS:',
+    ...(active.defensive_plan || []).map(
+      (d) => `- vs ${d.opp_batter}: Deploy ${d.rr_bowler} | ${d.target_channel} | ${d.target_style} | ${d.evidence_mode}`
+    ),
+    'BATTING ENFORCERS:',
+    ...(active.batting_plan || []).map(
+      (b) => `- vs ${b.opp_bowler}: Target with ${b.rr_enforcer} | Attack ${b.attack_channel} | ${b.evidence_mode}`
+    ),
+  ];
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(lines.join('\n')).catch(() => {});
+  }
+}
+
 window.BLUEPRINT_STATE = BLUEPRINT_STATE;
 window.renderBlueprintTab = renderBlueprintTab;
 window.bpSelectPlayer = bpSelectPlayer;
@@ -28976,6 +29099,9 @@ window.bpCopyPlayerBrief = bpCopyPlayerBrief;
 window.bpSyncChannelToHolodeck = bpSyncChannelToHolodeck;
 window.bpSetH2HQuery = bpSetH2HQuery;
 window.bpToggleH2HRrOnly = bpToggleH2HRrOnly;
+window.bpSelectCounterTeam = bpSelectCounterTeam;
+window.bpInspectFromCounter = bpInspectFromCounter;
+window.bpCopyCounterPlanBrief = bpCopyCounterPlanBrief;
 
 </script>
 
