@@ -28639,7 +28639,60 @@ function bpRenderStylesPanel(prof) {
 }
 
 function bpRenderReceiptsPanel(prof) {
-  return `<div class="bp-panel"><div class="bp-panel-title">Loading Match Receipts...</div></div>`;
+  const receipts = prof.receipts || [];
+  const isBat = prof.role === 'bat';
+
+  const cards = receipts.length
+    ? receipts
+        .map((r) => {
+          const outcomeCls = r.out ? 'is-wkt' : r.runs === 6 ? 'is-six' : '';
+          const outcomeBadge = r.out
+            ? `<span style="background: rgba(239,68,68,0.22); color: #FCA5A5; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 800;">WICKET (${bpEsc(r.dism || 'Out')})</span>`
+            : r.runs === 6
+            ? `<span style="background: rgba(229,0,125,0.25); color: #FFB3D9; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 800;">MAXIMUM 6</span>`
+            : r.runs === 4
+            ? `<span style="background: rgba(16,185,129,0.22); color: #6EE7B7; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 800;">FOUR</span>`
+            : `<span style="background: rgba(56,189,248,0.16); color: #7DD3FC; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 800;">${r.runs} RUN${r.runs === 1 ? '' : 'S'}</span>`;
+
+          return `
+            <div class="bp-receipt-card ${outcomeCls}">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: wrap;">
+                <span style="font-size: 10.5px; font-family: var(--font-mono); font-weight: 800; color: #7DD3FC;">
+                  ${bpEsc(r.date)} &bull; ${bpEsc(r.comp)}${r.stage ? ` (${bpEsc(r.stage)})` : ''}
+                </span>
+                ${outcomeBadge}
+              </div>
+              <div style="font-size: 13px; font-weight: 800; color: #F8FAFC;">
+                vs ${bpEsc(r.opp)} &bull; ${isBat ? `facing ${bpEsc(r.other)}` : `bowling to ${bpEsc(r.other)}`}
+              </div>
+              <div style="font-size: 11px; color: #CBD5E1; font-family: var(--font-mono);">
+                Inn ${r.inn} &bull; Ov ${bpEsc(r.ov)} (${bpEsc(r.phase)}) &bull; State ${bpEsc(r.score)} &bull; <strong style="color: #FCD34D;">LI ${r.li}</strong>
+              </div>
+              <div style="font-size: 11.5px; color: #E2E8F0; line-height: 1.45;">
+                Channel: <strong>${bpEsc(r.channel)}</strong> &bull; Delivery: <strong>${bpEsc(r.style)}</strong>${r.speed ? ` (${r.speed} kph)` : ''} &bull; Stroke: <strong>${bpEsc(r.stroke)}</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 10.5px; font-family: var(--font-mono); color: #94A3B8; padding-top: 4px; border-top: 1px dashed rgba(255,255,255,0.08);">
+                <span>WPA Swing: <strong style="color: ${r.wpa >= 0 ? '#6EE7B7' : '#FCA5A5'};">${bpFmtSigned(r.wpa, 2)}%</strong></span>
+                <span>Ball Net Value: <strong style="color: ${r.net >= 0 ? '#6EE7B7' : '#FCA5A5'};">${bpFmtSigned(r.net, 1)}</strong></span>
+              </div>
+            </div>
+          `;
+        })
+        .join('')
+    : '<div style="font-size: 12.5px; color: #94A3B8;">No high-leverage delivery receipts archived for this selection.</div>';
+
+  return `
+    <div class="bp-panel">
+      <div class="bp-panel-title">
+        <span>&#x1F9FE; Empirical Match &amp; Delivery Receipts &bull; ${bpEsc(prof.name)}</span>
+        <span class="bp-se-badge">Source: b3.pkl + matches.csv + teams.csv</span>
+      </div>
+      <p style="font-size: 12px; color: #94A3B8; margin-bottom: 12px;">
+        Highest win-probability swing deliveries across distinct high-pressure matches (LI &ge; 1.32) verifying the tactical patterns above.
+      </p>
+      <div class="bp-receipt-grid">${cards}</div>
+    </div>
+  `;
 }
 
 function bpRenderBumrahPanel() {
