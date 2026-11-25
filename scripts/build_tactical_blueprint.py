@@ -534,12 +534,238 @@ def build_bumrah_posture_benchmark(hp: pd.DataFrame) -> dict[str, Any]:
     }
 
 
+def extract_h2h_encounters(
+    df: pd.DataFrame,
+    cohort: list[dict[str, Any]],
+    li_q75: float,
+    min_balls: int = 6,
+) -> list[dict[str, Any]]:
+    """
+    Mine real batter-vs-bowler historical H2H encounters across df between featured
+    cohort players, applying Empirical Bayes shrinkage (k=12) toward prior net diff.
+    """
+    bat_map = {c["pid"]: c for c in cohort if c["role"] == "bat"}
+    bowl_map = {c["pid"]: c for c in cohort if c["role"] == "bowl"}
+    if not bat_map or not bowl_map:
+        return []
+
+    sub = df[
+        df["striker_id"].isin(bat_map.keys())
+        & df["bowler_id"].isin(bowl_map.keys())
+        & (df["faced"] == 1)
+    ].copy()
+
+    encounters: list[dict[str, Any]] = []
+    for (bid, wid), grp in sub.groupby(["striker_id", "bowler_id"], sort=False):
+        n = int(len(grp))
+        if n < min_balls:
+            continue
+        bat_meta = bat_map[int(bid)]
+        bowl_meta = bowl_map[int(wid)]
+        # Skip encounters unless at least one side is RR_2026 or Top-20 / IPL peer with >= 10 balls
+        is_rr_involved = ("RR_2026" in bat_meta["tags"]) or ("RR_2026" in bowl_meta["tags"])
+        if not is_rr_involved and n < 12:
+            continue
+
+        runs = int(grp["bat_runs"].sum())
+        legal = int(grp["legal"].sum())
+        outs = int(grp["out_striker"].sum())
+        boundaries = int(((grp["is_four"] == 1) | (grp["is_six"] == 1)).sum())
+        dots = int((grp["bat_runs"] == 0).sum())
+        raw_net = float(grp["v_bat"].dropna().mean() * 100.0) if grp["v_bat"].notna().any() else 0.0
+        hp_grp = grp[grp["LI"] >= li_q75]
+        hp_n = int(len(hp_grp))
+        hp_net = (
+            round(float(hp_grp["v_bat"].dropna().mean() * 100.0), 1)
+            if hp_n > 0 and hp_grp["v_bat"].notna().any()
+            else None
+        )
+
+        # Empirical Bayes shrinkage (k=12 balls) toward prior (bat net_hp - bowl net_hp) * 0.5
+        bat_prior = float(bat_meta.get("net_hp_adj") or 0.0)
+        bowl_prior = float(bowl_meta.get("net_hp_adj") or 0.0)
+        prior_net = (bat_prior - bowl_prior) * 0.45
+        k = 12.0
+        shrunk_net = round((n * raw_net + k * prior_net) / (n + k), 1)
+
+        top_style = (
+            str(grp["delivery_style"].dropna().mode().iloc[0])
+            if grp["delivery_style"].dropna().shape[0] > 0
+            else "Standard"
+        )
+        top_chan = (
+            f"{grp['over_or_around'].dropna().mode().iloc[0]} · {grp['on_or_off'].dropna().mode().iloc[0]}"
+            if grp["over_or_around"].dropna().shape[0] > 0
+            and grp["on_or_off"].dropna().shape[0] > 0
+            else "Recorded"
+        )
+        last_date = str(grp["match_date"].max())[:10]
+
+        encounters.append(
+            {
+                "bat_id": int(bid),
+                "bat_name": bat_meta["name"],
+                "bat_team": TEAM_SHORT.get(bat_meta["ipl2026"], "POOL"),
+                "bowl_id": int(wid),
+                "bowl_name": bowl_meta["name"],
+                "bowl_team": TEAM_SHORT.get(bowl_meta["ipl2026"], "POOL"),
+                "n": n,
+                "legal": legal,
+                "runs": runs,
+                "outs": outs,
+                "sr": round(runs / max(n, 1) * 100.0, 1),
+                "dot_pct": round(dots / max(n, 1) * 100.0, 1),
+                "bnd_pct": round(boundaries / max(n, 1) * 100.0, 1),
+                "raw_net": round(raw_net, 1),
+                "shrunk_net": shrunk_net,
+                "hp_n": hp_n,
+                "hp_net": hp_net,
+                "top_style": top_style,
+                "top_channel": top_chan,
+                "last_date": last_date,
+                "low_sample": n < 12,
+                "rr_tag": (
+                    "RR_BAT"
+                    if "RR_2026" in bat_meta["tags"]
+                    else ("RR_BOWL" if "RR_2026" in bowl_meta["tags"] else "IPL")
+                ),
+            }
+        )
+
+    return sorted(encounters, key=lambda e: (-int(e["rr_tag"] != "IPL"), -e["n"]))
+
+
+def build_rr_counter_plans(
+    cohort: list[dict[str, Any]],
+    profiles: dict[str, dict[str, Any]],
+    h2h: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """
+    Build empirical match-day blueprints for RR vs all 9 IPL 2026 opponents
+    combining real historical H2H receipts and channel/pace-spin vulnerability data.
+    """
+    rr_bats = [c for c in cohort if "RR_2026" in c["tags"] and c["role"] == "bat"]
+    rr_bowls = [c for c in cohort if "RR_2026" in c["tags"] and c["role"] == "bowl"]
+
+    h2h_by_pair = {(e["bat_id"], e["bowl_id"]): e for e in h2h}
+    plans: dict[str, Any] = {}
+
+    for team_full, code in TEAM_SHORT.items():
+        if code == "RR":
+            continue
+        opp_bats = sorted(
+            [c for c in cohort if c["ipl2026"] == team_full and c["role"] == "bat"],
+            key=lambda x: x["adjusted_rank"] or 9999,
+        )[:5]
+        opp_bowls = sorted(
+            [c for c in cohort if c["ipl2026"] == team_full and c["role"] == "bowl"],
+            key=lambda x: x["adjusted_rank"] or 9999,
+        )[:5]
+
+        defensive_assignments: list[dict[str, Any]] = []
+        for ob in opp_bats:
+            prof = profiles.get(f"bat_{ob['pid']}", {})
+            chans = prof.get("channels", {})
+            weak_ch = chans.get("weak_channel") or "Over · Off-side"
+            weak_net = chans.get("weak_net")
+            styles = prof.get("styles", {}).get("delivery_styles", [])
+            # Lowest batter net_100 style with >= 10 balls
+            qual_styles = [s for s in styles if s.get("n", 0) >= 10 and s.get("net_100") is not None]
+            best_trap_style = min(qual_styles, key=lambda s: s["net_100"])["style"] if qual_styles else "Hard Length"
+
+            # Find best historical RR bowler vs this opponent batter (or best statistical match)
+            candidates: list[tuple[float, dict[str, Any], dict[str, Any] | None]] = []
+            for rb in rr_bats + rr_bowls:
+                if rb["role"] != "bowl":
+                    continue
+                pair = h2h_by_pair.get((ob["pid"], rb["pid"]))
+                score = (-pair["shrunk_net"] if pair else float(rb.get("net_hp_adj") or 0.0) * 0.6)
+                if pair and pair["n"] >= 6:
+                    score += min(pair["outs"] * 8.0, 24.0)
+                candidates.append((score, rb, pair))
+            candidates.sort(key=lambda t: t[0], reverse=True)
+            chosen_rb, chosen_pair = (candidates[0][1], candidates[0][2]) if candidates else (rr_bowls[0], None)
+
+            defensive_assignments.append(
+                {
+                    "opp_batter": ob["name"],
+                    "opp_pid": ob["pid"],
+                    "opp_rank": ob["adjusted_rank"],
+                    "rr_bowler": chosen_rb["name"],
+                    "rr_bowler_pid": chosen_rb["pid"],
+                    "target_channel": weak_ch,
+                    "target_net": weak_net,
+                    "target_style": best_trap_style,
+                    "h2h_balls": chosen_pair["n"] if chosen_pair else 0,
+                    "h2h_runs": chosen_pair["runs"] if chosen_pair else 0,
+                    "h2h_outs": chosen_pair["outs"] if chosen_pair else 0,
+                    "h2h_sr": chosen_pair["sr"] if chosen_pair else None,
+                    "evidence_mode": (
+                        f"H2H Receipt ({chosen_pair['n']}b, {chosen_pair['outs']}w, SR {chosen_pair['sr']})"
+                        if chosen_pair
+                        else f"Channel Vulnerability (Net/100 {weak_net:+.1f})"
+                        if weak_net is not None
+                        else "Role Matchup"
+                    ),
+                }
+            )
+
+        batting_assignments: list[dict[str, Any]] = []
+        for ow in opp_bowls:
+            prof = profiles.get(f"bowl_{ow['pid']}", {})
+            chans = prof.get("channels", {})
+            # Weakest bowler channel (where bowler net_100 is lowest = batters score most)
+            weak_ch = chans.get("weak_channel") or "Over · On-side"
+            weak_net = chans.get("weak_net")
+
+            candidates_b: list[tuple[float, dict[str, Any], dict[str, Any] | None]] = []
+            for rbat in rr_bats:
+                pair = h2h_by_pair.get((rbat["pid"], ow["pid"]))
+                score = (pair["shrunk_net"] if pair else float(rbat.get("net_hp_adj") or 0.0) * 0.5)
+                if pair and pair["outs"] == 0 and pair["n"] >= 8:
+                    score += 12.0
+                candidates_b.append((score, rbat, pair))
+            candidates_b.sort(key=lambda t: t[0], reverse=True)
+            chosen_bat, chosen_pair_b = (candidates_b[0][1], candidates_b[0][2]) if candidates_b else (rr_bats[0], None)
+
+            batting_assignments.append(
+                {
+                    "opp_bowler": ow["name"],
+                    "opp_pid": ow["pid"],
+                    "opp_rank": ow["adjusted_rank"],
+                    "rr_enforcer": chosen_bat["name"],
+                    "rr_enforcer_pid": chosen_bat["pid"],
+                    "attack_channel": weak_ch,
+                    "bowler_weak_net": weak_net,
+                    "h2h_balls": chosen_pair_b["n"] if chosen_pair_b else 0,
+                    "h2h_runs": chosen_pair_b["runs"] if chosen_pair_b else 0,
+                    "h2h_outs": chosen_pair_b["outs"] if chosen_pair_b else 0,
+                    "h2h_sr": chosen_pair_b["sr"] if chosen_pair_b else None,
+                    "evidence_mode": (
+                        f"H2H Receipt ({chosen_pair_b['n']}b, SR {chosen_pair_b['sr']}, {chosen_pair_b['outs']}w)"
+                        if chosen_pair_b
+                        else f"Bowler Vulnerable Zone ({weak_ch})"
+                    ),
+                }
+            )
+
+        plans[code] = {
+            "team_code": code,
+            "team_name": team_full,
+            "defensive_plan": defensive_assignments,
+            "batting_plan": batting_assignments,
+        }
+
+    return plans
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build Tactical Blueprint Vault dataset.")
     parser.add_argument("--check-cohort", action="store_true", help="Print cohort stats only.")
     parser.add_argument("--check-channels", action="store_true", help="Print sample channel matrices.")
     parser.add_argument("--check-styles", action="store_true", help="Print sample style & stroke traps.")
     parser.add_argument("--check-receipts", action="store_true", help="Print receipts & Bumrah 506 proof.")
+    parser.add_argument("--check-h2h", action="store_true", help="Print H2H count & MI counter-plan sample.")
     args = parser.parse_args()
 
     app_data = extract_app_data()
@@ -561,6 +787,11 @@ def main() -> None:
         )
     )
     if args.check_cohort:
+        return
+    if args.check_h2h:
+        h2h = extract_h2h_encounters(df, cohort, li_q75)
+        print("H2H encounters extracted:", len(h2h))
+        print("Sample RR H2H:", json.dumps([e for e in h2h if e["rr_tag"] != "IPL"][:4], indent=2))
         return
     if args.check_channels or args.check_styles or args.check_receipts:
         if args.check_receipts:
