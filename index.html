@@ -26789,6 +26789,21 @@ function renderLiveTrackerEngineView() {
                   let px = 245 + (i % 3) * 5;
                   return `<circle cx="${px}" cy="${py}" r="3" fill="${d.type === 'six' ? '#F59E0B' : d.type === 'four' ? '#34D399' : d.type === 'wicket' ? '#EF4444' : '#38BDF8'}" stroke="#FFF" stroke-width="0.8" />`;
                 }).join('')}
+                ${(() => {
+                  const ov = LIVE_TRACKER_STATE.blueprintChannelOverride;
+                  const strikerName = (typeof onStrikeBatter !== 'undefined' && onStrikeBatter?.name) ? onStrikeBatter.name : '';
+                  const batProf = typeof bpFindProfileByName === 'function' ? bpFindProfileByName(strikerName, 'bat') : null;
+                  const chLabel = (ov && ov.channel) || batProf?.channels?.weak_channel || 'Over · Off-side';
+                  const isOff = chLabel.includes('Off-side');
+                  const isAround = chLabel.includes('Around');
+                  const laneX = isOff ? 228 : 254;
+                  const angleX = isAround ? 268 : 228;
+                  return `
+                    <rect x="${laneX}" y="198" width="18" height="104" rx="3" fill="rgba(229, 0, 125, 0.22)" stroke="#E5007D" stroke-width="1.5" stroke-dasharray="3 2" />
+                    <circle cx="${angleX}" cy="316" r="5" fill="#E5007D" stroke="#FFF" stroke-width="1.2" />
+                    <text x="250" y="334" fill="#FF85C0" font-size="7.5" font-family="monospace" text-anchor="middle" font-weight="bold">BP TARGET: ${chLabel.toUpperCase()}</text>
+                  `;
+                })()}
               `}
 
               <!-- Dugout Benches -->
@@ -26827,6 +26842,23 @@ function renderLiveTrackerEngineView() {
               </div>
             `}
           </div>
+
+          <!-- EMPIRICAL BLUEPRINT CHANNEL INTEL BAR -->
+          ${(() => {
+            const ov = LIVE_TRACKER_STATE.blueprintChannelOverride;
+            const strikerName = (typeof onStrikeBatter !== 'undefined' && onStrikeBatter?.name) ? onStrikeBatter.name : 'Striker';
+            const profB = typeof bpFindProfileByName === 'function' ? bpFindProfileByName(strikerName, 'bat') : null;
+            const label = ov ? `${ov.player} (${ov.role.toUpperCase()})` : `${strikerName} (Trap Target)`;
+            const chKey = (ov && ov.channel) || profB?.channels?.weak_channel || 'Over · Off-side';
+            const netV = (ov && ov.net !== undefined) ? ov.net : profB?.channels?.weak_net;
+            if (!ov && !profB) return '';
+            return `
+              <div style="width: 100%; margin-top: 8px; background: rgba(229,0,125,0.09); border: 1px solid rgba(229,0,125,0.32); border-radius: 6px; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 10.5px; font-family: var(--font-mono);">
+                <span style="color: #FF85C0; font-weight: 800;">&#x1F9EC; HOLODECK CHANNEL LOCK: ${bpEsc ? bpEsc(label) : label} &rarr; ${bpEsc ? bpEsc(chKey) : chKey} (${netV !== null && netV !== undefined ? (netV >= 0 ? '+' : '') + Number(netV).toFixed(1) : '—'} Net/100)</span>
+                <button type="button" onclick="switchTab('tab-blueprint')" style="background: rgba(56,189,248,0.16); border: 1px solid rgba(56,189,248,0.4); color: #7DD3FC; border-radius: 4px; padding: 2px 8px; font-size: 10px; font-weight: 800; cursor: pointer;">Open Full Blueprint &rarr;</button>
+              </div>
+            `;
+          })()}
 
           <!-- LIVE DUGOUT AI COMMENTARY TICKER -->
           <div id="holodeck-commentary-ticker" style="display: ${DUGOUT_RADIO.currentLine ? 'flex' : 'none'}; width: 100%; margin-top: 8px; background: rgba(8, 22, 43, 0.95); border: 1px solid rgba(56, 189, 248, 0.3); border-left: 3px solid #38BDF8; border-radius: 6px; padding: 7px 12px; font-size: 11px; align-items: center; gap: 8px; line-height: 1.4; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
@@ -29025,7 +29057,31 @@ function bpCopyPlayerBrief() {
   }
 }
 
+function bpFindProfileByName(name, role = 'bat') {
+  if (!name) return null;
+  const profiles = Object.values(getBlueprintData().profiles || {});
+  const lower = String(name).toLowerCase();
+  return (
+    profiles.find((p) => p.role === role && p.name.toLowerCase() === lower) ||
+    profiles.find((p) => p.role === role && p.name.toLowerCase().includes(lower)) ||
+    null
+  );
+}
+
 function bpSyncChannelToHolodeck() {
+  const prof = getActiveBlueprintProfile();
+  if (prof && typeof LIVE_TRACKER_STATE !== 'undefined') {
+    const isBat = prof.role === 'bat';
+    const ch = isBat ? prof.channels?.weak_channel : prof.channels?.best_channel;
+    const net = isBat ? prof.channels?.weak_net : prof.channels?.best_net;
+    LIVE_TRACKER_STATE.stadiumViewMode = 'pitch';
+    LIVE_TRACKER_STATE.blueprintChannelOverride = {
+      player: prof.name,
+      role: prof.role,
+      channel: ch || 'Over · Off-side',
+      net: net,
+    };
+  }
   switchTab('tab-live-tracker');
 }
 
