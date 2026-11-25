@@ -224,9 +224,110 @@ def build_featured_cohort(app_data: dict[str, Any]) -> list[dict[str, Any]]:
     )
 
 
+def summarize_group(sub: pd.DataFrame, role: str) -> dict[str, Any]:
+    """Compute exact high-pressure metrics + standard error for any slice of deliveries."""
+    n = int(len(sub))
+    if n == 0:
+        return {
+            "n": 0,
+            "legal": 0,
+            "runs": 0,
+            "wkts": 0,
+            "sr": None,
+            "econ": None,
+            "dot_pct": None,
+            "boundary_pct": None,
+            "net_100": None,
+            "std_err": None,
+            "wpa_100": None,
+            "low_sample": True,
+        }
+
+    val_col = "v_bat" if role == "bat" else "v_bowl"
+    wpa_col = "wpa_batter" if role == "bat" else "wpa_bowler"
+    run_col = "bat_runs" if role == "bat" else "runs"
+    wkt_col = "out_striker" if role == "bat" else "wkt_bowler"
+
+    legal = int(sub["legal"].sum())
+    runs = int(sub[run_col].sum())
+    wkts = int(sub[wkt_col].sum())
+    vals = sub[val_col].dropna().astype(float) * 100.0
+    net_100 = round(float(vals.mean()), 2) if len(vals) else None
+    std_err = round(float(vals.std(ddof=1) / np.sqrt(len(vals))), 2) if len(vals) > 1 else None
+    wpas = sub[wpa_col].dropna().astype(float) * 100.0
+    wpa_100 = round(float(wpas.mean()), 3) if len(wpas) else None
+
+    dots = int((sub[run_col] == 0).sum()) if role == "bat" else int(((sub["runs"] == 0) & (sub["legal"] == 1)).sum())
+    dot_denom = n if role == "bat" else max(legal, 1)
+    boundaries = int(((sub["is_four"] == 1) | (sub["is_six"] == 1)).sum())
+
+    return {
+        "n": n,
+        "legal": legal,
+        "runs": runs,
+        "wkts": wkts,
+        "sr": round(runs / n * 100.0, 1) if n > 0 else None,
+        "econ": round(runs / (legal / 6.0), 2) if legal > 0 else None,
+        "dot_pct": round(dots / dot_denom * 100.0, 1) if dot_denom > 0 else None,
+        "boundary_pct": round(boundaries / n * 100.0, 1) if n > 0 else None,
+        "net_100": net_100,
+        "std_err": std_err,
+        "wpa_100": wpa_100,
+        "low_sample": n < 15,
+    }
+
+
+def extract_channel_matrix(player_hp: pd.DataFrame, role: str) -> dict[str, Any]:
+    """
+    Build Over/Around x Off-side/On-side HP execution matrix, phase splits,
+    pace/spin or LHB/RHB matchup splits, and identify the strongest / weakest channel.
+    """
+    channels: list[dict[str, Any]] = []
+    for angle in ("Over", "Around"):
+        for line in ("Off-side", "On-side"):
+            sub = player_hp[(player_hp["over_or_around"] == angle) & (player_hp["on_or_off"] == line)]
+            stats = summarize_group(sub, role)
+            stats["angle"] = angle
+            stats["line"] = line
+            stats["key"] = f"{angle} · {line}"
+            channels.append(stats)
+
+    phases = {
+        ph: summarize_group(player_hp[player_hp["phase"] == ph], role)
+        for ph in ("PP", "MID", "DEATH")
+    }
+
+    split_col = "pace_or_spin" if role == "bat" else "batting_type"
+    split_vals = ("Pace", "Spin") if role == "bat" else ("LHB", "RHB")
+    matchups = {
+        sv: summarize_group(player_hp[player_hp[split_col] == sv], role)
+        for sv in split_vals
+    }
+
+    # Pick reliable (n >= 10, fallback all n > 0) best & vulnerable channel for quick dugout callout
+    qualified = [c for c in channels if c["n"] >= 10 and c["net_100"] is not None]
+    if not qualified:
+        qualified = [c for c in channels if c["n"] > 0 and c["net_100"] is not None]
+
+    best_chan = max(qualified, key=lambda c: c["net_100"]) if qualified else None
+    weak_chan = min(qualified, key=lambda c: c["net_100"]) if qualified else None
+
+    return {
+        "overall": summarize_group(player_hp, role),
+        "matrix": channels,
+        "phases": phases,
+        "matchups": matchups,
+        "best_channel": best_chan["key"] if best_chan else None,
+        "best_net": best_chan["net_100"] if best_chan else None,
+        "weak_channel": weak_chan["key"] if weak_chan else None,
+        "weak_net": weak_chan["net_100"] if weak_chan else None,
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build Tactical Blueprint Vault dataset.")
     parser.add_argument("--check-cohort", action="store_true", help="Print cohort stats only.")
+    parser.add_argument("--check-channels", action="store_true", help="Print sample channel matrices.")
     args = parser.parse_args()
 
     app_data = extract_app_data()
@@ -248,6 +349,19 @@ def main() -> None:
         )
     )
     if args.check_cohort:
+        return
+    if args.check_channels:
+        for name, pid, role in [
+            ("Yashasvi Jaiswal", 6819, "bat"),
+            ("Suryakumar Yadav", 464, "bat"),
+            ("Jasprit Bumrah", 652, "bowl"),
+            ("Jofra Archer", 3298, "bowl"),
+        ]:
+            sub = hp[(hp["striker_id"] == pid) & (hp["faced"] == 1)] if role == "bat" else hp[hp["bowler_id"] == pid]
+            if len(sub) == 0:
+                sub = hp[(hp["striker_name"] == name) & (hp["faced"] == 1)] if role == "bat" else hp[hp["bowler_name"] == name]
+            print(f"=== {name} ({role}) ===")
+            print(json.dumps(extract_channel_matrix(sub, role), indent=2))
         return
 
 
