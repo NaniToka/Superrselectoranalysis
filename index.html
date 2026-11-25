@@ -28779,7 +28779,88 @@ function bpRenderBumrahPanel() {
 }
 
 function bpRenderH2HPanel(prof) {
-  return `<div class="bp-panel"><div class="bp-panel-title">Loading Real H2H Matrix...</div></div>`;
+  const data = getBlueprintData();
+  const allRows = data.h2h_encounters || [];
+  const q = (BLUEPRINT_STATE.h2hQuery || '').trim().toLowerCase();
+
+  const filtered = allRows.filter((e) => {
+    if (BLUEPRINT_STATE.h2hRrOnly && e.rr_tag === 'IPL') return false;
+    if (
+      q &&
+      !e.bat_name.toLowerCase().includes(q) &&
+      !e.bowl_name.toLowerCase().includes(q) &&
+      !e.bat_team.toLowerCase().includes(q) &&
+      !e.bowl_team.toLowerCase().includes(q)
+    ) {
+      return false;
+    }
+    return true;
+  });
+
+  const shown = filtered.slice(0, 60);
+  const rowsHtml = shown.length
+    ? shown
+        .map((e) => {
+          const edgeCol = e.shrunk_net >= 8 ? '#6EE7B7' : e.shrunk_net <= -8 ? '#FCA5A5' : '#CBD5E1';
+          const badge = e.rr_tag === 'RR_BAT'
+            ? '<span style="color:#FF85C0;font-weight:800;">RR BAT</span>'
+            : e.rr_tag === 'RR_BOWL'
+            ? '<span style="color:#7DD3FC;font-weight:800;">RR BOWL</span>'
+            : '<span style="color:#94A3B8;">IPL</span>';
+          return `
+            <tr>
+              <td>${badge}</td>
+              <td><strong>${bpEsc(e.bat_name)}</strong> <span style="font-size:10px;color:#94A3B8;">(${bpEsc(e.bat_team)})</span></td>
+              <td><strong>${bpEsc(e.bowl_name)}</strong> <span style="font-size:10px;color:#94A3B8;">(${bpEsc(e.bowl_team)})</span></td>
+              <td style="font-family:var(--font-mono);">${e.n} <span style="font-size:10px;color:#7DD3FC;">(${e.hp_n} HP)</span>${e.low_sample ? ' <span class="bp-low-n">n&lt;12</span>' : ''}</td>
+              <td style="font-family:var(--font-mono);">${e.runs}/${e.outs}</td>
+              <td style="font-family:var(--font-mono);">SR ${e.sr} &bull; ${e.dot_pct}% Dot</td>
+              <td style="font-family:var(--font-mono); font-weight:800; color:${edgeCol};">${bpFmtSigned(e.shrunk_net, 1)} <span style="font-size:9.5px;color:#64748B;">(raw ${bpFmtSigned(e.raw_net, 1)})</span></td>
+              <td style="font-size:10.5px;color:#CBD5E1;">${bpEsc(e.top_style)} &bull; ${bpEsc(e.top_channel)}</td>
+              <td style="font-family:var(--font-mono); font-size:10.5px; color:#94A3B8;">${bpEsc(e.last_date)}</td>
+            </tr>
+          `;
+        })
+        .join('')
+    : '<tr><td colspan="9" style="text-align:center;color:#94A3B8;padding:18px;">No H2H encounters match your filter.</td></tr>';
+
+  return `
+    <div class="bp-panel">
+      <div class="bp-panel-title">
+        <span>&#x1F50D; Real Historical Batter vs Bowler Evidence Vault (${allRows.length} Embedded &bull; ${data.meta?.h2h_total_mined || 1669} Total Mined)</span>
+        <span class="bp-se-badge">Empirical Bayes Shrunk (k = 12 balls)</span>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px;">
+        <input id="bp-h2h-search" type="search" class="bp-input" style="max-width: 280px;" placeholder="Filter batter, bowler or team..." value="${bpEsc(BLUEPRINT_STATE.h2hQuery)}" oninput="bpSetH2HQuery(this.value, true)" />
+        <button type="button" class="bp-pill-tab" style="min-height: 40px;" onclick="bpSetH2HQuery('${bpEsc(prof.name)}')">Focus: ${bpEsc(prof.name)}</button>
+        <button type="button" class="bp-pill-tab ${BLUEPRINT_STATE.h2hRrOnly ? 'active' : ''}" style="min-height: 40px;" onclick="bpToggleH2HRrOnly()">
+          ${BLUEPRINT_STATE.h2hRrOnly ? '&#x2713; RR Squad Matchups Only' : 'Showing All Cohort Matchups'}
+        </button>
+        ${BLUEPRINT_STATE.h2hQuery ? `<button type="button" class="bp-pill-tab" style="min-height: 40px;" onclick="bpSetH2HQuery('')">Clear Filter</button>` : ''}
+        <span style="font-size: 11px; color: #94A3B8; font-family: var(--font-mono);">Showing ${shown.length} of ${filtered.length} encounters</span>
+      </div>
+
+      <div class="bp-table-scroll">
+        <table class="bp-table">
+          <thead>
+            <tr>
+              <th>Scope</th>
+              <th>Batter</th>
+              <th>Bowler</th>
+              <th>Balls (HP)</th>
+              <th>R / W</th>
+              <th>SR &bull; Dot%</th>
+              <th>EB Net/100 (Bat)</th>
+              <th>Style &amp; Channel</th>
+              <th>Last Date</th>
+            </tr>
+          </thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+      </div>
+    </div>
+  `;
 }
 
 function bpRenderCounterPlanPanel() {
@@ -28866,6 +28947,24 @@ function bpSyncChannelToHolodeck() {
   switchTab('tab-live-tracker');
 }
 
+function bpSetH2HQuery(q, keepFocus = false) {
+  BLUEPRINT_STATE.h2hQuery = q || '';
+  bpRenderCurrentView();
+  if (keepFocus) {
+    const inp = document.getElementById('bp-h2h-search');
+    if (inp) {
+      inp.focus();
+      const len = inp.value.length;
+      inp.setSelectionRange(len, len);
+    }
+  }
+}
+
+function bpToggleH2HRrOnly() {
+  BLUEPRINT_STATE.h2hRrOnly = !BLUEPRINT_STATE.h2hRrOnly;
+  bpRenderCurrentView();
+}
+
 window.BLUEPRINT_STATE = BLUEPRINT_STATE;
 window.renderBlueprintTab = renderBlueprintTab;
 window.bpSelectPlayer = bpSelectPlayer;
@@ -28875,6 +28974,8 @@ window.bpSetSearchQuery = bpSetSearchQuery;
 window.bpSetViewMode = bpSetViewMode;
 window.bpCopyPlayerBrief = bpCopyPlayerBrief;
 window.bpSyncChannelToHolodeck = bpSyncChannelToHolodeck;
+window.bpSetH2HQuery = bpSetH2HQuery;
+window.bpToggleH2HRrOnly = bpToggleH2HRrOnly;
 
 </script>
 
