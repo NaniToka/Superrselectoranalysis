@@ -386,11 +386,160 @@ def extract_delivery_and_stroke_profile(player_hp: pd.DataFrame, role: str) -> d
     }
 
 
+def _short_comp_label(comp_name: Any, season: Any) -> str:
+    """Create readable compact competition label from full competition name."""
+    if pd.isna(comp_name):
+        return f"T20 ({int(season)})" if pd.notna(season) else "T20"
+    name = str(comp_name)
+    if "Indian Premier League" in name or "IPL" in name:
+        return f"IPL {int(season)}" if pd.notna(season) else "IPL"
+    if "T20 World Cup" in name:
+        return f"T20 WC {int(season)}" if pd.notna(season) else "T20 WC"
+    words = name.split()
+    return " ".join(words[:3])
+
+
+def extract_player_receipts(player_hp: pd.DataFrame, role: str, limit: int = 6) -> list[dict[str, Any]]:
+    """
+    Select top real high-leverage deliveries for a player across distinct matches:
+    mixes peak positive WPA swings and key dismissal/boundary turning points.
+    """
+    if len(player_hp) == 0:
+        return []
+
+    wpa_col = "wpa_batter" if role == "bat" else "wpa_bowler"
+    val_col = "v_bat" if role == "bat" else "v_bowl"
+    wkt_col = "out_striker" if role == "bat" else "wkt_bowler"
+    run_col = "bat_runs" if role == "bat" else "runs"
+    other_col = "bowler_name" if role == "bat" else "striker_name"
+    opp_col = "bowl_team_name" if role == "bat" else "bat_team_name"
+
+    work = player_hp.copy()
+    work["abs_wpa"] = work[wpa_col].fillna(0.0).abs()
+    work["impact_score"] = work["abs_wpa"] * 100.0 + work[wkt_col].fillna(0) * 6.0 + (
+        (work["is_six"] == 1) * 2.5
+    )
+
+    # First pick strongest moment per match to ensure multi-match diversity
+    best_per_match = work.sort_values(["impact_score", "LI"], ascending=[False, False]).drop_duplicates(
+        "match_id"
+    )
+    chosen = best_per_match.head(limit)
+    if len(chosen) < limit:
+        rem = work.loc[~work.index.isin(chosen.index)].sort_values(
+            ["impact_score", "LI"], ascending=[False, False]
+        )
+        chosen = pd.concat([chosen, rem.head(limit - len(chosen))])
+
+    receipts: list[dict[str, Any]] = []
+    for r in chosen.itertuples(index=False):
+        angle = getattr(r, "over_or_around", None)
+        line = getattr(r, "on_or_off", None)
+        channel = (
+            f"{angle} · {line}"
+            if pd.notna(angle) and pd.notna(line)
+            else (str(line) if pd.notna(line) else "Recorded")
+        )
+        spd = getattr(r, "bowl_speed", None)
+        is_out = bool(getattr(r, wkt_col, 0) == 1)
+        dism = getattr(r, "dismissal_type", None)
+        receipts.append(
+            {
+                "date": str(getattr(r, "match_date", ""))[:10],
+                "comp": _short_comp_label(getattr(r, "comp_name", None), getattr(r, "season", None)),
+                "stage": str(getattr(r, "match_stage", "") or ""),
+                "opp": str(getattr(r, opp_col, "Opponent")),
+                "other": str(getattr(r, other_col, "")),
+                "inn": int(getattr(r, "innings", 1)),
+                "ov": f"{int(getattr(r, 'overid', 0))}.{int(getattr(r, 'over_ball_num', 0))}",
+                "phase": str(getattr(r, "phase", "")),
+                "score": f"{int(getattr(r, 'score_before', 0))}/{int(getattr(r, 'wk_before', 0))}",
+                "li": round(float(getattr(r, "LI", 0.0)), 2),
+                "channel": channel,
+                "style": str(getattr(r, "delivery_style", None) or "Standard"),
+                "speed": round(float(spd), 1) if pd.notna(spd) and float(spd) > 0 else None,
+                "stroke": str(getattr(r, "stroke", None) or "Unrecorded"),
+                "runs": int(getattr(r, run_col, 0)),
+                "out": is_out,
+                "dism": str(dism) if is_out and pd.notna(dism) else None,
+                "wpa": round(float(getattr(r, wpa_col, 0.0)) * 100.0, 2),
+                "net": round(float(getattr(r, val_col, 0.0)) * 100.0, 1),
+            }
+        )
+    return receipts
+
+
+def build_bumrah_posture_benchmark(hp: pd.DataFrame) -> dict[str, Any]:
+    """
+    Forensic 506-ball HP defensive posture proof for Jasprit Bumrah vs elite bowling peers.
+    Replaces any heuristic phrasing with exact b3.pkl stroke counts & posture value impacts.
+    """
+    peers = [
+        ("Jasprit Bumrah", "Pace"),
+        ("Sunil Narine", "Spin"),
+        ("Jofra Archer", "Pace"),
+        ("Sandeep Sharma", "Pace"),
+        ("Rashid Khan", "Spin"),
+        ("Mitchell Santner", "Spin"),
+        ("Arshdeep Singh", "Pace"),
+    ]
+    rows: list[dict[str, Any]] = []
+    for name, kind in peers:
+        sub = hp[hp["bowler_name"] == name]
+        n = int(len(sub))
+        if n == 0:
+            continue
+        posture_counts = sub["stroke_posture"].value_counts().to_dict()
+        def_n = int(posture_counts.get("Defensive", 0))
+        att_n = int(posture_counts.get("Attacking", 0))
+        rot_n = int(posture_counts.get("Rotation", 0))
+        all_stat = summarize_group(sub, "bowl")
+        def_stat = summarize_group(sub[sub["stroke_posture"] == "Defensive"], "bowl")
+        att_stat = summarize_group(sub[sub["stroke_posture"] == "Attacking"], "bowl")
+        rows.append(
+            {
+                "name": name,
+                "type": kind,
+                "n": n,
+                "legal": all_stat["legal"],
+                "wkts": all_stat["wkts"],
+                "econ": all_stat["econ"],
+                "dot_pct": all_stat["dot_pct"],
+                "net_100": all_stat["net_100"],
+                "std_err": all_stat["std_err"],
+                "attack_pct": round(att_n / n * 100.0, 1),
+                "rotation_pct": round(rot_n / n * 100.0, 1),
+                "defensive_pct": round(def_n / n * 100.0, 1),
+                "defensive_balls": def_n,
+                "defensive_net_100": def_stat["net_100"],
+                "attacking_net_100": att_stat["net_100"],
+            }
+        )
+
+    bum_sub = hp[hp["bowler_name"] == "Jasprit Bumrah"]
+    bum_strokes = [
+        {
+            "stroke": str(st),
+            "balls": int(cnt),
+            "posture": classify_stroke_posture(st),
+            "net_100": summarize_group(bum_sub[bum_sub["stroke"] == st], "bowl")["net_100"],
+            "wkts": int(bum_sub[bum_sub["stroke"] == st]["wkt_bowler"].sum()),
+        }
+        for st, cnt in bum_sub["stroke"].dropna().value_counts().head(10).items()
+    ]
+    return {
+        "bumrah_total_hp_balls": int(len(bum_sub)),
+        "peer_comparison": rows,
+        "bumrah_top_strokes": bum_strokes,
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build Tactical Blueprint Vault dataset.")
     parser.add_argument("--check-cohort", action="store_true", help="Print cohort stats only.")
     parser.add_argument("--check-channels", action="store_true", help="Print sample channel matrices.")
     parser.add_argument("--check-styles", action="store_true", help="Print sample style & stroke traps.")
+    parser.add_argument("--check-receipts", action="store_true", help="Print receipts & Bumrah 506 proof.")
     args = parser.parse_args()
 
     app_data = extract_app_data()
@@ -413,7 +562,10 @@ def main() -> None:
     )
     if args.check_cohort:
         return
-    if args.check_channels or args.check_styles:
+    if args.check_channels or args.check_styles or args.check_receipts:
+        if args.check_receipts:
+            print("=== BUMRAH 506 POSTURE PROOF ===")
+            print(json.dumps(build_bumrah_posture_benchmark(hp), indent=2))
         for name, pid, role in [
             ("Yashasvi Jaiswal", 6819, "bat"),
             ("Jasprit Bumrah", 652, "bowl"),
@@ -426,6 +578,8 @@ def main() -> None:
                 print(json.dumps(extract_channel_matrix(sub, role), indent=2))
             if args.check_styles:
                 print(json.dumps(extract_delivery_and_stroke_profile(sub, role), indent=2))
+            if args.check_receipts:
+                print(json.dumps(extract_player_receipts(sub, role, limit=3), indent=2))
         return
 
 
