@@ -13026,7 +13026,7 @@ function switchTab(rawTabId) {
   if (!mobBtn && (tabId === 'tab-3d-playground' || rawTabId === '3d-playground')) {
     mobBtn = document.getElementById('mob-tab-3d');
   }
-  if (!mobBtn && ['tab-field-optimizer', 'tab-impact-sub', 'tab-season-sim', 'tab-international', 'tab-clash', 'tab-live-tracker', 'tab-super-over', 'tab-dossier', 'tab-auction', 'tab-defense', 'tab-chase-sim', 'tab-duel', 'tab-tactics'].includes(tabId)) {
+  if (!mobBtn && ['tab-blueprint', 'tab-field-optimizer', 'tab-impact-sub', 'tab-season-sim', 'tab-international', 'tab-clash', 'tab-live-tracker', 'tab-super-over', 'tab-dossier', 'tab-auction', 'tab-defense', 'tab-chase-sim', 'tab-duel', 'tab-tactics'].includes(tabId)) {
     mobBtn = document.getElementById('mob-tab-tactical');
   }
   if (mobBtn) mobBtn.classList.add('active');
@@ -13073,6 +13073,7 @@ function switchTab(rawTabId) {
     else if (tabId === 'tab-live-tracker') renderLiveTrackerTab();
     else if (tabId === 'tab-super-over') renderSuperOverTab();
     else if (tabId === 'tab-dossier') renderDossierTab();
+    else if (tabId === 'tab-blueprint') renderBlueprintTab();
     else if (tabId === 'tab-auction') {
       renderAuctionSection();
       initAuctionSimulator();
@@ -20095,7 +20096,7 @@ function mobileSwitchTab(tabId) {
   if (!targetMobBtn && (tabId === 'tab-3d-playground' || tabId === '3d-playground')) {
     targetMobBtn = document.getElementById('mob-tab-3d');
   }
-  if (!targetMobBtn && ['tab-field-optimizer', 'tab-impact-sub', 'tab-season-sim', 'tab-international', 'tab-auction', 'tab-defense', 'tab-chase-sim', 'tab-duel', 'tab-tactics'].includes(tabId)) {
+  if (!targetMobBtn && ['tab-blueprint', 'tab-field-optimizer', 'tab-impact-sub', 'tab-season-sim', 'tab-international', 'tab-clash', 'tab-live-tracker', 'tab-super-over', 'tab-dossier', 'tab-auction', 'tab-defense', 'tab-chase-sim', 'tab-duel', 'tab-tactics'].includes(tabId)) {
     targetMobBtn = document.getElementById('mob-tab-tactical');
   }
   if (targetMobBtn) {
@@ -28228,6 +28229,260 @@ window.renderDossierPreview = renderDossierPreview;
 window.printExecutiveDossier = printExecutiveDossier;
 window.copyDossierMarkdown = copyDossierMarkdown;
 window.exportDossierJSON = exportDossierJSON;
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   PART F5: BALL-BY-BALL TACTICAL BLUEPRINT & EVIDENCE VAULT ENGINE
+   Empirical execution heatmaps, speed/stroke traps, Bumrah 506 proof, receipts,
+   real historical H2H encounters, and RR 2026-27 matchup blueprints.
+   ══════════════════════════════════════════════════════════════════════════════ */
+const BLUEPRINT_STATE = {
+  selectedKey: 'bat_6819',
+  cohortFilter: 'ALL',
+  roleFilter: 'ALL',
+  searchQuery: '',
+  viewMode: 'channels',
+  h2hQuery: '',
+  h2hRrOnly: true,
+  counterTeam: 'MI',
+  initialized: false,
+};
+
+function getBlueprintData() {
+  return (APP_DATA && APP_DATA.tactical_blueprint) || {
+    meta: {},
+    profiles: {},
+    player_index: [],
+    bumrah_proof: { bumrah_total_hp_balls: 506, peer_comparison: [], bumrah_top_strokes: [] },
+    h2h_encounters: [],
+    counter_plans: {},
+  };
+}
+
+function getBlueprintFilteredPlayers() {
+  const data = getBlueprintData();
+  const q = (BLUEPRINT_STATE.searchQuery || '').trim().toLowerCase();
+  return (data.player_index || []).filter((item) => {
+    if (BLUEPRINT_STATE.cohortFilter !== 'ALL' && !(item.tags || []).includes(BLUEPRINT_STATE.cohortFilter)) {
+      return false;
+    }
+    if (BLUEPRINT_STATE.roleFilter !== 'ALL' && item.role !== BLUEPRINT_STATE.roleFilter) {
+      return false;
+    }
+    if (q && !item.name.toLowerCase().includes(q) && !(item.team_code || '').toLowerCase().includes(q)) {
+      return false;
+    }
+    return true;
+  });
+}
+
+function getActiveBlueprintProfile() {
+  const data = getBlueprintData();
+  const profiles = data.profiles || {};
+  if (profiles[BLUEPRINT_STATE.selectedKey]) {
+    return profiles[BLUEPRINT_STATE.selectedKey];
+  }
+  const filtered = getBlueprintFilteredPlayers();
+  if (filtered.length && profiles[filtered[0].key]) {
+    BLUEPRINT_STATE.selectedKey = filtered[0].key;
+    return profiles[filtered[0].key];
+  }
+  const firstKey = Object.keys(profiles)[0];
+  return firstKey ? profiles[firstKey] : null;
+}
+
+function bpFmtSigned(val, decimals = 1) {
+  if (val === null || val === undefined || Number.isNaN(val)) return '—';
+  const n = Number(val);
+  return `${n >= 0 ? '+' : ''}${n.toFixed(decimals)}`;
+}
+
+function bpFmtSE(val, se, decimals = 1) {
+  if (val === null || val === undefined || Number.isNaN(val)) return '—';
+  const base = bpFmtSigned(val, decimals);
+  if (se === null || se === undefined || Number.isNaN(se)) return base;
+  return `${base} <span class="bp-se-badge">&plusmn;${Number(se).toFixed(decimals)} SE</span>`;
+}
+
+function bpEsc(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function bpPopulatePlayerSelector() {
+  const sel = document.getElementById('bp-player-select');
+  if (!sel) return;
+  const list = getBlueprintFilteredPlayers();
+  if (!list.length) {
+    sel.innerHTML = '<option value="">No matching empirical profiles</option>';
+    return;
+  }
+  if (!list.some((p) => p.key === BLUEPRINT_STATE.selectedKey)) {
+    BLUEPRINT_STATE.selectedKey = list[0].key;
+  }
+  sel.innerHTML = list
+    .map((p) => {
+      const roleTag = p.role === 'bat' ? 'BAT' : 'BOWL';
+      const rankTag = p.adjusted_rank ? ` #${p.adjusted_rank}` : '';
+      const teamTag = p.team_code && p.team_code !== 'POOL' ? p.team_code : 'POOL';
+      return `<option value="${bpEsc(p.key)}" ${p.key === BLUEPRINT_STATE.selectedKey ? 'selected' : ''}>${bpEsc(p.name)} (${teamTag} &bull; ${roleTag}${rankTag} &bull; ${p.n_hp} HPb)</option>`;
+    })
+    .join('');
+}
+
+function bpRenderKpiStrip(prof) {
+  const strip = document.getElementById('bp-kpi-strip');
+  if (!strip || !prof) return;
+  const ov = (prof.channels && prof.channels.overall) || {};
+  const isBat = prof.role === 'bat';
+  const weakLbl = isBat ? 'VULNERABILITY CHANNEL' : 'BEST RESTRICT CHANNEL';
+  const focusCh = isBat ? prof.channels?.weak_channel : prof.channels?.best_channel;
+  const focusNet = isBat ? prof.channels?.weak_net : prof.channels?.best_net;
+
+  strip.innerHTML = `
+    <div class="bp-kpi-box">
+      <div class="bp-kpi-lbl">ACTIVE PROFILE</div>
+      <div class="bp-kpi-val" style="font-size: 15px;">${bpEsc(prof.name)}</div>
+      <div class="bp-kpi-sub">${bpEsc(prof.ipl2026 || 'Uncontracted Pool')} &bull; ${isBat ? 'Batter' : 'Bowler'} &bull; Adj #${prof.adjusted_rank || '—'}</div>
+    </div>
+    <div class="bp-kpi-box">
+      <div class="bp-kpi-lbl">HP SAMPLE (LI &ge; 1.32)</div>
+      <div class="bp-kpi-val" style="color: #7DD3FC;">${ov.n || 0} balls</div>
+      <div class="bp-kpi-sub">${ov.legal || 0} legal &bull; ${ov.wkts || 0} wkts &bull; ${ov.runs || 0} runs</div>
+    </div>
+    <div class="bp-kpi-box">
+      <div class="bp-kpi-lbl">EMPIRICAL HP NET/100</div>
+      <div class="bp-kpi-val" style="color: ${(ov.net_100 || 0) >= 0 ? '#34D399' : '#F87171'};">${bpFmtSigned(ov.net_100, 1)}</div>
+      <div class="bp-kpi-sub">&plusmn;${ov.std_err ?? '—'} SE &bull; WPA/100 ${bpFmtSigned(ov.wpa_100, 2)}</div>
+    </div>
+    <div class="bp-kpi-box">
+      <div class="bp-kpi-lbl">${isBat ? 'HP STRIKE RATE / DOT%' : 'HP ECONOMY / DOT%'}</div>
+      <div class="bp-kpi-val">${isBat ? (ov.sr ?? '—') : (ov.econ ?? '—')}</div>
+      <div class="bp-kpi-sub">Dots: ${ov.dot_pct ?? '—'}% &bull; Bnd: ${ov.boundary_pct ?? '—'}%</div>
+    </div>
+    <div class="bp-kpi-box" style="border-color: rgba(229, 0, 125, 0.35);">
+      <div class="bp-kpi-lbl">${weakLbl}</div>
+      <div class="bp-kpi-val" style="font-size: 14px; color: #FF85C0;">${bpEsc(focusCh || 'Insufficient Data')}</div>
+      <div class="bp-kpi-sub">Channel Net/100: ${bpFmtSigned(focusNet, 1)}</div>
+    </div>
+  `;
+}
+
+function bpRenderChannelsPanel(prof) {
+  return `<div class="bp-panel"><div class="bp-panel-title">Loading Execution Matrix...</div></div>`;
+}
+
+function bpRenderStylesPanel(prof) {
+  return `<div class="bp-panel"><div class="bp-panel-title">Loading Styles &amp; Traps...</div></div>`;
+}
+
+function bpRenderReceiptsPanel(prof) {
+  return `<div class="bp-panel"><div class="bp-panel-title">Loading Match Receipts...</div></div>`;
+}
+
+function bpRenderBumrahPanel() {
+  return `<div class="bp-panel"><div class="bp-panel-title">Loading Bumrah 506 Proof...</div></div>`;
+}
+
+function bpRenderH2HPanel(prof) {
+  return `<div class="bp-panel"><div class="bp-panel-title">Loading Real H2H Matrix...</div></div>`;
+}
+
+function bpRenderCounterPlanPanel() {
+  return `<div class="bp-panel"><div class="bp-panel-title">Loading RR Counter-Plan...</div></div>`;
+}
+
+function bpRenderCurrentView() {
+  const stage = document.getElementById('bp-stage-container');
+  const prof = getActiveBlueprintProfile();
+  if (!stage || !prof) return;
+  bpRenderKpiStrip(prof);
+
+  document.querySelectorAll('#bp-view-tabs .bp-pill-tab').forEach((btn) => {
+    btn.classList.toggle('active', btn.dataset.bpView === BLUEPRINT_STATE.viewMode);
+  });
+
+  if (BLUEPRINT_STATE.viewMode === 'channels') {
+    stage.innerHTML = bpRenderChannelsPanel(prof);
+  } else if (BLUEPRINT_STATE.viewMode === 'styles') {
+    stage.innerHTML = bpRenderStylesPanel(prof);
+  } else if (BLUEPRINT_STATE.viewMode === 'receipts') {
+    stage.innerHTML = bpRenderReceiptsPanel(prof);
+  } else if (BLUEPRINT_STATE.viewMode === 'bumrah') {
+    stage.innerHTML = bpRenderBumrahPanel();
+  } else if (BLUEPRINT_STATE.viewMode === 'h2h') {
+    stage.innerHTML = bpRenderH2HPanel(prof);
+  } else if (BLUEPRINT_STATE.viewMode === 'counter') {
+    stage.innerHTML = bpRenderCounterPlanPanel();
+  }
+}
+
+function renderBlueprintTab() {
+  BLUEPRINT_STATE.initialized = true;
+  bpPopulatePlayerSelector();
+  bpRenderCurrentView();
+}
+
+function bpSelectPlayer(key) {
+  if (!key) return;
+  BLUEPRINT_STATE.selectedKey = key;
+  bpRenderCurrentView();
+}
+
+function bpSetFilterCohort(cohort) {
+  BLUEPRINT_STATE.cohortFilter = cohort || 'ALL';
+  bpPopulatePlayerSelector();
+  bpRenderCurrentView();
+}
+
+function bpSetRoleFilter(role) {
+  BLUEPRINT_STATE.roleFilter = role || 'ALL';
+  bpPopulatePlayerSelector();
+  bpRenderCurrentView();
+}
+
+function bpSetSearchQuery(q) {
+  BLUEPRINT_STATE.searchQuery = q || '';
+  bpPopulatePlayerSelector();
+  bpRenderCurrentView();
+}
+
+function bpSetViewMode(mode) {
+  BLUEPRINT_STATE.viewMode = mode || 'channels';
+  bpRenderCurrentView();
+}
+
+function bpCopyPlayerBrief() {
+  const prof = getActiveBlueprintProfile();
+  if (!prof) return;
+  const ov = prof.channels?.overall || {};
+  const brief = [
+    `RR EMPIRICAL BLUEPRINT: ${prof.name} (${prof.ipl2026 || 'Pool'}, ${prof.role.toUpperCase()})`,
+    `Sample: ${ov.n} HP balls (LI >= 1.32) | Net/100: ${bpFmtSigned(ov.net_100, 1)} (+/- ${ov.std_err} SE)`,
+    `Strongest Channel: ${prof.channels?.best_channel || '—'} (${bpFmtSigned(prof.channels?.best_net, 1)})`,
+    `Target / Vulnerability Channel: ${prof.channels?.weak_channel || '—'} (${bpFmtSigned(prof.channels?.weak_net, 1)})`,
+    `Top Dismissal Traps: ${(prof.styles?.dismissal_traps || []).slice(0, 3).map((t) => `${t.trap} x${t.outs}`).join(', ') || 'None recorded'}`,
+  ].join('\n');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(brief).catch(() => {});
+  }
+}
+
+function bpSyncChannelToHolodeck() {
+  switchTab('tab-live-tracker');
+}
+
+window.BLUEPRINT_STATE = BLUEPRINT_STATE;
+window.renderBlueprintTab = renderBlueprintTab;
+window.bpSelectPlayer = bpSelectPlayer;
+window.bpSetFilterCohort = bpSetFilterCohort;
+window.bpSetRoleFilter = bpSetRoleFilter;
+window.bpSetSearchQuery = bpSetSearchQuery;
+window.bpSetViewMode = bpSetViewMode;
+window.bpCopyPlayerBrief = bpCopyPlayerBrief;
+window.bpSyncChannelToHolodeck = bpSyncChannelToHolodeck;
 
 </script>
 
