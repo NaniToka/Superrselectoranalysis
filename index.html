@@ -900,7 +900,7 @@ body.scroll-locked {
 }
 .app-layout.auto-fit-screen ~ .floating-sidebar-pill,
 .app-layout.sidebar-collapsed ~ .floating-sidebar-pill {
-  display: inline-flex;
+  display: none !important;
 }
 @media (max-width: 767px) {
   .floating-sidebar-pill {
@@ -4874,7 +4874,7 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
           <div id="tactical-dropdown-menu" class="tactical-dropdown-menu" onclick="event.stopPropagation()">
             <div class="dropdown-header">
               <span class="dropdown-header-title">TACTICAL COMPUTATION SUITE</span>
-              <span class="dropdown-header-tag">7 ENGINES READY</span>
+              <span class="dropdown-header-tag">12 ENGINES READY</span>
             </div>
             <div class="dropdown-grid">
               <a href="javascript:void(0)" onclick="switchTab('tab-field-optimizer'); closeTacticalDropdown();" class="dropdown-item">
@@ -4989,6 +4989,11 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
         <button onclick="openSelectorsSheet()" class="btn-header-pill" title="View Executive Selector's Sheet">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
           <span>Sheet</span>
+        </button>
+
+        <!-- MUMBAI ROUND 2 GUIDED TOUR -->
+        <button onclick="startJudgeTour()" class="btn-header-pill" style="border-color: rgba(16, 185, 129, 0.45); color: #6EE7B7;" title="60-Second Guided Executive Walkthrough (Mumbai Round 2)">
+          <span>🎯 Tour</span>
         </button>
 
         <!-- CANVAS EXPANSION (FIT SCREEN) -->
@@ -5216,6 +5221,9 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
             Continuous win-probability-gradient state space across 851 matches (2022&ndash;2026). Engineered specifically for Rajasthan Royals leadership (Kumar Sangakkara, Rahul Dravid, Jake Lush McCrum) to quantify clutch leverage, decision stability, and opposition-adjusted impact.
           </p>
           <div class="dugout-hero-btns">
+            <button class="btn-hero-primary" onclick="startJudgeTour()" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); border-color: #34D399; box-shadow: 0 4px 16px rgba(16,185,129,0.35);">
+              <span>🎯 60s Judge Tour (Mumbai)</span>
+            </button>
             <button class="btn-hero-primary" onclick="switchTab('tab-3d-playground')">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg><span>Launch 3D Data Universe</span>
             </button>
@@ -7850,7 +7858,7 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                 <span class="pill-competition" style="background: rgba(56,189,248,0.18); color: #7DD3FC; border-color: #38BDF8; font-size: 9.5px;">TACTICAL DUGOUT ENGINE</span>
               </div>
               <div style="font-size: 11.5px; color: #94A3B8; margin-top: 4px;">
-                Empirical Leverage ($LI$) Exposure &bull; Phase Economy Optimization (PP, Mid, Death) &bull; Sawai Mansingh Stadium Jaipur Fortress Defense
+                Empirical Leverage (LI) Exposure &bull; Phase Economy Optimization (PP, Mid, Death) &bull; Sawai Mansingh Stadium Jaipur Fortress Defense
               </div>
             </div>
             <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
@@ -8016,7 +8024,7 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                 <span class="pill-competition" style="background: rgba(229,0,125,0.2); color: #FF85C0; border-color: var(--rr-pink); font-size: 9.5px;">1,000 MONTE CARLO ITERATIONS</span>
               </div>
               <div style="font-size: 11.5px; color: #94A3B8; margin-top: 4px;">
-                GBDT Chase AUC 0.89 &bull; Ball-Level Leverage Index ($LI$) &bull; High-Pressure Match Finish Probability &bull; Sawai Mansingh Stadium Dynamics
+                GBDT Chase AUC 0.89 &bull; Ball-Level Leverage Index (LI) &bull; High-Pressure Match Finish Probability &bull; Sawai Mansingh Stadium Dynamics
               </div>
             </div>
             <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
@@ -8238,7 +8246,7 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                 <span style="background: #059669; color: #FFFFFF; font-size: 10px; font-weight: 800; font-family: var(--font-mono); padding: 2px 8px; border-radius: 9999px;">78m ASYMMETRIC STADIUM PHYSICS</span>
               </div>
               <div style="font-size: 12px; color: #94A3B8; margin-top: 4px;">
-                Real-time 9-fielder coordinate optimization $(r, 	heta)$, wagon-wheel shot dispersion interception, and empirical run suppression ($xR$).
+                Real-time 9-fielder coordinate optimization (r, &theta;), wagon-wheel shot dispersion interception, and empirical run suppression (xR).
               </div>
             </div>
             
@@ -8342,7 +8350,7 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
               <div style="background: linear-gradient(135deg, #091A33 0%, #041426 100%); border: 1px solid rgba(52, 211, 153, 0.3); border-radius: 10px; padding: 16px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                   <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #34D399; letter-spacing: 0.05em;">
-                    2. Dynamic Run Expectancy ($xR$) Physics
+                    2. Dynamic Run Expectancy (xR) Physics
                   </div>
                   <span id="field-net-savings-badge" style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 800; color: #34D399; background: rgba(52, 211, 153, 0.15); padding: 2px 8px; border-radius: 4px;">
                     -2.8 RPO SAVED
@@ -8387,7 +8395,7 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
               <div style="background: #091A33; border: 1px solid var(--rr-border); border-radius: 10px; padding: 14px 16px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                   <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #CBD5E1; letter-spacing: 0.05em;">
-                    3. Live Fielder Coordinates $[r, 	heta]$
+                    3. Live Fielder Coordinates [r, &theta;]
                   </div>
                   <button onclick="copyTacticalFieldCoordinates()" class="btn-header-action" style="font-size: 10px; padding: 3px 8px; background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.4); color: #7DD3FC;">
                     📋 Copy Captain's Card
@@ -8433,7 +8441,7 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                 <span style="background: #D97706; color: #FFFFFF; font-size: 10px; font-weight: 800; font-family: var(--font-mono); padding: 2px 8px; border-radius: 9999px;">BELLMAN DYNAMIC PROGRAMMING ENGINE</span>
               </div>
               <div style="font-size: 12px; color: #94A3B8; margin-top: 4px;">
-                Dynamic real-time 12-man IPL substitution game-tree, Bellman option value decay $V(t)$, and Rajasthan Royals match-day balance.
+                Dynamic real-time 12-man IPL substitution game-tree, Bellman option value decay V(t), and Rajasthan Royals match-day balance.
               </div>
             </div>
             
@@ -8557,10 +8565,10 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
               <div style="background: linear-gradient(135deg, #091A33 0%, #041426 100%); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 10px; padding: 14px 16px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                   <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #F59E0B; letter-spacing: 0.05em;">
-                    2. Bellman Option Value Curve $V(t)$
+                    2. Bellman Option Value Curve V(t)
                   </div>
                   <span style="font-family: var(--font-mono); font-size: 10px; color: #34D399; background: rgba(52, 211, 153, 0.15); padding: 2px 6px; border-radius: 4px;">
-                    MAX $V(t) = +12.4\%$
+                    MAX V(t) = +12.4%
                   </span>
                 </div>
 
@@ -9134,7 +9142,7 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                   <span class="card-title-prefix">Part F2:</span> Live In-Play Dugout iPad Tracker
                 </div>
                 <div class="card-subtitle">
-                  Ball-by-ball continuous win-probability calculation, instantaneous Leverage Index ($LI$) monitoring, and real-time tactical dugout advisories.
+                  Ball-by-ball continuous win-probability calculation, instantaneous Leverage Index (LI) monitoring, and real-time tactical dugout advisories.
                 </div>
               </div>
               <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -10355,7 +10363,7 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                 <span class="pill-competition" style="background: rgba(56,189,248,0.2); color: #7DD3FC; border-color: #38BDF8; font-size: 9.5px;">EMPIRICAL MATCHUP ENGINE</span>
               </div>
               <div style="font-size: 11.5px; color: #94A3B8; margin-top: 4px;">
-                197,100 Deliveries Analyzed &bull; High-Pressure ($LI \ge 1.32$) Left-Handed vs Right-Handed Split Telemetry
+                197,100 Deliveries Analyzed &bull; High-Pressure (LI &ge; 1.32) Left-Handed vs Right-Handed Split Telemetry
               </div>
             </div>
             <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
@@ -10657,7 +10665,7 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                 <span class="pill-competition" style="background: rgba(56,189,248,0.2); color: #7DD3FC; border-color: #38BDF8; font-size: 9.5px;">CAPTAINCY DEPLOYMENT ENGINE</span>
               </div>
               <div style="font-size: 11px; color: #94A3B8; margin-top: 3px;">
-                Over-by-Over Phase Quota Allocation &bull; Continuous Leverage Index ($LI$) Weighting &bull; Minimum-Runs Defense Optimization (Sawai Mansingh Stadium, Jaipur)
+                Over-by-Over Phase Quota Allocation &bull; Continuous Leverage Index (LI) Weighting &bull; Minimum-Runs Defense Optimization (Sawai Mansingh Stadium, Jaipur)
               </div>
             </div>
             <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
@@ -10784,12 +10792,12 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
           <div style="padding: 10px 22px 6px 22px;">
             <div style="background: #08162B; border: 1px solid var(--rr-border); border-radius: 8px; padding: 14px 16px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-size: 11px; font-weight: 800; color: #F8FAFC; text-transform: uppercase;">Over-by-Over Projected Runs &amp; Continuous Leverage Curve ($LI$)</span>
+                <span style="font-size: 11px; font-weight: 800; color: #F8FAFC; text-transform: uppercase;">Over-by-Over Projected Runs &amp; Continuous Leverage Curve (LI)</span>
                 <div style="display: flex; gap: 12px; font-size: 10px; font-family: var(--font-mono);">
                   <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; background: #38BDF8; border-radius: 2px;"></span> PP (1-6)</span>
                   <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; background: #C084FC; border-radius: 2px;"></span> MID (7-15)</span>
                   <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; background: #FF2E93; border-radius: 2px;"></span> DEATH (16-20)</span>
-                  <span style="display: flex; align-items: center; gap: 4px; color: #FBBF24;">── Leverage Index ($LI$)</span>
+                  <span style="display: flex; align-items: center; gap: 4px; color: #FBBF24;">── Leverage Index (LI)</span>
                 </div>
               </div>
               <div id="alloc-svg-container" style="width: 100%; height: 115px;">
@@ -10827,7 +10835,7 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
                 <span class="pill-competition" style="background: rgba(245,158,11,0.2); color: #FDE047; border-color: #FBBF24; font-size: 9.5px;">DELIVERY VECTOR ENGINE</span>
               </div>
               <div style="font-size: 11.5px; color: #94A3B8; margin-top: 4px;">
-                High-Pressure ($LI \ge 1.32$) Vector Telemetry &bull; Express Hard Length (140+ kph) vs Spin Drift &amp; Turn Resistance
+                High-Pressure (LI &ge; 1.32) Vector Telemetry &bull; Express Hard Length (140+ kph) vs Spin Drift &amp; Turn Resistance
               </div>
             </div>
             <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
@@ -11269,6 +11277,13 @@ function init3DPlayground() {
   }
 
   try {
+    const probeCanvas = document.createElement('canvas');
+    const hasWebGL = !!(probeCanvas.getContext('webgl2') || probeCanvas.getContext('webgl'));
+    if (!hasWebGL) {
+      initFallback3DCanvas(container);
+      return;
+    }
+
     const width = container.clientWidth || 900;
     const height = container.clientHeight || 640;
 
@@ -11343,7 +11358,7 @@ function init3DPlayground() {
     P3D.initialized = true;
     animate3D();
   } catch (err) {
-    console.error('Three.js init error, falling back to Canvas 3D:', err);
+    console.warn('Three.js WebGL unavailable, using Canvas 3D fallback:', err && err.message ? err.message : err);
     initFallback3DCanvas(container);
   }
 }
@@ -12161,8 +12176,8 @@ function updateSidebarToggleUI(collapsed) {
     }
   }
   const pill = document.getElementById('floating-sidebar-pill');
-  if (pill && window.innerWidth >= 768) {
-    pill.style.display = collapsed ? 'inline-flex' : 'none';
+  if (pill) {
+    pill.style.display = 'none';
   }
   const hamBtn = document.getElementById('btn-sidebar-hamburger');
   if (hamBtn) {
@@ -22600,6 +22615,7 @@ window.applyFieldPreset = applyFieldPreset;
 
 const LIVE_TRACKER_STATE = {
   target: 185,
+  originalTeam1Score: 184,
   runs: 0,
   wickets: 0,
   overs: 0,
@@ -22621,7 +22637,7 @@ const LIVE_TRACKER_STATE = {
   previousOvers: [],
   selectedBallIndex: -1,
   stadiumViewMode: 'flight', // 'flight' | 'wagon' | 'pitch'
-  activeFieldPreset: 'default',
+  activeFieldPreset: 'powerplay',
   batters: [],
   bowlers: {},
   fielders: JSON.parse(JSON.stringify(DEFAULT_TACTICAL_FIELD))
@@ -22826,7 +22842,9 @@ function resetLiveTrackerState() {
   cancelOrClearHolodeckFX();
   if (LIVE_TRACKER_STATE.dlsReducedOvers) {
     const curOvers = LIVE_TRACKER_STATE.dlsReducedOvers;
+    const prevTeam1 = LIVE_TRACKER_STATE.originalTeam1Score || 184;
     applyTrackerPreset('start');
+    LIVE_TRACKER_STATE.originalTeam1Score = prevTeam1;
     applyDlsCurtailedMatch(curOvers);
   } else {
     applyTrackerPreset(LIVE_TRACKER_STATE.preset ? LIVE_TRACKER_STATE.preset.toLowerCase() : 'start');
@@ -22979,6 +22997,9 @@ function loadLegacyDuelScenario(scenarioId) {
   const sc = RR_LEGACY_SCENARIOS[scenarioId];
   if (!sc) return;
   cancelOrClearHolodeckFX();
+  if (window.DUGOUT_RADIO) DUGOUT_RADIO.updateTicker('');
+  LIVE_TRACKER_STATE.dlsReducedOvers = null;
+  LIVE_TRACKER_STATE.originalTeam1Score = sc.target - 1;
   LIVE_TRACKER_STATE.isFreeHit = false;
   LIVE_TRACKER_STATE.freeHitAlert = '';
   LIVE_TRACKER_STATE.notification = '';
@@ -23003,6 +23024,15 @@ function loadLegacyDuelScenario(scenarioId) {
   LIVE_TRACKER_STATE.legacyDuel = JSON.parse(JSON.stringify(sc));
   LIVE_TRACKER_STATE.batters = JSON.parse(JSON.stringify(sc.batters));
   LIVE_TRACKER_STATE.bowlers = JSON.parse(JSON.stringify(sc.bowlers));
+  LIVE_TRACKER_STATE.originalTeam1Score = Math.max(80, LIVE_TRACKER_STATE.target - 1);
+
+  if (LIVE_TRACKER_STATE.overs < 6) {
+    LIVE_TRACKER_STATE.fielders = JSON.parse(JSON.stringify(TACTICAL_FIELD_PRESETS.powerplay));
+    LIVE_TRACKER_STATE.activeFieldPreset = 'powerplay';
+  } else {
+    LIVE_TRACKER_STATE.fielders = JSON.parse(JSON.stringify(TACTICAL_FIELD_PRESETS.death54));
+    LIVE_TRACKER_STATE.activeFieldPreset = 'death54';
+  }
 
   renderLiveTrackerEngineView();
   closeLegacyDuelsModal();
@@ -23035,6 +23065,8 @@ window.closeLegacyDuelsModal = closeLegacyDuelsModal;
 
 function applyTrackerPreset(presetKey) {
   cancelOrClearHolodeckFX();
+  if (window.DUGOUT_RADIO) DUGOUT_RADIO.updateTicker('');
+  LIVE_TRACKER_STATE.legacyDuel = null;
   LIVE_TRACKER_STATE.dlsReducedOvers = null;
   LIVE_TRACKER_STATE.isFreeHit = false;
   LIVE_TRACKER_STATE.freeHitAlert = '';
@@ -23271,6 +23303,8 @@ function applyTrackerPreset(presetKey) {
     LIVE_TRACKER_STATE.previousOvers = [{ over: 18, bowler: 'Mustafizur Rahman', runs: 10, summary: '1, 4, 1, 2, 1, 1' }];
   }
 
+  LIVE_TRACKER_STATE.originalTeam1Score = Math.max(80, LIVE_TRACKER_STATE.target - 1);
+
   if (LIVE_TRACKER_STATE.overs < 6) {
     LIVE_TRACKER_STATE.fielders = JSON.parse(JSON.stringify(TACTICAL_FIELD_PRESETS.powerplay));
     LIVE_TRACKER_STATE.activeFieldPreset = 'powerplay';
@@ -23421,7 +23455,10 @@ function applyDlsCurtailedMatch(reducedOvers) {
   }
   
   LIVE_TRACKER_STATE.dlsReducedOvers = reducedOvers;
-  const team1Score = 184;
+  const team1Input = document.getElementById('dls-team1-score-input');
+  const parsedTeam1 = team1Input ? parseInt(team1Input.value, 10) : NaN;
+  const team1Score = (!isNaN(parsedTeam1) && parsedTeam1 >= 40) ? parsedTeam1 : (LIVE_TRACKER_STATE.originalTeam1Score || 184);
+  LIVE_TRACKER_STATE.originalTeam1Score = team1Score;
   const r2 = getDlsResourceRemaining(reducedOvers, 0);
   const r1 = 100.0;
   
@@ -23433,7 +23470,7 @@ function applyDlsCurtailedMatch(reducedOvers) {
   checkMatchStatus();
   renderLiveTrackerEngineView();
 
-  const msg = `🌧️ DLS Rain Interruption resolved! Match reduced to ${reducedOvers} overs. Revised DLS target: ${revisedTarget} runs.`;
+  const msg = `🌧️ DLS Rain Interruption resolved! Team 1: ${team1Score} • Match reduced to ${reducedOvers} overs. Revised DLS target: ${revisedTarget} runs.`;
   showBowlerLawNotification(msg);
   if (window.DUGOUT_RADIO && DUGOUT_RADIO.enabled) {
     DUGOUT_RADIO.speak(`Attention in the dugout: match reduced to ${reducedOvers} overs following rain delay. Revised DLS target is ${revisedTarget} runs.`);
@@ -23444,6 +23481,10 @@ function openDlsRainModal() {
   const modal = document.getElementById('dls-rain-modal-backdrop');
   if (modal) {
     modal.style.display = 'flex';
+    const team1El = document.getElementById('dls-team1-score-input');
+    if (team1El) {
+      team1El.value = LIVE_TRACKER_STATE.originalTeam1Score || Math.max(80, LIVE_TRACKER_STATE.target - 1);
+    }
     const oversBowled = LIVE_TRACKER_STATE.overs + (LIVE_TRACKER_STATE.ballsInOver / 6.0);
     const availableOvers = [18, 16, 15, 14, 12, 10];
     let defaultOv = availableOvers.find(ov => ov > Math.ceil(oversBowled)) || 16;
@@ -23458,10 +23499,21 @@ function closeDlsRainModal() {
   }
 }
 
+function onDlsTeam1ScoreChange(val) {
+  const num = parseInt(val, 10);
+  if (!isNaN(num) && num >= 40 && num <= 350) {
+    LIVE_TRACKER_STATE.originalTeam1Score = num;
+    updateDlsModalPreview(SELECTED_DLS_CURTAILED_OVERS);
+  }
+}
+window.onDlsTeam1ScoreChange = onDlsTeam1ScoreChange;
+
 function updateDlsModalPreview(targetOvers) {
   targetOvers = parseInt(targetOvers, 10) || 16;
   const r2 = getDlsResourceRemaining(targetOvers, 0);
-  const team1Score = 184;
+  const team1El = document.getElementById('dls-team1-score-input');
+  const parsedT1 = team1El ? parseInt(team1El.value, 10) : NaN;
+  const team1Score = (!isNaN(parsedT1) && parsedT1 >= 40) ? parsedT1 : (LIVE_TRACKER_STATE.originalTeam1Score || 184);
   const revisedTarget = Math.floor(team1Score * (r2 / 100.0)) + 1;
   const runsNeeded = Math.max(0, revisedTarget - LIVE_TRACKER_STATE.runs);
   const ballsBowled = LIVE_TRACKER_STATE.overs * 6 + LIVE_TRACKER_STATE.ballsInOver;
@@ -24560,7 +24612,15 @@ const DUGOUT_RADIO = {
 
   speak(text, priority = false) {
     this.updateTicker(text);
-    if (!this.enabled || !this.synth) return;
+    clearTimeout(this.timer);
+    if (!this.enabled || !this.synth) {
+      this.timer = setTimeout(() => {
+        if (this.currentLine === text) {
+          this.updateTicker("");
+        }
+      }, 4500);
+      return;
+    }
     try {
       if (priority) {
         this.synth.cancel();
@@ -24580,7 +24640,11 @@ const DUGOUT_RADIO = {
       };
       this.synth.speak(utter);
     } catch (e) {
-      // Graceful fallback
+      this.timer = setTimeout(() => {
+        if (this.currentLine === text) {
+          this.updateTicker("");
+        }
+      }, 4500);
     }
   },
 
@@ -25374,6 +25438,10 @@ function adjTrackerBall(outcomeType, runsParam) {
     if (availableBowlers.length > 0) {
       LIVE_TRACKER_STATE.bowler = availableBowlers[0];
     }
+
+    if (LIVE_TRACKER_STATE.overs === 6) {
+      showBowlerLawNotification('⚡ Powerplay (Overs 1–6) complete! Fielding restriction lifted: up to 5 fielders now permitted outside the 30-yard circle.');
+    }
   } else {
     LIVE_TRACKER_STATE.ballsInOver = currentLegalBall;
   }
@@ -25532,6 +25600,116 @@ function calculateLiveWPAAndLI(runsNeeded, ballsRemaining, wickets) {
   };
 }
 
+function lookupEmpiricalPlayerProfile(name, preferredRole) {
+  if (!name || typeof APP_DATA === 'undefined') return null;
+  if (!window._EMPIRICAL_PLAYER_INDEX) {
+    const idx = { all: new Map(), splits: new Map(), psBat: new Map(), psBowl: new Map() };
+    (APP_DATA.adjusted_all_players || []).forEach(p => {
+      const k = (p.name || p.player || '').trim().toLowerCase();
+      if (k) idx.all.set(k, p);
+    });
+    (APP_DATA.tactical_splits_verified || []).forEach(r => {
+      const k = (r.player || '').trim().toLowerCase();
+      if (!idx.splits.has(k)) idx.splits.set(k, []);
+      idx.splits.get(k).push(r);
+    });
+    if (APP_DATA.pace_spin_splits) {
+      (APP_DATA.pace_spin_splits.batters || []).forEach(p => idx.psBat.set((p.name || '').trim().toLowerCase(), p));
+      (APP_DATA.pace_spin_splits.bowlers || []).forEach(p => idx.psBowl.set((p.name || '').trim().toLowerCase(), p));
+    }
+    window._EMPIRICAL_PLAYER_INDEX = idx;
+  }
+  const key = name.trim().toLowerCase();
+  const idx = window._EMPIRICAL_PLAYER_INDEX;
+  const all = idx.all.get(key) || null;
+  const splits = (idx.splits.get(key) || []).filter(s => !preferredRole || s.role === preferredRole);
+  const ps = preferredRole === 'bowl' ? idx.psBowl.get(key) : idx.psBat.get(key);
+  if (!all && splits.length === 0 && !ps) return null;
+  return { all, splits, ps };
+}
+
+function exportLiveMatchTelemetry(format = 'markdown') {
+  const maxOvers = LIVE_TRACKER_STATE.dlsReducedOvers || 20;
+  const maxBalls = maxOvers * 6;
+  const totalBallsBowled = LIVE_TRACKER_STATE.overs * 6 + LIVE_TRACKER_STATE.ballsInOver;
+  const ballsRemaining = Math.max(0, maxBalls - totalBallsBowled);
+  const runsNeeded = Math.max(0, LIVE_TRACKER_STATE.target - LIVE_TRACKER_STATE.runs);
+  const oversCompleted = LIVE_TRACKER_STATE.overs + (LIVE_TRACKER_STATE.ballsInOver / 6);
+  const crr = oversCompleted > 0 ? (LIVE_TRACKER_STATE.runs / oversCompleted).toFixed(2) : '0.00';
+  const rrr = ballsRemaining > 0 ? ((runsNeeded / ballsRemaining) * 6).toFixed(2) : '0.00';
+  const dls = calculateDlsParScore();
+  const calc = calculateLiveWPAAndLI(runsNeeded, ballsRemaining, LIVE_TRACKER_STATE.wickets);
+  const fieldM = calculateFieldTacticalMetrics();
+  const deliveries = LIVE_TRACKER_STATE.allInningsDeliveries || [];
+
+  const payload = {
+    generatedAt: new Date().toISOString(),
+    preset: LIVE_TRACKER_STATE.preset,
+    matchStatus: LIVE_TRACKER_STATE.matchStatus,
+    inningsScore: `${LIVE_TRACKER_STATE.runs}/${LIVE_TRACKER_STATE.wickets}`,
+    overs: `${LIVE_TRACKER_STATE.overs}.${LIVE_TRACKER_STATE.ballsInOver}`,
+    maxOvers,
+    firstInningsScore: LIVE_TRACKER_STATE.originalTeam1Score || 184,
+    target: LIVE_TRACKER_STATE.target,
+    runsNeeded,
+    ballsRemaining,
+    crr: parseFloat(crr),
+    rrr: parseFloat(rrr),
+    rrWinProbabilityPct: calc.wp,
+    leverageIndex: calc.li,
+    dlsParScore: dls.parScore,
+    dlsEquityRuns: dls.diff,
+    fieldRingCompliance: {
+      outside30Yd: fieldM.outside30,
+      maxAllowedOutside: fieldM.maxAllowedOutside,
+      legal: fieldM.isRingLegal,
+      law28Legal: fieldM.isLaw28Legal
+    },
+    striker: LIVE_TRACKER_STATE.striker,
+    nonStriker: LIVE_TRACKER_STATE.nonStriker,
+    activeBowler: LIVE_TRACKER_STATE.bowler,
+    deliveriesLogged: deliveries.length,
+    fallOfWickets: LIVE_TRACKER_STATE.fallOfWickets || []
+  };
+
+  if (format === 'json') {
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `RR_Dugout_Telemetry_${LIVE_TRACKER_STATE.overs}ov_${LIVE_TRACKER_STATE.runs}-${LIVE_TRACKER_STATE.wickets}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showBowlerLawNotification('⬇ Exported Live Dugout Match Telemetry JSON!');
+    return;
+  }
+
+  const md = [
+    `# Rajasthan Royals Dugout Match Telemetry Brief`,
+    `- **Scenario / State:** ${LIVE_TRACKER_STATE.preset} (${LIVE_TRACKER_STATE.matchStatus})`,
+    `- **Scoreboard:** ${LIVE_TRACKER_STATE.runs}/${LIVE_TRACKER_STATE.wickets} in ${LIVE_TRACKER_STATE.overs}.${LIVE_TRACKER_STATE.ballsInOver} / ${maxOvers}.0 ov (1st Inn: ${payload.firstInningsScore}, Target: ${LIVE_TRACKER_STATE.target})`,
+    `- **Chase Telemetry:** Need ${runsNeeded} off ${ballsRemaining} balls | CRR ${crr} | RRR ${rrr}`,
+    `- **Win Probability & Leverage:** RR WP **${calc.wp}%** | Leverage Index **${calc.li}x** (${calc.status})`,
+    `- **DLS Weather Status:** Par ${dls.parScore} (RR ${dls.diff >= 0 ? '+' + dls.diff : dls.diff} runs)`,
+    `- **Fielding Compliance:** ${fieldM.outside30}/${fieldM.maxAllowedOutside} outside 30-yd circle (${fieldM.isRingLegal ? 'LEGAL' : 'NO-BALL RISK'})`,
+    `- **Crease Pair:** ${LIVE_TRACKER_STATE.striker || 'None'}* & ${LIVE_TRACKER_STATE.nonStriker || 'None'} vs **${LIVE_TRACKER_STATE.bowler}**`,
+    `- **Deliveries Logged:** ${deliveries.length} (${(LIVE_TRACKER_STATE.fallOfWickets || []).map(f => `${f.wkt}-${f.score} ${f.batter} (${f.over})`).join(', ') || 'No wickets'})`
+  ].join('\n');
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(md).then(() => {
+      showBowlerLawNotification('📋 Copied Live Dugout Match Brief (Markdown) to clipboard!');
+    }).catch(() => {
+      showBowlerLawNotification('📋 Match brief ready (clipboard blocked by browser permissions — use ⬇ JSON export).');
+    });
+  } else {
+    showBowlerLawNotification('📋 Clipboard unavailable in this context — use ⬇ JSON export.');
+  }
+}
+
+window.lookupEmpiricalPlayerProfile = lookupEmpiricalPlayerProfile;
+window.exportLiveMatchTelemetry = exportLiveMatchTelemetry;
+
 function renderLiveTrackerEngineView() {
   const container = document.getElementById('live-tracker-container');
   if (!container) return;
@@ -25579,13 +25757,25 @@ function renderLiveTrackerEngineView() {
   const dls = calculateDlsParScore();
   const isMatchOver = LIVE_TRACKER_STATE.matchStatus !== 'IN_PLAY';
   const isOverInProgress = LIVE_TRACKER_STATE.ballsInOver > 0 && LIVE_TRACKER_STATE.ballsInOver < 6;
+  const fieldMetrics = calculateFieldTacticalMetrics();
+  const team1ScoreDisplay = LIVE_TRACKER_STATE.originalTeam1Score || Math.max(80, LIVE_TRACKER_STATE.target - 1);
+  const matchPhase = LIVE_TRACKER_STATE.overs < 6
+    ? { key: 'powerplay', label: 'POWERPLAY (OV 1–6) • MAX 2 OUT', color: '#34D399', bg: 'rgba(52,211,153,0.14)', border: 'rgba(52,211,153,0.4)' }
+    : LIVE_TRACKER_STATE.overs < 16
+    ? { key: 'middle', label: 'MIDDLE OVERS (OV 7–15) • MAX 5 OUT', color: '#38BDF8', bg: 'rgba(56,189,248,0.14)', border: 'rgba(56,189,248,0.4)' }
+    : { key: 'death', label: 'DEATH OVERS (OV 16–20) • MAX 5 OUT', color: '#FF85C0', bg: 'rgba(229,0,125,0.16)', border: 'rgba(229,0,125,0.45)' };
+  const strikerEmp = lookupEmpiricalPlayerProfile(LIVE_TRACKER_STATE.striker, 'bat');
+  const bowlerEmp = lookupEmpiricalPlayerProfile(currentBowler, 'bowl');
 
   container.innerHTML = `
     <!-- SCENARIO PRESETS BAR -->
     <div class="card" style="margin-bottom: 16px; padding: 12px 16px;">
-      <div style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+      <div style="font-size: 11px; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
         <span>Quick Tactical Scenario Presets (Live Dugout Emulation)</span>
-        <span style="color: #38BDF8; font-family: var(--font-mono); font-size: 10px; font-weight: 800;">ACTIVE: ${LIVE_TRACKER_STATE.preset}</span>
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <span style="background: ${matchPhase.bg}; border: 1px solid ${matchPhase.border}; color: ${matchPhase.color}; font-family: var(--font-mono); font-size: 9.5px; font-weight: 800; padding: 2px 8px; border-radius: 4px;">${matchPhase.label}</span>
+          <span style="color: #38BDF8; font-family: var(--font-mono); font-size: 10px; font-weight: 800;">ACTIVE: ${LIVE_TRACKER_STATE.preset}</span>
+        </div>
       </div>
       <div class="scenario-presets-bar" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
         <button onclick="applyTrackerPreset('start')" class="toggle-btn ${LIVE_TRACKER_STATE.preset.includes('Start') ? 'active' : ''}" style="font-size: 11px; border-color: #34D399; color: #6EE7B7;">🟢 Match Start (0/0 in 0.0 ov)</button>
@@ -25596,6 +25786,8 @@ function renderLiveTrackerEngineView() {
         <button onclick="startInteractiveSuperOver()" class="toggle-btn" style="font-size: 11px; border-color: #F59E0B; color: #FDE68A; background: rgba(245,158,11,0.15); font-weight: 800;">⚔️ Play Super Over (Both Innings)</button>
         <button onclick="openLegacyDuelsModal()" class="toggle-btn" style="font-size: 11px; border-color: #F59E0B; color: #FDE68A; background: rgba(245,158,11,0.18); font-weight: 800;">🏆 RR Legacy Duels</button>
         <button onclick="openDlsRainModal()" class="toggle-btn" style="font-size: 11px; border-color: #38BDF8; color: #7DD3FC; background: rgba(56,189,248,0.15); font-weight: 800;">🌧️ DLS Rain Delay</button>
+        <button onclick="exportLiveMatchTelemetry('markdown')" class="toggle-btn" style="font-size: 11px; border-color: rgba(52,211,153,0.45); color: #6EE7B7; background: rgba(16,185,129,0.12);" title="Copy Markdown telemetry brief for dugout coaching staff">📋 Export Brief</button>
+        <button onclick="exportLiveMatchTelemetry('json')" class="toggle-btn" style="font-size: 11px; border-color: rgba(56,189,248,0.4); color: #7DD3FC; background: rgba(56,189,248,0.1);" title="Download full match telemetry JSON">⬇ JSON</button>
         <button onclick="resetLiveTrackerState()" class="toggle-btn" style="font-size: 11px; margin-left: auto; background: rgba(255,255,255,0.06); color: #CBD5E1;">🔄 Reset Match State</button>
       </div>
     </div>
@@ -25638,7 +25830,7 @@ function renderLiveTrackerEngineView() {
         <div>
           <div style="font-size: 10px; font-family: var(--font-mono); color: #94A3B8; text-transform: uppercase;">TARGET SCORE</div>
           <div style="font-size: 32px; font-weight: 900; color: #38BDF8; font-family: var(--font-mono);">${LIVE_TRACKER_STATE.target}</div>
-          <div style="font-size: 11px; color: #94A3B8;">Par Score Jaipur: <strong>182.4</strong></div>
+          <div style="font-size: 11px; color: #94A3B8;">1st Inn: <strong>${team1ScoreDisplay}</strong> &bull; Jaipur Par: <strong>182.4</strong></div>
         </div>
         <div>
           <div style="font-size: 10px; font-family: var(--font-mono); color: #94A3B8; text-transform: uppercase;">RUNS NEEDED</div>
@@ -25708,6 +25900,12 @@ function renderLiveTrackerEngineView() {
             </button>
             <button onclick="startInteractiveSuperOver()" class="toggle-btn" style="font-size: 11.5px; padding: 6px 18px; border-color: #F59E0B; color: #FDE68A;">
               ⚔️ Launch Super Over Mode
+            </button>
+            <button onclick="exportLiveMatchTelemetry('markdown')" class="toggle-btn" style="font-size: 11.5px; padding: 6px 16px; border-color: #34D399; color: #6EE7B7;">
+              📋 Copy Match Brief
+            </button>
+            <button onclick="exportLiveMatchTelemetry('json')" class="toggle-btn" style="font-size: 11.5px; padding: 6px 16px; border-color: #38BDF8; color: #7DD3FC;">
+              ⬇ Export JSON
             </button>
           </div>
         </div>
@@ -26250,7 +26448,7 @@ function renderLiveTrackerEngineView() {
         <div class="card" style="border-top: 3px solid ${calc.color};">
           <div class="card-header" style="background: rgba(255,255,255,0.02);">
             <div class="card-title">
-              <span class="card-title-prefix">Pressure State:</span> Instantaneous Leverage Index ($LI$)
+              <span class="card-title-prefix">Pressure State:</span> Instantaneous Leverage Index (LI)
             </div>
             <div class="card-subtitle">
               Top quartile leverage surface (LI &ge; 1.32) exhibits 3.73 percentage points swing per delivery.
@@ -26361,26 +26559,41 @@ function renderLiveTrackerEngineView() {
           </div>
 
           <div style="background: rgba(15,23,42,0.7); border: 1px solid rgba(56,189,248,0.25); border-radius: 8px; padding: 12px 14px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 6px; flex-wrap: wrap;">
               <span style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 800; color: #38BDF8;">
-                MATCHUP EXPLOIT (VS ${currentBowler.toUpperCase()})
+                MATCHUP EXPLOIT (EMPIRICAL DATA + VECTOR)
               </span>
-              <span style="font-size: 14px;">🎯</span>
+              <span style="font-size: 10px; font-family: var(--font-mono); color: #7DD3FC; background: rgba(56,189,248,0.12); padding: 1px 6px; border-radius: 4px;">${strikerEmp && strikerEmp.all ? `Bat #${strikerEmp.all.adjusted_rank}` : 'Strike'} vs ${bowlerEmp && bowlerEmp.all ? `Bowl #${bowlerEmp.all.adjusted_rank}` : 'Bowl'}</span>
             </div>
             <div style="font-size: 11px; color: #E2E8F0; line-height: 1.45;">
-              Against <strong>${currentBowler}</strong> (${bowlerProfile.style}, ~${bowlerProfile.avgSpd} km/h): ${bowlerProfile.type === 'spin' ? 'Expect drift into pads and sharp turn away. Back away slightly to access inside-out lofted extra cover.' : 'Expected release point favors hard length and wide yorker. Stand deep in crease to access levers.'}
+              <div><strong>${LIVE_TRACKER_STATE.striker || 'Striker'}:</strong> ${strikerEmp && strikerEmp.all
+                ? `HP Net/100 <strong style="color:${strikerEmp.all.net_hp >= 0 ? '#34D399' : '#F87171'};">${strikerEmp.all.net_hp >= 0 ? '+' : ''}${strikerEmp.all.net_hp.toFixed(1)}</strong> (<em>n</em>=${strikerEmp.all.n_hp} HP balls, &Delta; ${strikerEmp.all.delta >= 0 ? '+' : ''}${strikerEmp.all.delta.toFixed(1)}, Cons ${(strikerEmp.all.cons * 100).toFixed(0)}%)${strikerEmp.splits.length ? ` &bull; ${strikerEmp.splits.map(s => `${s.split}: ${s.net100 >= 0 ? '+' : ''}${s.net100.toFixed(1)} &plusmn;${s.std_err.toFixed(1)}`).join(' | ')}` : ''}`
+                : 'Outside 2022&ndash;2026 qualified HP pool &mdash; tactical phase heuristics active.'
+              }</div>
+              <div style="margin-top: 4px;"><strong>${currentBowler}</strong> (${bowlerProfile.style}, ~${bowlerProfile.avgSpd} km/h): ${bowlerEmp && bowlerEmp.all
+                ? `HP Net/100 <strong style="color:${bowlerEmp.all.net_hp >= 0 ? '#34D399' : '#F87171'};">${bowlerEmp.all.net_hp >= 0 ? '+' : ''}${bowlerEmp.all.net_hp.toFixed(1)}</strong> (<em>n</em>=${bowlerEmp.all.n_hp} HP balls, Cons ${(bowlerEmp.all.cons * 100).toFixed(0)}%)${bowlerEmp.splits.length ? ` &bull; ${bowlerEmp.splits.map(s => `${s.split}: ${s.net100 >= 0 ? '+' : ''}${s.net100.toFixed(1)} &plusmn;${s.std_err.toFixed(1)}${s.sample_flag !== 'ok' ? ' [small n]' : ''}`).join(' | ')}` : ''}`
+                : 'Unqualified in 2022&ndash;2026 HP pool.'
+              } ${bowlerProfile.type === 'spin' ? 'Back away slightly to open inside-out extra cover loft.' : 'Hold deep crease depth to counter hard length &amp; wide yorker.'}</div>
             </div>
           </div>
 
           <div style="background: rgba(15,23,42,0.7); border: 1px solid rgba(192,132,252,0.25); border-radius: 8px; padding: 12px 14px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
               <span style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 800; color: #C084FC;">
-                DUGOUT FIELD CUE
+                DUGOUT FIELD CUE (${matchPhase.key.toUpperCase()} • ${fieldMetrics.outside30}/${fieldMetrics.maxAllowedOutside} OUT)
               </span>
               <span style="font-size: 14px;">📡</span>
             </div>
             <div style="font-size: 11px; color: #E2E8F0; line-height: 1.45;">
-              With <strong>${ballsRemaining}</strong> balls remaining and <strong>${runsNeeded}</strong> runs needed: If bowling, deploy 5-4 off-side field ring with deep cover sweeper; starve of straight boundaries.
+              ${!fieldMetrics.isRingLegal
+                ? `<strong style="color:#F87171;">⚠️ ILLEGAL RING (${fieldMetrics.outside30}/${fieldMetrics.maxAllowedOutside} outside 30yd)!</strong> Bring ${fieldMetrics.outside30 - fieldMetrics.maxAllowedOutside} fielder(s) inside immediately to avoid a fielding restriction No-Ball. `
+                : ''
+              }${LIVE_TRACKER_STATE.overs < 6
+                ? `With <strong>${ballsRemaining}</strong> balls remaining (Powerplay Ov 1&ndash;6, <strong>max 2 outside 30yd ring</strong>): pack the inner ring at Point, Cover, Short Mid-Wicket &amp; 1st Slip with <strong>3rd Man &amp; Deep Mid-Wicket</strong> guarding aerial mis-hits.`
+                : LIVE_TRACKER_STATE.overs < 16
+                ? `Middle overs (<strong>${ballsRemaining}</strong> balls left, target <strong>${runsNeeded}</strong>): up to <strong>5 outside ring</strong> permitted &mdash; compress single rotation with Extra Cover &amp; Short Mid-Wicket while sweepers patrol 66m East/West pockets.`
+                : `Death phase (<strong>${ballsRemaining}</strong> balls left, target <strong>${runsNeeded}</strong>): deploy <strong>5-4 off-side Death Shield</strong> protecting Long-Off, Long-On &amp; 66m square boundaries against wide yorkers.`
+              }
             </div>
           </div>
 
@@ -28053,8 +28266,12 @@ window.exportDossierJSON = exportDossierJSON;
 
       <!-- Content -->
       <div style="padding: 20px; display: flex; flex-direction: column; gap: 16px;">
-        <div style="background: rgba(15,23,42,0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px 14px; font-size: 11.5px; color: #CBD5E1; line-height: 1.5;">
-          A passing monsoon shower halts play at Sawai Mansingh Stadium. Overs are lost to rain. Select the revised match duration for Team 2 to dynamically recalibrate target, resources, and par scores:
+        <div style="background: rgba(15,23,42,0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px 14px; font-size: 11.5px; color: #CBD5E1; line-height: 1.5; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <span style="flex: 1; min-width: 220px;">A passing monsoon shower halts play at Sawai Mansingh Stadium. Select Innings 2 curtailed overs to recalibrate DLS target and par scores:</span>
+          <div style="display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.35); border: 1px solid rgba(56,189,248,0.3); border-radius: 6px; padding: 5px 10px;">
+            <label for="dls-team1-score-input" style="font-size: 10px; font-family: var(--font-mono); color: #94A3B8; text-transform: uppercase;">1st Inn Score:</label>
+            <input type="number" id="dls-team1-score-input" value="184" min="40" max="350" oninput="onDlsTeam1ScoreChange(this.value)" style="width: 58px; background: rgba(15,23,42,0.9); border: 1px solid rgba(255,255,255,0.2); color: #FEF08A; font-family: var(--font-mono); font-weight: 800; font-size: 12px; padding: 2px 6px; border-radius: 4px; text-align: center;">
+          </div>
         </div>
 
         <div>
@@ -28120,6 +28337,177 @@ window.exportDossierJSON = exportDossierJSON;
       </div>
     </div>
   </div>
+
+  <!-- MUMBAI ROUND 2 EXECUTIVE JUDGE WALKTHROUGH DOCK -->
+  <style>
+    #mumbai-judge-tour-dock {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 390px;
+      max-width: calc(100vw - 24px);
+      background: rgba(6, 17, 36, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1.5px solid rgba(16, 185, 129, 0.55);
+      border-radius: 14px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.78), 0 0 30px rgba(16, 185, 129, 0.16);
+      padding: 16px 18px;
+      z-index: 950;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+    #mumbai-judge-tour-dock.open {
+      display: flex;
+    }
+    @media (max-width: 767px) {
+      #mumbai-judge-tour-dock {
+        bottom: 76px !important;
+        right: 10px !important;
+        left: 10px !important;
+        width: auto !important;
+        padding: 12px 14px;
+      }
+    }
+  </style>
+  <aside id="mumbai-judge-tour-dock" role="dialog" aria-label="Mumbai Round 2 Guided Walkthrough" class="no-print">
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="background: rgba(16,185,129,0.2); border: 1px solid #34D399; color: #6EE7B7; font-family: var(--font-mono); font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 4px;" id="judge-tour-step-pill">STEP 1 / 5</span>
+        <span style="font-size: 10.5px; font-family: var(--font-mono); color: #94A3B8; text-transform: uppercase;">Mumbai Round 2 Briefing</span>
+      </div>
+      <button type="button" onclick="closeJudgeTour()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); color: #94A3B8; border-radius: 5px; padding: 2px 8px; cursor: pointer; font-size: 11px; font-weight: 700;" aria-label="Close walkthrough">✕</button>
+    </div>
+    <div id="judge-tour-title" style="font-size: 14px; font-weight: 900; color: #FFFFFF; line-height: 1.3;"></div>
+    <div id="judge-tour-body" style="font-size: 11.5px; color: #CBD5E1; line-height: 1.5;"></div>
+    <div id="judge-tour-metric" style="background: rgba(0,0,0,0.32); border: 1px solid rgba(56,189,248,0.25); border-radius: 7px; padding: 8px 10px; font-family: var(--font-mono); font-size: 10.5px; color: #7DD3FC;"></div>
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 2px;">
+      <button type="button" id="judge-tour-prev-btn" onclick="prevJudgeTourStep()" style="padding: 6px 12px; font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.07); color: #CBD5E1; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; cursor: pointer;">&larr; Back</button>
+      <div id="judge-tour-dots" style="display: flex; gap: 5px; align-items: center;"></div>
+      <button type="button" id="judge-tour-next-btn" onclick="nextJudgeTourStep()" style="padding: 6px 14px; font-size: 11px; font-weight: 800; background: #10B981; color: #041126; border: none; border-radius: 6px; cursor: pointer;">Next &rarr;</button>
+    </div>
+  </aside>
+
+  <script>
+    const MUMBAI_JUDGE_TOUR_STEPS = [
+      {
+        tab: 'tab-summary',
+        title: '1. Continuous Leverage & Honest Headline',
+        body: 'Pressure is defined by marginal win-probability swing across 197,100 deliveries (top quartile LI ≥ 1.32, 49,276 balls), filtered with leave-one-match-out opposition adjustments and Empirical Bayes shrinkage.',
+        metric: 'Volatility: 0.62 → 3.73 pts/ball (6.0× surge) • 136 checks passing'
+      },
+      {
+        tab: 'tab-leaderboards',
+        title: '2. Verified Top 10 & Bootstrap Stability',
+        body: 'Compare Opposition-Adjusted vs Original rankings across 100 batters & 102 bowlers from 958 players. Bedrock anchors Suryakumar (76%), Salt (82%), and Narine (93%) hold across 200 match-level resamples.',
+        metric: 'Opp-Adj Movers: Harry Brook (#10 Bat) & Mohit Sharma (#9 Bowl)'
+      },
+      {
+        tab: 'tab-notable',
+        title: '3. Empirical Honesty: The Bumrah Case Study',
+        body: 'Why Jasprit Bumrah posts 6.81 HP econ (42.2% dots, 20 wkts vs 27.8 expected over 506 balls) yet sits at -11.19 Delta: batters adopt passive survival against him—reported transparently without manual overrides.',
+        metric: 'Untested risk-aversion hypothesis documented without post-hoc fudging'
+      },
+      {
+        tab: 'tab-3d-playground',
+        title: '4. 3D State-Space Intelligence Universe',
+        body: 'Orbitable 3D scatter mapping every qualified batter and bowler across Net/100, Consistency, and High-Pressure sample stability—pinpointing undervalued auction & retention targets.',
+        metric: 'Interact: Drag to rotate, scroll to zoom, click any node for player profile'
+      },
+      {
+        tab: 'tab-live-tracker',
+        title: '5. Live Dugout Pad & 78m Jaipur Holodeck',
+        body: 'Real-time WPA engine paired with Jaipur\'s 78m vs 66m boundary geometry, Powerplay 2-out law, DLS rain simulator, DRS UltraEdge/Hawk-Eye, and empirical APP_DATA batter-vs-bowler telemetry.',
+        metric: 'Try clicking +4, +6, W, DLS Rain Delay, or DRS Review right now'
+      }
+    ];
+
+    let ACTIVE_JUDGE_TOUR_STEP = 0;
+
+    function renderJudgeTourStep() {
+      const step = MUMBAI_JUDGE_TOUR_STEPS[ACTIVE_JUDGE_TOUR_STEP];
+      if (!step) return;
+      if (typeof switchTab === 'function') {
+        switchTab(step.tab);
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const pill = document.getElementById('judge-tour-step-pill');
+      const titleEl = document.getElementById('judge-tour-title');
+      const bodyEl = document.getElementById('judge-tour-body');
+      const metricEl = document.getElementById('judge-tour-metric');
+      const prevBtn = document.getElementById('judge-tour-prev-btn');
+      const nextBtn = document.getElementById('judge-tour-next-btn');
+      const dotsEl = document.getElementById('judge-tour-dots');
+
+      if (pill) pill.textContent = `STEP ${ACTIVE_JUDGE_TOUR_STEP + 1} / ${MUMBAI_JUDGE_TOUR_STEPS.length}`;
+      if (titleEl) titleEl.textContent = step.title;
+      if (bodyEl) bodyEl.textContent = step.body;
+      if (metricEl) metricEl.textContent = step.metric;
+      if (prevBtn) {
+        prevBtn.disabled = ACTIVE_JUDGE_TOUR_STEP === 0;
+        prevBtn.style.opacity = ACTIVE_JUDGE_TOUR_STEP === 0 ? '0.45' : '1';
+      }
+      if (nextBtn) {
+        nextBtn.textContent = ACTIVE_JUDGE_TOUR_STEP === MUMBAI_JUDGE_TOUR_STEPS.length - 1 ? 'Finish ✓' : 'Next →';
+      }
+      if (dotsEl) {
+        dotsEl.innerHTML = MUMBAI_JUDGE_TOUR_STEPS.map((_, idx) => `
+          <button type="button" onclick="goToJudgeTourStep(${idx})" aria-label="Go to step ${idx + 1}" style="width: ${idx === ACTIVE_JUDGE_TOUR_STEP ? '18px' : '7px'}; height: 7px; border-radius: 9999px; border: none; cursor: pointer; background: ${idx === ACTIVE_JUDGE_TOUR_STEP ? '#10B981' : 'rgba(255,255,255,0.2)'}; transition: all 0.2s ease;"></button>
+        `).join('');
+      }
+    }
+
+    function startJudgeTour(stepIndex = 0) {
+      ACTIVE_JUDGE_TOUR_STEP = Math.max(0, Math.min(MUMBAI_JUDGE_TOUR_STEPS.length - 1, stepIndex));
+      const dock = document.getElementById('mumbai-judge-tour-dock');
+      if (dock) dock.classList.add('open');
+      renderJudgeTourStep();
+    }
+
+    function goToJudgeTourStep(idx) {
+      ACTIVE_JUDGE_TOUR_STEP = Math.max(0, Math.min(MUMBAI_JUDGE_TOUR_STEPS.length - 1, idx));
+      renderJudgeTourStep();
+    }
+
+    function nextJudgeTourStep() {
+      if (ACTIVE_JUDGE_TOUR_STEP >= MUMBAI_JUDGE_TOUR_STEPS.length - 1) {
+        closeJudgeTour();
+      } else {
+        ACTIVE_JUDGE_TOUR_STEP += 1;
+        renderJudgeTourStep();
+      }
+    }
+
+    function prevJudgeTourStep() {
+      if (ACTIVE_JUDGE_TOUR_STEP > 0) {
+        ACTIVE_JUDGE_TOUR_STEP -= 1;
+        renderJudgeTourStep();
+      }
+    }
+
+    function closeJudgeTour() {
+      const dock = document.getElementById('mumbai-judge-tour-dock');
+      if (dock) dock.classList.remove('open');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      const dock = document.getElementById('mumbai-judge-tour-dock');
+      if (!dock || !dock.classList.contains('open')) return;
+      const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      if (e.key === 'ArrowRight') nextJudgeTourStep();
+      else if (e.key === 'ArrowLeft') prevJudgeTourStep();
+      else if (e.key === 'Escape') closeJudgeTour();
+    });
+
+    window.startJudgeTour = startJudgeTour;
+    window.goToJudgeTourStep = goToJudgeTourStep;
+    window.nextJudgeTourStep = nextJudgeTourStep;
+    window.prevJudgeTourStep = prevJudgeTourStep;
+    window.closeJudgeTour = closeJudgeTour;
+  </script>
 
 </body>
 </html>

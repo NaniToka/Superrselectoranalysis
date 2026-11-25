@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/Pipeline-136_Integrity_Checks_Passing-10B981?style=for-the-badge&logo=checkmarx" alt="Checks Passing" />
   <img src="https://img.shields.io/badge/Deployment-Render_Static_Site-46E3B7?style=for-the-badge&logo=render" alt="Render Ready" />
   <img src="https://img.shields.io/badge/Dataset-197%2C100_Balls_•_851_Matches-041126?style=for-the-badge" alt="Dataset" />
-  <img src="https://img.shields.io/badge/Tactical_Engines-7_Dugout_Simulators-38BDF8?style=for-the-badge" alt="Tactical Engines" />
+  <img src="https://img.shields.io/badge/Tactical_Engines-12_Dugout_Simulators-38BDF8?style=for-the-badge" alt="Tactical Engines" />
   <img src="https://img.shields.io/badge/Mobile-100%25_Feature_Parity-F59E0B?style=for-the-badge" alt="Mobile Parity" />
 </p>
 
@@ -122,9 +122,9 @@ If geopolitical or contractual constraints restrict Pakistani players (Babar Aza
 
 ---
 
-## ⚡ 7 Flagship Dugout Tactical Simulation Engines
+## ⚡ 12 Flagship Dugout Tactical Simulation Engines & Interactive Suite
 
-The platform includes seven specialized computational engines integrated directly into the dashboard:
+The platform integrates twelve specialized computational engines and interactive broadcast modules directly inside the dashboard (plus a **60s Executive Judge Walkthrough** for rapid evaluation):
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
