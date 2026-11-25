@@ -5134,13 +5134,28 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
     padding: 10px;
     gap: 8px;
   }
-  .bp-select, .bp-input, .bp-pill-tab {
+  .bp-select, .bp-input {
     min-height: 44px;
     font-size: 13px;
+  }
+  .bp-pill-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .bp-pill-tab {
+    min-height: 44px;
+    font-size: 11.5px;
+    padding: 6px 8px;
+    justify-content: center;
+    text-align: center;
   }
   .bp-kpi-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
+  }
+  .bp-kpi-box:last-child {
+    grid-column: span 2;
   }
   .bp-matrix-grid, .bp-receipt-grid {
     grid-template-columns: 1fr;
@@ -28938,7 +28953,7 @@ function bpRenderCounterPlanPanel() {
           <span style="font-size: 10.5px; font-family: var(--font-mono); font-weight: 800; color: #7DD3FC;">Deploy: ${bpEsc(d.rr_bowler)}</span>
         </div>
         <div style="font-size: 11.5px; color: #CBD5E1; line-height: 1.45;">
-          Trap Channel: <strong style="color: #FCA5A5;">${bpEsc(d.target_channel)}</strong> &bull; Style: <strong style="color: #FCD34D;">${bpEsc(d.target_style)}</strong>
+          Trap Channel: <strong style="color: #FCA5A5;">${bpEsc(d.target_channel)}</strong> &bull; Weakest Style vs Batter: <strong style="color: #FCD34D;">${bpEsc(d.target_style)}</strong>
         </div>
         <div style="font-size: 10.5px; font-family: var(--font-mono); color: #94A3B8; margin-top: 4px;">
           Proof: <strong style="color: #6EE7B7;">${bpEsc(d.evidence_mode)}</strong>

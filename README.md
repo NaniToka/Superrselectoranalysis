@@ -2,10 +2,10 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Competition-Rajasthan_Royals_SupeRR_Selector_S2-E5007D?style=for-the-badge&logo=cricket" alt="RR SupeRR Selector" />
-  <img src="https://img.shields.io/badge/Pipeline-136_Integrity_Checks_Passing-10B981?style=for-the-badge&logo=checkmarx" alt="Checks Passing" />
+  <img src="https://img.shields.io/badge/Pipeline-143_Integrity_Checks_Passing-10B981?style=for-the-badge&logo=checkmarx" alt="Checks Passing" />
   <img src="https://img.shields.io/badge/Deployment-Render_Static_Site-46E3B7?style=for-the-badge&logo=render" alt="Render Ready" />
   <img src="https://img.shields.io/badge/Dataset-197%2C100_Balls_•_851_Matches-041126?style=for-the-badge" alt="Dataset" />
-  <img src="https://img.shields.io/badge/Tactical_Engines-12_Dugout_Simulators-38BDF8?style=for-the-badge" alt="Tactical Engines" />
+  <img src="https://img.shields.io/badge/Tactical_Engines-13_Dugout_Simulators-38BDF8?style=for-the-badge&logo=cricket" alt="Tactical Engines" />
   <img src="https://img.shields.io/badge/Mobile-100%25_Feature_Parity-F59E0B?style=for-the-badge" alt="Mobile Parity" />
 </p>
 
@@ -21,7 +21,7 @@ The objective of this challenge is to identify and validate the **Top 10 Batters
 * 🌐 **Live Interactive Intelligence Terminal:** [https://superrselectoranalysis.onrender.com](https://superrselectoranalysis.onrender.com)
 * 📄 **Official 5-Page Master Methodology Report:** [`outputs/SupeRR_Selector_Methodology_Report_v4_Top1.pdf`](outputs/SupeRR_Selector_Methodology_Report_v4_Top1.pdf)
 * 📊 **Verified Ground Truth Benchmark Dataset:** [`data/RR_Player_Evaluation_Master.csv`](data/RR_Player_Evaluation_Master.csv)
-* ⚡ **Automated 136-Assertion Verification Suite:** [`scripts/verify_project_integrity.py`](scripts/verify_project_integrity.py)
+* ⚡ **Automated 143-Assertion Verification Suite:** [`scripts/verify_project_integrity.py`](scripts/verify_project_integrity.py) &amp; [`scripts/verify_ui_smoke.py`](scripts/verify_ui_smoke.py)
 
 ---
 
@@ -204,6 +204,13 @@ The platform integrates twelve specialized computational engines and interactive
 * **Empirical ICC Resource Formulation:** Implements the official Frank Duckworth-Tony Lewis T20 resource matrix across all 20 overs and 10 wickets.
 * **Live Par Telemetry:** Calculates real-time ball-by-ball DLS par score with positive/negative equity indicators (`+8 Ahead (Safe 🟢)` / `-6 Behind (Risk 🔴)`).
 * **Curtailed Match Simulator:** Models match reduction to 18, 16, 15, 14, 12, or 10 overs, dynamically recalibrating revised target scores and required run rates.
+
+### 13. 🧬 Ball-by-Ball Tactical Blueprint & Evidence Vault (Zero Synthetic Priors)
+* **Empirical Extraction Pipeline (`scripts/build_tactical_blueprint.py`):** Mines all 49,276 high-pressure deliveries ($LI \ge 1.32$ across 197,100 deliveries in `b3.pkl`, joined cleanly via `(comp_id, team_id)` with `matches.csv`, `teams.csv`, and `competitions.csv`) into `data/tactical_blueprint_data.json` for 131 featured player profiles.
+* **Over/Around × Off/On-Side Heatmaps:** Interactive 2×2 tactical channel grids displaying exact HP balls, runs, wickets, dot%, boundary%, `Net/100 ± SE`, and low-sample ($n < 15$) guards, with direct synchronization to the SMS Jaipur Holodeck Pitch Map.
+* **Delivery Style, Radar Speed Bands & Stroke Dismissal Traps:** Breaks down effectiveness across delivery styles (`Out Swing`, `Inswing`, `Off Cutter`, `Googly`, `Yorker`), pace radar bands (`<135`, `135–142`, `>142 kph`), and top wicket-producing stroke traps.
+* **Forensic Bumrah 506-Ball Posture Proof:** Direct comparison across pace and spin peers auditing Jasprit Bumrah's 506 high-pressure deliveries (`48.2%` attacking shots faced vs `62.9%` Archer / `67.1%` Sandeep; `+84.83 Saved/100` on explicit defensive strokes).
+* **Clickable Receipt Vault, Historical H2H Matrix & 9-Opponent RR Counter-XI:** Surfaces exact match-by-match WPA swing receipts, 350+ embedded (1,669 total mined) Empirical Bayes shrunk ($k=12$) batter-vs-bowler H2H records, and match-day tactical counter-plans for Rajasthan Royals vs all 9 IPL franchises.
 
 ---
 
