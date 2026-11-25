@@ -28643,7 +28643,86 @@ function bpRenderReceiptsPanel(prof) {
 }
 
 function bpRenderBumrahPanel() {
-  return `<div class="bp-panel"><div class="bp-panel-title">Loading Bumrah 506 Proof...</div></div>`;
+  const bp = getBlueprintData().bumrah_proof || {};
+  const peers = bp.peer_comparison || [];
+  const strokes = bp.bumrah_top_strokes || [];
+  const bumRow = peers.find((p) => p.name === 'Jasprit Bumrah') || {};
+
+  const peerRows = peers
+    .map((p) => {
+      const isBum = p.name === 'Jasprit Bumrah';
+      const bg = isBum ? 'background: rgba(229, 0, 125, 0.12);' : '';
+      return `
+        <tr style="${bg}">
+          <td style="font-weight: 800; color: ${isBum ? '#FF85C0' : '#F8FAFC'};">${bpEsc(p.name)} <span style="font-size: 9.5px; color: #94A3B8;">(${bpEsc(p.type)})</span></td>
+          <td style="font-family: var(--font-mono);">${p.n}</td>
+          <td style="font-family: var(--font-mono); font-weight: 700; color: ${isBum ? '#7DD3FC' : '#CBD5E1'};">${p.attack_pct}%</td>
+          <td style="font-family: var(--font-mono); font-weight: 700; color: #6EE7B7;">${p.defensive_pct}% (${p.defensive_balls}b)</td>
+          <td style="font-family: var(--font-mono);">${p.dot_pct}%</td>
+          <td style="font-family: var(--font-mono);">${p.econ}</td>
+          <td style="font-family: var(--font-mono); font-weight: 800; color: ${(p.net_100 || 0) >= 0 ? '#6EE7B7' : '#FCA5A5'};">${bpFmtSE(p.net_100, p.std_err, 1)}</td>
+        </tr>
+      `;
+    })
+    .join('');
+
+  const strokeRows = strokes
+    .map((s) => {
+      const col = (s.net_100 || 0) >= 0 ? '#6EE7B7' : '#FCA5A5';
+      const w = Math.min(100, Math.round((s.balls / Math.max(1, strokes[0]?.balls || 60)) * 100));
+      return `
+        <div class="bp-bar-row">
+          <div style="font-weight: 700; color: #E2E8F0;">${bpEsc(s.stroke)}</div>
+          <div>
+            <div class="bp-bar-track"><div class="bp-bar-fill" style="width:${w}%; background:${s.posture === 'Defensive' ? '#10B981' : s.posture === 'Attacking' ? '#E5007D' : '#38BDF8'};"></div></div>
+            <div style="font-size: 10px; color: #94A3B8; font-family: var(--font-mono); margin-top: 2px;">${s.balls}b &bull; ${bpEsc(s.posture)} &bull; ${s.wkts} wkt</div>
+          </div>
+          <div style="text-align: right; font-family: var(--font-mono); font-weight: 800; color: ${col};">
+            ${bpFmtSigned(s.net_100, 1)}
+          </div>
+        </div>
+      `;
+    })
+    .join('');
+
+  return `
+    <div class="bp-panel" style="margin-bottom: 14px; border-color: rgba(56, 189, 248, 0.35);">
+      <div class="bp-panel-title">
+        <span>&#x1F6E1;&#xFE0F; Forensic Evidence: Jasprit Bumrah&rsquo;s ${bp.bumrah_total_hp_balls || 506} High-Pressure Deliveries (LI &ge; 1.32)</span>
+        <span class="bp-se-badge">Direct Stroke Intent Measurement</span>
+      </div>
+      <p style="font-size: 12.5px; color: #CBD5E1; line-height: 1.55; margin-bottom: 12px;">
+        Instead of assuming why hitters avoid Jasprit Bumrah under clutch pressure, this panel audits all <strong style="color: #7DD3FC;">${bumRow.n || 506}</strong> high-leverage balls bowled by Bumrah in <code style="color: #FF85C0;">b3.pkl</code>. Only <strong style="color: #FCD34D;">${bumRow.attack_pct ?? 48.2}%</strong> faced attacking shots (lowest among pace peers vs Archer ${peers.find((p) => p.name === 'Jofra Archer')?.attack_pct ?? 62.9}% &amp; Sandeep ${peers.find((p) => p.name === 'Sandeep Sharma')?.attack_pct ?? 67.1}%), while explicit defensive blocks (<strong style="color: #6EE7B7;">${bumRow.defensive_pct ?? 12.1}%</strong> / ${bumRow.defensive_balls ?? 61} balls) generated <strong style="color: #6EE7B7;">${bpFmtSigned(bumRow.defensive_net_100, 1)} Saved/100</strong> for Mumbai Indians.
+      </p>
+
+      <div class="bp-grid-2" style="margin-bottom: 0;">
+        <div class="bp-panel" style="background: rgba(4, 13, 26, 0.85);">
+          <div class="bp-panel-title"><span>Pace &amp; Spin Peer Posture Comparison (HP Only)</span></div>
+          <div class="bp-table-scroll">
+            <table class="bp-table">
+              <thead>
+                <tr>
+                  <th>Bowler</th>
+                  <th>HP Balls</th>
+                  <th>Attack%</th>
+                  <th>Defensive%</th>
+                  <th>Dot%</th>
+                  <th>Econ</th>
+                  <th>Saved/100 (&plusmn;SE)</th>
+                </tr>
+              </thead>
+              <tbody>${peerRows}</tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="bp-panel" style="background: rgba(4, 13, 26, 0.85);">
+          <div class="bp-panel-title"><span>Top 10 Batters&rsquo; Strokes Faced vs Bumrah (HP)</span><span class="bp-se-badge">Bowler Saved/100</span></div>
+          ${strokeRows}
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function bpRenderH2HPanel(prof) {
