@@ -9549,6 +9549,113 @@ div[style*="background: var(--rr-pink)"][style*="padding: 12px 10px"] {
         <div id="dossier-container"></div>
       </section>
 
+      <!-- TAB F5: BALL-BY-BALL TACTICAL BLUEPRINT & EVIDENCE VAULT -->
+      <section id="tab-blueprint" class="tab-pane">
+        <div class="dugout-hero-card">
+          <div class="dugout-hero-top">
+            <div class="dugout-pill-group">
+              <span class="dugout-pill-pink">PART F5 &bull; EMPIRICAL TACTICAL BLUEPRINT</span>
+              <span class="dugout-pill-verified" style="background: rgba(16, 185, 129, 0.14); color: #6EE7B7; border-color: rgba(16, 185, 129, 0.35);">
+                &#x25CF; 49,276 HIGH-PRESSURE DELIVERIES (LI &ge; 1.32)
+              </span>
+            </div>
+            <div class="dugout-meta-stat">
+              197,100 Deliveries Mined &bull; 131 Player Blueprints &bull; 1,669 Real H2H Pairs &bull; Empirical SE Uncertainty
+            </div>
+          </div>
+
+          <h2 class="dugout-hero-heading" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <span>Ball-by-Ball Tactical Blueprint &amp; Evidence Vault</span>
+            <span style="font-size: 11px; background: rgba(56, 189, 248, 0.18); color: #7DD3FC; padding: 3px 9px; border-radius: 5px; font-weight: 800; font-family: var(--font-mono);">ZERO SYNTHETIC PRIORS</span>
+          </h2>
+          <p class="dugout-hero-sub">
+            Click any Rajasthan Royals 2026 squad player, IPL opposition star, or global Top-20 finalist to inspect verified high-pressure execution heatmaps (Over/Around &times; Off/On-side), delivery-style &amp; speed-band vulnerabilities, stroke dismissal traps, Jasprit Bumrah&rsquo;s 506-ball defensive posture proof, exact match receipts, real historical H2H matchups, and RR counter-plans across all 9 IPL franchises.
+          </p>
+
+          <div class="dugout-hero-btns" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" onclick="bpSetViewMode('channels')" class="btn-hero-primary" style="background: linear-gradient(135deg, #E5007D 0%, #B80064 100%);">
+              <span>&#x1F3AF; Execution Heatmap</span>
+            </button>
+            <button type="button" onclick="bpSetViewMode('bumrah')" class="btn-hero-secondary">
+              <span>&#x1F6E1;&#xFE0F; Bumrah 506 Proof</span>
+            </button>
+            <button type="button" onclick="bpSetViewMode('counter')" class="btn-hero-secondary">
+              <span>&#x2694;&#xFE0F; RR vs 9 IPL Opponents</span>
+            </button>
+            <button type="button" onclick="bpSyncChannelToHolodeck()" class="btn-hero-secondary" style="border-color: rgba(56, 189, 248, 0.45); color: #7DD3FC;">
+              <span>&#x1F3DF;&#xFE0F; Sync Plan to Jaipur Holodeck</span>
+            </button>
+            <button type="button" onclick="bpCopyPlayerBrief()" class="btn-hero-secondary">
+              <span>&#x1F4CB; Copy Dugout Brief</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CONTROL BAR: PLAYER SELECTOR, COHORT FILTER, ROLE TOGGLE & SEARCH -->
+        <div class="bp-control-bar" id="bp-control-bar">
+          <div>
+            <label for="bp-player-select" style="display: block; font-size: 10px; font-family: var(--font-mono); color: var(--rr-text-muted); text-transform: uppercase; margin-bottom: 4px;">
+              Active Player Blueprint (131 Empirical Profiles)
+            </label>
+            <select id="bp-player-select" class="bp-select" onchange="bpSelectPlayer(this.value)"></select>
+          </div>
+
+          <div>
+            <label for="bp-cohort-filter" style="display: block; font-size: 10px; font-family: var(--font-mono); color: var(--rr-text-muted); text-transform: uppercase; margin-bottom: 4px;">
+              Squad / Tier Filter
+            </label>
+            <select id="bp-cohort-filter" class="bp-select" onchange="bpSetFilterCohort(this.value)">
+              <option value="ALL">All 131 Empirical Profiles</option>
+              <option value="RR_2026">Rajasthan Royals 2026 Squad (15)</option>
+              <option value="TOP_20">Global Top-20 Finalists</option>
+              <option value="IPL_MI">Mumbai Indians (MI)</option>
+              <option value="IPL_CSK">Chennai Super Kings (CSK)</option>
+              <option value="IPL_KKR">Kolkata Knight Riders (KKR)</option>
+              <option value="IPL_RCB">Royal Challengers Bengaluru (RCB)</option>
+              <option value="IPL_SRH">Sunrisers Hyderabad (SRH)</option>
+              <option value="IPL_GT">Gujarat Titans (GT)</option>
+              <option value="IPL_DC">Delhi Capitals (DC)</option>
+              <option value="IPL_PBKS">Punjab Kings (PBKS)</option>
+              <option value="IPL_LSG">Lucknow Super Giants (LSG)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="bp-role-filter" style="display: block; font-size: 10px; font-family: var(--font-mono); color: var(--rr-text-muted); text-transform: uppercase; margin-bottom: 4px;">
+              Role Lens
+            </label>
+            <select id="bp-role-filter" class="bp-select" onchange="bpSetRoleFilter(this.value)">
+              <option value="ALL">Batters &amp; Bowlers</option>
+              <option value="bat">Batters Only (Faced HP)</option>
+              <option value="bowl">Bowlers Only (HP Spell)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="bp-search-input" style="display: block; font-size: 10px; font-family: var(--font-mono); color: var(--rr-text-muted); text-transform: uppercase; margin-bottom: 4px;">
+              Quick Player Lookup
+            </label>
+            <input id="bp-search-input" type="search" class="bp-input" placeholder="e.g. Jaiswal, Bumrah, Archer..." oninput="bpSetSearchQuery(this.value)" />
+          </div>
+        </div>
+
+        <!-- VIEW MODE SUB-NAVIGATION -->
+        <div class="bp-pill-tabs" id="bp-view-tabs" role="tablist" aria-label="Blueprint Vault Modules">
+          <button type="button" class="bp-pill-tab active" data-bp-view="channels" onclick="bpSetViewMode('channels')">&#x1F3AF; Channel Matrix &amp; Matchups</button>
+          <button type="button" class="bp-pill-tab" data-bp-view="styles" onclick="bpSetViewMode('styles')">&#x26A1; Styles, Speed &amp; Dismissal Traps</button>
+          <button type="button" class="bp-pill-tab" data-bp-view="receipts" onclick="bpSetViewMode('receipts')">&#x1F9FE; Ball-by-Ball Match Receipts</button>
+          <button type="button" class="bp-pill-tab" data-bp-view="bumrah" onclick="bpSetViewMode('bumrah')">&#x1F6E1;&#xFE0F; Bumrah 506-Ball Posture Proof</button>
+          <button type="button" class="bp-pill-tab" data-bp-view="h2h" onclick="bpSetViewMode('h2h')">&#x1F50D; Real Historical H2H Vault</button>
+          <button type="button" class="bp-pill-tab" data-bp-view="counter" onclick="bpSetViewMode('counter')">&#x1F3C6; RR 2026-27 Counter-Plan</button>
+        </div>
+
+        <!-- LIVE KPI SUMMARY STRIP -->
+        <div class="bp-kpi-strip" id="bp-kpi-strip"></div>
+
+        <!-- DYNAMIC BLUEPRINT STAGE -->
+        <div id="bp-stage-container"></div>
+      </section>
+
       <!-- TAB 10: TOP-1 RECOMMENDATION & DECISION MATRIX -->
             <!-- TAB 10: TOP-1 RECOMMENDATION & DECISION MATRIX (Part D2 & D3) -->
       <section id="tab-top1" class="tab-pane">
