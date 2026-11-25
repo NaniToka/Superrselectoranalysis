@@ -331,7 +331,7 @@ def extract_delivery_and_stroke_profile(player_hp: pd.DataFrame, role: str) -> d
     """
     style_rows: list[dict[str, Any]] = []
     style_counts = player_hp["delivery_style"].dropna().value_counts()
-    for style_name, _ in style_counts.head(8).items():
+    for style_name, _ in style_counts.head(6).items():
         sub = player_hp[player_hp["delivery_style"] == style_name]
         st = summarize_group(sub, role)
         st["style"] = str(style_name)
@@ -359,7 +359,7 @@ def extract_delivery_and_stroke_profile(player_hp: pd.DataFrame, role: str) -> d
 
     stroke_rows: list[dict[str, Any]] = []
     stroke_counts = player_hp["stroke"].dropna().value_counts()
-    for stroke_name, _ in stroke_counts.head(7).items():
+    for stroke_name, _ in stroke_counts.head(5).items():
         sub = player_hp[player_hp["stroke"] == stroke_name]
         st = summarize_group(sub, role)
         st["stroke"] = str(stroke_name)
@@ -759,6 +759,112 @@ def build_rr_counter_plans(
     return plans
 
 
+def build_full_payload(
+    app_data: dict[str, Any],
+    df: pd.DataFrame,
+    hp: pd.DataFrame,
+    li_q75: float,
+) -> dict[str, Any]:
+    """Assemble compact empirical Tactical Blueprint & Evidence Vault JSON payload."""
+    cohort = build_featured_cohort(app_data)
+    profiles: dict[str, dict[str, Any]] = {}
+
+    for meta in cohort:
+        pid = meta["pid"]
+        role = meta["role"]
+        key = f"{role}_{pid}"
+        if role == "bat":
+            sub = hp[(hp["striker_id"] == pid) & (hp["faced"] == 1)]
+        else:
+            sub = hp[hp["bowler_id"] == pid]
+
+        channels = extract_channel_matrix(sub, role)
+        styles = extract_delivery_and_stroke_profile(sub, role)
+        receipts = extract_player_receipts(sub, role, limit=4)
+
+        profiles[key] = {
+            "key": key,
+            "pid": pid,
+            "name": meta["name"],
+            "role": role,
+            "ipl2026": meta["ipl2026"],
+            "team_code": TEAM_SHORT.get(meta["ipl2026"], "POOL"),
+            "nationality": meta["nationality"],
+            "adjusted_rank": meta["adjusted_rank"],
+            "adjusted_score": meta["adjusted_score"],
+            "net_hp_adj": meta["net_hp_adj"],
+            "tags": meta["tags"],
+            "channels": channels,
+            "styles": styles,
+            "receipts": receipts,
+        }
+
+    h2h_all = extract_h2h_encounters(df, cohort, li_q75, min_balls=6)
+    counter_plans = build_rr_counter_plans(cohort, profiles, h2h_all)
+    bumrah_proof = build_bumrah_posture_benchmark(hp)
+
+    # Keep all H2H pairs used in Counter-Plans + top RR/IPL encounters up to 350 rows
+    plan_pairs: set[tuple[int, int]] = set()
+    for pl in counter_plans.values():
+        for d in pl["defensive_plan"]:
+            plan_pairs.add((d["opp_pid"], d["rr_bowler_pid"]))
+        for b in pl["batting_plan"]:
+            plan_pairs.add((b["rr_enforcer_pid"], b["opp_pid"]))
+
+    must_keep = [e for e in h2h_all if (e["bat_id"], e["bowl_id"]) in plan_pairs]
+    seen_pairs = {(e["bat_id"], e["bowl_id"]) for e in must_keep}
+    extras = [e for e in h2h_all if (e["bat_id"], e["bowl_id"]) not in seen_pairs]
+    capped_h2h = must_keep + extras[: max(0, 350 - len(must_keep))]
+
+    return {
+        "meta": {
+            "total_deliveries": int(len(df)),
+            "hp_deliveries": int(len(hp)),
+            "li_q75": round(li_q75, 4),
+            "profile_count": len(profiles),
+            "h2h_total_mined": len(h2h_all),
+            "h2h_embedded": len(capped_h2h),
+            "counter_plan_teams": len(counter_plans),
+        },
+        "profiles": profiles,
+        "player_index": [
+            {
+                "key": k,
+                "pid": v["pid"],
+                "name": v["name"],
+                "role": v["role"],
+                "team_code": v["team_code"],
+                "ipl2026": v["ipl2026"],
+                "adjusted_rank": v["adjusted_rank"],
+                "n_hp": v["channels"]["overall"]["n"],
+                "tags": v["tags"],
+            }
+            for k, v in profiles.items()
+        ],
+        "bumrah_proof": bumrah_proof,
+        "h2h_encounters": capped_h2h,
+        "counter_plans": counter_plans,
+    }
+
+
+def inject_into_index_html(payload: dict[str, Any], html_path: Path = INDEX_HTML) -> int:
+    """Safely update APP_DATA['tactical_blueprint'] in index.html using compact JSON."""
+    html = html_path.read_text(encoding="utf-8")
+    m = re.search(
+        r"(const APP_DATA\s*=\s*)(\{.*?\})(;\s*(?:const|let|var|\n\s*//))",
+        html,
+        re.DOTALL,
+    )
+    if not m:
+        raise ValueError(f"Could not locate const APP_DATA in {html_path}")
+    app_data = json.loads(m.group(2))
+    app_data["tactical_blueprint"] = payload
+    compact = json.dumps(app_data, separators=(",", ":"))
+    updated_html = html[: m.start(2)] + compact + html[m.end(2) :]
+    html_path.write_text(updated_html, encoding="utf-8")
+    return len(compact)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build Tactical Blueprint Vault dataset.")
     parser.add_argument("--check-cohort", action="store_true", help="Print cohort stats only.")
@@ -766,6 +872,7 @@ def main() -> None:
     parser.add_argument("--check-styles", action="store_true", help="Print sample style & stroke traps.")
     parser.add_argument("--check-receipts", action="store_true", help="Print receipts & Bumrah 506 proof.")
     parser.add_argument("--check-h2h", action="store_true", help="Print H2H count & MI counter-plan sample.")
+    parser.add_argument("--inject", action="store_true", help="Export JSON and inject into index.html.")
     args = parser.parse_args()
 
     app_data = extract_app_data()
@@ -812,6 +919,15 @@ def main() -> None:
             if args.check_receipts:
                 print(json.dumps(extract_player_receipts(sub, role, limit=3), indent=2))
         return
+
+    payload = build_full_payload(app_data, df, hp, li_q75)
+    OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
+    OUT_JSON.write_text(json.dumps(payload, separators=(",", ":"), allow_nan=False), encoding="utf-8")
+    out_kb = OUT_JSON.stat().st_size / 1024.0
+    print(f"Exported {OUT_JSON} ({out_kb:.1f} KB) - meta: {payload['meta']}")
+    if args.inject:
+        app_len = inject_into_index_html(payload)
+        print(f"Injected tactical_blueprint into index.html (APP_DATA = {app_len / 1024.0:.1f} KB)")
 
 
 if __name__ == "__main__":
